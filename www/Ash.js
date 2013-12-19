@@ -1,6 +1,6 @@
 
 var exec = require('cordova/exec');
-
+alert("Loading ASH");
 function A() {
   this._storedErrorCallback = window.onerror;
 };
