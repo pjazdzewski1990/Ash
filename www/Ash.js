@@ -187,7 +187,7 @@ A.prototype = {
   eventTimeout: 1000;  //most browsers won't react under 25 
   
   orientationHorizontal: function(testSuite) {
-    return exec( 
+    return cordova.exec( 
       function(){
         //FIXME: walkaround for event synchronization problem
         setTimeout(function(){console.log("HorizontalTimeout Done");testSuite();}, eventTimeout);
@@ -199,7 +199,7 @@ A.prototype = {
   };
   
   orientationVertical: function(testSuite) {
-    return exec( 
+    return cordova.exec( 
       function(){
         //FIXME: walkaround for event synchronization problem
         setTimeout(function(){console.log("VerticalTimeout Done");testSuite();}, eventTimeout);
@@ -211,7 +211,7 @@ A.prototype = {
   };
   
   noNetwork: function(testSuite) {
-    return exec( 
+    return cordova.exec( 
       function(){
         testSuite();
       },
