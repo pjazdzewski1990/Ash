@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+           id="pl.ug.ash"
+      version="0.1">
+
+    <name>Ash</name>
+    <description>Ash test Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,test</keywords>
+    <repo>https://github.com/pjazdzewski1990/Ash</repo>
+    <issue>https://github.com/pjazdzewski1990/Ash/issues</issue>
+
+    <engines>
+      <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <js-module src="www/Ash.js" name="ash">
+        <!-- <clobbers target="window.open" /> -->
+    </js-module>
+    
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Ash"> 
+                <param name="android-package" value="pl.ug.ash"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/AshPlugin.java" target-dir="src/pl/ug/ash" />
+    </platform>
+</plugin>
