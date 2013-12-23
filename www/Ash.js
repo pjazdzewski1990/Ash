@@ -33,7 +33,7 @@ var Ash = {
 //    var noVisibility = ["hidden", "collapse"].indexOf(element.style.visibility)>-1;
 //    console.log("_hidden: " + displayNone + " " + noVisibility + " " + outOfScreen() + " " + element.hidden);
     return displayNone ;//|| noVisibility || 
-      /*outOfScreen() || element.hidden*/;
+      /*outOfScreen() || element.hidden;*/
   },
   
   visible: function(element){
@@ -93,7 +93,7 @@ alert("loadTests " + tests);
   before: null,
   after: null,
   
-  uploadServer: "http://192.168.0.1:3000/results";
+  uploadServer: "http://192.168.0.1:3000/results",
   
   configuration: {},
   config: function(data){
@@ -118,6 +118,7 @@ alert("loadTests " + tests);
       this._testSuccess();
     }
   }, 
+
   _testSuccess: null,  //setup in run()
   
   run: function(tests, failureCallback, successCallback){
@@ -176,7 +177,7 @@ alert("loadTests " + tests);
   
     for(var prop in testObj){
       var isFunction = typeof(testObj[prop]) === "function";
-      var hasName = prop.indexOf(searchPhrase, this.length - searchPhraseLen) !== -1
+      var hasName = prop.indexOf(searchPhrase, this.length - searchPhraseLen) !== -1;
       if(isFunction && hasName){
         testSuite.push(testObj[prop]);
       }
@@ -185,7 +186,7 @@ alert("loadTests " + tests);
   },
   
   
-  eventTimeout: 1000;  //most browsers won't react under 25 
+  eventTimeout: 1000,  //most browsers won't react under 25 
   
   orientationHorizontal: function(testSuite) {
     return cordova.exec( 
@@ -197,7 +198,7 @@ alert("loadTests " + tests);
       "pl.ug.ash.AshPlugin", 
       "orientationHorizontal", 
       []);
-  };
+  },
   
   orientationVertical: function(testSuite) {
     return cordova.exec( 
@@ -209,7 +210,7 @@ alert("loadTests " + tests);
       "pl.ug.ash.AshPlugin", 
       "orientationVertical", 
       []);
-  };
+  },
   
   noNetwork: function(testSuite) {
     return cordova.exec( 
@@ -220,7 +221,7 @@ alert("loadTests " + tests);
       "pl.ug.ash.AshPlugin", 
       "networkOff", 
       []);
-  };
+  },
   
   withFile: function(options, callback) {
     //TODO: create/access real files
@@ -237,7 +238,7 @@ alert("loadTests " + tests);
       files.push(file);
     }
     callback(files);
-  };
+  },
   
   onMove: function(startPos, options, callback) {
     //TODO: emulate instead of only simulating
@@ -258,7 +259,7 @@ alert("loadTests " + tests);
       callback(position);
     }
     A.endTest();
-  };
+  },
   
   //TODO: move this part to ash-navigation
   isOnPage: function(pageObject) {
@@ -280,7 +281,7 @@ alert("loadTests " + tests);
         toString: function(){return JSON.stringify(this);}
       }
     }
-  };
+  }
 };
 
 module.exports = Ash;
