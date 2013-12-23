@@ -15,8 +15,8 @@
       <engine name="cordova" version=">=3.0.0" />
     </engines>
 
-    <js-module src="www/Ash.js" name="ash">
-        <!-- <clobbers target="window.open" /> -->
+    <js-module src="www/Ash.js" name="Ash">
+      <clobbers target="Ash" />
     </js-module>
     
     <!-- android -->

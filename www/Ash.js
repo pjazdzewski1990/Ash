@@ -1,11 +1,11 @@
 
-var exec = require('cordova/exec');
-alert("Loading ASH");
-function A() {
-  this._storedErrorCallback = window.onerror;
-};
+var argscheck = require('cordova/argscheck'),
+    utils = require('cordova/utils'),
+    exec = require('cordova/exec');
   
-A.prototype = {
+var Ash = {
+  _storedErrorCallback: window.onerror,
+
   assert: function(element) {
     if(!element){
       //TODO: rethink exception internals, so they allow easy processing 
@@ -71,6 +71,7 @@ A.prototype = {
   },
   
   loadTests: function(tests){
+alert("loadTests " + tests);
     //var script = document.createElement('script');
     //script.src = "js/ash.js";
     //script.onload = function () {
@@ -280,4 +281,6 @@ A.prototype = {
       }
     }
   };
-}
+};
+
+module.exports = Ash;
