@@ -71,18 +71,11 @@ var Ash = {
   },
   
   loadTests: function(tests){
-alert("loadTests " + tests);
-    //var script = document.createElement('script');
-    //script.src = "js/ash.js";
-    //script.onload = function () {
-      //alert("ash loaded! A? " + A);
-      for(var i=0; i<tests.length; i++){
-          var script = document.createElement('script');
-          script.src = tests[0];
-          document.head.appendChild(script);
-      }
-    //};
-    //document.head.appendChild(script);
+    for(var i=0; i<tests.length; i++){
+        var script = document.createElement('script');
+        script.src = tests[0];
+        document.head.appendChild(script);
+    }
   },
 
   //test callbacks
@@ -126,36 +119,36 @@ alert("loadTests " + tests);
     var testSuiteLen = testsSuite.length;
     var currentTest = 0; 
     
-    if(beforeTest) beforeTest();
+    if(this.beforeTest) this.beforeTest();
     
     if(!this._testSuccess){
-      if(after) after();
+      if(this.after) this.after();
       
       this._testSuccess = function(){
         //TODO: send meaningful data. throw error to obtain stack?
         successCallback({"index":currentTest, "length":testSuiteLen});
         if(++currentTest < testSuiteLen) {
-          if(before) before();
+          if(this.before) this.before();
           testsSuite[currentTest]();
         }else{
-          if(afterTest) afterTest();
+          if(this.afterTest) this.afterTest();
         }
       }
     }
     
     window.onerror = function(errorMsg, url, lineNumber) {
-      if(after) after();
-      alert("ERR:" + errorMsg);
+      if(this.after) this.after();
+      alert("ON ERR:" + errorMsg);
       failureCallback(_processException(errorMsg, url, lineNumber));
       if(currentTest++ < testSuiteLen) {
-        if(before) before();
+        if(this.before) this.before();
         testsSuite[currentTest]();
       }else{
-        if(afterTest) afterTest();
+        if(this.afterTest) this.afterTest();
       }
     };
     
-    if(before) before();
+    if(this.before) this.before();
     testsSuite[currentTest]();
   },
   
