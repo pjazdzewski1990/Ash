@@ -86,8 +86,6 @@ var Ash = {
   before: null,
   after: null,
   
-  uploadServer: "http://192.168.0.1:3000/results",
-  
   configuration: {},
   config: function(data){
     this.configuration.app = data.app || "";
@@ -97,13 +95,6 @@ var Ash = {
     this.configuration.key = data.key || "";
     
     return this;
-  },
-  
-  upload: function(resultToUpload){
-    var params = "result[json]=" + resultToUpload;
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", uploadServer, true);
-    xmlhttp.send(params);
   },
   
   endTest: function(){
@@ -119,9 +110,11 @@ var Ash = {
     var testSuiteLen = testsSuite.length;
     var currentTest = 0; 
     
-    if(this.beforeTest) this.beforeTest();
+    //before class event
+    if(this.beforeClass) this.beforeClass();
     
-    if(!this._testSuccess){
+    //setup testSuccess handler 
+    if(!this._testSuccess){ 
       if(this.after) this.after();
       
       this._testSuccess = function(){
@@ -136,6 +129,7 @@ var Ash = {
       }
     }
     
+    //setup failure handler
     window.onerror = function(errorMsg, url, lineNumber) {
       if(this.after) this.after();
       alert("ON ERR:" + errorMsg);
@@ -144,7 +138,7 @@ var Ash = {
         if(this.before) this.before();
         testsSuite[currentTest]();
       }else{
-        if(this.afterTest) this.afterTest();
+        if(this.afterClass) this.afterClass();
       }
     };
     
@@ -177,7 +171,6 @@ var Ash = {
     }
     return testSuite;
   },
-  
   
   eventTimeout: 1000,  //most browsers won't react under 25 
   
