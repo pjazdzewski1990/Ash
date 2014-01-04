@@ -133,7 +133,7 @@ var Ash = {
     window.onerror = function(errorMsg, url, lineNumber) {
       if(this.after) this.after();
       alert("ON ERR:" + errorMsg);
-      failureCallback(_processException(errorMsg, url, lineNumber));
+      failureCallback(this._processException(errorMsg, url, lineNumber));
       if(currentTest++ < testSuiteLen) {
         if(this.before) this.before();
         testsSuite[currentTest]();
@@ -253,7 +253,7 @@ var Ash = {
       var onPage = pageObject["validate"]();
       if(onPage === false){
         throw {
-          level:  "Error",
+          level: "Error",
           code: 11,
           message: "Not on page!",
           toString: function(){return JSON.stringify(this);}
@@ -261,7 +261,7 @@ var Ash = {
       }
     }else{
       throw {
-        level:  "Error",
+        level: "Error",
         code: 12,
         message: "Page element doesn't implement required method!",
         toString: function(){return JSON.stringify(this);}
