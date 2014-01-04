@@ -133,7 +133,7 @@ var Ash = {
     window.onerror = function(errorMsg, url, lineNumber) {
       if(this.after) this.after();
       alert("ON ERR:" + errorMsg);
-      failureCallback(this._processException(errorMsg, url, lineNumber));
+      failureCallback(Ash._processException(errorMsg, url, lineNumber));
       if(currentTest++ < testSuiteLen) {
         if(this.before) this.before();
         testsSuite[currentTest]();
