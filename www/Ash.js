@@ -111,38 +111,65 @@ var Ash = {
     var currentTest = 0; 
     
     //before class event
-    if(this.beforeClass) this.beforeClass();
+    if(this.beforeClass){
+        console.log("beforeClass event is called"); 
+        this.beforeClass();
+    }
     
     //setup testSuccess handler 
     if(!this._testSuccess){ 
-      if(this.after) this.after();
       
       this._testSuccess = function(){
+        if(this.after) {
+          console.log("after event is called for success");
+          this.after();
+        };
+
         //TODO: send meaningful data. throw error to obtain stack?
         successCallback({"index":currentTest, "length":testSuiteLen});
         if(++currentTest < testSuiteLen) {
-          if(this.before) this.before();
+          if(this.before) {
+            console.log("before event is called after success");
+            this.before();
+          }
           testsSuite[currentTest]();
         }else{
-          if(this.afterTest) this.afterTest();
+          if(this.afterClass) {
+            console.log("afterClass event is called for success");
+            this.afterTest();
+          }
         }
       }
     }
     
     //setup failure handler
     window.onerror = function(errorMsg, url, lineNumber) {
-      if(this.after) this.after();
+      if(this.after) {
+        console.log("after event is called for failure");
+        this.after();
+      }
+
       alert("ON ERR:" + errorMsg);
       failureCallback(Ash._processException(errorMsg, url, lineNumber));
+
       if(currentTest++ < testSuiteLen) {
-        if(this.before) this.before();
+        if(this.before) {
+          console.log("before event is called after failure");
+          this.before();
+        }
         testsSuite[currentTest]();
       }else{
-        if(this.afterClass) this.afterClass();
+        if(this.afterClass) {
+          console.log("afterClass event is called for failure");
+          this.afterClass();
+        }
       }
     };
     
-    if(this.before) this.before();
+    if(this.before) {
+      console.log("first before event is called");
+      this.before();
+    }
     testsSuite[currentTest]();
   },
   
