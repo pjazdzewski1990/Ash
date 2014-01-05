@@ -18,12 +18,12 @@
     <js-module src="www/Ash.js" name="Ash">
       <clobbers target="Ash" />
     </js-module>
-    
+
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Ash"> 
-                <param name="android-package" value="pl.ug.ash"/>
+                <param name="android-package" value="pl.ug.ash.AshPlugin"/>
             </feature>
         </config-file>
 
