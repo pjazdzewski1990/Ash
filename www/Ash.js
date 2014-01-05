@@ -181,7 +181,7 @@ var Ash = {
         setTimeout(function(){console.log("HorizontalTimeout Done");testSuite();}, eventTimeout);
       },
       function(e) { alert("Couldn't call orientationHorizontal " + JSON.stringify(e)); }, 
-      "pl.ug.ash.AshPlugin", 
+      "Ash", 
       "orientationHorizontal", 
       []);
   },
@@ -193,7 +193,7 @@ var Ash = {
         setTimeout(function(){console.log("VerticalTimeout Done");testSuite();}, eventTimeout);
       },
       function(e) { alert("Couldn't call orientationVertical " + JSON.stringify(e)); }, 
-      "pl.ug.ash.AshPlugin", 
+      "Ash", 
       "orientationVertical", 
       []);
   },
