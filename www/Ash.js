@@ -180,7 +180,7 @@ var Ash = {
         //FIXME: walkaround for event synchronization problem
         setTimeout(function(){console.log("HorizontalTimeout Done");testSuite();}, eventTimeout);
       },
-      function() { alert("Couldn't call orientationHorizontal"); }, 
+      function(e) { alert("Couldn't call orientationHorizontal " + JSON.stringify(e)); }, 
       "pl.ug.ash.AshPlugin", 
       "orientationHorizontal", 
       []);
@@ -192,7 +192,7 @@ var Ash = {
         //FIXME: walkaround for event synchronization problem
         setTimeout(function(){console.log("VerticalTimeout Done");testSuite();}, eventTimeout);
       },
-      function() { alert("Couldn't call orientationVertical"); }, 
+      function(e) { alert("Couldn't call orientationVertical " + JSON.stringify(e)); }, 
       "pl.ug.ash.AshPlugin", 
       "orientationVertical", 
       []);
