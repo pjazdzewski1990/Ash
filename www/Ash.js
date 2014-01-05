@@ -136,7 +136,7 @@ var Ash = {
         }else{
           if(this.afterClass) {
             console.log("afterClass event is called for success");
-            this.afterTest();
+            this.afterClass();
           }
         }
       }
