@@ -178,7 +178,7 @@ var Ash = {
     return cordova.exec( 
       function(){
         //FIXME: walkaround for event synchronization problem
-        setTimeout(function(){console.log("HorizontalTimeout Done");testSuite();}, eventTimeout);
+        setTimeout(function(){console.log("HorizontalTimeout Done");testSuite();}, Ash.eventTimeout);
       },
       function(e) { alert("Couldn't call orientationHorizontal " + JSON.stringify(e)); }, 
       "Ash", 
@@ -190,7 +190,7 @@ var Ash = {
     return cordova.exec( 
       function(){
         //FIXME: walkaround for event synchronization problem
-        setTimeout(function(){console.log("VerticalTimeout Done");testSuite();}, eventTimeout);
+        setTimeout(function(){console.log("VerticalTimeout Done");testSuite();}, Ash.eventTimeout);
       },
       function(e) { alert("Couldn't call orientationVertical " + JSON.stringify(e)); }, 
       "Ash", 
