@@ -244,7 +244,7 @@ var Ash = {
       var position = {"coords" : {"latitude": lat, "longitude": long}};
       callback(position);
     }
-    A.endTest();
+    //A.endTest();
   },
   
   //TODO: move this part to ash-navigation
