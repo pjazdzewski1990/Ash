@@ -112,7 +112,6 @@ var Ash = {
       step.where.goto();
       step.where.validate();
       
-      //TODO: is it the expected behaviour? 
       Ash.run(step.what, failureCallback, successCallback);
     }
     console.log("Playing scenario: end");
