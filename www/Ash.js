@@ -132,19 +132,19 @@ var Ash = {
     step.where.validate();
       
     //TODO: is it the expected behaviour to call the original callback on each step?
-    /*Ash.run(step.what, function(errorData){
+    Ash.run(step.what, function(errorData){
       alert("FAIL");
       var stopTime = new Date().getTime();
 
-      failureCallback(errorData);
+      //failureCallback(errorData);
       end(stopTime);
     }, function(successData){
       alert("OK");
       var stopTime = new Date().getTime();
 
-      if(successCallback) successCallback(successData);
+      //if(successCallback) successCallback(successData);
       end(stopTime);
-    });*/
+    });
   },  
 
   run: function(tests, failureCallback, successCallback){
