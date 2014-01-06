@@ -114,14 +114,29 @@ var Ash = {
       step.where.validate();
       
       var startTime = new Date().getTime();
-      //TODO: is it the expected behaviour? 
-      Ash.run(step.what, failureCallback, successCallback);
-      var stopTime = new Date().getTime();
-      var diff = stopTime - startTime;
-      alert("DIFF: " + diff);
-      if(diff >= step.howLong) {
-        failureCallback({level: "2", message: "Scenario step timeout reached"});
-      }
+      //TODO: is it the expected behaviour?
+      //TODO: make DRY 
+      Ash.run(step.what, function(errorData){
+        var stopTime = new Date().getTime();
+
+        failureCallback(errorData);
+
+        var diff = stopTime - startTime;
+        alert("DIFF: " + diff);
+        if(diff >= step.howLong) {
+          failureCallback({level: "2", message: "Scenario step timeout reached"});
+        }
+      }, function(successData){
+        var stopTime = new Date().getTime();
+
+        if(successCallback) successCallback(successData);
+
+        var diff = stopTime - startTime;
+        alert("DIFF: " + diff);
+        if(diff >= step.howLong) {
+          failureCallback({level: "2", message: "Scenario step timeout reached"});
+        }
+      });
     }
     console.log("Playing scenario: end");
   },  
@@ -139,7 +154,6 @@ var Ash = {
     
     //setup testSuccess handler 
     if(!this._testSuccess){ 
-      
       this._testSuccess = function(){
         if(this.after) {
           console.log("after event is called for success");
@@ -147,7 +161,7 @@ var Ash = {
         };
 
         //TODO: send meaningful data. throw error to obtain stack?
-        successCallback({"index":currentTest, "length":testSuiteLen});
+        if(successCallback) successCallback({"index": currentTest, "length": testSuiteLen});
         if(++currentTest < testSuiteLen) {
           if(this.before) {
             console.log("before event is called after success");
