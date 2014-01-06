@@ -136,13 +136,13 @@ var Ash = {
       alert("FAIL");
       var stopTime = new Date().getTime();
 
-      //failureCallback(errorData);
+      failureCallback(errorData);
       end(stopTime);
     }, function(successData){
       alert("OK");
       var stopTime = new Date().getTime();
 
-      //if(successCallback) successCallback(successData);
+      if(successCallback) successCallback(successData);
       end(stopTime);
     });
   },  
