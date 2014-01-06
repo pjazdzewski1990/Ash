@@ -105,40 +105,46 @@ var Ash = {
 
   _testSuccess: null,  //setup in run()
 
+  //TODO: rework and make DRY 
   play: function(scenario, failureCallback, successCallback){
-    console.log("Playing scenario: start");
-    for(var i=0; i<scenario.length; i++){
-      var step = scenario[i];
-      console.log("Playing scenario: step " + step.name);
-      step.where.goto();
-      step.where.validate();
-      
-      var startTime = new Date().getTime();
-      //TODO: is it the expected behaviour?
-      //TODO: make DRY 
-      Ash.run(step.what, function(errorData){
-        var stopTime = new Date().getTime();
-
-        failureCallback(errorData);
-
-        var diff = stopTime - startTime;
-        alert("DIFF: " + diff);
-        if(diff >= step.howLong) {
-          failureCallback({level: "2", message: "Scenario step timeout reached"});
-        }
-      }, function(successData){
-        var stopTime = new Date().getTime();
-
-        if(successCallback) successCallback(successData);
-
-        var diff = stopTime - startTime;
-        alert("DIFF: " + diff);
-        if(diff >= step.howLong) {
-          failureCallback({level: "2", message: "Scenario step timeout reached"});
-        }
-      });
+    if(scenario.length <= 0){
+      console.log("Playing scenario: end");
+      return;
     }
-    console.log("Playing scenario: end");
+
+    console.log("Playing scenario: start");
+    var startTime;
+    var step = scenario[0];
+
+    console.log("Playing scenario: step " + step.name);
+    startTime = new Date().getTime();
+
+    var end = function(stopTime){
+      var diff = stopTime - startTime;
+      alert("DIFF: " + diff);
+      if(diff >= step.howLong) {
+        failureCallback({level: "2", message: "Scenario step timeout reached"});
+      }
+      Ash.play(scenario.splice(1), failureCallback, successCallback);
+    }; 
+
+    step.where.goto();
+    step.where.validate();
+      
+    //TODO: is it the expected behaviour to call the original callback on each step?
+    /*Ash.run(step.what, function(errorData){
+      alert("FAIL");
+      var stopTime = new Date().getTime();
+
+      failureCallback(errorData);
+      end(stopTime);
+    }, function(successData){
+      alert("OK");
+      var stopTime = new Date().getTime();
+
+      if(successCallback) successCallback(successData);
+      end(stopTime);
+    });*/
   },  
 
   run: function(tests, failureCallback, successCallback){
@@ -148,8 +154,8 @@ var Ash = {
     
     //before class event
     if(this.beforeClass){
-        console.log("beforeClass event is called"); 
-        this.beforeClass();
+      console.log("beforeClass event is called"); 
+      this.beforeClass();
     }
     
     //setup testSuccess handler 
