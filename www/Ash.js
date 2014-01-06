@@ -107,13 +107,21 @@ var Ash = {
 
   play: function(scenario, failureCallback, successCallback){
     console.log("Playing scenario: start");
-    for(var step=0; step<scenario.length; stepp++){
+    for(var i=0; i<scenario.length; i++){
+      var step = scenario[i];
       console.log("Playing scenario: step " + step.name);
       step.where.goto();
       step.where.validate();
       
+      var startTime = new Date().getTime();
       //TODO: is it the expected behaviour? 
       Ash.run(step.what, failureCallback, successCallback);
+      var stopTime = new Date().getTime();
+      var diff = stopTime - startTime;
+      alert("DIFF: " + diff);
+      if(diff >= step.howLong) {
+        failureCallback({level: "2", message: "Scenario step timeout reached"});
+      }
     }
     console.log("Playing scenario: end");
   },  
