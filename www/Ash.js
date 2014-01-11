@@ -123,7 +123,7 @@ var Ash = {
       var diff = stopTime - startTime;
       alert("DIFF: " + diff);
       if(diff >= step.howLong) {
-        failureCallback({level: "2", message: "Scenario step timeout reached"});
+        failureCallback({level: "error", message: "Scenario step timeout reached"});
       }
       Ash.play(scenario.splice(1), failureCallback, successCallback);
     }; 
