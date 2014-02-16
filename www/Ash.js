@@ -18,7 +18,21 @@ var Ash = {
     }
   },
   
-  _hidden: function(element) {
+  _argToArray: function(arg){
+      if(arg instanceof Array) {
+          return arg;
+      }
+      if(arg instanceof jQuery) {
+          return arg.toArray();
+      }
+      return [arg];
+  },
+    
+  _hidden: function(args) {
+      var elements = this._argToArray(arg);
+      return elements.reduce(function(previousValue, currentValue, index, array){
+        return previousValue && element.style && element.style.display === "none";
+      }, true);
 //    var outOfScreen = function(){
 //      var height = element.clientHeight;
 //      var width = element.clientWidth;
@@ -29,11 +43,12 @@ var Ash = {
 //      return vertical || horizontal
 //    };
 //
-    var displayNone = element.style && element.style.display === "none";
+    
+    //var displayNone = element.style && element.style.display === "none";
 //    var noVisibility = ["hidden", "collapse"].indexOf(element.style.visibility)>-1;
 //    console.log("_hidden: " + displayNone + " " + noVisibility + " " + outOfScreen() + " " + element.hidden);
-    return displayNone ;//|| noVisibility || 
-      /*outOfScreen() || element.hidden;*/
+    //return displayNone || noVisibility || 
+    //outOfScreen() || element.hidden;
   },
   
   visible: function(element){
@@ -46,6 +61,10 @@ var Ash = {
       }
     }
   },
+    
+  isVisible: function(element){
+    return !this._hidden(element);
+  },
   
   invisible: function(element){
     if(!this._hidden(element)){
@@ -56,6 +75,10 @@ var Ash = {
         toString: function(){return JSON.stringify(this);}
       }
     }
+  },
+    
+  isInvisible: function(element){
+    return this._hidden(element);
   },
   
   equal: function(valA, valB) {
