@@ -29,7 +29,7 @@ var Ash = {
   },
     
   _hidden: function(args) {
-      var elements = this._argToArray(arg);
+      var elements = this._argToArray(args);
       return elements.reduce(function(previousValue, currentValue, index, array){
         return previousValue && element.style && element.style.display === "none";
       }, true);
