@@ -30,7 +30,7 @@ var Ash = {
     
   _hidden: function(args) {
       var elements = this._argToArray(args);
-      return elements.reduce(function(previousValue, currentValue, index, array){
+      return elements.reduce(function(previousValue, element, index, array){
         return previousValue && element.style && element.style.display === "none";
       }, true);
 //    var outOfScreen = function(){
