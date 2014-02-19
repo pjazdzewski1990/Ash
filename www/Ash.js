@@ -3,9 +3,15 @@ var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
     exec = require('cordova/exec');
   
+/** @namespace */
 var Ash = {
   _storedErrorCallback: window.onerror,
 
+  /**
+   * Make sure the element is present
+   * @param {DOMElement} What to inspect
+   * @throws {AshElementNotFound} If element is "falsy" 
+   */
   assert: function(element) {
     if(!element){
       //TODO: rethink exception internals, so they allow easy processing 
@@ -50,7 +56,12 @@ var Ash = {
     //return displayNone || noVisibility || 
     //outOfScreen() || element.hidden;
   },
-  
+
+  /**
+   * Make sure the element is visible, if not throw error
+   * @param {DOMElement} DOM element needing inspection
+   * @throws {AshElementInvisible} Thrown if the element is visible to the user 
+   */
   visible: function(element){
     if(this._hidden(element)){
       throw {
@@ -61,11 +72,21 @@ var Ash = {
       }
     }
   },
-    
+   
+  /**
+   * Returns boolean indicating whether the specified element is visible 
+   * @param {DOMElement} DOM element needing inspection
+   * @return {Boolean} False if the element is hidden, True otherwise
+   */
   isVisible: function(element){
     return !this._hidden(element);
   },
   
+  /**
+   * Make sure the element is hidden from the user
+   * @param {DOMElement} What to inspect
+   * @throws {AshElementVisible} If element is is invisible to the user 
+   */
   invisible: function(element){
     if(!this._hidden(element)){
       throw {
@@ -76,7 +97,12 @@ var Ash = {
       }
     }
   },
-    
+  
+  /**
+   * Make sure the element is hidden from the user
+   * @param {DOMElement} What to inspect
+   * @returns {Boolean} If element is is invisible to the user 
+   */
   isInvisible: function(element){
     return this._hidden(element);
   },
@@ -93,6 +119,10 @@ var Ash = {
     }
   },
   
+  /**
+   * Load the js files that contain test code as script tags
+   * @param {Array} Array of strings being paths to access test files
+   */
   loadTests: function(tests){
     for(var i=0; i<tests.length; i++){
         var script = document.createElement('script');
@@ -104,9 +134,13 @@ var Ash = {
   //test callbacks
   // before/after - called on every test
   // XTest - called on the whole suite
+  /** Runs before the whole test set */
   beforeTest: null,
+  /** Runs after the whole test set has run */
   afterTest: null, 
+  /** Runs before each test */
   before: null,
+  /** Runs after each test */
   after: null,
   
   configuration: {},
@@ -120,6 +154,9 @@ var Ash = {
     return this;
   },
   
+  /**st
+   * Calling this method ends current te when running via 'run' or 'play'
+   */
   endTest: function(){
     if(this._testSuccess){ // call only if part of test runner
       this._testSuccess();
@@ -128,7 +165,13 @@ var Ash = {
 
   _testSuccess: null,  //setup in run()
 
-  //TODO: rework and make DRY 
+  //TODO: rework and make DRY
+  /**
+  * Runs tests in a scenario according to the context 
+  * @param {AshScenario} scenario The scenario that will be runned 
+  * @param {Callback} failureCallback Callback that is called for each test that fails
+  * @param {Callback} successCallback Callback that is called when test succeeds
+  */
   play: function(scenario, failureCallback, successCallback){
     if(scenario.length <= 0){
       console.log("Playing scenario: end");
@@ -144,7 +187,7 @@ var Ash = {
 
     var end = function(stopTime){
       var diff = stopTime - startTime;
-      alert("DIFF: " + diff);
+      // alert("DIFF: " + diff);
       if(diff >= step.howLong) {
         failureCallback({level: "error", message: "Scenario step timeout reached"});
       }
@@ -156,13 +199,13 @@ var Ash = {
       
     //TODO: is it the expected behaviour to call the original callback on each step?
     Ash.run(step.what, function(errorData){
-      alert("FAIL");
+      // alert("FAIL");
       var stopTime = new Date().getTime();
 
       failureCallback(errorData);
       end(stopTime);
     }, function(successData){
-      alert("OK");
+      // alert("OK");
       var stopTime = new Date().getTime();
 
       if(successCallback) successCallback(successData);
@@ -170,6 +213,12 @@ var Ash = {
     });
   },  
 
+  /**
+  * Runs tests in a array one-by-one without the context information 
+  * @param {AshScenario} tests The scenario that will be runned 
+  * @param {Callback} failureCallback Callback that is called for each test that fails
+  * @param {Callback} successCallback Callback that is called when test succeeds
+  */
   run: function(tests, failureCallback, successCallback){
     var testsSuite = (Object.prototype.toString.call(tests) === "[object Array]") ? tests : this._extractTests(tests);
     var testSuiteLen = testsSuite.length;
