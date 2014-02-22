@@ -314,6 +314,10 @@ var Ash = {
   
   eventTimeout: 1000,  //most browsers won't react under 25 
   
+  /**
+  * Changes screen orientation to horizontal (landscape). After the orientation changed passed function is called. There is no guarantee that after the test orientation will change back to previous setting
+  * @param {Callback} testSuite The callback function performing the test
+  */
   orientationHorizontal: function(testSuite) {
     return cordova.exec( 
       function(){
@@ -326,6 +330,10 @@ var Ash = {
       []);
   },
   
+  /**
+  * Changes screen orientation to vertical (portrait). After the orientation changed passed function is called. There is no guarantee that after the test orientation will change back to previous setting
+  * @param {Callback} testSuite The callback function performing the test 
+  */
   orientationVertical: function(testSuite) {
     return cordova.exec( 
       function(){
@@ -338,6 +346,10 @@ var Ash = {
       []);
   },
   
+  /**
+  * Turns off the network and runs provided test function
+  * @param {Callback} testSuite The callback function performing the test 
+  */
   noNetwork: function(testSuite) {
     return cordova.exec( 
       function(){
@@ -349,6 +361,11 @@ var Ash = {
       []);
   },
   
+  /**
+  * Passes an array of files fullfilling requirements specified in options argument to provided callback function
+  * @param {Callback} options Requirements for files. Files in the array passed to testSuite callback are required to meet conditions specified in options
+  * @param {Callback} testSuite The callback function performing the test
+  */
   withFile: function(options, callback) {
     //TODO: create/access real files
     var files = [];
@@ -366,6 +383,12 @@ var Ash = {
     callback(files);
   },
   
+  /**
+  * Simulate user movement. User starts in position startPos expressed as object with two fields: latitude and longitude. Movement is defined by options object contaning: step - how many steps will be provided, latitude and logitude - define the end position. On each step the callback is called with current location - an object containing a "coords" key with 2 further keys - latitude and logitude
+  * @param {Object} startPos Movement starting position
+  * @param {Callback} options Options for configuring movement
+  * @param {Callback} callback The callback function performing the test
+  */
   onMove: function(startPos, options, callback) {
     //TODO: emulate instead of only simulating
     var steps = options.steps || 1;
@@ -388,7 +411,13 @@ var Ash = {
   },
   
   //TODO: move this part to ash-navigation
-  isOnPage: function(pageObject) {
+  /**
+  * Tests if current screen conforms to passed PageObject's validate function. If no an exception is thrown 
+  * @param {PageObject} pageObject Current screen is validated against this screen
+  * @throws {AshException} If the page object doesn't have a "validate" method 
+  * @throws {AshException} If the current screen doesn't conform tp pageObject's validate method
+  */
+  onPage: function(pageObject) {
     if(typeof(pageObject["validate"]) === "function") {
       var onPage = pageObject["validate"]();
       if(onPage === false){
