@@ -180,7 +180,7 @@ var Ash = {
 
     var end = function(step, startTime, stopTime){
       var diff = stopTime - startTime;
-      // alert("DIFF: " + diff);
+      alert("DIFF: " + diff + " HOWLONG: " + step.howLong);
       if(diff >= step.howLong) {
         failureCallback({level: "error", message: "Scenario step timeout reached"});
       }
@@ -189,8 +189,6 @@ var Ash = {
     }; 
       
     var _play = function(){
-        alert("SCENario " + scenario + " " + testIndex);
-      
       if(scenario.length <= testIndex){
         console.log("Playing scenario: end");
         return;
