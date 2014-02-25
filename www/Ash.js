@@ -224,6 +224,12 @@ var Ash = {
     var testSuiteLen = testsSuite.length;
     var currentTest = 0; 
     
+    var resetGlobals = function(){
+      alert("resetGlobals");
+      Ash._testSuccess = null;
+      window.onerror = Ash._storedErrorCallback;
+    };
+      
     //before class event
     if(this.beforeClass){
       console.log("beforeClass event is called"); 
@@ -247,6 +253,7 @@ var Ash = {
           }
           testsSuite[currentTest]();
         }else{
+          resetGlobals();
           if(this.afterClass) {
             console.log("afterClass event is called for success");
             this.afterClass();
@@ -272,6 +279,7 @@ var Ash = {
         }
         testsSuite[currentTest]();
       }else{
+        resetGlobals();
         if(this.afterClass) {
           console.log("afterClass event is called for failure");
           this.afterClass();
