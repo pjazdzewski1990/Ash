@@ -178,7 +178,7 @@ var Ash = {
     var testIndex = 0;
     var step = scenario[testIndex];
 
-    var end = function(stopTime){
+    var end = function(step, startTime, stopTime){
       var diff = stopTime - startTime;
       // alert("DIFF: " + diff);
       if(diff >= step.howLong) {
@@ -209,7 +209,7 @@ var Ash = {
         var stopTime = new Date().getTime();
 
         failureCallback(errorData);
-        end(stopTime);
+        end(step, startTime, stopTime);
       }, function(successData){
         // alert("OK");
         var stopTime = new Date().getTime();
@@ -219,7 +219,7 @@ var Ash = {
         successData.length = scenario.length;
       
         if(successCallback) successCallback(successData);
-        end(stopTime);
+        end(step, startTime, stopTime);
       });  
     }; 
      
