@@ -177,10 +177,11 @@ var Ash = {
       console.log("Playing scenario: end");
       return;
     }
-
+alert("SCEnario" + scenario);
     console.log("Playing scenario: start");
     var startTime;
-    var step = scenario[0];
+    var testIndex = 0;
+    var step = scenario[testIndex];
 
     console.log("Playing scenario: step " + step.name);
     startTime = new Date().getTime();
@@ -191,6 +192,7 @@ var Ash = {
       if(diff >= step.howLong) {
         failureCallback({level: "error", message: "Scenario step timeout reached"});
       }
+      testIndex++;
       Ash.play(scenario.splice(1), failureCallback, successCallback);
     }; 
 
@@ -208,6 +210,10 @@ var Ash = {
       // alert("OK");
       var stopTime = new Date().getTime();
 
+      successData.stopTime = stopTime;
+      successData.index = testIndex;
+      successData.length = scenario.length;
+      
       if(successCallback) successCallback(successData);
       end(stopTime);
     });
@@ -225,7 +231,6 @@ var Ash = {
     var currentTest = 0; 
     
     var resetGlobals = function(){
-      alert("resetGlobals");
       Ash._testSuccess = null;
       window.onerror = Ash._storedErrorCallback;
     };
