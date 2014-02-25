@@ -173,18 +173,10 @@ var Ash = {
   * @param {Callback} successCallback Callback that is called when test succeeds
   */
   play: function(scenario, failureCallback, successCallback){
-    if(scenario.length <= 0){
-      console.log("Playing scenario: end");
-      return;
-    }
-alert("SCEnario" + scenario);
+    
     console.log("Playing scenario: start");
-    var startTime;
     var testIndex = 0;
     var step = scenario[testIndex];
-
-    console.log("Playing scenario: step " + step.name);
-    startTime = new Date().getTime();
 
     var end = function(stopTime){
       var diff = stopTime - startTime;
@@ -193,30 +185,45 @@ alert("SCEnario" + scenario);
         failureCallback({level: "error", message: "Scenario step timeout reached"});
       }
       testIndex++;
-      Ash.play(scenario.splice(1), failureCallback, successCallback);
+      _play();
     }; 
-
-    step.where.goto();
-    step.where.validate();
       
-    //TODO: is it the expected behaviour to call the original callback on each step?
-    Ash.run(step.what, function(errorData){
-      // alert("FAIL");
-      var stopTime = new Date().getTime();
-
-      failureCallback(errorData);
-      end(stopTime);
-    }, function(successData){
-      // alert("OK");
-      var stopTime = new Date().getTime();
-
-      successData.stopTime = stopTime;
-      successData.index = testIndex;
-      successData.length = scenario.length;
+    var _play = function(){
+        alert("SCENario " + scenario + " " + testIndex);
       
-      if(successCallback) successCallback(successData);
-      end(stopTime);
-    });
+      if(scenario.length <= testIndex){
+        console.log("Playing scenario: end");
+        return;
+      }
+      var step = scenario[testIndex];
+        
+      console.log("Playing scenario: step " + step.name);
+      var startTime = new Date().getTime();
+  
+      step.where.goto();
+      step.where.validate();
+        
+      //TODO: is it the expected behaviour to call the original callback on each step?
+      Ash.run(step.what, function(errorData){
+        // alert("FAIL");
+        var stopTime = new Date().getTime();
+
+        failureCallback(errorData);
+        end(stopTime);
+      }, function(successData){
+        // alert("OK");
+        var stopTime = new Date().getTime();
+
+        successData.stopTime = stopTime;
+        successData.index = testIndex;
+        successData.length = scenario.length;
+      
+        if(successCallback) successCallback(successData);
+        end(stopTime);
+      });  
+    }; 
+     
+    _play();
   },  
 
   /**
