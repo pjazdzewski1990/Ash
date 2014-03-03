@@ -9,6 +9,7 @@ import java.lang.Class;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.net.ConnectivityManager;
