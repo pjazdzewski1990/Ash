@@ -178,9 +178,9 @@ var Ash = {
     var testIndex = 0;
     var step = scenario[testIndex];
 
-    var end = function(step, startTime, stopTime){
+    var checkTimoutAndRecurse = function(step, startTime, stopTime){
       var diff = stopTime - startTime;
-      alert("DIFF: " + diff + " HOWLONG: " + step.howLong);
+      //alert("DIFF: " + diff + " HOWLONG: " + step.howLong);
       if(diff >= step.howLong) {
         failureCallback({level: "error", message: "Scenario step timeout reached"});
       }
@@ -207,17 +207,18 @@ var Ash = {
         var stopTime = new Date().getTime();
 
         failureCallback(errorData);
-        end(step, startTime, stopTime);
+        checkTimoutAndRecurse(step, startTime, stopTime);
       }, function(successData){
         // alert("OK");
         var stopTime = new Date().getTime();
 
+        successData.startTime = startTime;
         successData.stopTime = stopTime;
         successData.index = testIndex;
         successData.length = scenario.length;
       
         if(successCallback) successCallback(successData);
-        end(step, startTime, stopTime);
+        checkTimoutAndRecurse(step, startTime, stopTime);
       });  
     }; 
      
