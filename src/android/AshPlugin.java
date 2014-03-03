@@ -5,8 +5,13 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.lang.Class;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 import android.content.pm.ActivityInfo;
 import android.util.Log;
+import android.net.ConnectivityManager;
 
 public class AshPlugin extends CordovaPlugin {
 
@@ -46,7 +51,7 @@ public class AshPlugin extends CordovaPlugin {
       try {
         Log.d("HelloPlugin", "Blocking access to network");
         
-        disableNetwork();
+        setNetworkConnectivity(false);
         
         callbackContext.success("");
         return true;
@@ -59,8 +64,8 @@ public class AshPlugin extends CordovaPlugin {
       try {
         Log.d("HelloPlugin", "Enabling network");
           
-//        enableNetwork();
-          
+        setNetworkConnectivity(true);
+  
         callbackContext.success("");
         return true;
       }
@@ -74,6 +79,21 @@ public class AshPlugin extends CordovaPlugin {
     return false;
   }
 
+  private void setNetworkConnectivity(boolean turnOn) {
+    Context context = getContext();
+      
+    final ConnectivityManager conman = (ConnectivityManager)  context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    final Class conmanClass = Class.forName(conman.getClass().getName());
+    final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
+    iConnectivityManagerField.setAccessible(true);
+    final Object iConnectivityManager = iConnectivityManagerField.get(conman);
+    final Class iConnectivityManagerClass =  Class.forName(iConnectivityManager.getClass().getName());
+    final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
+    setMobileDataEnabledMethod.setAccessible(true);
+
+    setMobileDataEnabledMethod.invoke(iConnectivityManager, turnOn);
+  }
+    
   private void disableNetwork() {
   
 //    Settings.System.putInt(
