@@ -8,6 +8,7 @@ import org.json.JSONException;
 import java.lang.Class;
 import java.lang.IllegalAccessException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import android.content.Context;
@@ -59,7 +60,12 @@ public class AshPlugin extends CordovaPlugin {
         return true;
       }
       catch (Exception ex) {
-        Log.d("AshPlugin error:", ex.toString());
+    //DEBUG
+          Context context = this.cordova.getActivity().getApplicationContext();
+    final ConnectivityManager conman = (ConnectivityManager)  context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    //final Class conmanClass = Class.forName(conman.getClass().getName());
+    
+        Log.d("AshPlugin error:", /*ex.toString() + " " +*/ conman.getClass().getName());
       }  
     }
     if (ACTION_NETWORK_ON.equals(action)) {
@@ -81,19 +87,20 @@ public class AshPlugin extends CordovaPlugin {
     return false;
   }
 
-  private void setNetworkConnectivity(boolean turnOn) throws IllegalAccessException {
+  private void setNetworkConnectivity(boolean turnOn) 
+      throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, NoSuchMethodException {
     Context context = this.cordova.getActivity().getApplicationContext();
       
     final ConnectivityManager conman = (ConnectivityManager)  context.getSystemService(Context.CONNECTIVITY_SERVICE);
     final Class conmanClass = Class.forName(conman.getClass().getName());
-    final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
+    /*final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
     iConnectivityManagerField.setAccessible(true);
     final Object iConnectivityManager = iConnectivityManagerField.get(conman);
     final Class iConnectivityManagerClass =  Class.forName(iConnectivityManager.getClass().getName());
     final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
     setMobileDataEnabledMethod.setAccessible(true);
 
-    setMobileDataEnabledMethod.invoke(iConnectivityManager, turnOn);
+    setMobileDataEnabledMethod.invoke(iConnectivityManager, turnOn);*/
   }
     
   private void disableNetwork() {
