@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.lang.Class;
+import java.lang.IllegalAccessException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -80,7 +81,7 @@ public class AshPlugin extends CordovaPlugin {
     return false;
   }
 
-  private void setNetworkConnectivity(boolean turnOn) {
+  private void setNetworkConnectivity(boolean turnOn) throws IllegalAccessException {
     Context context = this.cordova.getActivity().getApplicationContext();
       
     final ConnectivityManager conman = (ConnectivityManager)  context.getSystemService(Context.CONNECTIVITY_SERVICE);
