@@ -81,7 +81,7 @@ public class AshPlugin extends CordovaPlugin {
   }
 
   private void setNetworkConnectivity(boolean turnOn) {
-    Context context = getContext();
+    Context context = this.cordova.getActivity().getApplicationContext();
       
     final ConnectivityManager conman = (ConnectivityManager)  context.getSystemService(Context.CONNECTIVITY_SERVICE);
     final Class conmanClass = Class.forName(conman.getClass().getName());
