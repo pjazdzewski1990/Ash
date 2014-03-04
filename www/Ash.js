@@ -375,7 +375,7 @@ var Ash = {
         testSuite();
       },
       function(s) { alert("Couldn't call noNetwork " + s); }, 
-      "pl.ug.ash.AshPlugin", 
+      "Ash", 
       "networkOff", 
       []);
   },
