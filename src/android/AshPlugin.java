@@ -15,6 +15,8 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.net.ConnectivityManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class AshPlugin extends CordovaPlugin {
 
@@ -56,9 +58,7 @@ public class AshPlugin extends CordovaPlugin {
       try {
         Log.d("HelloPlugin", "Blocking access to network");
         
-        setNetworkConnectivity(false);
-        
-        callbackContext.success("");
+        setNetworkConnectivity(false, callbackContext);
         return true;
       }
       catch (Exception ex) {
@@ -70,9 +70,7 @@ public class AshPlugin extends CordovaPlugin {
       try {
         Log.d("HelloPlugin", "Enabling network");
           
-        setNetworkConnectivity(true);
-  
-        callbackContext.success("");
+        setNetworkConnectivity(true, callbackContext);
         return true;
       }
       catch (Exception ex) {
@@ -86,37 +84,30 @@ public class AshPlugin extends CordovaPlugin {
     return false;
   }
 
-  private void setNetworkConnectivity(boolean turnOn) 
-      throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, NoSuchMethodException {
-    Context context = this.cordova.getActivity().getApplicationContext();
-      
-    final ConnectivityManager conman = (ConnectivityManager)  context.getSystemService(Context.CONNECTIVITY_SERVICE);
-    final Class conmanClass = Class.forName(conman.getClass().getName());
-    final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
-    iConnectivityManagerField.setAccessible(true);
-    final Object iConnectivityManager = iConnectivityManagerField.get(conman);
-    final Class iConnectivityManagerClass =  Class.forName(iConnectivityManager.getClass().getName());
-    final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
-    setMobileDataEnabledMethod.setAccessible(true);
-
-    setMobileDataEnabledMethod.invoke(iConnectivityManager, turnOn);
-  }
-    
-  private void disableNetwork() {
-  
-//    Settings.System.putInt(
-//      cordova.getActivity().getApplicationContext().getContentResolver(),
-//      Settings.System.AIRPLANE_MODE_ON, 0);
-//
-//    Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-//    intent.putExtra("state", 0);
-//    cordova.getActivity().sendBroadcast(intent);
-
-    //TODO: 
-    throw new RuntimeException("Since Android 4.x it's not posible to send Intent.ACTION_AIRPLANE_MODE_CHANGED without root permissions");
-  }
-
   private void changeOrientation(int orientation) {
     this.cordova.getActivity().setRequestedOrientation(orientation);
   }
+    
+  private void setNetworkConnectivity(boolean turnOn, final CallbackContext callbackContext) 
+      throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, NoSuchMethodException {
+
+    final WebView cordovaWebView = this.webView;
+          
+    //working on UI thread ...
+    cordova.getActivity().runOnUiThread(new Runnable() {
+      public void run() {
+        // set the alternative web view client ...
+        cordovaWebView.setWebViewClient(new WebViewClient() {
+          @Override
+          public void onLoadResource(WebView view, String url) {
+            System.out.println("CUSTOM - load aborted");
+            view.stopLoading();
+          }
+        });
+        // and call the test
+        callbackContext.success(""); // Thread-safe.
+      }
+    });
+  }
+  
 }
