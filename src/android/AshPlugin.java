@@ -88,9 +88,16 @@ public class AshPlugin extends CordovaPlugin {
     this.cordova.getActivity().setRequestedOrientation(orientation);
   }
     
-  private void setNetworkConnectivity(boolean turnOn, final CallbackContext callbackContext) 
-      throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, NoSuchMethodException {
-
+  private void setNetworkConnectivity(boolean turnOn, final CallbackContext callbackContext) {
+    Log.d("HelloPlugin", "Changing network access to " + turnOn);
+    if(turnOn){
+      turnNetworkOn(callbackContext);
+    }else{
+      turnNetworkOff(callbackContext);
+    }
+  }
+    
+  private void turnNetworkOff(final CallbackContext callbackContext) {
     final WebView cordovaWebView = this.webView;
           
     //working on UI thread ...
@@ -104,6 +111,30 @@ public class AshPlugin extends CordovaPlugin {
             view.stopLoading();
           }
         });
+        // trigger the event ...
+        cordovaWebView.setNetworkAvailable(false);
+        // and call the test
+        callbackContext.success(""); // Thread-safe.
+      }
+    });
+  }
+    
+
+  private void turnNetworkOn(final CallbackContext callbackContext) {
+    final WebView cordovaWebView = this.webView;
+          
+    //working on UI thread ...
+    cordova.getActivity().runOnUiThread(new Runnable() {
+      public void run() {
+        // set the alternative web view client, that does nothing ...
+        cordovaWebView.setWebViewClient(new WebViewClient() {
+          @Override
+          public void onLoadResource(WebView view, String url) {
+            System.out.println("DUMMY - continue");
+          }
+        });
+        // trigger the event ...
+        cordovaWebView.setNetworkAvailable(true);
         // and call the test
         callbackContext.success(""); // Thread-safe.
       }
