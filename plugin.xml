@@ -18,7 +18,11 @@
     <js-module src="www/Ash.js" name="Ash">
       <clobbers target="Ash" />
     </js-module>
-
+    <!-- TODO: properly import promise.js -->
+    <js-module src="www/promise.js" name="AshPromise">
+      <clobbers target="AshPromise" />
+    </js-module>
+    
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">

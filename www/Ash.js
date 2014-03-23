@@ -5,6 +5,7 @@ var argscheck = require('cordova/argscheck'),
   
 /** @namespace */
 var Ash = {
+
   _storedErrorCallback: window.onerror,
 
   /**
@@ -334,35 +335,50 @@ var Ash = {
   eventTimeout: 1000,  //most browsers won't react under 25 
   
   /**
-  * Changes screen orientation to horizontal (landscape). After the orientation changed passed function is called. There is no guarantee that after the test orientation will change back to previous setting
-  * @param {Callback} testSuite The callback function performing the test
+  * Changes screen orientation to horizontal (landscape) in an async manner. The function returns a promise which allows to run tests via 'then' method. There is no guarantee that after the test orientation will change back to previous setting
   */
-  orientationHorizontal: function(testSuite) {
-    return cordova.exec( 
-      function(){
-        //FIXME: walkaround for event synchronization problem
-        setTimeout(function(){console.log("HorizontalTimeout Done");testSuite();}, Ash.eventTimeout);
-      },
-      function(e) { alert("Couldn't call orientationHorizontal " + JSON.stringify(e)); }, 
-      "Ash", 
-      "orientationHorizontal", 
-      []);
+  orientationHorizontal: function() {
+    return new AshPromise(function (resolve, reject) {
+        cordova.exec( 
+            function(a){
+                //FIXME: walkaround for event synchronization problem
+                setTimeout(function(){
+                    console.log("HorizontalTimeout Done");
+                    resolve(a);
+                }, Ash.eventTimeout);
+            },
+            function(e){ 
+                alert("Couldn't call orientationHorizontal " + JSON.stringify(e));
+                reject(e);
+            }, 
+        "Ash", 
+        "orientationHorizontal", 
+        []);
+    });
   },
   
   /**
-  * Changes screen orientation to vertical (portrait). After the orientation changed passed function is called. There is no guarantee that after the test orientation will change back to previous setting
+  * Changes screen orientation to vertical (portrait) in an async manner. The function returns a promise which allows to run tests via 'then' method. There is no guarantee that after the test orientation will change back to previous setting
   * @param {Callback} testSuite The callback function performing the test 
   */
   orientationVertical: function(testSuite) {
-    return cordova.exec( 
-      function(){
-        //FIXME: walkaround for event synchronization problem
-        setTimeout(function(){console.log("VerticalTimeout Done");testSuite();}, Ash.eventTimeout);
-      },
-      function(e) { alert("Couldn't call orientationVertical " + JSON.stringify(e)); }, 
-      "Ash", 
-      "orientationVertical", 
-      []);
+    return new AshPromise(function (resolve, reject) { 
+        cordova.exec( 
+            function(a){
+                //FIXME: walkaround for event synchronization problem
+                setTimeout(function(){
+                    console.log("VerticalTimeout Done");
+                    resolve(a);
+                }, Ash.eventTimeout);
+            },
+            function(e){ 
+                alert("Couldn't call orientationVertical " + JSON.stringify(e)); 
+                reject(e);
+            }, 
+        "Ash", 
+        "orientationVertical", 
+        []);
+    });    
   },
   
   /**
