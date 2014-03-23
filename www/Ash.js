@@ -386,14 +386,20 @@ var Ash = {
   * @param {Callback} testSuite The callback function performing the test 
   */
   noNetwork: function(testSuite) {
-    return cordova.exec( 
-      function(){
-        testSuite();
-      },
-      function(s) { alert("Couldn't call noNetwork " + s); }, 
-      "Ash", 
-      "networkOff", 
-      []);
+    return new AshPromise(function (resolve, reject) { 
+        cordova.exec( 
+            function(a){
+                console.log("Network has been turned off");
+                resolve(a);
+            },
+            function(s) { 
+                alert("Couldn't call noNetwork " + s); 
+                reject(e);
+            }, 
+        "Ash", 
+        "networkOff", 
+        []);
+    });
   },
   
   /**
