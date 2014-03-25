@@ -1,0 +1,120 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{graphicx}
+% oprócz formatu papieru zdefiniowanego na początku (A4) możemy
+% jeszcze określić wielkość „obszaru zadrukowanego”:
+\usepackage[body={17cm,24cm}]{geometry}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% aby ustalić, że plik źródłowy używa kodowania UTF-8:
+%-----------------------------------------------------------
+\usepackage[utf8]{inputenc}
+% jeśli jedynie chcemy wykorzystywać polskie (lub inne) 
+% znaki diakrytyczne wystarczy użyć pakietu "fontenc"
+% z parametrem "OT4":
+%\usepackage[OT4]{fontenc}
+% jeśli piszemy po polsku, należy zamiast powyższego użyć:
+\usepackage{polski}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\section{Streszczenie}
+% Poniższy akapit zawiera przykłady użycia „niełamliwej spacji” w celu uniknięcia
+% „wiszących liter” na końcach wiersza – zjawisko uważne za błąd w polskiej typografii.
+Poniższa praca zawiera opis biblioteki „Ash” służącej do funkcjonalnego testowania
+hybrydowych aplikacji mobilnych stworzonych przy użyciu Adobe PhoneGap lub
+Apache Cordova. Ash pozwala na testowanie zachowania się aplikacji w~różnorodnych
+realistycznych przypadkach, takich jak poruszanie się użytkownika,
+obrót ekranu i~inne. Dzięki wykorzystaniu hybrydowego charakteru aplikacji
+możliwa jest emulacja zachowania, co wpływa na większy realizm testów. Innymi
+zaletami bliblioteki są elastyczna struktura testów, która ułatwia utrzymywanie
+testów oraz budowanie złożonych scenariuszy z prostych testów-kroków oraz
+możliwość wykorzystania asercji w~aplikacji poza testami.
+
+\section{Wprowadzenie}
+\subsection{Hybrydowe aplikacje mobilne}
+Adobe PhoneGap oraz jej odpowiednik o otwartym źródle Apache Cordova, to
+dwie popularne biblioteki pozwalajace na tworzenie hybrydowych aplikacji
+mobilnych tj. aplikacji które łączą w sobie zalety aplikacji natywnych oraz aplikacji
+typu mobile web. Zasada działania tego typu aplikacji jest w założeniu prosta i
+polega na wykorzystaniu komponentów, które dalej nazywać będziemy WebView.
+Kontrolki te są dostępne na każdej nowoczesnej platoformie i pozwalają nam na
+wyświetalnie stron internetowych z wnętrza natywnych aplikacji mobilnych.
+
+% tabelki w LaTeX-u też da się robić, chociaż najczytelniej to może nie wygląda
+% więcej na temt tabelek można poczytac np. na http://en.wikibooks.org/wiki/LaTeX/Tables
+\begin{center}
+    \begin{tabular}{ | l | l | l | p{5cm} |}
+    \hline
+   				& Aplikacje natywne & Aplikacje hybrydowe 	& Aplikacje mobile web 	\\ \hline
+    Narzędzia	& 					&						& 						\\ \hline
+    Instalacja	& 					&						& 						\\ \hline
+    Wydajność	& 					&						& 						\\ \hline
+    Możliwość monetyzacji
+    			& 					&						& 						\\ \hline
+    Dostęp do urządzenia
+    			& 					&						& 						\\ \hline
+    \end{tabular}
+\end{center}
+
+Dzięki temu, że do tworzenia aplikacji hybrydowych wykorzystywane są technologie
+znane z zastosowań intenetowych, koszt tworzenia aplikacji i czas dostarczenia
+gotowego rozwiązania na rynek są znacznie zredukowane. Aplikacje tego typu są też
+z założenia wieloplatformowe. Używając PhoneGap z tego samego kodu źródłowego
+możemy stworzyć aplikacje na platformę Android, iOS, Blackberry, WebOS,
+Windows Phone, Symbiana i Bada. Dodatkowo popularność narzędzi internetowych
+ułatwia znalezienie właściwych programistów.
+
+\subsection{Wady podejścia hybrydowego}
+Największymi wadami podejścia hybrydowego są słabsza wydajność, błędy
+pojawiające się tylko na określonych urządzeniach oraz różnorodne oczekiwania
+użytkowników różnych platform. Użytkownik instalując aplikację hybrydową jak
+natywną spodziewa się, że będzie ona działać niczym natywna. Tymczasem
+dodatkowy narzut hybrydy, często w połączeniu z niechlujnie przygotowaną i nie
+zoptymalizowaną aplikacją, prowadzi do mniej responsywnego interfejsu
+użytkownika i w konskewencji do frustracji użytkownika. Częstym problemem przy
+tworzeniu aplikacji mobilnych są błędy pojawiające się tylko na określonych
+urządzeniach. Przy podejściu hybrydowym problem jest o tyle bardziej widoczny, że
+najczęściej tworzymy kod nie tylko pod jedną platformę, tak jak ma to miejsce przy
+podejściu natywnym, ale pod wiele. Trzecim problemem hybryd jest kwestia
+tworzenia interfejsu użytkownika. Dostawcy systemów operacyjnych dla urządzeń
+mobilnych publikują zalecenia, co do tego jak powinien wyglądać interfejs aplikacji
+działającej pod danym systemem. Zalecenia te są specyficzne dla platformy i często
+wzajemnie się wykluczają. Przygotowanie jednej szaty graficznej i jednego interfejsu
+może zostać źle odebrane przez użytkowników spodziewających się wyglądu
+dostosowanego do platformy. Niestety stworzenie kilku wersji interfejsu jest dużo
+bardziej pracochłonne i skomplikowane, niweczy także podstawową zaletę apliakcji
+hybrydowych – przenośność.
+
+\subsection{Propozycje rozwiązania problemów}
+Ash ma za zadanie pomóc rozwiązać problemy zwiąne z wydajnością aplikacji oraz z
+błędami pojawiającymi się tylko na określonych konfiguracjach sprzętowych. Aby
+zapewnić wysoką wydajność działania aplikacji konieczny jest rygor w tworzeniu
+wydajnego oprogramowania oraz możliwość testowania jej w sytuacjach które mogę
+uwydatnić problemy z wydajnością. Dzięki funkcyjnemu podejściu do testowania
+oprogramowania Ash pozwala na zbieranie informacji o responsywności interfejsu
+oraz realistycznie symulować scenariusze dużego obciążenia. Programista
+korzystający z Ash ma możliwość zdefiniowania w scenariuszach maksymalnego
+czasu przebeigu testu, jeśli test nie zakończy się w założonym czasie test nie
+powiedzie się. Niska responsywność interfejsu traktowana jest na równi z błędami
+logiki czy prezentacji. Wymusza to na twórcy zadbanie o szybkość reakcji interfejsu.
+Ash oferuje także możliwość chwilowego wyłączenia lub opóźnienia dostępu do
+sieci. Sytuacje w których dostępność do internetu jest ograniczona są dość częste,
+jednak niewiele aplikacji jest pisana biorąc to pod uwagę, jeszcze mniej jest
+testowana pod tym kątem. Bardzo często problemy z dotępem objawiają się kiepską
+wydajnością interfejsu lub długimi przestojami na ekranach ładowania. Ash pozwala
+twórcom świadomie zmierzyć się z tym problemem. Ash wyposażony jest w
+mechanizmy pozwalajace na łatwe uruchomienie na aplikacji na wielu urządzeniach
+naraz, fizycznych jak i wirtualnych, także w zdalnych lokalizacjach. Sprawia to, że
+użytkownicy są mają możliwość masowego uruchamiania testów na wszystkich
+dostępnych im urządzeniach oraz są bardziej skłonni skorzystać z testów w czaseie
+swojej pracy. Możliwość zdalnego uruchomienia testów daje możliwość stworzenia
+rozproszonej bazy urządzeń, co pozwoli na testowanie także nietypowych
+konfiguracji.
+
+\subsection{dlaczego phonegap, phonegap vs cordova}
+Jako bazę do implementacji wybrałem Apache Cordova. Apache Cordova jest to
+wersja PhoneGap, którą korporacja Adobe (właściel praw do PhoneGap) udostępniła
+fundacji Apache. Od tego momentu ten wariant technologii udostępniany jest
+zasadzie otwartego źródła. Pomimo tego oba projekty są niemal identyczne, a jedyna
+różnica faktyczna różnica między nimi jest natury prawnej. Głównym powodem
+wyboru tej technologii jest spory udziała w rynku hybrydowych aplikacji mobilnych,
+dynamizm rozwoju oraz liczna społeczność.
+\end{document}
