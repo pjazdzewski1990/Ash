@@ -155,10 +155,11 @@ var Ash = {
     return this;
   },
   
-  /**st
+  /**
    * Calling this method ends current te when running via 'run' or 'play'
    */
   endTest: function(){
+    console.log("endTest()");
     if(this._testSuccess){ // call only if part of test runner
       this._testSuccess();
     }
@@ -183,6 +184,7 @@ var Ash = {
       var diff = stopTime - startTime;
       //alert("DIFF: " + diff + " HOWLONG: " + step.howLong);
       if(diff >= step.howLong) {
+        console.log("Timeout was of " + step.howLong + " reached by test. Actual is " + diff);
         failureCallback({level: "error", message: "Scenario step timeout reached"});
       }
       testIndex++;
@@ -190,6 +192,7 @@ var Ash = {
     }; 
       
     var _play = function(){
+      console.log("Playing test " + testIndex + " out of " + scenario.length);
       if(scenario.length <= testIndex){
         console.log("Playing scenario: end");
         return;
@@ -226,6 +229,8 @@ var Ash = {
     _play();
   },  
 
+  
+  //TODO: rework this cluttered code!
   /**
   * Runs tests in a array one-by-one without the context information 
   * @param {AshScenario} tests The scenario that will be runned 
@@ -236,8 +241,9 @@ var Ash = {
     var testsSuite = (Object.prototype.toString.call(tests) === "[object Array]") ? tests : this._extractTests(tests);
     var testSuiteLen = testsSuite.length;
     var currentTest = 0; 
-    
+
     var resetGlobals = function(){
+      console.log("Reseting Globals");
       Ash._testSuccess = null;
       window.onerror = Ash._storedErrorCallback;
     };
@@ -252,22 +258,27 @@ var Ash = {
     if(!this._testSuccess){ 
       this._testSuccess = function(){
         if(this.after) {
-          console.log("after event is called for success");
+          console.log("After event is called for success");
           this.after();
         };
 
-        //TODO: send meaningful data. throw error to obtain stack?
-        if(successCallback) successCallback({"index": currentTest, "length": testSuiteLen});
         if(++currentTest < testSuiteLen) {
+          //TODO: send meaningful data. throw error to obtain stack?
+          if(successCallback) successCallback({"index": currentTest, "length": testSuiteLen});    
+        
           if(this.before) {
-            console.log("before event is called after success");
+            console.log("Before event is called after success");
             this.before();
           }
           testsSuite[currentTest]();
         }else{
           resetGlobals();
+            
+          //TODO: send meaningful data. throw error to obtain stack?
+          if(successCallback) successCallback({"index": currentTest, "length": testSuiteLen});
+          
           if(this.afterClass) {
-            console.log("afterClass event is called for success");
+            console.log("AfterClass event is called for success");
             this.afterClass();
           }
         }
@@ -277,7 +288,7 @@ var Ash = {
     //setup failure handler
     window.onerror = function(errorMsg, url, lineNumber) {
       if(this.after) {
-        console.log("after event is called for failure");
+        console.log("After event is called for failure");
         this.after();
       }
 
@@ -286,14 +297,14 @@ var Ash = {
 
       if(currentTest++ < testSuiteLen) {
         if(this.before) {
-          console.log("before event is called after failure");
+          console.log("Before event is called after failure");
           this.before();
         }
         testsSuite[currentTest]();
       }else{
         resetGlobals();
         if(this.afterClass) {
-          console.log("afterClass event is called for failure");
+          console.log("AfterClass event is called for failure");
           this.afterClass();
         }
       }
@@ -359,9 +370,8 @@ var Ash = {
   
   /**
   * Changes screen orientation to vertical (portrait) in an async manner. The function returns a promise which allows to run tests via 'then' method. There is no guarantee that after the test orientation will change back to previous setting
-  * @param {Callback} testSuite The callback function performing the test 
   */
-  orientationVertical: function(testSuite) {
+  orientationVertical: function() {
     return new AshPromise(function (resolve, reject) { 
         cordova.exec( 
             function(a){
@@ -385,7 +395,7 @@ var Ash = {
   * Turns off the network and runs provided test function
   * @param {Callback} testSuite The callback function performing the test 
   */
-  noNetwork: function(testSuite) {
+  noNetwork: function() {
     return new AshPromise(function (resolve, reject) { 
         cordova.exec( 
             function(a){
