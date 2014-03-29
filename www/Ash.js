@@ -2,7 +2,31 @@
 var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
     exec = require('cordova/exec');
-  
+
+/**
+ * Tool for making logging easier
+ */
+var Log = {
+  w: function(message, tag){
+    if(!tag){
+      tag = "ASH";  
+    }
+    console.log(tag + " : " + message + " at " + this.getStackTrace());
+  },
+  e: function(message, tag){
+    if(!tag){
+      tag = "ASH";  
+    }
+    console.log(tag + " : " + message + " at " + this.getStackTrace());
+    alert(tag + " : " + message);
+  },
+  getStackTrace: function() {
+    var obj = {};
+    Error.captureStackTrace(obj, getStackTrace);
+    return obj.stack;
+  }
+};
+
 /** @namespace */
 var Ash = {
 
@@ -159,7 +183,7 @@ var Ash = {
    * Calling this method ends current te when running via 'run' or 'play'
    */
   endTest: function(){
-    console.log("endTest()");
+    console.log("endTest called");
     if(this._testSuccess){ // call only if part of test runner
       this._testSuccess();
     }
@@ -254,6 +278,7 @@ var Ash = {
       this.beforeClass();
     }
     
+    
     //setup testSuccess handler 
     if(!this._testSuccess){ 
       this._testSuccess = function(){
@@ -270,6 +295,7 @@ var Ash = {
             console.log("Before event is called after success");
             this.before();
           }
+          
           testsSuite[currentTest]();
         }else{
           resetGlobals();
@@ -286,10 +312,12 @@ var Ash = {
     }
     
     //setup failure handler
+    //TODO: consider merging (by chaining) onerror handlers instead 
     window.onerror = function(errorMsg, url, lineNumber) {
-      if(this.after) {
+      console.log("error handler is triggered with errorMsg:" + errorMsg + " url:" + url + " lineNumber:" + lineNumber);
+      if(Ash.after) {
         console.log("After event is called for failure");
-        this.after();
+        Ash.after();
       }
 
       alert("ON ERR:" + errorMsg);
@@ -314,6 +342,7 @@ var Ash = {
       console.log("first before event is called");
       this.before();
     }
+    
     testsSuite[currentTest]();
   },
   
@@ -349,6 +378,7 @@ var Ash = {
   * Changes screen orientation to horizontal (landscape) in an async manner. The function returns a promise which allows to run tests via 'then' method. There is no guarantee that after the test orientation will change back to previous setting
   */
   orientationHorizontal: function() {
+    console.log("orientationHorizontal called");
     return new AshPromise(function (resolve, reject) {
         cordova.exec( 
             function(a){
@@ -372,6 +402,7 @@ var Ash = {
   * Changes screen orientation to vertical (portrait) in an async manner. The function returns a promise which allows to run tests via 'then' method. There is no guarantee that after the test orientation will change back to previous setting
   */
   orientationVertical: function() {
+    console.log("orientationVertical called");
     return new AshPromise(function (resolve, reject) { 
         cordova.exec( 
             function(a){
@@ -396,6 +427,7 @@ var Ash = {
   * @param {Callback} testSuite The callback function performing the test 
   */
   noNetwork: function() {
+    console.log("noNetwork called");
     return new AshPromise(function (resolve, reject) { 
         cordova.exec( 
             function(a){
@@ -418,6 +450,7 @@ var Ash = {
   * @param {Callback} testSuite The callback function performing the test
   */
   withFile: function(options, callback) {
+    console.log("withFile called with options:" + JSON.stringify(options) + " callback:" + callback);
     //TODO: create/access real files
     var files = [];
     var len = options.limit || 1;
@@ -441,6 +474,7 @@ var Ash = {
   * @param {Callback} callback The callback function performing the test
   */
   onMove: function(startPos, options, callback) {
+    console.log("onMove called with startPos:" + JSON.stringify(startPos) + " options:" + JSON.stringify(options) + " callback:" + callback);
     //TODO: emulate instead of only simulating
     var steps = options.steps || 1;
     
@@ -456,6 +490,7 @@ var Ash = {
       var lat = startLatitude + i*skipLatitude;
       var long = startLongitude = i*skipLongitude;
       var position = {"coords" : {"latitude": lat, "longitude": long}};
+      console.log("onMove callback is running " + i + "-th time with position " + position);
       callback(position);
     }
     //A.endTest();

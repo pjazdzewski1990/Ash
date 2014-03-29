@@ -91,7 +91,8 @@ function Promise(fn) {
       }
       catch (e) {
         deferred.reject(e)
-        return
+        //return
+        throw e;
       }
       deferred.resolve(ret)
     })
