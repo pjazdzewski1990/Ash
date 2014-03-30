@@ -7,29 +7,49 @@ var argscheck = require('cordova/argscheck'),
  * Tool for making logging easier
  */
 var Log = {
-  w: function(message, tag){
+  data: [],
+  getStackTrace: function() {
+    var obj = {};
+    Error.captureStackTrace(obj, this.getStackTrace);
+    return obj.stack;
+  },
+  d: function(message, tag){
     if(!tag){
       tag = "ASH";  
     }
-    console.log(tag + " : " + message + " at " + this.getStackTrace());
+    var logMessage = tag + " : " + message + " at " + this.getStackTrace();
+    console.log(logMessage);
+    this._appendToLog(logMessage);
   },
   e: function(message, tag){
     if(!tag){
       tag = "ASH";  
     }
-    console.log(tag + " : " + message + " at " + this.getStackTrace());
-    alert(tag + " : " + message);
+    var logMessage = tag + " : " + message + " at " + this.getStackTrace();
+    console.log(logMessage);
+    alert(logMessage);
+    this._appendToLog(logMessage);
   },
-  getStackTrace: function() {
-    var obj = {};
-    Error.captureStackTrace(obj, getStackTrace);
-    return obj.stack;
+  _appendToLog: function(logMessage){
+    var sizeTreshhold = 100;
+    if(this.data.length >= sizeTreshhold){
+      this.data.shift();
+    }
+    this.data.push(logMessage);
+  },
+  dumpLog: function(){
+    var fileName = new Date().toString().replace(/ /g, "_");
+    console.log("Dumping log data to " + fileName);
+    //TODO: implement
+    alert("No implemented!");
   }
 };
 
 /** @namespace */
 var Ash = {
-
+  /**
+   * stored default onerror hanlder
+   */
   _storedErrorCallback: window.onerror,
 
   /**
@@ -183,7 +203,7 @@ var Ash = {
    * Calling this method ends current te when running via 'run' or 'play'
    */
   endTest: function(){
-    console.log("endTest called");
+    Log.d("endTest called");
     if(this._testSuccess){ // call only if part of test runner
       this._testSuccess();
     }
@@ -200,7 +220,7 @@ var Ash = {
   */
   play: function(scenario, failureCallback, successCallback){
     
-    console.log("Playing scenario: start");
+    Log.d("Playing scenario: start");
     var testIndex = 0;
     var step = scenario[testIndex];
 
@@ -208,7 +228,7 @@ var Ash = {
       var diff = stopTime - startTime;
       //alert("DIFF: " + diff + " HOWLONG: " + step.howLong);
       if(diff >= step.howLong) {
-        console.log("Timeout was of " + step.howLong + " reached by test. Actual is " + diff);
+        Log.d("Timeout was of " + step.howLong + " reached by test. Actual is " + diff);
         failureCallback({level: "error", message: "Scenario step timeout reached"});
       }
       testIndex++;
@@ -218,12 +238,12 @@ var Ash = {
     var _play = function(){
       console.log("Playing test " + testIndex + " out of " + scenario.length);
       if(scenario.length <= testIndex){
-        console.log("Playing scenario: end");
+        Log.d("Playing scenario: end");
         return;
       }
       var step = scenario[testIndex];
         
-      console.log("Playing scenario: step " + step.name);
+      Log.d("Playing scenario: step " + step.name);
       var startTime = new Date().getTime();
   
       step.where.goto();
@@ -267,14 +287,14 @@ var Ash = {
     var currentTest = 0; 
 
     var resetGlobals = function(){
-      console.log("Reseting Globals");
+      Log.d("Reseting Globals");
       Ash._testSuccess = null;
       window.onerror = Ash._storedErrorCallback;
     };
       
     //before class event
     if(this.beforeClass){
-      console.log("beforeClass event is called"); 
+      Log.d("beforeClass event is called"); 
       this.beforeClass();
     }
     
@@ -283,7 +303,7 @@ var Ash = {
     if(!this._testSuccess){ 
       this._testSuccess = function(){
         if(this.after) {
-          console.log("After event is called for success");
+          Log.d("After event is called for success");
           this.after();
         };
 
@@ -292,7 +312,7 @@ var Ash = {
           if(successCallback) successCallback({"index": currentTest, "length": testSuiteLen});    
         
           if(this.before) {
-            console.log("Before event is called after success");
+            Log.d("Before event is called after success");
             this.before();
           }
           
@@ -304,7 +324,7 @@ var Ash = {
           if(successCallback) successCallback({"index": currentTest, "length": testSuiteLen});
           
           if(this.afterClass) {
-            console.log("AfterClass event is called for success");
+            Log.d("AfterClass event is called for success");
             this.afterClass();
           }
         }
@@ -316,30 +336,30 @@ var Ash = {
     window.onerror = function(errorMsg, url, lineNumber) {
       console.log("error handler is triggered with errorMsg:" + errorMsg + " url:" + url + " lineNumber:" + lineNumber);
       if(Ash.after) {
-        console.log("After event is called for failure");
+        Log.d("After event is called for failure");
         Ash.after();
       }
 
-      alert("ON ERR:" + errorMsg);
+      Log.e("ON ERR:" + errorMsg);
       failureCallback(Ash._processException(errorMsg, url, lineNumber));
 
       if(currentTest++ < testSuiteLen) {
         if(this.before) {
-          console.log("Before event is called after failure");
+          Log.d("Before event is called after failure");
           this.before();
         }
         testsSuite[currentTest]();
       }else{
         resetGlobals();
         if(this.afterClass) {
-          console.log("AfterClass event is called for failure");
+          Log.d("AfterClass event is called for failure");
           this.afterClass();
         }
       }
     };
     
     if(this.before) {
-      console.log("first before event is called");
+      Log.d("first before event is called");
       this.before();
     }
     
@@ -378,18 +398,18 @@ var Ash = {
   * Changes screen orientation to horizontal (landscape) in an async manner. The function returns a promise which allows to run tests via 'then' method. There is no guarantee that after the test orientation will change back to previous setting
   */
   orientationHorizontal: function() {
-    console.log("orientationHorizontal called");
+    Log.d("orientationHorizontal called");
     return new AshPromise(function (resolve, reject) {
         cordova.exec( 
             function(a){
                 //FIXME: walkaround for event synchronization problem
                 setTimeout(function(){
-                    console.log("HorizontalTimeout Done");
+                    Log.d("HorizontalTimeout Done");
                     resolve(a);
                 }, Ash.eventTimeout);
             },
             function(e){ 
-                alert("Couldn't call orientationHorizontal " + JSON.stringify(e));
+                Log.e("Couldn't call orientationHorizontal " + JSON.stringify(e));
                 reject(e);
             }, 
         "Ash", 
@@ -408,12 +428,12 @@ var Ash = {
             function(a){
                 //FIXME: walkaround for event synchronization problem
                 setTimeout(function(){
-                    console.log("VerticalTimeout Done");
+                    Log.d("VerticalTimeout Done");
                     resolve(a);
                 }, Ash.eventTimeout);
             },
             function(e){ 
-                alert("Couldn't call orientationVertical " + JSON.stringify(e)); 
+                Log.e("Couldn't call orientationVertical " + JSON.stringify(e)); 
                 reject(e);
             }, 
         "Ash", 
@@ -431,11 +451,11 @@ var Ash = {
     return new AshPromise(function (resolve, reject) { 
         cordova.exec( 
             function(a){
-                console.log("Network has been turned off");
+                Log.d("Network has been turned off");
                 resolve(a);
             },
             function(s) { 
-                alert("Couldn't call noNetwork " + s); 
+                Log.e("Couldn't call noNetwork " + s); 
                 reject(e);
             }, 
         "Ash", 
@@ -450,7 +470,7 @@ var Ash = {
   * @param {Callback} testSuite The callback function performing the test
   */
   withFile: function(options, callback) {
-    console.log("withFile called with options:" + JSON.stringify(options) + " callback:" + callback);
+    Log.d("withFile called with options:" + JSON.stringify(options) + " callback:" + callback);
     //TODO: create/access real files
     var files = [];
     var len = options.limit || 1;
@@ -474,7 +494,7 @@ var Ash = {
   * @param {Callback} callback The callback function performing the test
   */
   onMove: function(startPos, options, callback) {
-    console.log("onMove called with startPos:" + JSON.stringify(startPos) + " options:" + JSON.stringify(options) + " callback:" + callback);
+    Log.d("onMove called with startPos:" + JSON.stringify(startPos) + " options:" + JSON.stringify(options) + " callback:" + callback);
     //TODO: emulate instead of only simulating
     var steps = options.steps || 1;
     
@@ -490,7 +510,7 @@ var Ash = {
       var lat = startLatitude + i*skipLatitude;
       var long = startLongitude = i*skipLongitude;
       var position = {"coords" : {"latitude": lat, "longitude": long}};
-      console.log("onMove callback is running " + i + "-th time with position " + position);
+      Log.d("onMove callback is running " + i + "-th time with position " + position);
       callback(position);
     }
     //A.endTest();
