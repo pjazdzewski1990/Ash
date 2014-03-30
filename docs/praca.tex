@@ -127,6 +127,10 @@ Ash ma za zadanie pomóc rozwiązać problemy zwiąne z wydajnością aplikacji 
 \subsection{Propozycje rozwiązania problemów}
 Jako bazę do implementacji wybrałem Apache Cordova. Apache Cordova jest to wersja PhoneGap, którą korporacja Adobe (właściel praw do PhoneGap) udostępniła fundacji Apache. Od tego momentu ten wariant technologii udostępniany jest zasadzie otwartego źródła. Pomimo tego oba projekty są niemal identyczne, a jedyna różnica faktyczna różnica między nimi jest natury prawnej. Głównym powodem wyboru tej technologii jest spory udziała w rynku hybrydowych aplikacji mobilnych, dynamizm rozwoju oraz liczna społeczność.
 
+\subsection{Test Driven Development}
+
+\subsection{Hierarchia testów}
+
 \section{Sposób użycia}
 \subsection{Hello World}
 
@@ -171,6 +175,26 @@ Ta funkcjonalność symuluje naciśnięcie przycisku powrotu na telefonie.
 \subsubsection{Sposób użycia}
 
 \section{Zastosowania}
+Ash został pomyślany jako biblioteka, która jest w stanie oprócz dostarczania "tradycyjnej" infrastruktury testowej, tzn.:
+\begin{itemize}
+  \item asercji
+  \item funkcji porównujących
+  \item loggerów
+  \item narzędzi do budowanie testów
+  \item ustandaryzowanych wyjątków
+\end{itemize}
+ułatwić także tesotwanie sytuacji, które są albo trudne do odtworzenia
+\begin{itemize}
+  \item operacje na plikach
+  \item badanie widoczności elementu na ekranie
+\end{itemize}
+ albo w poza możliwościami typowych rozwiązań testujących
+\begin{itemize}
+  \item ustawienie ekranu urządzenia
+  \item dostęp do sieci
+  \item symulowanie ruchu
+\end{itemize}
+Ash może z powodzeniem być stosowany zarówno jako osobny (standalone) i samodzielny framework testujący, jak i uzupełnienie innych rozwiązań. W ogólnym ujęciu Ash jest przeznaczony do fukcyjnego testowania aplikacji, tzn. aplikacja jest testowana od strony interfejsu użytkownika, co ma swoje zalety (najbardziej wiarygodnie symuluje użytkownika) jak i wady (interfejs często podlega zmianom). Jak zostało wcześniej wspomniane testy funkcyjne dają najlepsze efekty, gdy są uzupełniane przez testy jednostkowe.  
 
 \subsection{Problemy związane z obecnymi rozwiązaniami}
 
@@ -180,13 +204,23 @@ Ta funkcjonalność symuluje naciśnięcie przycisku powrotu na telefonie.
 
 \section{Architektura}
 
+Ash dystrybuowany jest jako wtyczka do Apache Cordova z tego korzysta on także ze wszystkich mechanizmów typowych dla tego typu rozwiązań. Po dołączniu wtyczki do projektu np. za pomocą Crodova Command Line Interface w projekcie dostępny staje się globalny obiekt Ash, udostępniający wszystkie funkcjonalności biblioteki. 
+
+Pola globalnego obiektu można podzielić na 3 grupy:  
+\begin{itemize}
+  \item proste funkcjonalności działające w sposób synchroniczny
+  \item fukcje działające asynchronicznie i udostępniające złożoną funkcjonalność 
+  \item prywatne, wewnętrzne pola oraz funkcje Ash
+\end{itemize}
+Warto podkreślić, że trzecia grupa nie wchodzi w skład oficjalnego, publicznego API Ash. Oznacza to, że o ile wiele z tych funkcjonalności czy helperów może być przydatna dla twórców testów, to nie rozsądnym jest korzystanie z nich bezposrednio, gdyż w przyszłych wersjach aplikacji w zależności od potrzeb kod ten może zostać zmieniony w sposób, który zmieni jego zachowanie lub/oraz API, co spowoduje niekompatybilność kodu testów z nową wersją Ash.
+
 \subsection{Spojrzenie z lotu ptaka}
 
-\subsection{Promise}
+\subsection{Promises}
 
 \subsection{Organizacja testów. Run oraz Play}
 
-\subsection{Native bridge. Integracja z Cordova}
+\subsection{Native bridge. Integracja z Apache Cordova}
 
 \section{Implementacja}
 
