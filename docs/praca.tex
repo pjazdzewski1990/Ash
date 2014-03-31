@@ -1,5 +1,29 @@
 \documentclass[a4paper]{article}
 \usepackage[pdftex]{graphicx}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
 % oprócz formatu papieru zdefiniowanego na początku (A4) możemy
 % jeszcze określić wielkość „obszaru zadrukowanego”:
 \usepackage[body={17cm,24cm}]{geometry}
@@ -210,13 +234,80 @@ Pola globalnego obiektu można podzielić na 3 grupy:
 \begin{itemize}
   \item proste funkcjonalności działające w sposób synchroniczny
   \item fukcje działające asynchronicznie i udostępniające złożoną funkcjonalność 
-  \item prywatne, wewnętrzne pola oraz funkcje Ash
+  \item prywatne, wewnętrzne pola oraz funkcje biblioteki
 \end{itemize}
 Warto podkreślić, że trzecia grupa nie wchodzi w skład oficjalnego, publicznego API Ash. Oznacza to, że o ile wiele z tych funkcjonalności czy helperów może być przydatna dla twórców testów, to nie rozsądnym jest korzystanie z nich bezposrednio, gdyż w przyszłych wersjach aplikacji w zależności od potrzeb kod ten może zostać zmieniony w sposób, który zmieni jego zachowanie lub/oraz API, co spowoduje niekompatybilność kodu testów z nową wersją Ash.
 
 \subsection{Spojrzenie z lotu ptaka}
 
+Ash definiuje funkcje pozwalajace na uruchamianie testów w kontekście pewnego zdarzenia sprzętowego, tj. możemy przygotować test, co do którego będziemy pewni, że w czasie jego działania będą zachodzić określone okoliczności. Możemy na przykład stworzyć test, który zostanie wykonany w sytuacji braku sieci np. w ten sposób:
+
+\begin{lstlisting}
+     //example.js
+
+   //zdefiniuj kontekst braku sieci oraz uruchom w jego ramach przekazana funkcje
+    Ash.noNetwork().then(function(){
+	// tu mozemy umiescic kod testu
+     	// zostanie on wykonany z kontekscie braku dostepu do sieci
+
+	//tu powinien znalezc sie kod testujacy zachowanie aplikacji 
+    });
+\end{lstlisting}
+
+Blok then pozwala zdefiniować co nastąpi po tym, jak sieć zostanie wyłączona. Jest to bardzo ważny aspekt biblioteki. Mamy pewność, że przez cały czas działania funkcji zachodzić będzie określony warunek. Warto zwrócić uwagę na przykładzie, że o ile w ramach kontektu stan sieci jest precyzyjnie zdefiniowany, to poza tymi ramami już tak nie musi być, stan możmy traktować jako dynamiczny lub nieokreślony. Dodatkowo należy pamiętać, że zmiana ustawień urządzenia w ramach kontekstu nie musi pociągać za sobą jego zmiany po wykonaniu testów. Ma to duże znaczenie z perspektywy testowania aplikacji, gdyż niejako wymusza, żeby w ramach jednego konteksu testować jedynie te rzeczy, które są z nim związane, a elementy interfesju które od nie zależą poza tym kontekstem.
+
+Warto zaznaczyć, że konteksty można ze sobą łączyć, aby tworzyć bardziej złożone scenariusze. Takie złączenie realizujemy poprzez wilelokrotne użycie funkcji 'then' wraz z funkcjami, które chcemy wywyłać. Pozwala to na zdefiniowanie na przykład takiego kontekstu:
+
+\begin{lstlisting}
+     //example.js
+
+    Ash.noNetwork().then(
+	Ash.orientationHorizontal
+    ).then(function(arg){
+      	// w tym momencie mozemy byc pewni, ze zachodza dwa warunki:
+	// 1) dostep do sieci zostal odciety 
+	// 2) ekran znajduje sie w pozycji horyzontalnej
+
+	//tu powinien znalezc sie kod testujacy zachowanie aplikacji 
+    });
+\end{lstlisting}
+
+możemy także wywołania funckcji Ash przeplatać innym kodem JavaScript np. w ten sposób:
+
+\begin{lstlisting}
+     //example.js
+
+    Ash.orientationHorizontal().then(function(msg){
+	// tu mozemy umiescic kod JavaScript
+      	
+	// ekran jest w pozycji horyzontalnej
+      
+	// tu mozemy umieccic kod JavaScript
+      	Ash.orientationVertical().then(function(){
+		// tu mozemy umiescic kod JavaScript
+
+        		// ekran jest w pozycji wertykalnej 
+
+		// tu mozemy umiescic kod JavaScript
+      	});
+    });
+\end{lstlisting}
+
 \subsection{Promises}
+
+Wewnętrznie Ash korzysta z mechanizmu obietnic tzw. Promise. Promises jest to mechanizm pozwalający programistom w lepszy prostszy i bardziej przejrzysty sposób panować nad  asynchronicznością. Dokładny opis mechanizmu, jego wymagania oraz zastosowania można znaleźć na  stronie projektu
+
+\begin{quote}
+http://promises-aplus.github.io/promises-spec/
+\end{quote}
+
+Na chwilę obecną nawet w samym JavaScript istnieje wiele implementacji specyfikacji Promises. W Ash pierwotnie zastosowano bibliotekę o nazwie promises.js dostępną pod adresem
+
+\begin{quote}
+https://github.com/then/promise/
+\end{quote}
+
+Za tym wyborem przemawiał niewielki rozmiar kodu (co ogranicza narzut związany z dodawaniem dodatkowej biblioteki do projektu korzystajacego z Ash) oraz bogactwo funkcjonalności (promises.js wiernie implementuje specyfikację oraz wzbogacając ją o kilka  nowych możliwości). Niestety szybko okazało się, że funkcjonalności oferowane przez promises.js nie do końca odpowiadają wymaganiom projektu. Biblioteka nie została jednak porzucona, ale zamiast tego zaadaptowana do specyficznych potrzeb Ash.  
 
 \subsection{Organizacja testów. Run oraz Play}
 
