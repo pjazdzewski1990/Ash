@@ -311,6 +311,34 @@ Za tym wyborem przemawiał niewielki rozmiar kodu (co ogranicza narzut związany
 
 \subsection{Organizacja testów. Run oraz Play}
 
+Ash oferuje dwa podejścia do uruchamiania testów 'Run', o którym dalej będziemy nazywać "uruchamianiem testów" oraz 'Play', co dla rozróżnienia nazywiemy "odgrywaniem scenariuszy".
+
+\subsubsection{Run}
+
+Ten tryb oferuje proste API do szybkiego uruchamiania niezależnych od siebie testów. Sygnatura funkcji: 
+
+\begin{quote}
+function Ash.run(array[function] testsArray, function failureCallback[, function successCallback]) 
+\end{quote}
+
+Przykładowe zastosowanie: 
+
+\begin{lstlisting}
+     //example.js
+
+    var exampleTests = [
+	// tu umiesc funkcje z kodem testow
+    ];
+
+    Ash.run(exampleTests, function(errorData){
+      // ten callback zostanie uruchomiony, za kazdym razem gdy test sie nie powiedzie
+    }, function(successData){
+      // ten callback jest opcjonalny, jesli zostanie podany to Ash uruchomi go za kazdym razem, gdy test sie powiedzie
+    });
+\end{lstlisting}
+
+Run pozwala na sekwencyjne uruchomienie przekazanych testów w kolejności zgodnej z indeksem tablicy. Ash nie czyni żadnych zabiegów, aby testy nie kolidowały i nie ingerowały w działanie innych testów, dlatego testy przekazywane winny być od siebie nawzajem niezależne. Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia Run. Funkcje te znajdują się w globalnym obiekcie Ash, ale mogą być swobodnie nadpisywane przez uzytkowników.  
+
 \subsection{Native bridge. Integracja z Apache Cordova}
 
 \section{Implementacja}
