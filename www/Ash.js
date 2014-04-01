@@ -175,18 +175,20 @@ var Ash = {
         document.head.appendChild(script);
     }
   },
-
-  //test callbacks
-  // before/after - called on every test
-  // XTest - called on the whole suite
-  /** Runs before the whole test set */
-  beforeTest: null,
-  /** Runs after the whole test set has run */
-  afterTest: null, 
-  /** Runs before each test */
-  before: null,
-  /** Runs after each test */
-  after: null,
+    
+  callbacks: {
+    //test callbacks
+    // before/after - called on every test
+    // XTest - called on the whole suite
+    /** Runs before the whole test set */
+    beforeTest: null,
+    /** Runs after the whole test set has run */
+    afterTest: null, 
+    /** Runs before each test */
+    before: null,
+    /** Runs after each test */
+    after: null,
+  },
   
   configuration: {},
   config: function(data){
@@ -302,18 +304,18 @@ var Ash = {
     //setup testSuccess handler 
     if(!this._testSuccess){ 
       this._testSuccess = function(){
-        if(this.after) {
+        if(this.callbacks.after) {
           Log.d("After event is called for success");
-          this.after();
+          this.callbacks.after();
         };
 
         if(++currentTest < testSuiteLen) {
           //TODO: send meaningful data. throw error to obtain stack?
           if(successCallback) successCallback({"index": currentTest, "length": testSuiteLen});    
         
-          if(this.before) {
+          if(this.callbacks.before) {
             Log.d("Before event is called after success");
-            this.before();
+            this.callbacks.before();
           }
           
           testsSuite[currentTest]();
@@ -323,9 +325,9 @@ var Ash = {
           //TODO: send meaningful data. throw error to obtain stack?
           if(successCallback) successCallback({"index": currentTest, "length": testSuiteLen});
           
-          if(this.afterClass) {
+          if(this.callbacks.afterClass) {
             Log.d("AfterClass event is called for success");
-            this.afterClass();
+            this.callbacks.afterClass();
           }
         }
       }
@@ -335,32 +337,32 @@ var Ash = {
     //TODO: consider merging (by chaining) onerror handlers instead 
     window.onerror = function(errorMsg, url, lineNumber) {
       console.log("error handler is triggered with errorMsg:" + errorMsg + " url:" + url + " lineNumber:" + lineNumber);
-      if(Ash.after) {
+      if(Ash.callbacks.after) {
         Log.d("After event is called for failure");
-        Ash.after();
+        Ash.callbacks.after();
       }
 
       Log.e("ON ERR:" + errorMsg);
       failureCallback(Ash._processException(errorMsg, url, lineNumber));
 
       if(currentTest++ < testSuiteLen) {
-        if(this.before) {
+        if(Ash.callbacks.before) {
           Log.d("Before event is called after failure");
-          this.before();
+          Ash.callbacks.before();
         }
         testsSuite[currentTest]();
       }else{
         resetGlobals();
-        if(this.afterClass) {
+        if(Ash.callbacks.afterClass) {
           Log.d("AfterClass event is called for failure");
-          this.afterClass();
+          Ash.callbacks.afterClass();
         }
       }
     };
     
-    if(this.before) {
+    if(this.callbacks.before) {
       Log.d("first before event is called");
-      this.before();
+      this.callbacks.before();
     }
     
     testsSuite[currentTest]();
