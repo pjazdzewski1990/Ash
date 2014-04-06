@@ -309,6 +309,49 @@ https://github.com/then/promise/
 
 Za tym wyborem przemawiał niewielki rozmiar kodu (co ogranicza narzut związany z dodawaniem dodatkowej biblioteki do projektu korzystajacego z Ash) oraz bogactwo funkcjonalności (promises.js wiernie implementuje specyfikację oraz wzbogacając ją o kilka  nowych możliwości). Niestety szybko okazało się, że funkcjonalności oferowane przez promises.js nie do końca odpowiadają wymaganiom projektu. Biblioteka nie została jednak porzucona, ale zamiast tego zaadaptowana do specyficznych potrzeb Ash.  
 
+\subsection{Wzorzec Object Pages w Ash}
+
+W celu nadania testom struktury oraz zwiększenia elastyczności testów biblioteka Ash korzysta ze wzorca projektowego Object Pages znanego na przykład z biblioteki Selenium. 
+
+\begin{quote}
+https://code.google.com/p/selenium/wiki/PageObjects
+\end{quote}
+
+lub
+
+\begin{quote}
+http://docs.seleniumhq.org/docs/06\_test\_design\_considerations.jsp\#page-object-design-pattern
+\end{quote}
+
+Page Object reprezentuje stan interfejsu użytkownika, pojedynczego komponentu lub zbioru komponentów. W praktyce Ash jako Page Object traktuje każdy obiekt, który definiuje dwie bezparametrowe funkcje zwracające wartości logiczne:
+
+\begin{itemize}
+  \item validate
+  \item goto
+\end{itemize}
+
+Metoda validate wywoływana jest w celu sprawdzenia, czy obecny UI spełnia wymagania danego Page Object. Innymi słowy, czy metoda ta pozwala nam ustalić, czy znajdujemy się na właściwej podstronie. 
+
+Metoda goto pozwala na przejście na ekran definowany przez dany obiekt. Metoda ta może wewnątrz korzystać z validate w celu upewnienia się czy już nie znajdujemy się na właściwej stronie. 
+
+Oczywiście Page Objects można w sobie zagłębiać, na przykład jeden Page Object może zależeć od kilku mniejszych i jego metoda validate zakłada, że metody validate podstron będą spełnione. 
+
+Prosty Page Object w Ash może wyglądać w ten sposób:
+
+\begin{lstlisting}
+     //example.js
+    var somePageObject = {
+    	validate: function(){
+      	    var screen = document.getElementById('elementId');
+             return Ash.isVisible(screen);
+          },
+         goto: function(){
+             if(!this.validate()) app.mySwipe.slide(0, 1);
+             return true;
+         }
+    };
+\end{lstlisting}
+
 \subsection{Organizacja testów. Run oraz Play}
 
 Ash oferuje dwa podejścia do uruchamiania testów 'Run', o którym dalej będziemy nazywać "uruchamianiem testów" oraz 'Play', co dla rozróżnienia nazywiemy "odgrywaniem scenariuszy".
@@ -337,9 +380,121 @@ Przykładowe zastosowanie:
     });
 \end{lstlisting}
 
-Run pozwala na sekwencyjne uruchomienie przekazanych testów w kolejności zgodnej z indeksem tablicy. Ash nie czyni żadnych zabiegów, aby testy nie kolidowały i nie ingerowały w działanie innych testów, dlatego testy przekazywane winny być od siebie nawzajem niezależne. Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia Run. Funkcje te znajdują się w globalnym obiekcie Ash.callbacks, ale mogą być swobodnie nadpisywane przez użytkowników. 
+Run pozwala na sekwencyjne uruchomienie przekazanych testów w kolejności zgodnej z indeksem tablicy. Ash nie czyni żadnych zabiegów, aby testy nie kolidowały i nie ingerowały w działanie innych testów, dlatego testy przekazywane winny być od siebie nawzajem niezależne. Dostarczane one są do Ash jako tablica bezparametrowych funkcji.
+
+Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia Run. Funkcje te znajdują się w globalnym obiekcie Ash.callbacks, ale mogą być swobodnie nadpisywane przez użytkowników. Ich wywołanie następuje w ściśle zdefiowanych momentach, dzięki czemu użytkownik Ash może lepiej kontrolować przebieg testów. Typowy przebieg wywołania Ash.run wygląda w ten sposób:
+
+\begin{itemize}
+  \item Ash.callbacks.beforeClass
+  \item Ash.callbacks.before
+  \item {test dostarczony przez użytkownika}
+  \item Ash.callbacks.after
+  \item ....
+  \item Ash.callbacks.before
+  \item Test dostarczony przez użytkownika jest wywoływany
+  \item Ash.callbacks.after
+  \item Ash.callbacks.afterClass
+\end{itemize}
+
+Każdy z dostarczonych testów kończy się wywołaniem jednego z dostarczonych funckcji - obowiązkowego failureCallback wywoływanego jeśli z jakiegoś powodu test się nie powiedzie oraz opcjonalnego successCallback wołanego w momencie poprawnego wykonania się testu.
+
+Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o wykonaniu testu. Do errorCallback:
+
+\begin{lstlisting}
+	{
+		"level": // string, wskazuje jak powazny jest problem, moze byc uzyty jako tag np. do filtrowania 
+		"code": // int, kod bledu
+		"message": // string, komunikat bledu 
+		"url": // string, zawiera informacje w ktorym pliku doszlo do bledu 
+		"lineNumber": // int, zawiera informacje gdzie w pliku doszlo do bledu
+	}
+\end{lstlisting}
+
+Do successCallback: 
+
+\begin{lstlisting}
+	{
+		"length": // int, ile testow znajduje sie na tablicy przekazanej do run 
+		"index": // int, index obecnego testu w tablicy 
+	}
+\end{lstlisting}
+
+\subsubsection{Play} 
+
+Play jest wyższą formą uruchamiania testów niż run, ale tylko w sensie, że bazuje na run. Najważniejszą z różnic pomiędzy run a play jest to, że play wykonuje uporządkowany i zsynchronizowany zestaw testów, w którym to zestawie istnieje ściśle określona kolejność oraz zależność pomiędzy kolejnymi testami-krokami. Play pozwala na uruchomienie przygotowanego wcześniej scenariusza. 
+
+Sygnatura funkcji play jest podobna do run:
+
+\begin{quote}
+function Ash.play(array[function] scenarioArray, function failureCallback[, function successCallback]) 
+\end{quote}
+
+Scenariusze przekazujemy jako tablicę obiektów na przykład:
+
+\begin{lstlisting}
+[
+      {
+          name: "First Step",
+          where: somePageObject,
+          what: [somePageTest],
+          howLong: 1500	// in miliseconds
+      },
+      {
+          name: "Second Step",
+          where: otherPageObject,
+          what: [otherPageTest],
+          howLong: 1000	//in miliseconds
+      }
+  ];
+\end{lstlisting}
+
+każdy z obiektów musi defioniować następujące klucze:
+
+\begin{itemize}
+  \item PageObject where - określa na jakim ekranie aplikacji ma zostać uruchomiony test
+  \item Array[Function] what - zestaw bezparametrowych funkcji, które będą wywoływane jedna po drugiej 
+  \item Integer howLong - jak długo ma trwać wykonanie testów, jeśli przekroczony zostanie wyznaczony tu limit test zostaje uznany za niepowodzenie 
+\end{itemize}
+
+dodatkowo może definiować:
+
+\begin{itemize} 
+  \item String name - nazwa kroku scenariusza, ma zastosowanie pomocnicze
+\end{itemize}
+
+Kroki scenariusza przekazane do play wykonywane są przy użyciu wcześniej opisanej metody run, jeden po drugim w kolejności od mniejszych indeksów. Po każdym pojedynczym wykonaniu porównywane są czasy realny oraz założony przekazany jako klucz 'howLong'. W przypadku, gdy czas realny jest większy niż założony test oznazany jest jako niepowodzenie. Biblioteka Ash definiuje takie surowe podejście do limitów czasowych, aby utrudnić deweloperom ignorowanie problemów z wydajnością ich aplikacji i niejako zmusić ich do zadbania o właściwą responsywność interfejsu użytkownika ich aplikacji. Page object where ma za zadanie ułatwić nawigację po aplikacji pomiędzy testami, tzn. test z danego kroku uruchamainy jest tylko wtedy, gdy znajdziemy się na ekranie związanym z danym testem. Kwestie sukcesu i niepowodzenia play są identyczne jak w przypadku run - przekazujemy failureCallback, który jest wywoływany po niepowodzeniu kroku oraz opcjonalny successCallback,  który jest wołany gdy krok scenariusza powiedzie się. 
+
+Przykładowe wykonanie może wyglądać tak:
+
+\begin{itemize}
+  \item Ash.callbacks.beforeClass
+  \item scenario[0].where.goto
+  \item scenario[0].where.validate
+  \item Ash.run(scenario[0].what)
+  \item porównanie czasu scenario[0].howLong z czasem wywołania scenario[0].what
+  \item ....
+  \item scenario[n].where.goto
+  \item scenario[n].where.validate
+  \item Ash.run(scenario[n].what)
+  \item porównanie czasu scenario[n].howLong z czasem wywołania scenario[n].what
+  \item Ash.callbacks.afterClass
+\end{itemize}
+
+Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o wykonaniu testu, identycznie jak w przypadku metody run.
 
 \subsection{Obsługa błędów}
+
+Ash do obsługi błędów wykorzystuje wydarzenie 'window.onerror', które ma miejsce, kiedy wyjątek (lub błąd) nie zostanie złapany na żadnym poziomie stosu wywołania. Podczas uruchomienia zestawu testów korzystając z metod run lub play Ash podmienia zastane window.onerror na własną implementację. Zadaniem naszej implementacji jest przechwycenie błedu, jego obsłużenie łącznie w wywołaniem odpowiedniego wywołania zwrotnego oraz dalsze wykonywanie testów.
+
+Każdy z obiektów rzucanych jako wyjątek jest ustandaryzowany i zawiera następujące pola: 
+
+\begin{lstlisting}
+	{
+		"level": // string, wskazuje jak powazny jest problem, moze byc uzyty jako tag np. do filtrowania 
+		"code": // int, kod bledu
+		"message": // string, komunikat bledu 
+	}
+\end{lstlisting}
 
 \subsection{Native bridge. Integracja z Apache Cordova}
 
