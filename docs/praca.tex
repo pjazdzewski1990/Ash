@@ -153,12 +153,48 @@ Jako bazę do implementacji wybrałem Apache Cordova. Apache Cordova jest to wer
 
 \subsection{Test Driven Development}
 
+Test Driven Development jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o których często mówimy red-green-refactor:
+\begin{itemize}
+  \item RED Programista pisze testy automatyczne, które pokrywają funkcjonalność, która została wyspecyfikowana, ale nie jest jeszcze zaimplementowana. Na tym etapie testy nie przechodzą
+  \item GREEN Następnie programista implementuje brakujące funkcjonalności. Programista pisze kod, aż wszystkie testy napisane w poprzednim kroku
+  \item REFACTOR Po zakończeniu implementacji tworzone są dodatkowe testy do istniejących już funkcjonalności. Sama funkcjonalność też jest udoskonalona
+\end{itemize}
+
+Dzięki zastosowaniu krótkich cykli oraz automatycznych testów metodologia ta pozwala na tworznie oprogramowania, które ma przejrzystą architekturę oraz spełnia wszystkie założenia. Testy automatyczne, które powstają podczas cykl dają pewność, że w przypadku, gdy kod aplikacji zmieni się potencjalne błędy zostaną od razu wychwycone. 
+
+Test Driven Developement jako metodologia jest powiązana z Extreme Programming oraz z koncepcją "Tests First", która zakłada że zestawy testów automatycznych powinny być tworzone jeszcze przed napisaniem tesotwanej aplikacji, co skutkuje wysoką jakością tworzonego oprogramowania.   
+
+Test Driven Developement zostało spopularyzowane przez Kenta Becka.
+
+Więcej informacji można znaleźć na:
+
+\begin{quote}
+http://www.agiledata.org/essays/tdd.html
+http://msdn.microsoft.com/en-us/library/aa730844(v=vs.80).aspx
+\end{quote}
+
 \subsection{Hierarchia testów}
 
-\section{Sposób użycia}
-\subsection{Hello World}
+Wyróżniamy wiele rodzajów testów:
+\begin{itemize}
+  \item Jednostkowe. Testy obejmujące poszczególne funkcje na najniższym poziomie. Ich wykonywanie musi być możliwie jak najszybsze. Nie powinny korzystać z zewnętrznych zasobów
+  \item Integracyjne. Ten rodzaj testów pokrywa wiele komponentów aplikacji na raz i testuje nie tylko, czy każdy z poszczególnych działa poprawnie w izolacji, ale także czy komunikacja między nimi jest poprawna
+  \item Funkcyjne. Testy tego typu sprawdzają, czy interfejs prezentowany użytkownikowi jest poprawny oraz czy interakcja z użytkownikiem działa poprawnie. U podstaw działanie tych testów leży symulowanie zachowania użytkownika
+  \item A/B. Tak zwane testy A/B polegają na testowaniu oprogramowania pod kątem wygody i praktyczności interfejsu
+  \item Wydajnościowe. Jak sama nazwa wskazuje służą one do sprawdzenia wydajności aplikacji
+  \item oraz inne ...
+\end{itemize}
 
+W przypadku poprawnie zarządzanego projektu trzy pierwsze rodzaj tworzę hierarchię zwaną "piramidą testowania". Dwa pozostałe z wymienionych przeze mnie rodzajów pełni funkcję uzupełniającą. 
+
+{OBRAZEK PIRAMIDY}
+
+Biblioteka Ash została stworzona z testowaniem funkcjonalnym na myśli.
+
+\section{Sposób użycia}
 \subsection{Getting Started}
+
+\subsection{Hello World}
 
 \subsection{Filozofia}
 
