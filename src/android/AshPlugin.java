@@ -24,9 +24,10 @@ public class AshPlugin extends CordovaPlugin {
   public static final String ACTION_ORIENTATION_VERTICAL = "orientationVertical";
   public static final String ACTION_NETWORK_OFF = "networkOff";
   public static final String ACTION_NETWORK_ON = "networkOn";
+  public static final String PRESS_BACK = "pressBack";
   
   @Override
-  public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+  public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
 
     if (ACTION_ORIENTATION_HORIZONTAL.equals(action)) {
       try {
@@ -71,6 +72,30 @@ public class AshPlugin extends CordovaPlugin {
         Log.d("HelloPlugin", "Enabling network");
           
         setNetworkConnectivity(true, callbackContext);
+        return true;
+      }
+      catch (Exception ex) {
+        Log.d("AshPlugin error:", ex.toString());
+        callbackContext.error(ex.toString());
+      }  
+    }
+    if (PRESS_BACK.equals(action)) {
+      try {
+        Log.d("HelloPlugin", "Pressing back");
+        
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                Log.d("HelloPlugin", "Now we are really going to press the button");
+                boolean wentBack = webView.backHistory();
+                Log.d("HelloPlugin", "Did we go back with history? " + wentBack); 
+                if(wentBack){
+                  callbackContext.success(); // Thread-safe.
+                }else{
+                  callbackContext.error("Already at top of history stack");
+                }
+            }
+        });
+          
         return true;
       }
       catch (Exception ex) {

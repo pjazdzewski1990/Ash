@@ -394,8 +394,9 @@ var Ash = {
     return testSuite;
   },
   
-  eventTimeout: 1000,  //most browsers won't react under 25 
+  eventTimeout: 1000,  //most browsers won't react under 25, sadly we need even more time
   
+    //TODO: there is a minor problem with these calls when the start orientation is not 0
   /**
   * Changes screen orientation to horizontal (landscape) in an async manner. The function returns a promise which allows to run tests via 'then' method. There is no guarantee that after the test orientation will change back to previous setting
   */
@@ -424,7 +425,7 @@ var Ash = {
   * Changes screen orientation to vertical (portrait) in an async manner. The function returns a promise which allows to run tests via 'then' method. There is no guarantee that after the test orientation will change back to previous setting
   */
   orientationVertical: function() {
-    console.log("orientationVertical called");
+    Log.d("orientationVertical called");
     return new AshPromise(function (resolve, reject) { 
         cordova.exec( 
             function(a){
@@ -445,11 +446,10 @@ var Ash = {
   },
   
   /**
-  * Turns off the network and runs provided test function
-  * @param {Callback} testSuite The callback function performing the test 
+  * Turns off the network and runs provided test function asynchronously. Function returns promise
   */
   noNetwork: function() {
-    console.log("noNetwork called");
+    Log.d("noNetwork called");
     return new AshPromise(function (resolve, reject) { 
         cordova.exec( 
             function(a){
@@ -462,6 +462,27 @@ var Ash = {
             }, 
         "Ash", 
         "networkOff", 
+        []);
+    });
+  },
+    
+  /**
+  * Simulates back button press. Function returns promise
+  */
+  pressBack: function() {
+    Log.d("pressBack called");
+    return new AshPromise(function (resolve, reject) { 
+        cordova.exec( 
+            function(a){
+                Log.d("Back has been pressed");
+                resolve(a);
+            },
+            function(s) { 
+                Log.e("Couldn't press the back button " + s); 
+                reject(e);
+            }, 
+        "Ash", 
+        "pressBack", 
         []);
     });
   },
