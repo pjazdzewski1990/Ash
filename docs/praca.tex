@@ -198,6 +198,8 @@ Biblioteka Ash została stworzona z testowaniem funkcjonalnym na myśli.
 
 \subsection{Filozofia}
 
+\subsection{Ograniczenia}
+
 \section{Przegląd funkcjonalności}
 \subsection{Zmiana położenia ekranu}
 
@@ -229,10 +231,49 @@ Ash dostarcza API umożliwiające symulowanie położenia lub ruchu między dwom
 
 \subsection{Obsługa przycisku powrotu}
 
-\subsubsection{Opis}
-Ta funkcjonalność symuluje naciśnięcie przycisku powrotu na telefonie.
-
 \subsubsection{Sposób użycia}
+Ta funkcjonalność symuluje naciśnięcie przycisku powrotu na telefonie. 
+
+\begin{quote}
+Ash.pressBack().then( ... ) 
+\end{quote}
+
+\subsubsection{Opis}
+
+Integralną cześcią sytemu Android jest przycisk powrotu do poprzedniego ekranu. Specyfikacja systemu określa dokładnie
+
+\begin{quote}
+{TODO: umieścić wycinek speca tutaj}
+\end{quote}
+
+Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie przycisku zawsze jest takie samo - pozwolić użytkownikom na łatwą nawigację w aplikacji, która będzie spójna pomiędzy najróżniejszymi aplikacjami. Bardziej precyzyjnie nawigacja w tym kontekście  oznacza możliwość powrot do poprzedniej aktywności lub ekranu prezentowanego użytkownikowi. W przypadku aplikacji hybrydowych opartych na Javascript oraz technologiach webowych powrót do poprzedniej aktywności oznacza cofnięcie stanu WebView do poprzedniego adresu URL. Wszystkie adresy dowiedzane przechowywane są na stosie, a ich unikalnośc determinowana jest przez 3 cześci adresu: hosta, ścieżkę oraz tzw. hash. 
+
+\begin{lstlisting}
+   //example.js
+
+  var pressBackTest = function(){
+    var pageOne = 1;
+    var pageTwo = 2;
+    // function app.mySwipe.slide(A, x) nawiguje do podstrony A w ciagu x milisekund,
+    // po zakonczonej nawigacji hash adresu jest zmieniany
+    app.mySwipe.slide(pageOne, 1); 
+    app.mySwipe.slide(pageTwo, 1); 
+    app.mySwipe.slide(pageTwo + 1, 1); // wykonujemy 3 ruchy, zeby moc cofnac sie 2 razy i wrocic do punktu wyjscia
+    
+    Ash.pressBack().then(function(msg){
+      Ash.equal("#" + pageTwo, window.location.hash);
+    }).then(
+      Ash.pressBack
+    ).then(function(){
+      Ash.equal("#" + pageOne, window.location.hash);
+      Ash.endTest();
+    });
+  };
+\end{lstlisting}
+
+Ash pozwala na cofanie się aż do szczytu stosu historii aplikacji. W szczególności od razu po uruchomieniu aplikacji nie możliwe jest wykonie pressBack. W takiej sytuacji pressBack nie powiedzie się, ale nie dojdzie także do wyjścia z aplikacji.
+
+Testowanie obsługi przycisku powrotu na olbrzymie znaczenie w przypadku apliakcji mobilnych  oraz tzw. "Single Page Applications". Tworząc aplikacje bardzo wiele uwagi jest poświęcane sytuacjom kiedy użytkownik porusza się niejako "w głąb" aplikacji otwiera kolejne ekrany na zaplanowanej ścieżce zmieniając jej stan.  Właśnie globalny stan bywa w takich sytuacjach problemem. Bardzo często bywa, że użytkownik przechodzi przez ekrany A i B, w czasie swojego pobytu na B zmienia globalny stan, ale zamiast przechodzić dalej cofa się do A, które od czasu zmiany stanu zachowuje się inaczej niż zakładano. Tworząc aplikację należy zabezpieczyć się przed takimi sytuacjami. Ash.pressBack pozwala na przetestowanie czy taka sytuacja ma miejsce. 
 
 \section{Zastosowania}
 Ash został pomyślany jako biblioteka, która jest w stanie oprócz dostarczania "tradycyjnej" infrastruktury testowej, tzn.:
@@ -540,9 +581,40 @@ Każdy z obiektów rzucanych jako wyjątek jest ustandaryzowany i zawiera nastę
 	}
 \end{lstlisting}
 
+\section{Wtyczki}
+
+Apache Cordova udostępnia swoje API na zasadzie wtyczek. Każda wtyczka może być indywidualnie instalowana oraz udostępnia określone API i związane z nim funkcjonalności. Takie podejście pozwala na rozbicie monolitycznego API na mniejsze części oraz zapewnia możliwość rozszerzenia platformy poprzez własne wtyczki.
+
+Tak jest właśnie w przypadku Ash, który jest zaimplementowany jako wtyczka do platformy.
+
+Więcej informacji można znaleźć w oficjalnej instrukcji dla twórców wtyczek:
+\begin{quote}
+   http://cordova.apache.org/docs/en/edge/guide\_hybrid\_plugins\_index.md.html\#Plugin\%20Development\%20Guide 
+   http://cordova.apache.org/docs/en/edge/guide\_platforms\_android\_plugin.md.html\#Android\%20Plugins
+\end{quote}
+
+\subsection{Klasa CordovaPlugin}
+
+CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. udostępnia ona dostęp do najważniejszych składowych aplikacji: 
+
+\begin{itemize}
+  \item CordovaWebView webView - komponent WebView w którym uruchomiona jest aplikacja
+  \item CordovaInterface cordova - daje dostęp do zasobów platofrmy np. Activity oraz puli wątków
+\end{itemize}
+
+Punktem wejściowym dla każdej wtyczki jest jest metoda exec:
+\begin{lstlisting}
+public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException
+\end{lstlisting}
+To właśnie ta metoda jest wywoływana, gdy warstwa Javascript zażąda wywołania metody.   
+
 \subsection{Native bridge. Integracja z Apache Cordova}
 
+\subsection{Wielowątkowość}
+
 \section{Implementacja}
+
+Ten rozdziała zawiera informacje na temat szczegółów implementacyjnych biblioteki Ash.
 
 \subsection{Zmiana położenia ekranu}
 
@@ -553,6 +625,30 @@ Każdy z obiektów rzucanych jako wyjątek jest ustandaryzowany i zawiera nastę
 \subsection{Symulacja ruchu}
 
 \subsection{Obsługa przycisku powrotu}
+
+\begin{lstlisting}
+   Ash.pressBack().then( ... ) 
+\end{lstlisting}
+
+Ogólnie rzecz biorąc celem metody pressBack() jest powrót do poprzedniego ekranu w historii aplikacji. W praktyce mowa tutaj o adresach URL ładowanych przez WebView w czasie działania aplikacji. Większość aplikacji Cordova tworzona jest na zadadzie Single Page Apps, więc w poszczególne adresy będą różnić się jedynie wartością tzw. hashu a przejścia pomiędzy nimi będą polegać na płynnym przejściu, raczej niż załadowaniu nowej podstrony. Dane na temat historii przeglądania zbierane są w kontrolce WebView w formie stosu.
+
+Na platformie Android aby spowodować powrót do poprzedniego ekranu należy wywołać lub przeciążyć metodę onBackPressed klasy Activity. W tym przypdaku to podejście nie działa, gdyż Activity w którym uruchomiona jest wtyczka jest inne niż to w którym działa aplikacja. Cofnięcie się w historii tego Activity prowadzi do zakończenia aplikacji. 
+
+Aby uniknąć tego typu problemów należy cofnąć się obrębie WebView a nie aktywności. Klasa CordovaPlugin daje dostęp do CordovaWebView. Ta klasa z kolei udostępnia metodę 
+
+\begin{lstlisting}
+    // CordovaWebView.java
+    /**
+     * Go to previous page in history.  (We manage our own history)
+     *
+     * @return true if we went back, false if we are already at top
+     */
+    public boolean backHistory()
+\end{lstlisting}
+
+pozwalającą na dostęp do historii i powrotu do poprzedniego  adresu URL zapisanego na stosie odwiedzonych. Operowanie na zasobach związanych z działaniem aplikacji PhoneGap nie jest dozwolone, gdyż oznaczałoby to modyfikację zasobów z jednego wątku w ramach innego wątku. Co z oczywistych przyczyn prowadzi do awarii aplikacji. Dlatego też nasze operacje musimy wykonywać na wątku UI korzystając z metody runOnUiThread.
+
+Na poziomie API wtyczka zwraca Promise, które jest rozwiązane gdy 
 
 \section{Narzędzia oraz środowisko programisty}
 
