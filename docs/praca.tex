@@ -187,7 +187,7 @@ Wyróżniamy wiele rodzajów testów:
 
 W przypadku poprawnie zarządzanego projektu trzy pierwsze rodzaj tworzę hierarchię zwaną "piramidą testowania". Dwa pozostałe z wymienionych przeze mnie rodzajów pełni funkcję uzupełniającą. 
 
-{OBRAZEK PIRAMIDY}
+{TODO OBRAZEK PIRAMIDY}
 
 Biblioteka Ash została stworzona z testowaniem funkcjonalnym na myśli.
 
@@ -203,10 +203,44 @@ Biblioteka Ash została stworzona z testowaniem funkcjonalnym na myśli.
 \section{Przegląd funkcjonalności}
 \subsection{Zmiana położenia ekranu}
 
-\subsubsection{Opis}
-Pozwala ustawić ekran w określonym położeniu - landscape lub portrait.
-
 \subsubsection{Sposób użycia}
+Pozwala ustawić ekran w określonym położeniu - landscape/horizontal lub portrait/vertical.
+
+\begin{quote}
+Ash.orientationHorizontal().then( ... ) 
+Ash.orientationVertical().then( ... ) 
+\end{quote}
+
+\subsubsection{Opis}
+
+Smartfony i tablety ze względu na swój mobilny charakter oraz dotykowy ekran bardzo często używane są w pozycjach i w sposób, o których twórcom nawet się nie śniło. Najczęściej rozróżniamy dwie pozycje definiujące położnie ekranu wzgledem użytkownika 
+
+\begin{itemize}
+  \item pionowe - gdy  TODO
+  \item poziome - gdy TODO
+\end{itemize}
+
+Każda dobrze wykonana aplikacja powinna uwzględniać te dwie pozycje. W każdej z nich przestrzeń, którą mamy do dyspozycji jest w prawdzie taka sama, ale jej posterzganie przez użytkownika jest inne, dlatego należy inaczej rozmieścić elementy interfejsu.  
+
+Funkcje orientationHorizontal oraz orientationVertical  ustawiają ekran na pozycjach, odpowiednio, poziomej oraz pionowej względem domyślnej pozycji "zero" urządzenia. Pozycja ta może, ale nie musi być tą pozycją w której w momencie wołania znajduje się ekran.  
+
+Należy pamiętać, że poza kontekstem orientationX status ekranu nie jest określony. Może być on dowolny. W szczególności wykonanie testu z orientation nie musi po fakcie nie musi przywracać poprzedniego ustawienia. Celem takiego podejścia jest wymuszenie na użytkowniku biblioteki zamykanie całego kodu związanego z położeniem w kontekście obrotu ekranu. 
+
+Praktycznym podejściem może być sprawdzanie jak na zmianę ekranu reagują pojedyncze części ekranu zamiast całość. innym podejściem jest przetestowanie jak aplikacja reaguje na zmianę położenia ekranu a następnie na jego powrót. Można to zrealizować w ten sposób:
+
+\begin{lstlisting}
+   //example.js
+
+  Ash.orientationHorizontal().then(function(msg){
+      //sprawdz czy interfejs jest ulozony dla pozycji poziomej
+    }).then(
+      Ash.orientationVertical
+    ).then(function(msg){
+      //sprawdz czy interfejs jest ulozony dla pozycji pionowej
+      Ash.endTest();
+    });
+  };
+\end{lstlisting}
 
 \subsection{Dostęp do sieci}
 
@@ -380,7 +414,9 @@ możemy także wywołania funckcji Ash przeplatać innym kodem JavaScript np. w 
 
 \subsection{Promises}
 
-Wewnętrznie Ash korzysta z mechanizmu obietnic tzw. Promise. Promises jest to mechanizm pozwalający programistom w lepszy prostszy i bardziej przejrzysty sposób panować nad  asynchronicznością. Dokładny opis mechanizmu, jego wymagania oraz zastosowania można znaleźć na  stronie projektu
+Wewnętrznie Ash korzysta z mechanizmu obietnic tzw. Promise. Promises jest to mechanizm pozwalający programistom w lepszy prostszy i bardziej przejrzysty sposób panować nad  asynchronicznością. Dotychasowe podejście do kodu wykonującego się w sposób asynchroniczny wymagało oprócz parametrów wywołania przekazania także dwóch wywołań zwrotnych. Jednego wołanego w przypadku sukcesu oraz drugiego w przypadku wystąpienia błędu. Promise działają inaczej wywołanie promise zwraca obiekt o którym możemy myśleć jak o obietnicy, że kiedyś będzie on zawierał wynik jakiejś funkcji. Z jednej strony ułatwia to myślenie o asynchronicznych wywołaniach, z drugiej pozwala nam na traktowanie przyszłych zdarzeń jak obiektów. To znaczy, że możemy przypiąć do nich jedną lub wiele funkcji, które będą wołane dopiero gdy wewnętrzne obliczenia zostaną zakończone. Możliwe jest też łatwe szeregowanie obetnic, co w przypadku tradycyjnego podejścia prowadziło do tzw. "callback hell", czyli zagłębiania funkcji w funkcjach do tego stopnia że stają się one absolutnie nieczytelne. 
+
+Dokładny opis mechanizmu, jego wymagania oraz zastosowania można znaleźć na  stronie projektu
 
 \begin{quote}
 http://promises-aplus.github.io/promises-spec/
@@ -602,7 +638,9 @@ CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. udo
   \item CordovaInterface cordova - daje dostęp do zasobów platofrmy np. Activity oraz puli wątków
 \end{itemize}
 
-Punktem wejściowym dla każdej wtyczki jest jest metoda exec:
+{TODO prosty diagram klas dla commitu b872df0f314194ad50cbaa098ebbf717e53bb354}
+
+Punktem wejściowym dla kodu każdej wtyczki jest jest metoda exec:
 \begin{lstlisting}
 public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException
 \end{lstlisting}
@@ -617,6 +655,25 @@ To właśnie ta metoda jest wywoływana, gdy warstwa Javascript zażąda wywoła
 Ten rozdziała zawiera informacje na temat szczegółów implementacyjnych biblioteki Ash.
 
 \subsection{Zmiana położenia ekranu}
+
+\begin{lstlisting}
+Ash.orientationHorizontal().then( ... ) 
+Ash.orientationVertical().then( ... ) 
+\end{lstlisting}
+
+Konteksty orientationX działają na zasadzie przełączania ekranu z jednego położenia do innego.  Na platformie Android jest to realizowane przez funkcję setRequestedOrientation klasy Activity do której uzyskujemy dostęp przez interfejs cordova. 
+
+\begin{lstlisting}
+this.cordova.getActivity().setRequestedOrientation(ActivityInfo.SCREEN\_ORIENTATION\_LANDSCAPE);
+\end{lstlisting}
+
+Każdemu z widoków odpowiada stała zdefiniowana przez platformę Android
+\begin{itemize}
+  \item orientationHorizontal - ActivityInfo.SCREEN\_ORIENTATION\_LANDSCAPE
+  \item orientationVertical - ActivityInfo.SCREEN\_ORIENTATION\_PORTRAIT
+\end{itemize}
+
+Obecna implementacja po zakończeniu testów zawartych w kontekście nie przywraca zastanego stanu ekranu.
 
 \subsection{Dostęp do sieci}
 
@@ -648,7 +705,7 @@ Aby uniknąć tego typu problemów należy cofnąć się obrębie WebView a nie 
 
 pozwalającą na dostęp do historii i powrotu do poprzedniego  adresu URL zapisanego na stosie odwiedzonych. Operowanie na zasobach związanych z działaniem aplikacji PhoneGap nie jest dozwolone, gdyż oznaczałoby to modyfikację zasobów z jednego wątku w ramach innego wątku. Co z oczywistych przyczyn prowadzi do awarii aplikacji. Dlatego też nasze operacje musimy wykonywać na wątku UI korzystając z metody runOnUiThread.
 
-Na poziomie API wtyczka zwraca Promise, które jest rozwiązane gdy 
+Na poziomie API wtyczka zwraca Promise, które jest rozwiązane gdy uda się wrócić do poprzedniego adresu ze stosu i odrzucony w systuacji, gdy stos jest pusty lub dojdzie do błędu w czasie wykonywania kodu wtyczki.
 
 \section{Narzędzia oraz środowisko programisty}
 
