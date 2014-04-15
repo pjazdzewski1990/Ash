@@ -194,11 +194,35 @@ Biblioteka Ash została stworzona z testowaniem funkcjonalnym na myśli.
 \section{Sposób użycia}
 \subsection{Getting Started}
 
-\subsection{Hello World}
+Aby dołączyć Ash do swojego projektu wydaj następujace polecenie\footnote{Jeśli nie masz jeszcze zainstalowane Cordova CLI spójrz tutaj https://github.com/apache/cordova-cli}:
+\begin{quote}
+   cordova plugins add https://github.com/pjazdzewski1990/Ash
+\end{quote}
+
+Wtyczka zostanie zainstalowana, a do globalnej przestrzeni dodany zostanie obiekt Ash, który udostępnia wszystkie metody biblioteki.
+
+Punktem startowym Ash jest metoda loadTests. Metoda ta przyjmuje tablicę ścieżek do plików zawierająych kod z testami i po wywołaniu dynamicznie dodaje wskazane pliki do dokumentu w ramach którego został wywołany. Pliki z testami należy napisać samodzielnie pamiętając, żeby były one zamknięte w ramach self-invocing-function. Celem takiego podejście służy do tego, żeby umożliwić użytkownikowi wpięcie i odpięcie testów z aplikacji oraz aby testy niepotrzebnie nie zaśmiecały aplikacji produkcyjnej.
+
+Projekt demonstrujący użycie Ash oraz jego możliwości jest dostępny pod adresem
+\begin{quote}
+   https://github.com/pjazdzewski1990/AshDemo
+\end{quote}
+
+\subsection{Hello World} 
 
 \subsection{Filozofia}
 
 \subsection{Ograniczenia}
+
+Ash został stworzony w sposób na tyle elastyczny, aby był w stanie integrować się najróżniejszymi projektami. Niestety nie zawsze możliwe było uwzględnienie wszystkich możliwości, dlatego konieczne było przyjęcie pewnych założeń co do projektu który ma być testowany przez Ash. Zrozumienie tych założeń jest istotne do sprawnego posługiwania się biblioteką, zrozumienia przyczyn trudności w jej używaniu oraz przy podejmowania decyzji czy dołączyć Ash do swojego projektu.
+
+Założnie Ash co do projektu testowanego:
+
+\begin{itemize}
+  \item wykonany w technologii Adobe Phonegap/Apache Cordova - istnieje możliwość aby w przyszłości testować także aplikacje typu mobile web, ale na obecnym etapie nie jest to celem Ash
+  \item single page app - Ash zakłada, że aplikacja testowana będzie pisana zgodnie z najnowszymi trendami w branży oraz zaleceniami twórców Phonegap
+  \item android - obecnie Ash pozwala testować jedynie aplikacje bazujące na Androidzie jako platformie, gdyż ta jest dominująca na rynku, ale w niedalekiej przyszłości planowana jest także wersja na iOS
+\end{itemize}
 
 \section{Przegląd funkcjonalności}
 \subsection{Zmiana położenia ekranu}
@@ -208,6 +232,9 @@ Pozwala ustawić ekran w określonym położeniu - landscape/horizontal lub port
 
 \begin{quote}
 Ash.orientationHorizontal().then( ... ) 
+\end{quote}
+
+\begin{quote}
 Ash.orientationVertical().then( ... ) 
 \end{quote}
 
@@ -664,7 +691,7 @@ Ash.orientationVertical().then( ... )
 Konteksty orientationX działają na zasadzie przełączania ekranu z jednego położenia do innego.  Na platformie Android jest to realizowane przez funkcję setRequestedOrientation klasy Activity do której uzyskujemy dostęp przez interfejs cordova. 
 
 \begin{lstlisting}
-this.cordova.getActivity().setRequestedOrientation(ActivityInfo.SCREEN\_ORIENTATION\_LANDSCAPE);
+this.cordova.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 \end{lstlisting}
 
 Każdemu z widoków odpowiada stała zdefiniowana przez platformę Android
