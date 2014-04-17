@@ -218,7 +218,56 @@ Projekt demonstrujący użycie Ash oraz jego możliwości jest dostępny pod adr
 
 \section{Hello World} 
 
-\section{Filozofia}
+\section{Podejście do tworzenia testów}
+
+Ash oferuje dużą swobodę jeśli chodzi o tworzenie zestawów testów przez użytkowników, jednocześnie sugeruje dobre techniki, które pozwalają w pełni wykorzystać możliwości biblioteki. W tym podrozdziale opiszemy kilka z tych zalecanych praktyk.    
+
+\begin{itemize}
+  \item Konteksty - wyzwalają określone zachowanie urządzenia, co pozwala nam na sprawdzenia jak zachowuja się nasza aplikacja np. w przypadku braku połączenia lub naciśnięcia przez użytkownika przycisku powrotu. Do konteksu możemy przekazać dowlną funkcję, która zostanie wywołana dopiero gdy urządzenie znajdzie się w określonym przez kontekst stanie. Konteksty stosujemy w ten sposób:
+
+\begin{lstlisting}
+  Ash.makeDeviceDoABC().then(function(msg){
+      //sprawdz jak aplikacja sprawuje sie, gdy zaszlo zdarzenie ABC
+      
+      //zakoncz kontekst
+      Ash.endTest();
+  });
+\end{lstlisting}
+
+Powyższy kod działa dokładnie tak jak się go czyta. Ash wymusza na urządzeniu przejście w okreslony stan lub wykonanie pewnej czynności. Wtedy (,,then'') następuje wywołanie funkcji, która jest wywoływana już po przejściu i może ona sprawdzić zachowanie aplikacji. Bloki then można ze sobą łączyć. W takim wypadku kolejne bloki będą wykonywane jeden po drugim. Then może być także użyte do komponowania kontekstów. Jeśli przywołamy pewien kontekst X to do bloku them po nim następującego możemy przekazać funkcję wywołującą Y. W takiej sytuacji kolejne bloki then będą wykonywane, w sytuacji gdy X i Y będą zachodzić.  
+
+Istotną rzeczą na którą należy zwrócić uwagę jest 
+
+\begin{lstlisting}
+   Ash.endTest();
+\end{lstlisting}
+
+Funkcja testująca może działać w sposób asynchroniczny lub być zagnieżdżona w innej funkcji. W takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. Funkcja endTest() pełni rolę informacyjną - wskazuje gdzie znajduje się punkt końcowy oraz pozwalają na zakończenie testu i uruchominie kolejnego z zestawu. Każdy test Ash powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie się serii testów, natomiast w przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. 
+
+Musimy też pamietać, że o ile stan urządzenia jest zdefiniowany w obrębie kontekstu, to poza nim już tak nie jest. Taka decyzja projektowa ma promować tworzenie testów, które są  niezależne od siebie i od warunków zewnętrznych wynikających z urządzenia.
+
+  \item Page Objects - jest to wzorzec projektowy pozwalający na zapanowanie nad złożonymi interfejsami użtykownika i ich modularne testowanie. W Ash wykorzystywane są głównie do nawigacji po aplikacji. Pojedynczy Page Object reprezentuje element interfejsu np. stopkę, panel boczny, menu. Kilka takich obiektów składa się na ekran aplikacji. W Ash Page Object jest każdy obiekt, posiadający funkcje validate() oraz goto().
+
+validate() zwraca wartość boolowską określającą, czy na obecnym ekranie znajduje się element interfejsu za który odpowiada dany Page Object. Z tej metody możemy skorzystać, aby upewnić się, czy całe bloki interfejsu są wyświetlone i czy są wyświetlone poprawnie.
+
+goto() definiuje funkcje, która odpowiada za przejście przez aplikację, tak żeby rozważany Page Object stał się dostępny. Funckja powinna korzystać z validate(). goto() może być zastosowane np. do zmiany stanu interfejsu przed lub po teście.
+
+Prostota implementacji ma na celu uławienie korzystania z biblioteki, zachęca także do łączenia Page Objects ze sobą. Nic nie stoi na przeszkodzie, żeby zdefiniować Page Object ,,Menu'' jako zestaw kilku Page Objects, z których każdy opisuje jakiś element menu. 
+
+ \item Organizacja testów - Zestawy możemy wykonywać albo przez polecenie run do którego przekazujemy tablicę funkcji-testów lub obiekt z testami (wtedy zgodnie z przyjętą konwencją uruchamianie są wszystkie funkcje, których nazwa kończy się frazą 'Test') albo korzystając z funkcji play wywoływanej ze scenariuszem testowym.
+
+Scenariusz testowy, jest to w gruncie rzeczy tablica obiektów, które nazywamy krokami scenariusza. Na każdy krok składa się kilka informacji 
+
+  \begin{itemize}
+    \item name - możemy (ale nie jest to wymagane) podać nazwę kroku, ułatwi to czytanie informacji o błędach
+    \item where - zawiera Page Object, do którego trzeba przejść, aby móc wykonać krok 
+    \item what - tablica testów, które należy wykonać w tym kroku
+    \item howLong - limit czasu na wykonanie testu, ustawienie odpowiednich limitów chroni nas i naszę apliakcję przed niezauważoną utratą wydajności
+  \end{itemize}
+
+Scenariusze pozwalają nam na tworzenie bardziej realistycznych przypadków użycia oraz wyrażanie ich w kodzie. 
+
+\end{itemize}
 
 \section{Ograniczenia}
 
@@ -676,6 +725,8 @@ To właśnie ta metoda jest wywoływana, gdy warstwa Javascript zażąda wywoła
 \section{Native bridge. Integracja z Apache Cordova}
 
 \section{Wielowątkowość}
+
+Javascript ze swojej natury jest jednowątkowy. Tak samo wykonanie testów w Ash też jest realizowane jeden po drugim. Powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o współdzielony zasób, jakim jest DOM, konieczne byłoby zadbanie o ich synchronizacje, co jest trudne oraz mało wydajne. Z prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
 
 \chapter{Implementacja}
 
