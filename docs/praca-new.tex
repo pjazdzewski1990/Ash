@@ -38,7 +38,7 @@
 \email    {pjazdzewski@inf.ug.edu.pl}
 
 \title    {Testowanie hybrydowych aplikacji mobilnych}
-\date     {????}
+\date     {2014}
 \miejsce  {Gdańsk}
 
 \opiekun  {dr W. Pawłowski}
@@ -49,12 +49,11 @@
   Poniższa praca zawiera opis biblioteki „Ash” służącej do funkcjonalnego testowania
 hybrydowych aplikacji mobilnych stworzonych przy użyciu Adobe PhoneGap lub
 Apache Cordova. Ash pozwala na testowanie zachowania się aplikacji w~różnorodnych
-realistycznych scenariuszach, które bywają trudne do symulowania przez inne narzędzie, takich jak poruszanie się użytkownika,
+realistycznych scenariuszach, które bywają trudne do symulowania przez inne narzędzia, takich jak poruszanie się użytkownika,
 obrót ekranu, utrata dostępu do sieci oraz~inne. Dzięki wykorzystaniu hybrydowego charakteru aplikacji
 możliwa jest emulacja zachowania, co wpływa na większy realizm testów, a tym samym na wiarygodność ich wyników. Innymi
-zaletami bliblioteki są elastyczna struktura testów, która ułatwia utrzymywanie
-testów i budowanie złożonych scenariuszy z prostych testów-kroków oraz
-możliwość wykorzystania asercji w~aplikacji poza testami.
+zaletami bliblioteki są elastyczna struktura testów, która ułatwia ich utrzymywanie oraz możliwość budowania złożonych scenariuszy z prostych kroków, a także
+to, że pozwala na wykorzystania asercji w~aplikacji poza testami.
 Możliwe jest także wykorzystanie Ash do testowania mobilnych wersji stron internetowych. 
 \end{abstract}
 \keywords{Javascript, 
@@ -127,7 +126,7 @@ bardziej pracochłonne i skomplikowane, niweczy także podstawową zaletę aplia
 hybrydowych – przenośność. 
 Są to poważne niedostatki, ale braki te można zniwelować poprzez skuteczne narzędzia.
 
-\section{Propozycje rozwiązania problemów}
+\section{Propozycja rozwiązania problemów}
 Ash ma za zadanie pomóc rozwiązać problemy zwiąne z wydajnością aplikacji oraz z
 błędami pojawiającymi się tylko na określonych konfiguracjach sprzętowych. Aby
 zapewnić wysoką wydajność działania aplikacji konieczny jest rygor w tworzeniu
@@ -145,12 +144,12 @@ jednak niewiele aplikacji jest pisana biorąc to pod uwagę, jeszcze mniej jest
 testowana pod tym kątem. Bardzo często problemy z dotępem objawiają się kiepską
 wydajnością interfejsu lub długimi przestojami na ekranach ładowania. Ash pozwala
 twórcom świadomie zmierzyć się z tym problemem. Ash wyposażony jest w
-mechanizmy pozwalajace na łatwe uruchomienie na aplikacji na wielu urządzeniach
+mechanizmy pozwalajace na łatwe uruchomienie aplikacji na wielu urządzeniach
 naraz, fizycznych jak i wirtualnych, także w zdalnych lokalizacjach. Sprawia to, że
 użytkownicy są mają możliwość masowego uruchamiania testów na wszystkich
 dostępnych im urządzeniach oraz są bardziej skłonni skorzystać z testów w czaseie
 swojej pracy. Możliwość zdalnego uruchomienia testów daje możliwość stworzenia
-rozproszonej bazy urządzeń, co pozwoli na testowanie także nietypowych
+rozproszonej bazy urządzeń, co pozwoli na testowanie także mniej typowych
 konfiguracji.
 
 \section{Dlaczego Apache Cordova}
@@ -161,12 +160,6 @@ zasadzie otwartego źródła. Pomimo tego oba projekty są niemal identyczne, a 
 różnica faktyczna różnica między nimi jest natury prawnej. Głównym powodem
 wyboru tej technologii jest spory udziała w rynku hybrydowych aplikacji mobilnych,
 dynamizm rozwoju oraz liczna społeczność.
-
-\section{Propozycje rozwiązania problemów}
-Ash ma za zadanie pomóc rozwiązać problemy zwiąne z wydajnością aplikacji oraz z błędami pojawiającymi się tylko na określonych konfiguracjach sprzętowych. Aby zapewnić wysoką  wydajność działania aplikacji konieczny jest rygor w tworzeniu wydajnego oprogramowania oraz możliwość testowania jej w sytuacjach które mogę uwydatnić problemy z wydajnością. Dzięki funkcyjnemu podejściu do testowania oprogramowania Ash pozwala na zbieranie informacji o responsywności interfejsu oraz realistycznie symulować scenariusze dużego obciążenia. Programista korzystający z Ash ma możliwość zdefiniowania w scenariuszach maksymalnego czasu przebeigu testu, jeśli test nie zakończy się w założonym czasie test nie powiedzie się. Niska responsywność interfejsu traktowana jest na równi z błędami logiki czy prezentacji. Wymusza to na twórcy zadbanie o szybkość reakcji interfejsu. Ash oferuje także możliwość chwilowego wyłączenia lub opóźnienia dostępu do sieci. Sytuacje w których dostępność do internetu jest ograniczona są dość częste, jednak niewiele aplikacji jest pisana biorąc to pod uwagę, jeszcze mniej jest testowana pod tym kątem. Bardzo często problemy z dotępem objawiają się kiepską wydajnością interfejsu lub długimi przestojami na ekranach ładowania. Ash pozwala twórcom świadomie zmierzyć się z tym problemem. Ash wyposażony jest w mechanizmy pozwalajace na łatwe uruchomienie na aplikacji na wielu urządzeniach naraz, fizycznych jak i wirtualnych, także w zdalnych lokalizacjach. Sprawia to, że użytkownicy są mają możliwość masowego uruchamiania testów na wszystkich dostępnych im urządzeniach oraz są bardziej skłonni skorzystać z testów w czaseie swojej pracy. Możliwość zdalnego uruchomienia testów daje możliwość stworzenia rozproszonej bazy urządzeń, co pozwoli na testowanie także nietypowych konfiguracji. 
-
-\section{Propozycje rozwiązania problemów}
-Jako bazę do implementacji wybrałem Apache Cordova. Apache Cordova jest to wersja PhoneGap, którą korporacja Adobe (właściel praw do PhoneGap) udostępniła fundacji Apache. Od tego momentu ten wariant technologii udostępniany jest zasadzie otwartego źródła. Pomimo tego oba projekty są niemal identyczne, a jedyna różnica faktyczna różnica między nimi jest natury prawnej. Głównym powodem wyboru tej technologii jest spory udziała w rynku hybrydowych aplikacji mobilnych, dynamizm rozwoju oraz liczna społeczność.
 
 \section{Test Driven Development}
 
@@ -185,10 +178,9 @@ Test Driven Developement zostało spopularyzowane przez Kenta Becka.
 
 Więcej informacji można znaleźć na:
 
-\begin{quote}
-http://www.agiledata.org/essays/tdd.html
-http://msdn.microsoft.com/en-us/library/aa730844(v=vs.80).aspx
-\end{quote}
+\url{http://www.agiledata.org/essays/tdd.html}
+
+\url{http://msdn.microsoft.com/en-us/library/aa730844(v=vs.80).aspx}
 
 \section{Hierarchia testów}
 
@@ -221,9 +213,8 @@ Wtyczka zostanie zainstalowana, a do globalnej przestrzeni dodany zostanie obiek
 Punktem startowym Ash jest metoda loadTests. Metoda ta przyjmuje tablicę ścieżek do plików zawierająych kod z testami i po wywołaniu dynamicznie dodaje wskazane pliki do dokumentu w ramach którego został wywołany. Pliki z testami należy napisać samodzielnie pamiętając, żeby były one zamknięte w ramach self-invocing-function. Celem takiego podejście służy do tego, żeby umożliwić użytkownikowi wpięcie i odpięcie testów z aplikacji oraz aby testy niepotrzebnie nie zaśmiecały aplikacji produkcyjnej.
 
 Projekt demonstrujący użycie Ash oraz jego możliwości jest dostępny pod adresem
-\begin{quote}
-   https://github.com/pjazdzewski1990/AshDemo
-\end{quote}
+
+\url{https://github.com/pjazdzewski1990/AshDemo}
 
 \section{Hello World} 
 
@@ -462,15 +453,11 @@ Wewnętrznie Ash korzysta z mechanizmu obietnic tzw. Promise. Promises jest to m
 
 Dokładny opis mechanizmu, jego wymagania oraz zastosowania można znaleźć na  stronie projektu
 
-\begin{quote}
-http://promises-aplus.github.io/promises-spec/
-\end{quote}
+\url{http://promises-aplus.github.io/promises-spec/}
 
 Na chwilę obecną nawet w samym JavaScript istnieje wiele implementacji specyfikacji Promises. W Ash pierwotnie zastosowano bibliotekę o nazwie promises.js dostępną pod adresem
 
-\begin{quote}
-https://github.com/then/promise/
-\end{quote}
+\url{https://github.com/then/promise/}
 
 Za tym wyborem przemawiał niewielki rozmiar kodu (co ogranicza narzut związany z dodawaniem dodatkowej biblioteki do projektu korzystajacego z Ash) oraz bogactwo funkcjonalności (promises.js wiernie implementuje specyfikację oraz wzbogacając ją o kilka  nowych możliwości). Niestety szybko okazało się, że funkcjonalności oferowane przez promises.js nie do końca odpowiadają wymaganiom projektu. Biblioteka nie została jednak porzucona, ale zamiast tego zaadaptowana do specyficznych potrzeb Ash.  
 
@@ -478,15 +465,11 @@ Za tym wyborem przemawiał niewielki rozmiar kodu (co ogranicza narzut związany
 
 W celu nadania testom struktury oraz zwiększenia elastyczności testów biblioteka Ash korzysta ze wzorca projektowego Object Pages znanego na przykład z biblioteki Selenium. 
 
-\begin{quote}
-https://code.google.com/p/selenium/wiki/PageObjects
-\end{quote}
+\url{https://code.google.com/p/selenium/wiki/PageObjects}
 
 lub
 
-\begin{quote}
-http://docs.seleniumhq.org/docs/06\_test\_design\_considerations.jsp\#page-object-design-pattern
-\end{quote}
+\url{http://docs.seleniumhq.org/docs/06\_test\_design\_considerations.jsp\#page-object-design-pattern}
 
 Page Object reprezentuje stan interfejsu użytkownika, pojedynczego komponentu lub zbioru komponentów. W praktyce Ash jako Page Object traktuje każdy obiekt, który definiuje dwie bezparametrowe funkcje zwracające wartości logiczne:
 
@@ -667,11 +650,11 @@ Apache Cordova udostępnia swoje API na zasadzie wtyczek. Każda wtyczka może b
 
 Tak jest właśnie w przypadku Ash, który jest zaimplementowany jako wtyczka do platformy.
 
-Więcej informacji można znaleźć w oficjalnej instrukcji dla twórców wtyczek:
-\begin{quote}
-   http://cordova.apache.org/docs/en/edge/guide\_hybrid\_plugins\_index.md.html\#Plugin\%20Development\%20Guide 
-   http://cordova.apache.org/docs/en/edge/guide\_platforms\_android\_plugin.md.html\#Android\%20Plugins
-\end{quote}
+Więcej informacji można znaleźć w oficjalnej instrukcji dla twórców wtyczek
+
+\url{http://cordova.apache.org/docs/en/edge/guide\_hybrid\_plugins\_index.md.html\#Plugin\%20Development\%20Guide}  
+
+\url{http://cordova.apache.org/docs/en/edge/guide\_platforms\_android\_plugin.md.html\#Android\%20Plugins}   
 
 \section{Klasa CordovaPlugin}
 
