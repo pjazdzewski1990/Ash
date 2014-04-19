@@ -242,7 +242,7 @@ Istotną rzeczą na którą należy zwrócić uwagę jest
    Ash.endTest();
 \end{lstlisting}
 
-Funkcja testująca może działać w sposób asynchroniczny lub być zagnieżdżona w innej funkcji. W takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. Funkcja endTest() pełni rolę informacyjną - wskazuje gdzie znajduje się punkt końcowy oraz pozwalają na zakończenie testu i uruchominie kolejnego z zestawu. Każdy test Ash powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie się serii testów, natomiast w przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. 
+Funkcja testująca może działać w sposób asynchroniczny lub być zagnieżdżona w innej funkcji. W takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. Funkcja endTest() pełni rolę informacyjną - wskazuje gdzie znajduje się punkt końcowy oraz pozwalają na zakończenie testu i uruchominie kolejnego z zestawu. Każdy test Ash powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie się serii testów, natomiast w przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. O endTest() można myśleć jak o poleceniu do którego wykonania dążą testy i po którego wykonaniu test traktowany jest jako wykonany. 
 
 Musimy też pamietać, że o ile stan urządzenia jest zdefiniowany w obrębie kontekstu, to poza nim już tak nie jest. Taka decyzja projektowa ma promować tworzenie testów, które są  niezależne od siebie i od warunków zewnętrznych wynikających z urządzenia.
 
@@ -328,10 +328,34 @@ Praktycznym podejściem może być sprawdzanie jak na zmianę ekranu reagują po
 
 \section{Dostęp do sieci}
 
-\subsubsection{Opis}
-Daje możliwość manipulowania dostępem do sieci - opóźniać reakcję, zatrzymywać oraz przywracać połączenie.
-
 \subsubsection{Sposób użycia}
+
+Daje możliwość manipulowania dostępem do sieci - pozwala blokować dostęp do sieci.
+
+\begin{quote}
+Ash.noNetwork().then( ... ) 
+\end{quote}
+
+\subsubsection{Opis}
+
+Większość aplikacji mobilnych korzysta w ten czy inny sposób z zasobów zgromadzonych na zdalnych serwerach. W wielu przypadkach komunikacja z serwerem jest najistotniejszym  czynnikiem wpływającym na szybkość oraz poprawność działania aplikacji. Niestety za względu na mobilny charakter urządzeń dostęp do sieci bardzo często bywa utrudniony lub wręcz niemożliwy, co gorsza dzieje się tak nie regularnych ostępach czasu w zależności od czynników zewnętrznych. Dlatego kluczowe znaczenie ma przetestowanie w jaki sposób zachowa się aplikacja, gdy z jakiegoś powodu nie możliwe będzie nazwiązanie połączenia. Właśnie taką możliwość udostępnia Ash. 
+
+\begin{lstlisting}
+   //example.js
+
+   Ash.noNetwork().then(function(msg){
+      ...
+      Ash.equal($('#connectionField').text(), 'No network connection');
+      Ash.endTest();
+    });
+  };
+\end{lstlisting}
+
+W kontekście noNetwork dostęp do sieci zostanie zablokowany i nie możliwe będzie skomunikowanie się z zewnętrznymi serwisami.
+
+Testując brak dostępu do internetu warto zwrócić uwagę nie tylko na to co dzieje się w przypadku, gdy żądanie nie powiedzie się ale także jak szybko się to stanie. Może dojść do sytuacji, gdy aplikacja testowana, w przypadku braku internetu, będzie wysyłać zapytania do serwera i czekać na upływ limitu czasu lub powtarzać je do skutku. W takiej sytuacji płynność działania aplikacji może ulec znacznemu pogorszeniu lub w najgorszym przypadku aplikacja może zmusić użytkownika do czekania na odpowiedź serwera, która nigdy nie nadejdzie. Jeśli chcemy zabezpieczyć się przed utratą płynności w przypadku ograniczenia dostępu do internetu istnieje możliwość skorzystania z pola 'howLong' w specyfikacji scenariusza testowego, tzn. możemy skonfigurować testy w ten sposób, że jeśli czas ich trafania przekroczy wybraną przez nas wartość test się nie powiedzie. Za wspomnianą wartość możemy przyjąć taką ilość czasu, po której użytkownik może poczuć dyskomfort. 
+
+Należy zwrócić uwagę że, w zależności od implementacji, po wyjściu z kontekstu dostęp do siecie nie musi być przywrócony. 
 
 \section{Dostęp do systemu plików}
 
@@ -428,6 +452,41 @@ Ash działa na zasadzie wtyczki do Apache Cordova jest więc w stanie komunikowa
 Zewnętrzne API Ash napisane jest w jezyku Javascript i także w tym języku pisane są testy. Jestem zdania, że Javascript ze względu na swój charakter pozwoli w prosty i przejrzysty sposób wyrazić testy oraz będą one na tyle elastyczne, że wymagane zmiany będą mogły być wprowadzane niewielkimi nakładami sił. API Ash kładzie nacisk na na powtórne wykorzystywanie kodu oraz korzystanie ze wzorca Page Object, co pozwala na zapanowanie nad potrzebą aktualizacji testów do szybko zmieniającej się aplikacji. 
 
 \section{RWE - real world example}
+
+\chapter{Wtyczki}
+
+Apache Cordova udostępnia swoje API na zasadzie wtyczek. Każda wtyczka może być indywidualnie instalowana oraz udostępnia określone API i związane z nim funkcjonalności. Takie podejście pozwala na rozbicie monolitycznego API na mniejsze części oraz zapewnia możliwość rozszerzenia platformy poprzez własne wtyczki.
+
+Tak jest właśnie w przypadku Ash, który jest zaimplementowany jako wtyczka do platformy.
+
+Więcej informacji można znaleźć w oficjalnej instrukcji dla twórców wtyczek
+
+\url{http://cordova.apache.org/docs/en/edge/guide\_hybrid\_plugins\_index.md.html\#Plugin\%20Development\%20Guide}  
+
+\url{http://cordova.apache.org/docs/en/edge/guide\_platforms\_android\_plugin.md.html\#Android\%20Plugins}   
+
+\section{Klasa CordovaPlugin}
+
+CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. udostępnia ona dostęp do najważniejszych składowych aplikacji: 
+
+\begin{itemize}
+  \item CordovaWebView webView - komponent WebView w którym uruchomiona jest aplikacja
+  \item CordovaInterface cordova - daje dostęp do zasobów platofrmy np. Activity oraz puli wątków
+\end{itemize}
+
+{TODO prosty diagram klas dla commitu b872df0f314194ad50cbaa098ebbf717e53bb354}
+
+Punktem wejściowym dla kodu każdej wtyczki jest jest metoda exec:
+\begin{lstlisting}
+public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException
+\end{lstlisting}
+To właśnie ta metoda jest wywoływana, gdy warstwa Javascript zażąda wywołania metody.   
+
+\section{Native bridge. Integracja z Apache Cordova}
+
+\section{Wielowątkowość}
+
+Javascript ze swojej natury jest jednowątkowy. Tak samo wykonanie testów w Ash też jest realizowane jeden po drugim. Powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o współdzielony zasób, jakim jest DOM, konieczne byłoby zadbanie o ich synchronizacje, co jest trudne oraz mało wydajne. Z prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
 
 \chapter{Architektura}
 
@@ -692,41 +751,6 @@ Każdy z obiektów rzucanych jako wyjątek jest ustandaryzowany i zawiera nastę
 		"message": // string, komunikat bledu 
 	}
 \end{lstlisting}
-
-\chapter{Wtyczki}
-
-Apache Cordova udostępnia swoje API na zasadzie wtyczek. Każda wtyczka może być indywidualnie instalowana oraz udostępnia określone API i związane z nim funkcjonalności. Takie podejście pozwala na rozbicie monolitycznego API na mniejsze części oraz zapewnia możliwość rozszerzenia platformy poprzez własne wtyczki.
-
-Tak jest właśnie w przypadku Ash, który jest zaimplementowany jako wtyczka do platformy.
-
-Więcej informacji można znaleźć w oficjalnej instrukcji dla twórców wtyczek
-
-\url{http://cordova.apache.org/docs/en/edge/guide\_hybrid\_plugins\_index.md.html\#Plugin\%20Development\%20Guide}  
-
-\url{http://cordova.apache.org/docs/en/edge/guide\_platforms\_android\_plugin.md.html\#Android\%20Plugins}   
-
-\section{Klasa CordovaPlugin}
-
-CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. udostępnia ona dostęp do najważniejszych składowych aplikacji: 
-
-\begin{itemize}
-  \item CordovaWebView webView - komponent WebView w którym uruchomiona jest aplikacja
-  \item CordovaInterface cordova - daje dostęp do zasobów platofrmy np. Activity oraz puli wątków
-\end{itemize}
-
-{TODO prosty diagram klas dla commitu b872df0f314194ad50cbaa098ebbf717e53bb354}
-
-Punktem wejściowym dla kodu każdej wtyczki jest jest metoda exec:
-\begin{lstlisting}
-public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException
-\end{lstlisting}
-To właśnie ta metoda jest wywoływana, gdy warstwa Javascript zażąda wywołania metody.   
-
-\section{Native bridge. Integracja z Apache Cordova}
-
-\section{Wielowątkowość}
-
-Javascript ze swojej natury jest jednowątkowy. Tak samo wykonanie testów w Ash też jest realizowane jeden po drugim. Powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o współdzielony zasób, jakim jest DOM, konieczne byłoby zadbanie o ich synchronizacje, co jest trudne oraz mało wydajne. Z prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
 
 \chapter{Implementacja}
 
