@@ -282,6 +282,9 @@ Założnie Ash co do projektu testowanego:
 \end{itemize}
 
 \chapter{Przegląd funkcjonalności}
+
+W każdej chwili istnieje możliwość wygenerowania aktualnej dokumentacji wprost z kodu aplikacji przy użyciu skryptu gen-doc.sh\footnote{Wymaga sh oraz zainstalowania programu jsdoc}
+
 \section{Asercje}
 
 \subsubsection{Sposób użycia}
@@ -629,6 +632,8 @@ Prosty Page Object w Ash może wyglądać w ten sposób:
 \section{Organizacja testów. Run oraz Play}
 
 Ash oferuje dwa podejścia do uruchamiania testów 'Run', o którym dalej będziemy nazywać "uruchamianiem testów" oraz 'Play', co dla rozróżnienia nazywiemy "odgrywaniem scenariuszy".
+
+Obie wspomniane metody korzystają z wywołań zwrotnych raczej niż z podejścia wykorzystującego obietnice. Taka decyzja podyktowana jest tym, że 'Play' i 'Run' są  metodami najwyższego poziomu i nie ma powodu, żeby je łączyć ze sobą. Dodatkowo mechanizm promise w żaden sposób nie wymusza podania funkcji do obsługi zdarzeń, natomiast w tym przypadku chcemy mieć pewność, że zostały one podane.  
 
 \subsubsection{Run}
 
