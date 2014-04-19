@@ -189,7 +189,7 @@ public class AshPlugin extends CordovaPlugin {
         cordovaWebView.setWebViewClient(new WebViewClient() {
           @Override
           public void onLoadResource(WebView view, String url) {
-            int slowdownSeconds = 30;
+            int slowdownSeconds = 5;
             System.out.println("Web View waiting for " + slowdownSeconds);
             try{
               Thread.sleep(slowdownSeconds * 1000);
