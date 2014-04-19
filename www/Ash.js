@@ -467,6 +467,48 @@ var Ash = {
   },
     
   /**
+  * Turns the network back to previus state (which still might mean offline if device is not connected) and runs provided test function asynchronously. Function returns promise
+  */
+  networkOn: function() {
+    Log.d("networkOn called");
+    return new AshPromise(function (resolve, reject) { 
+        cordova.exec( 
+            function(a){
+                Log.d("Network has been brought back");
+                resolve(a);
+            },
+            function(s) { 
+                Log.e("Couldn't call networkOn " + s); 
+                reject(e);
+            }, 
+        "Ash", 
+        "networkOn", 
+        []);
+    });
+  },
+    
+  /**
+  * After calling this method each network call will have a singificant delay. Function returns promise
+  */
+  slowNetwork: function() {
+    Log.d("slowNetwork called");
+    return new AshPromise(function (resolve, reject) { 
+        cordova.exec( 
+            function(a){
+                Log.d("Network has been slown down");
+                resolve(a);
+            },
+            function(s) { 
+                Log.e("Couldn't call slowNetwork " + s); 
+                reject(e);
+            }, 
+        "Ash", 
+        "networkSlow", 
+        []);
+    });
+  },
+    
+  /**
   * Simulates back button press. Function returns promise
   */
   pressBack: function() {

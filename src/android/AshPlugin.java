@@ -2,6 +2,9 @@ package pl.ug.ash;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.IceCreamCordovaWebViewClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -24,6 +27,7 @@ public class AshPlugin extends CordovaPlugin {
   public static final String ACTION_ORIENTATION_VERTICAL = "orientationVertical";
   public static final String ACTION_NETWORK_OFF = "networkOff";
   public static final String ACTION_NETWORK_ON = "networkOn";
+    public static final String ACTION_NETWORK_SLOW = "networkSlow";
   public static final String PRESS_BACK = "pressBack";
   
   @Override
@@ -72,6 +76,18 @@ public class AshPlugin extends CordovaPlugin {
         Log.d("HelloPlugin", "Enabling network");
           
         setNetworkConnectivity(true, callbackContext);
+        return true;
+      }
+      catch (Exception ex) {
+        Log.d("AshPlugin error:", ex.toString());
+        callbackContext.error(ex.toString());
+      }  
+    }
+    if (ACTION_NETWORK_SLOW.equals(action)) {
+      try {
+        Log.d("HelloPlugin", "Slowing down network access");
+          
+        slowNetworkDown(callbackContext);
         return true;
       }
       catch (Exception ex) {
@@ -128,7 +144,7 @@ public class AshPlugin extends CordovaPlugin {
     //working on UI thread ...
     cordova.getActivity().runOnUiThread(new Runnable() {
       public void run() {
-        // set the alternative web view client ...
+        // set the alternative web view client, that does nothing ...
         cordovaWebView.setWebViewClient(new WebViewClient() {
           @Override
           public void onLoadResource(WebView view, String url) {
@@ -144,18 +160,42 @@ public class AshPlugin extends CordovaPlugin {
     });
   }
     
-
   private void turnNetworkOn(final CallbackContext callbackContext) {
-    final WebView cordovaWebView = this.webView;
+    final CordovaWebView cordovaWebView = this.webView;
+    final CordovaInterface cordovaInterface = this.cordova; 
           
     //working on UI thread ...
     cordova.getActivity().runOnUiThread(new Runnable() {
       public void run() {
-        // set the alternative web view client, that does nothing ...
+        // set the alternative web view client
+        cordovaWebView.setWebViewClient(new IceCreamCordovaWebViewClient(cordovaInterface ,cordovaWebView));
+        // trigger the event ...
+        cordovaWebView.setNetworkAvailable(true);
+        // and call the test
+        callbackContext.success(""); // Thread-safe.
+      }
+    });
+  }
+    
+  private void slowNetworkDown(final CallbackContext callbackContext) {
+    final CordovaWebView cordovaWebView = this.webView;
+    //final CordovaInterface cordovaInterface = this.cordova; 
+          
+    //working on UI thread ...
+    cordova.getActivity().runOnUiThread(new Runnable() {
+      public void run() {
+        // set the alternative web view client
+        //IceCreamCordovaWebViewClient android40WebClient = new IceCreamCordovaWebViewClient(cordovaInterface ,cordovaWebView));
         cordovaWebView.setWebViewClient(new WebViewClient() {
           @Override
           public void onLoadResource(WebView view, String url) {
-            System.out.println("DUMMY - continue");
+            int slowdownSeconds = 30;
+            System.out.println("Web View waiting for " + slowdownSeconds);
+            try{
+              Thread.sleep(slowdownSeconds * 1000);
+            }catch(InterruptedException e){}
+            System.out.println("Web View ending wait. Delegating call");
+            //android40WebClient.onLoadResource(view, url);
           }
         });
         // trigger the event ...
