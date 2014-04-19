@@ -282,6 +282,12 @@ Założnie Ash co do projektu testowanego:
 \end{itemize}
 
 \chapter{Przegląd funkcjonalności}
+\section{Asercje}
+
+\subsubsection{Sposób użycia}
+
+\subsubsection{Opis}
+
 \section{Zmiana położenia ekranu}
 
 \subsubsection{Sposób użycia}
@@ -336,6 +342,14 @@ Daje możliwość manipulowania dostępem do sieci - pozwala blokować dostęp d
 Ash.noNetwork().then( ... ) 
 \end{quote}
 
+\begin{quote}
+Ash.slowNetwork().then( ... ) 
+\end{quote}
+
+\begin{quote}
+Ash.networkOn().then( ... ) 
+\end{quote}
+
 \subsubsection{Opis}
 
 Większość aplikacji mobilnych korzysta w ten czy inny sposób z zasobów zgromadzonych na zdalnych serwerach. W wielu przypadkach komunikacja z serwerem jest najistotniejszym  czynnikiem wpływającym na szybkość oraz poprawność działania aplikacji. Niestety za względu na mobilny charakter urządzeń dostęp do sieci bardzo często bywa utrudniony lub wręcz niemożliwy, co gorsza dzieje się tak nie regularnych ostępach czasu w zależności od czynników zewnętrznych. Dlatego kluczowe znaczenie ma przetestowanie w jaki sposób zachowa się aplikacja, gdy z jakiegoś powodu nie możliwe będzie nazwiązanie połączenia. Właśnie taką możliwość udostępnia Ash. 
@@ -355,7 +369,11 @@ W kontekście noNetwork dostęp do sieci zostanie zablokowany i nie możliwe bę
 
 Testując brak dostępu do internetu warto zwrócić uwagę nie tylko na to co dzieje się w przypadku, gdy żądanie nie powiedzie się ale także jak szybko się to stanie. Może dojść do sytuacji, gdy aplikacja testowana, w przypadku braku internetu, będzie wysyłać zapytania do serwera i czekać na upływ limitu czasu lub powtarzać je do skutku. W takiej sytuacji płynność działania aplikacji może ulec znacznemu pogorszeniu lub w najgorszym przypadku aplikacja może zmusić użytkownika do czekania na odpowiedź serwera, która nigdy nie nadejdzie. Jeśli chcemy zabezpieczyć się przed utratą płynności w przypadku ograniczenia dostępu do internetu istnieje możliwość skorzystania z pola 'howLong' w specyfikacji scenariusza testowego, tzn. możemy skonfigurować testy w ten sposób, że jeśli czas ich trafania przekroczy wybraną przez nas wartość test się nie powiedzie. Za wspomnianą wartość możemy przyjąć taką ilość czasu, po której użytkownik może poczuć dyskomfort. 
 
-Należy zwrócić uwagę że, w zależności od implementacji, po wyjściu z kontekstu dostęp do siecie nie musi być przywrócony. 
+Podobną funkcjonlaność jak noNetwork() oferuje kontekst slowNetwork(). Jedyną różnicą jest to, że w przypadku tego kontekstu sieć jest dostępna, z tym że wszystkie żadania są opóźnione, tak jak w przypadku słabych połączeń. Sztucznie dodane kilku sekundowe spowolnienie sprawia, że jesteśmy w stanie symulować utrudnienia przy korzystaniu z sieci, które nie powodują całkowitej utraty połączenia. 
+
+Należy zwrócić uwagę że, w zależności od implementacji, po wyjściu z kontekstów noNetwork() oraz slowNetwork() dostęp do sieci nie musi być przywrócony. Celem przywrócenia urządzenia do poprzedniego stanu należy skorzystać z kontekstu networkOn(). 
+
+Kontekst networkOn() służy do przywrócenia domyślnego stanu sieci. W żadnym wypadku nie powoduje podłączenia do sieci, a jedynie powrót do stanu sieci sprzed manipulacji przez Ash. W obrębie tego kontekstu możemy być pewni, że dostęp do internetu nie jest utrudniony bardziej niż to wynika z czynników zewnętrznych. 
 
 \section{Dostęp do systemu plików}
 
