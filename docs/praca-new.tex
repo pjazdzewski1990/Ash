@@ -798,9 +798,44 @@ Każdemu z widoków odpowiada stała zdefiniowana przez platformę Android
   \item orientationVertical - ActivityInfo.SCREEN\_ORIENTATION\_PORTRAIT
 \end{itemize}
 
-Obecna implementacja po zakończeniu testów zawartych w kontekście nie przywraca zastanego stanu ekranu.
+Obecna implementacja po zakończeniu testów zawartych w kontekście nie przywraca zastanego stanu ekranu, co nie znaczy, że to zachowanie nie zmieni się przyszłości lub na innej platformie.
 
 \section{Dostęp do sieci}
+
+\begin{lstlisting}
+Ash.noNetwork().then( ... ) 
+Ash.slowNetwork().then( ... ) 
+Ash.networkOn().then( ... ) 
+\end{lstlisting}
+
+Obsługa sieci w Ash zrealizowana jest poprzez manipulowanie sposobem w jaki Apache Cordova przetwarza odpowiedzi przychodzące z sieci. CordovaWebView udostępnia możliwość podpięcia instancji WebViewClient, przez którą będą przechodzić wszystkie zapytania. Daje to możliwość wpływania na zachowanie się aplikacji. W szczególności największe znaczenie ma metoda
+
+\begin{lstlisting}
+   @Override
+   public void onLoadResource(WebView view, String url) {
+       ...
+   }
+\end{lstlisting}
+
+Gdy operujemy na wątku interfejsu użytkownika możliwa jest podmiana klienta na taki, które działa zgodnie z naszymi zamiarami, czyli 
+
+\begin{lstlisting}
+   @Override
+   public void onLoadResource(WebView view, String url) {
+       Thread.sleep(2000); // 2 sekundy opoznienia dla kazdego zadania
+   }
+\end{lstlisting}
+
+aby spowolnić dostęp do sieci oraz
+
+\begin{lstlisting}
+   @Override
+   public void onLoadResource(WebView view, String url) {
+       view.stopLoading();
+   }
+\end{lstlisting}
+
+celem anulowania pobierania zasobów. Jeśli chcemy przywrócić domyślne zachowanie WebView podpinamy nową instację klasy IceCreamCordovaWebViewClient. Jest to implementacja CordovaWebView przeznaczona dla urządzeń działających z systemem operacyjnym Android w wersji 4.0 lub nowszej.
 
 \section{Dostęp do systemu plików}
 

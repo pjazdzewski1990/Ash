@@ -179,7 +179,6 @@ public class AshPlugin extends CordovaPlugin {
     
   private void slowNetworkDown(final CallbackContext callbackContext) {
     final CordovaWebView cordovaWebView = this.webView;
-    //final CordovaInterface cordovaInterface = this.cordova; 
           
     //working on UI thread ...
     cordova.getActivity().runOnUiThread(new Runnable() {
@@ -195,7 +194,6 @@ public class AshPlugin extends CordovaPlugin {
               Thread.sleep(slowdownSeconds * 1000);
             }catch(InterruptedException e){}
             System.out.println("Web View ending wait. Delegating call");
-            //android40WebClient.onLoadResource(view, url);
           }
         });
         // trigger the event ...
