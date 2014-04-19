@@ -185,11 +185,11 @@ public class AshPlugin extends CordovaPlugin {
     cordova.getActivity().runOnUiThread(new Runnable() {
       public void run() {
         // set the alternative web view client
-        //IceCreamCordovaWebViewClient android40WebClient = new IceCreamCordovaWebViewClient(cordovaInterface ,cordovaWebView));
         cordovaWebView.setWebViewClient(new WebViewClient() {
           @Override
           public void onLoadResource(WebView view, String url) {
-            int slowdownSeconds = 5;
+            //TODO: slowdown can be passed as a param
+            int slowdownSeconds = 2;
             System.out.println("Web View waiting for " + slowdownSeconds);
             try{
               Thread.sleep(slowdownSeconds * 1000);
