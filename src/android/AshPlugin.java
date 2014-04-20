@@ -139,7 +139,7 @@ public class AshPlugin extends CordovaPlugin {
   }
     
   private void turnNetworkOff(final CallbackContext callbackContext) {
-    final WebView cordovaWebView = this.webView;
+    final CordovaWebView cordovaWebView = this.webView;
           
     //working on UI thread ...
     cordova.getActivity().runOnUiThread(new Runnable() {
@@ -153,7 +153,7 @@ public class AshPlugin extends CordovaPlugin {
           }
         });
         // trigger the event ...
-        cordovaWebView.setNetworkAvailable(false);
+        //cordovaWebView.setNetworkAvailable(false);
         // and call the test
         callbackContext.success(""); // Thread-safe.
       }
@@ -170,7 +170,7 @@ public class AshPlugin extends CordovaPlugin {
         // set the alternative web view client
         cordovaWebView.setWebViewClient(new IceCreamCordovaWebViewClient(cordovaInterface ,cordovaWebView));
         // trigger the event ...
-        cordovaWebView.setNetworkAvailable(true);
+        //cordovaWebView.setNetworkAvailable(true);
         // and call the test
         callbackContext.success(""); // Thread-safe.
       }
@@ -197,7 +197,7 @@ public class AshPlugin extends CordovaPlugin {
           }
         });
         // trigger the event ...
-        cordovaWebView.setNetworkAvailable(true);
+        //cordovaWebView.setNetworkAvailable(true);
         // and call the test
         callbackContext.success(""); // Thread-safe.
       }

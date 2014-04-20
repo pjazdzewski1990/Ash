@@ -1,7 +1,8 @@
 
 var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
-    exec = require('cordova/exec');
+    exec = require('cordova/exec'),
+    cordova = require('cordova');
 
 /**
  * Tool for making logging easier
@@ -453,6 +454,11 @@ var Ash = {
     return new AshPromise(function (resolve, reject) { 
         cordova.exec( 
             function(a){
+                //only if network plugin is attached
+                if(navigator && navigator.connection && navigator.connection.type && Connection){
+                    navigator.connection.type = Connection.NONE;
+                    cordova.fireDocumentEvent("offline");
+                }
                 Log.d("Network has been turned off");
                 resolve(a);
             },
@@ -474,8 +480,16 @@ var Ash = {
     return new AshPromise(function (resolve, reject) { 
         cordova.exec( 
             function(a){
-                Log.d("Network has been brought back");
-                resolve(a);
+                if(navigator && navigator.connection && navigator.connection.type && Connection){
+                    //var connection = new NetworkConnection();
+                    navigator.connection.getInfo(function(info){
+                        navigator.connection.type = info;
+                        cordova.fireDocumentEvent("online");
+                        resolve(a);        
+                    }, function(msg){
+                        reject(e);
+                    })
+                }
             },
             function(s) { 
                 Log.e("Couldn't call networkOn " + s); 
