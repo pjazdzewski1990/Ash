@@ -480,6 +480,7 @@ var Ash = {
     return new AshPromise(function (resolve, reject) { 
         cordova.exec( 
             function(a){
+                Log.d("Network has been broght back");
                 if(navigator && navigator.connection && navigator.connection.type && Connection){
                     //var connection = new NetworkConnection();
                     navigator.connection.getInfo(function(info){
@@ -489,6 +490,8 @@ var Ash = {
                     }, function(msg){
                         reject(e);
                     })
+                }else{
+                    resolve(a);
                 }
             },
             function(s) { 
@@ -510,7 +513,18 @@ var Ash = {
         cordova.exec( 
             function(a){
                 Log.d("Network has been slown down");
-                resolve(a);
+                if(navigator && navigator.connection && navigator.connection.type && Connection){
+                    //var connection = new NetworkConnection();
+                    navigator.connection.getInfo(function(info){
+                        navigator.connection.type = info;
+                        cordova.fireDocumentEvent("online");
+                        resolve(a);        
+                    }, function(msg){
+                        reject(e);
+                    })
+                }else{
+                    resolve(a);
+                }
             },
             function(s) { 
                 Log.e("Couldn't call slowNetwork " + s); 
