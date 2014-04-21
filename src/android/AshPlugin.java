@@ -188,7 +188,7 @@ public class AshPlugin extends CordovaPlugin {
           @Override
           public void onLoadResource(WebView view, String url) {
             //TODO: slowdown can be passed as a param
-            int slowdownSeconds = 2;
+            int slowdownSeconds = 1;
             System.out.println("Web View waiting for " + slowdownSeconds);
             try{
               Thread.sleep(slowdownSeconds * 1000);

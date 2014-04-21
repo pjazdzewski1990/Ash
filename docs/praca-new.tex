@@ -306,7 +306,7 @@ Ash.orientationVertical().then( ... )
 
 \subsubsection{Opis}
 
-Smartfony i tablety ze względu na swój mobilny charakter oraz dotykowy ekran bardzo często używane są w pozycjach i w sposób, o których twórcom nawet się nie śniło. Najczęściej rozróżniamy dwie pozycje definiujące położnie ekranu wzgledem użytkownika 
+Smartfony i tablety ze względu na swój mobilny charakter oraz dotykowy ekran bardzo często używane są w pozycjach i w sposób, o których twórcom nawet się nie śniło. Najczęściej rozróżniamy dwie pozycje definiujące położnie ekranu wzgledem użytkownika. 
 
 \begin{itemize}
   \item pionowe - gdy  TODO
@@ -377,6 +377,8 @@ Podobną funkcjonlaność jak noNetwork() oferuje kontekst slowNetwork(). Jedyn�
 Należy zwrócić uwagę że, w zależności od implementacji, po wyjściu z kontekstów noNetwork() oraz slowNetwork() dostęp do sieci nie musi być przywrócony. Celem przywrócenia urządzenia do poprzedniego stanu należy skorzystać z kontekstu networkOn(). 
 
 Kontekst networkOn() służy do przywrócenia domyślnego stanu sieci. W żadnym wypadku nie powoduje podłączenia do sieci, a jedynie powrót do stanu sieci sprzed manipulacji przez Ash. W obrębie tego kontekstu możemy być pewni, że dostęp do internetu nie jest utrudniony bardziej niż to wynika z czynników zewnętrznych. 
+
+W przypadku gdy do testowanej aplikacji dodane jest wtyczka cordova-plugin-network-information,  to po wywołaniu kontekstu slowNetwork() oraz networkOn() zachodzi zdarzenie 'online'. Analogicznie w przypadku kontekstu noNetwork() wysyłane jest zdarzenie 'offline'. 
 
 \section{Dostęp do systemu plików}
 
@@ -822,7 +824,7 @@ Gdy operujemy na wątku interfejsu użytkownika możliwa jest podmiana klienta n
 \begin{lstlisting}
    @Override
    public void onLoadResource(WebView view, String url) {
-       Thread.sleep(2000); // 2 sekundy opoznienia dla kazdego zadania
+       Thread.sleep(1000); // 1 sekundy opoznienia dla kazdego zasobu
    }
 \end{lstlisting}
 
@@ -836,6 +838,15 @@ aby spowolnić dostęp do sieci oraz
 \end{lstlisting}
 
 celem anulowania pobierania zasobów. Jeśli chcemy przywrócić domyślne zachowanie WebView podpinamy nową instację klasy IceCreamCordovaWebViewClient. Jest to implementacja CordovaWebView przeznaczona dla urządzeń działających z systemem operacyjnym Android w wersji 4.0 lub nowszej.
+
+W przypadku, gdy zainstalowana jest wtyczka cordova-plugin-network-information \footnote{https://github.com/apache/cordova-plugin-network-information}, która jest często wykorzystywana do monitorowania stanu sieci, działanie Ash jest zmodyfikowane aby współdziałać z tą wtyczką. W przypadku poprawnego wywołania kodu Ash dochodzi do sprawdzenia czy network-information jest zainstalowane i w przypadku gdy jest wywoływane są zdarzenia
+
+\begin{itemize}
+  \item offline - dla kontekstu networkOn() 
+  \item online - gdy zachodzi noNetwork(), slowNetwork()
+\end{itemize}
+
+W przypadku noNetwork() i slowNetwork() status sieci ustalany jest przez wtyczkę network-information.
 
 \section{Dostęp do systemu plików}
 
