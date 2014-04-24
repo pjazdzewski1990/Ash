@@ -71,13 +71,13 @@ Wstęp
 
 \chapter{Wprowadzenie}
 \section{Hybrydowe aplikacje mobilne}
-Mówiąc o natywnej aplikacji mobilnej mamy na myśli apliakcję tworzoną z myślą o konkretnej platformie (Android, iOS, itp.) przy użyciu narzuconych przez twórcę platformy narzędzi (Java, Objective-C, itd.). Aplikacje mobile web są to z kolei aplikacje webowe zoptymalizowane po kątem urządzeń natywnych.
+Mówiąc o \textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z myślą o konkretnej platformie (Android, iOS, itp.) przy użyciu narzuconych przez twórcę platformy narzędzi (Java, Objective-C, itd.). Aplikacje mobile web są to z kolei aplikacje webowe zoptymalizowane po kątem urządzeń natywnych.
 Adobe PhoneGap oraz jej odpowiednik o otwartym źródle Apache Cordova, to
 dwie popularne biblioteki pozwalajace na tworzenie hybrydowych aplikacji
-mobilnych, tj. aplikacji które łączą w sobie zalety aplikacji natywnych oraz aplikacji
-typu mobile web. Zasada działania tego typu aplikacji jest w założeniu prosta i
+mobilnych, tj. aplikacji które łączą w sobie zalety aplikacji natywnych oraz \textit{aplikacji
+typu mobile web}. Zasada działania tego typu aplikacji jest w założeniu prosta i
 polega na wykorzystaniu komponentów, które dalej nazywać będziemy WebView.
-Kontrolki te są dostępne na każdej nowoczesnej platoformie i pozwalają nam na
+Komponenty te są dostępne na każdej nowoczesnej platoformie i pozwalają na
 wyświetalnie stron internetowych z wnętrza natywnych aplikacji mobilnych. 
 W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasoby z określonego adresu (lokalnego lub zdalnego), które są wyświetlane w WebView. Najczęściej tym zasobem jest aplikacja stworzona przy użyciu technologii webowych.     
 
@@ -98,24 +98,23 @@ W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasob
 \end{center}
 
 Takie podejście ma wiele zalet. Dzięki temu, że do tworzenia aplikacji hybrydowych wykorzystywane są technologie
-znane z zastosowań intenetowych, koszt tworzenia aplikacji i czas dostarczenia
+znane z zastosowań intenetowych, koszt ich tworzenia i czas dostarczenia
 gotowego rozwiązania na rynek są znacznie zredukowane. Aplikacje tego typu są też
-z założenia wieloplatformowe. Używając PhoneGap z tego samego kodu źródłowego
+z założenia wieloplatformowe. Używając PhoneGap z~tego samego kodu źródłowego
 możemy stworzyć aplikacje na platformę Android, iOS, Blackberry, WebOS,
-Windows Phone, Symbiana i Bada. Dodatkowo popularność narzędzi internetowych
+Windows Phone, Symbian i Bada. Dodatkowo popularność narzędzi internetowych
 ułatwia znalezienie właściwych programistów.
 
 \section{Wady podejścia hybrydowego}
 Największymi wadami podejścia hybrydowego są słabsza wydajność, błędy
-pojawiające się tylko na określonych urządzeniach oraz różnorodne oczekiwania
+pojawiające się tylko na określonych urządzeniach oraz potencjalnie odmienne oczekiwania
 użytkowników różnych platform. Użytkownik instalując aplikację hybrydową w taki sam sposób co 
 natywną spodziewa się, że będzie ona działać niczym natywna. Tymczasem
 dodatkowy narzut hybrydy, często w połączeniu z niechlujnie przygotowaną i nie
 zoptymalizowaną aplikacją, prowadzi do mniej responsywnego interfejsu
 użytkownika i w konskewencji do frustracji użytkownika. Częstym problemem przy
-tworzeniu aplikacji mobilnych są błędy pojawiające się tylko na określonych
-urządzeniach. Przy podejściu hybrydowym problem jest o tyle bardziej widoczny, że
-najczęściej tworzymy rozwiązanie które ma być przenośne nie tylko pomiędzy urządzeniami w ramach jednej platformy, ale także między platformami. Co z oczywistych względów zwiększa przestrzeń urządzeń, które trzeba uzwględnić. Trzecim problemem hybryd jest kwestia
+tworzeniu aplikacji mobilnych są błędy, które są specyficzne tylko dla pewnych modeli urządzeń. Przy podejściu hybrydowym problem jest o tyle bardziej widoczny, że
+najczęściej tworzymy rozwiązanie które ma być przenośne nie tylko pomiędzy urządzeniami w ramach jednej platformy, ale także między platformami. Co z oczywistych względów zwiększa gamę urządzeń, które trzeba uzwględnić. Trzecim problemem hybryd jest kwestia
 tworzenia interfejsu użytkownika. Dostawcy systemów operacyjnych dla urządzeń
 mobilnych publikują zalecenia, co do tego jak powinien wyglądać interfejs aplikacji
 działającej pod danym systemem. Zalecenia te są specyficzne dla platformy i często
@@ -124,23 +123,23 @@ może zostać źle odebrane przez użytkowników spodziewających się wyglądu
 dostosowanego do platformy. Niestety stworzenie kilku wersji interfejsu jest dużo
 bardziej pracochłonne i skomplikowane, niweczy także podstawową zaletę apliakcji
 hybrydowych – przenośność. 
-Są to poważne niedostatki, ale braki te można zniwelować poprzez skuteczne narzędzia.
+Są to poważne niedostatki, ale braki te można zniwelować z pomocą skutecznych narzędzi.
 
 \section{Propozycja rozwiązania problemów}
-Ash ma za zadanie pomóc rozwiązać problemy zwiąne z wydajnością aplikacji oraz z
-błędami pojawiającymi się tylko na określonych konfiguracjach sprzętowych. Aby
-zapewnić wysoką wydajność działania aplikacji konieczny jest rygor w tworzeniu
-wydajnego oprogramowania oraz możliwość testowania jej w sytuacjach które mogę
+Ash ma za zadanie pomóc rozwiązywać problemy zwiąne z wydajnością aplikacji oraz z
+błędami zależnymi od konfiguracji sprzętowych. Aby
+zapewnić wysoką sprawność działania aplikacji konieczny jest rygor przy tworzeniu
+oprogramowania oraz możliwość testowania jej w sytuacjach, które pozwalają
 uwydatnić problemy z wydajnością. Dzięki funkcyjnemu podejściu do testowania
-oprogramowania Ash pozwala na zbieranie informacji o responsywności interfejsu
+oprogramowania Ash pozwala zbierać informacje o responsywności interfejsu
 oraz realistycznie symulować scenariusze dużego obciążenia. Programista
 korzystający z Ash ma możliwość zdefiniowania w scenariuszach maksymalnego
 czasu przebeigu testu, jeśli test nie zakończy się w założonym czasie test nie
 powiedzie się. Niska responsywność interfejsu traktowana jest na równi z błędami
 logiki czy prezentacji. Wymusza to na twórcy zadbanie o szybkość reakcji interfejsu.
 Ash oferuje także możliwość chwilowego wyłączenia lub opóźnienia dostępu do
-sieci. Sytuacje w których dostępność do internetu jest ograniczona są dość częste,
-jednak niewiele aplikacji jest pisana biorąc to pod uwagę, jeszcze mniej jest
+sieci. Sytuacje w których dostępność internetu jest ograniczona są dość częste,
+jednak niewiele aplikacji jest pisanych biorąc to pod uwagę, a jeszcze mniej 
 testowana pod tym kątem. Bardzo często problemy z dotępem objawiają się kiepską
 wydajnością interfejsu lub długimi przestojami na ekranach ładowania. Ash pozwala
 twórcom świadomie zmierzyć się z tym problemem. Ash wyposażony jest w
@@ -156,8 +155,7 @@ konfiguracji.
 Jako bazę do implementacji wybrałem Apache Cordova. Apache Cordova jest to
 wersja PhoneGap, którą korporacja Adobe (właściel praw do PhoneGap) udostępniła
 fundacji Apache. Od tego momentu ten wariant technologii udostępniany jest
-zasadzie otwartego źródła. Pomimo tego oba projekty są niemal identyczne, a jedyna
-różnica faktyczna różnica między nimi jest natury prawnej. Głównym powodem
+zasadzie otwartego źródła. Pomimo tego oba projekty są niemal identyczne, a jedyna faktyczna różnica między nimi jest natury prawnej. Głównym powodem
 wyboru tej technologii jest spory udziała w rynku hybrydowych aplikacji mobilnych,
 dynamizm rozwoju oraz liczna społeczność.
 
@@ -165,12 +163,12 @@ dynamizm rozwoju oraz liczna społeczność.
 
 Test Driven Development jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o których często mówimy red-green-refactor:
 \begin{itemize}
-  \item RED Programista pisze testy automatyczne, które pokrywają funkcjonalność, która została wyspecyfikowana, ale nie jest jeszcze zaimplementowana. Na tym etapie testy nie przechodzą
-  \item GREEN Następnie programista implementuje brakujące funkcjonalności. Programista pisze kod, aż wszystkie testy napisane w poprzednim kroku
-  \item REFACTOR Po zakończeniu implementacji tworzone są dodatkowe testy do istniejących już funkcjonalności. Sama funkcjonalność też jest udoskonalona
+  \item RED Programista pisze testy automatyczne, pokrywające funkcjonalność, która została wyspecyfikowana, ale nie została jeszcze zaimplementowana. Na tym etapie testy nie przechodzą
+  \item GREEN Następnie programista implementuje brakujące funkcjonalności, aż wszystkie testy napisane w poprzednim kroku stają się zielone, czyli uruchamiają się bez błędów
+  \item REFACTOR Po zakończeniu implementacji tworzone są dodatkowe testy do istniejących już funkcjonalności. Sama funkcjonalność też jest udoskonalana
 \end{itemize}
 
-Dzięki zastosowaniu krótkich cykli oraz automatycznych testów metodologia ta pozwala na tworznie oprogramowania, które ma przejrzystą architekturę oraz spełnia wszystkie założenia. Testy automatyczne, które powstają podczas cykl dają pewność, że w przypadku, gdy kod aplikacji zmieni się potencjalne błędy zostaną od razu wychwycone. 
+Dzięki zastosowaniu krótkich cykli oraz automatycznych testów metodologia ta pozwala na tworznie oprogramowania, które ma przemyślaną architekturę oraz spełnia wszystkie założenia. Testy automatyczne, które powstają podczas cyklu zwiększają prawdopodobieństwo, że w przypadku, gdy kod aplikacji zmieni się potencjalne błędy zostaną od razu wychwycone. 
 
 Test Driven Developement jako metodologia jest powiązana z Extreme Programming oraz z koncepcją "Tests First", która zakłada że zestawy testów automatycznych powinny być tworzone jeszcze przed napisaniem tesotwanej aplikacji, co skutkuje wysoką jakością tworzonego oprogramowania.   
 
@@ -474,7 +472,7 @@ Ash pozwala na cofanie się aż do szczytu stosu historii aplikacji. W szczegól
 Testowanie obsługi przycisku powrotu na olbrzymie znaczenie w przypadku apliakcji mobilnych  oraz tzw. "Single Page Applications". Tworząc aplikacje bardzo wiele uwagi jest poświęcane sytuacjom kiedy użytkownik porusza się niejako "w głąb" aplikacji otwiera kolejne ekrany na zaplanowanej ścieżce zmieniając jej stan.  Właśnie globalny stan bywa w takich sytuacjach problemem. Bardzo często bywa, że użytkownik przechodzi przez ekrany A i B, w czasie swojego pobytu na B zmienia globalny stan, ale zamiast przechodzić dalej cofa się do A, które od czasu zmiany stanu zachowuje się inaczej niż zakładano. Tworząc aplikację należy zabezpieczyć się przed takimi sytuacjami. Ash.pressBack pozwala na przetestowanie czy taka sytuacja ma miejsce. 
 
 \chapter{Zastosowania}
-Ash został pomyślany jako biblioteka, która jest w stanie oprócz dostarczania "tradycyjnej" infrastruktury testowej, tzn.:
+Ash został pomyślany jako biblioteka, która jest w stanie oprócz dostarczania ,,tradycyjnej'' infrastruktury testowej, tzn.:
 \begin{itemize}
   \item asercji
   \item funkcji porównujących
