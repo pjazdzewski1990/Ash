@@ -561,7 +561,7 @@ var Ash = {
   * @param {Object} options Requirements for files. Files in the array passed to testSuite callback are required to meet conditions specified in options
   */
   withFile: function(options, callback) {
-    Log.d("withFile called with options:" + JSON.stringify(options) + " callback:" + callback);
+    Log.d("withFile called with options:" + JSON.stringify(options));
     return new AshPromise(function (resolve, reject) { 
         //TODO: create/access real files
         var files = [];

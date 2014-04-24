@@ -252,6 +252,8 @@ validate() zwraca wartość boolowską określającą, czy na obecnym ekranie zn
 
 goto() definiuje funkcje, która odpowiada za przejście przez aplikację, tak żeby rozważany Page Object stał się dostępny. Funckja powinna korzystać z validate(). goto() może być zastosowane np. do zmiany stanu interfejsu przed lub po teście.
 
+Oczywiście Page Objects mogą zawierać także inne metody zdefiniowane przez użytkownika, które ułatwią operowanie na interfejsie z poziomu testów oraz uczynią kod testów czytelniejszym.
+
 Prostota implementacji ma na celu uławienie korzystania z biblioteki, zachęca także do łączenia Page Objects ze sobą. Nic nie stoi na przeszkodzie, żeby zdefiniować Page Object ,,Menu'' jako zestaw kilku Page Objects, z których każdy opisuje jakiś element menu. 
 
  \item Organizacja testów - Zestawy możemy wykonywać albo przez polecenie run do którego przekazujemy tablicę funkcji-testów lub obiekt z testami (wtedy zgodnie z przyjętą konwencją uruchamianie są wszystkie funkcje, których nazwa kończy się frazą 'Test') albo korzystając z funkcji play wywoływanej ze scenariuszem testowym.
@@ -382,10 +384,41 @@ W przypadku gdy do testowanej aplikacji dodane jest wtyczka cordova-plugin-netwo
 
 \section{Dostęp do systemu plików}
 
-\subsubsection{Opis}
-Daje dostęp do systemu plików - pozwala na symulowanie dostępu do lokalnych plików oraz ich uploadu.
-
 \subsubsection{Sposób użycia}
+Pozwala realizować scenariusze testowe zakładające operowanie na plikach.
+
+\begin{quote}
+var options = { type: 'audio/amr', limit: 3};
+
+Ash.withFile(options).then( ... )
+\end{quote}
+
+\subsubsection{Opis}
+
+Bardzo częstym scenariuszem w przypadku wielu aplikacji jest konieczność operowania na lokalnym systemie plików. Może to być np. upload pliku z karty SD, wykonanie zdjęcia i przesłanie na serwer lub inne. Ash daje możliwość przetestowania jak aplikacja zachowuje się przy operowaniu na plikach.  
+
+Do kontekstu withFile przekazujemy obiekt zawierający informacje na jakich plikach chcemy przeprowadzić testy. Obiekt może posiadać następujące klucze:
+
+\begin{itemize}
+  \item type - Jest to ciąg znaków, który określa jakiego typu mają być zwrócone pliki. Domyślnie jest to 'audio/amr' czyli plik dźwiękowy. 
+  \item limit - Limit jest to wielkość plików w zwracanej tablicy wyrażony liczbą całkowitą. W przypadku, gdy limit nie został podany tablica zawiera 1 element. 
+\end{itemize}
+
+WithFile zwraca obiekt Promise. W przypadku realizacji obietnicy do bloku przekazywana jest tablica plików która może być wykorzystana w testach. Każdy plik w jest identyczny i spełnia założenia podane w argumencie 'options'. Przykładowy plik z tablicy może wyglądać w ten sposób:
+
+\begin{lstlisting}
+   {
+       "name": "file1",
+       "fullPath": "/path/to/file1",
+       "type": "audio/amr",
+       "lastModifiedDate": "Thu Apr 24 2014 22:52:29 GMT+0200 (CEST)",
+       "size": 100
+   };
+\end{lstlisting}
+
+Co odpowiada definicji pliku w ujęciu Apache Cordova. Patrz:
+
+\url{https://cordova.apache.org/docs/en/3.0.0/cordova_file_file.md.html#File}
 
 \section{Symulacja ruchu}
 
