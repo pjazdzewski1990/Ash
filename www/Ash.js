@@ -514,14 +514,13 @@ var Ash = {
             function(a){
                 Log.d("Network has been slown down");
                 if(navigator && navigator.connection && navigator.connection.type && Connection){
-                    //var connection = new NetworkConnection();
                     navigator.connection.getInfo(function(info){
                         navigator.connection.type = info;
                         cordova.fireDocumentEvent("online");
                         resolve(a);        
                     }, function(msg){
                         reject(e);
-                    })
+                    });
                 }else{
                     resolve(a);
                 }
@@ -558,26 +557,27 @@ var Ash = {
   },
   
   /**
-  * Passes an array of files fullfilling requirements specified in options argument to provided callback function
-  * @param {Callback} options Requirements for files. Files in the array passed to testSuite callback are required to meet conditions specified in options
-  * @param {Callback} testSuite The callback function performing the test
+  * Creates an array of file. Each returned file conforms to requirements passed as "options" argument. Returns a promise which is resolved with the file array, when they are ready
+  * @param {Object} options Requirements for files. Files in the array passed to testSuite callback are required to meet conditions specified in options
   */
   withFile: function(options, callback) {
     Log.d("withFile called with options:" + JSON.stringify(options) + " callback:" + callback);
-    //TODO: create/access real files
-    var files = [];
-    var len = options.limit || 1;
-    for(var i=0; i<len; i++){
-      var file = {
-        "name": "file" + i,
-        "fullPath": "/path/to/file" + i,
-        "type": options.type || 'audio/amr',
-        "lastModifiedDate": new Date(),
-        "size": 100 + i
-      }
-      files.push(file);
-    }
-    callback(files);
+    return new AshPromise(function (resolve, reject) { 
+        //TODO: create/access real files
+        var files = [];
+        var len = options.limit || 1;
+        for(var i=0; i<len; i++){
+            var file = {
+                "name": "file" + i,
+                "fullPath": "/path/to/file" + i,
+                "type": options.type || 'audio/amr',
+                "lastModifiedDate": new Date(),
+                "size": 100 + i
+            };
+            files.push(file);
+        }
+        resolve(files);
+    });
   },
   
   /**
