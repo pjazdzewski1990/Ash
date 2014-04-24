@@ -289,7 +289,39 @@ W każdej chwili istnieje możliwość wygenerowania aktualnej dokumentacji wpro
 
 \subsubsection{Sposób użycia}
 
+Zestaw funkcji pomocniczych użytecznych podczas tworzenia testów.
+
+\begin{quote}
+Ash.assert( ... ) 
+\end{quote}
+
+\begin{quote}
+Ash.assert( A, B ) 
+\end{quote}
+
+\begin{quote}
+Ash.visible( ... ) 
+
+Ash.isVisible( ... )
+
+Ash.invisible( ... )
+
+Ash.isInvisible( ... )
+\end{quote}
+
 \subsubsection{Opis}
+
+Funckje assert są podstawowymi funkcjami z których tworzymy testy. Pozwalają one na 
+
+\begin{itemize}
+  \item sprawdzenie czy obiekt istnieje - funkcja assert(object) pozwala na sprawdzenie czy przekazany obiekt istnieje. Asercja ta zakłada, że każdy przekazany obiekt, który nie jest "falsy" z znaczeniu znanym z Javascript jest poprawny. 
+  \item porównanie dwóch wartości - assert(A, B) sprawdza, czy oba podane arguemnty są identyczne wykorzystując do tego porównanie dokładne, tzn. bierzemy po uwagę typ, wartość oraz nie wykonujemy konwersji obiektów celem porównania.
+\end{itemize}
+Powyższe asercje w przypadku, gdy argumenty nie spełniają założeń rzucają ustandardyzowane wyjątki Ash. 
+
+Funkcja widzialności visible(A) określają czy przekazany element DOM jest widoczny na ekranie, tzn. czy jego właściwości nie wskazują na to, że jest ukryty oraz czy nie jest poza widocznym ekranem. Analogicznie obiekt spełnia invisible(A), gdy nie spełnia visible(A). 
+
+Różnica pomiędzy funkcjami X oraz isX jest taka, że te pierwsze rzucają wyjatki Ash, gdy założenie nie jest spełnione, natomiast te drugie tylko zwracają wartość boolowksą określającą czy arguemnt spełnia założenia.  
 
 \section{Zmiana położenia ekranu}
 
