@@ -278,7 +278,7 @@ Założnie Ash co do projektu testowanego:
 \begin{itemize}
   \item wykonany w technologii Adobe Phonegap/Apache Cordova - istnieje możliwość aby w przyszłości testować także aplikacje typu mobile web, ale na obecnym etapie nie jest to celem Ash
   \item single page app - Ash zakłada, że aplikacja testowana będzie pisana zgodnie z najnowszymi trendami w branży oraz zaleceniami twórców Phonegap
-  \item android - obecnie Ash pozwala testować jedynie aplikacje bazujące na Androidzie jako platformie, gdyż ta jest dominująca na rynku, ale w niedalekiej przyszłości planowana jest także wersja na iOS
+  \item android 4.0+ - obecnie Ash pozwala testować jedynie aplikacje bazujące na Androidzie jako platformie, gdyż ta jest dominująca na rynku, ale w niedalekiej przyszłości planowana jest także wersja na iOS
 \end{itemize}
 
 \chapter{Przegląd funkcjonalności}
@@ -509,7 +509,7 @@ Ash został pomyślany jako biblioteka, która jest w stanie oprócz dostarczani
   \item asercji
   \item funkcji porównujących
   \item loggerów
-  \item narzędzi do budowanie testów
+  \item narzędzi do budowania testów
   \item ustandaryzowanych wyjątków
 \end{itemize}
 ułatwić także tesotwanie sytuacji, które są albo trudne do odtworzenia
@@ -543,7 +543,9 @@ Zewnętrzne API Ash napisane jest w jezyku Javascript i także w tym języku pis
 
 Apache Cordova udostępnia swoje API na zasadzie wtyczek. Każda wtyczka może być indywidualnie instalowana oraz udostępnia określone API i związane z nim funkcjonalności. Takie podejście pozwala na rozbicie monolitycznego API na mniejsze części oraz zapewnia możliwość rozszerzenia platformy poprzez własne wtyczki.
 
-Tak jest właśnie w przypadku Ash, który jest zaimplementowany jako wtyczka do platformy.
+Każda wtyczka składa się z dwóch części - API programisty napisanego w języku Javascript i udostępionego użytkownikom oraz warstwy kodu natywnego, który realizuje zadania niewykonywalne z poziomu WebView. Część natywna implementowana jest w technologiach zależnych od platformy. Przenośna wtyczka posiada kilka implementacji, w różnych językach, które sa podmieniane w czasie budowania aplikacji. Kod natywny jest opcjonalny dla wtyczek, ale korzystając z platformy istnieje możliwość wzbogacenia aplikacji.
+
+Ash, został zaimplementowany jako wtyczka do platformy. Obecnie warstwa natywna jest przygotowana tylko dla platformy Android, ale dalszym etapie rozwóju biblioteki planowane jest dodanie wsparcia dla innych platform. Kod działający po stronie systemu Android został napisany w języku Java.
 
 Więcej informacji można znaleźć w oficjalnej instrukcji dla twórców wtyczek
 
@@ -551,9 +553,11 @@ Więcej informacji można znaleźć w oficjalnej instrukcji dla twórców wtycze
 
 \url{http://cordova.apache.org/docs/en/edge/guide\_platforms\_android\_plugin.md.html\#Android\%20Plugins}   
 
+Nastepne podrozdziały koncentrują się na implementacji na platformę Android, ale w przypadku innych systemów zasada działania jest zbliżona.
+
 \section{Klasa CordovaPlugin}
 
-CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. udostępnia ona dostęp do najważniejszych składowych aplikacji: 
+CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. Udostępnia ona dostęp do najważniejszych składowych aplikacji oraz komunikację z warstwą Javascript: 
 
 \begin{itemize}
   \item CordovaWebView webView - komponent WebView w którym uruchomiona jest aplikacja
@@ -562,17 +566,59 @@ CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. udo
 
 {TODO prosty diagram klas dla commitu b872df0f314194ad50cbaa098ebbf717e53bb354}
 
-Punktem wejściowym dla kodu każdej wtyczki jest jest metoda exec:
+Punktem wejściowym dla kodu każdej wtyczki jest jest metoda exec, która jest wywoływana, gdy warstwa javascript wyśle żadanie wywołania określonego kodu natywnego. Sygnatura exec wygląda tak:
+
 \begin{lstlisting}
 public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException
 \end{lstlisting}
-To właśnie ta metoda jest wywoływana, gdy warstwa Javascript zażąda wywołania metody.   
 
-\section{Native bridge. Integracja z Apache Cordova}
+Kolejne argumenty to
+\begin{itemize}
+  \item action - nawza metody, która ma zostać wywołana
+  \item args - argumenty wysłane z warstwy Javascript zakodowane w postaci JSON
+  \item callbackContext - specjalna klasa Apache Cordova pozwalająca na wywoływanie zdarzeń po stronie WebView 
+\end{itemize}
 
-\section{Wielowątkowość}
+W kodu Javascript kod natywny możemy wywołać w następujący sposób:
 
-Javascript ze swojej natury jest jednowątkowy. Tak samo wykonanie testów w Ash też jest realizowane jeden po drugim. Powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o współdzielony zasób, jakim jest DOM, konieczne byłoby zadbanie o ich synchronizacje, co jest trudne oraz mało wydajne. Z prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
+\begin{lstlisting}
+//Ash.js
+var cordova = require('cordova');
+
+cordova.exec( 
+        successCallback,
+        failureCallback, 
+        "Ash", 
+        "networkSlow", 
+        []
+);
+\end{lstlisting}
+
+Kolejne argumenty to
+\begin{itemize}
+  \item successCallback - wywołanie zwrotne uruchamiane, gdy odwołanie do natywnej części wtyczki się powiedzie
+  \item failureCallback - wywołanie zwrotne uruchamiane, gdy odwołanie do natywnej części wtyczki zakończy się błędem
+  \item pluginName - nazwa pluginu, będąca jego unikalnym identyfikatorem w obrębie aplikacji
+  \item actionName - nazwa akcji, która ma być wywołana. Ten argument jest później przekazywany do exec() jako parametr name 
+\item arguments - tablica argumentów wywołania przekazywana do exec() jako zmienna args 
+\end{itemize}
+
+\section{Wielowątkowość. Komunikacja między warstwami}
+
+Javascript ze swojej natury jest jednowątkowy. Tak samo wszystkie testy w Ash są wykonywane jeden po drugim. Poza trudnościami technicznymi powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o współdzielony zasób, jakim jest DOM, konieczne byłoby zadbanie o ich synchronizację, co jest skomplikowane oraz mało wydajne. Z prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
+
+Wtyczki działają asynchronicznie. Kod uruchamiany po stronie natywnej platformy przez wywołania cordova.exec() działa w osobnym wątku. Realizuje on swoje cele a następnie poprzez CallbackContext uruchamia odpowiednie wywołania zwrotne przekazane przez użytkownika wtyczki. Takie podejście pozwala maksymalnie wykorzystać wiele wątków działających po stronie platformy bez komplikowania budowy aplikacji po stronie warstwy  JavaScript. W takim przypadku kod natywny nie wpływa bezpośrednio na WebView czy sposób interfejs apliakcji użytkownikowi. Wszelkie tego typu mainpulacje odbywają się po stronie Javascript za pośrednictwem funkcji zwrotnych. Niestety czasami istnieje konieczność bezpośredniej manipulacji WebView w taki wypadku istnieje możliwość skorzystania z metody runOnUiThread(). Metoda ta przyjmuje klasę implementującą interfejs Runnable, w której mozemy nadpisać metodę run() tak, aby realizowała nasze cele. Na przykład w ten sposób:
+
+\begin{lstlisting}
+//AshPlugin.java
+cordova.getActivity().runOnUiThread(new Runnable() {
+      public void run() {
+           // .... tu mozna bezpiecznie operowac na WebView oraz interfejsie
+      }
+});
+\end{lstlisting}
+
+Komunikacja pomiędzy warstwami wtyczki, natywną oraz Javascript odbywa się przez tak zwaną "Native To Js Queue". Jak sama nazwa wskazuje komunikacja pomiędzy warstwami odbywa się za pomocą kolejki. Oba poziomy aplikacji mogą umieszczać zakodowane wiadomości w kolejce, ale tylko jedna wiadomość może być przetwarzana. Pozwala to uniknąć kłopotów z wielowątkowością. Konsekwencją takiej implementacji protokołu komunikacji jest to, że kluczowe znaczenie przy wywoływaniu kodu, który odwołuje się między warstwami ma kolejność w jakiej wiadomości zostaną umieszczone w kolejce. W szczególności kolejka nie jest priorytetowa i nie ma w niej pojęcia ,,ważności'' wiadomości, czyli nie możliwe jest przepuszczenie wiadomości przed innymi.
 
 \chapter{Architektura}
 
