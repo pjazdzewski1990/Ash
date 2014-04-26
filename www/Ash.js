@@ -607,7 +607,7 @@ var Ash = {
     for(var i=0; i<=steps; i++){
       var lat = startLatitude + i*skipLatitude;
       var long = startLongitude = i*skipLongitude;
-      var position = {"coords" : {"latitude": lat, "longitude": long}};
+      var position = {"coords" : {"latitude": lat, "longitude": long, altitude: 0, accuracy: 0, altitudeAccuracy: 0, heading: 0, speed: 0}, timestamp: 0};
       Log.d("onMove callback is running " + i + "-th time with position " + position);
       callback(position);
     }

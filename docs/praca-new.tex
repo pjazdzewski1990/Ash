@@ -620,7 +620,54 @@ Co odpowiada definicji pliku w ujęciu Apache Cordova. Patrz:
 \subsubsection{Opis}
 Ash dostarcza API umożliwiające symulowanie położenia lub ruchu między dwoma punktami.
 
+\begin{quote}
+var startPos = \{latitude: 0, longitude: 0\};
+
+var moveOptions = \{latitude: 100, longitude: 50, steps: 10\};
+
+Ash.onMove(startPos, moveOptions, function(currentPosition)\{ ... \});
+\end{quote}
+
+Gdzie startPos to pozycja startowa z której zaczynamy symulować ruch, moveOptions zawiera informacje o docelowym położeniu oraz w ilu "krokach" chcemy dotrzeć do tego miejsca. Do onMove przekazujemy także wywołanie zwrotne, które jest uruchamiane z  położeniem w danym momencie tyle razy ile podaliśmy w moveOptions.steps. 
+
 \subsubsection{Sposób użycia}
+
+Wiele aplikacji mobilnych w ten czy w inny sposób wykorzystuje informacje o położeniu geograficznym. Najczęściej te informacje są wykorzystywane do śledzenia położenia użytkownika oraz jego odległości od określonych punktów lub do tego, żeby dostarczać użytkownikowi aplikacji spersonalizowane informacje uzależnione od miejsca w jakim się znajduje. 
+
+Obiekt startPosition oraz moveOptions może zawierać następujace klucze
+
+\begin{lstlisting}
+   var startPosition = {
+       "latitude": 0,  //szerokosc geograficzna
+       "longitude": 0  //długosc geograficzna
+   };
+ 
+  var moveOptions = {
+      "latitude": 0,  //szerokosc geograficzna miejsca zakonczenia
+      "longitude": 0,  //dlugosc geograficzna miejsca zakonczenia
+      "steps": 1  //w ilu krokach nalezy dotrzec do miejsca zakonczenia
+  };
+\end{lstlisting}
+
+w przypadku, gdy klucze nie zostaną one dostarczone przyjmą one domyślne wartości, takie jak pokazano wyżej. 
+
+Obiekt który jest przekazywany do funkcji w kontekście ma następującą konstrukcję 
+
+\begin{lstlisting}
+
+{
+  "coords" :  {
+      "latitude": X, 
+      "longitude": Y,
+      "accuracy": 0, 
+      "altitudeAccuracy": 0, 
+      "heading": 0, 
+      "speed": 0
+   }
+}
+
+\end{lstlisting}
+Ash pozwala symulować zmianę położenia poprzez kontekst onMove(). Ta funkcnonalność działa inaczej niż pozostałe bloki, gdyż NIE zwraca obiektu promise, tylko przyjmuje funkcję - wywołanie zwrotne jako jeden ze swoich argumentów. Podyktowane jest to tym, że onMove() potencjalni może swój blok kodu wywoływać wielokrotnie, co jest sprzeczne z ideą obietnic. Każdy obiekt Promise jest jest rozstrzygany tylko raz. Jest on albo zaakceptowany albo odrzucony i nie można go wykorzystać wielokrotnie. 
 
 \section{Obsługa przycisku powrotu}
 
