@@ -225,7 +225,157 @@ Projekt demonstrujący użycie Ash oraz jego możliwości jest dostępny pod adr
 
 \url{https://github.com/pjazdzewski1990/AshDemo}
 
-\section{Hello World} 
+\section{Hello World}
+
+Na porzeby wprowadzenia do testowania Ash powstała apliakcja AshHello, która jest dostępna pod adresem 
+
+\url{https://github.com/pjazdzewski1990/AshHello}
+
+Aby pobrać projekt 
+
+\begin{quote}
+   git clone git@github.com:pjazdzewski1990/AshHello.git
+\end{quote}
+
+Aplikacja AshHello zawiera w sobie bardzo prostą funkcjonalność. Jej zasadniczym celem jest pozwolenie użytkownikowi na zaznajomienie się z testowaniem przy użyciu biblioteki Ash. Interfejs użytkownika w AshHello jest zorganizowany na zasadzie tzw. {\it Working Square}. Working Square jest to wzorzec tworzenia interfejsu bardzo popularny na urządzeniach mobilnych. Polega on na stworzeniu kwadratowego obszaru roboczego który zawiera główną treść aplikacji oraz obszary pomocniczego na którym znadować się mogą np. elementy związane z nawigacją. Z zależności od orientacji ekranu, która dyktuje nam rozmiar i kształt powierzchni do zagospodarowania, obszar pomocniczy może znajdować się 
+
+\begin{itemize}
+  \item poniżej obszaru głównego - gdy urządzenia jest w orientacji pionowej, tzn. wysokość ekranu jest większa niż jego szerokość
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[scale=0.25]{hello1.png}
+    \caption{AshHello w orientacji pionowej}
+    \label{fig:AshHello1}
+\end{figure}
+
+  \item obok obszaru głównego - gdy urządzenie jest w orientacji poziomej, czyli szerokość dostępnego ekranu jest większa niż jego wysokość 
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[scale=0.25]{hello2.png}
+    \caption{AshHello w orientacji poziomej}
+    \label{fig:AshHello2}
+\end{figure}
+\end{itemize}
+
+Poniższa intrukcja krok po kroku wyjaśni, jak dodać testy Ash do projektu AshHello. Dla większej przejrzystości demonstracji testy będą korzystać z jquery, ale dołączenie tej biblioteki nie jest wymagane, gdy pracujemy z Ash.  
+
+\begin{enumerate}
+  \item Dodajemy Ash do projektu korzystając z Cordova CLI.\footnote{Projekt jest dostępny do pobrania pod adresem https://github.com/apache/cordova-cli}
+
+Wtyczkę instalujemy poleceniem 
+\begin{quote}
+   cordova plugins add https://github.com/pjazdzewski1990/Ash
+\end{quote}
+i jeśli wszystko przebiegło poprawnie, to zmienna window.Ash powinna zawierać obiekt udostępniający funkcjonalność biblioteki.  
+
+ \item Tworzymy plik z testami
+
+W folderze www/ tworzymy katalog test/ a w nim plik myTest.js. W przed chwilą stworzonym pliku definiujemy samowywołującą się funkcję, która będzie zawierać nasze testy. Możemy to zrobić na przykład w ten sposób:
+
+ \begin{lstlisting}
+  (function(){
+	console.log("MyTest started!");
+	// tu znajdzie sie kod testujacy
+  })();
+\end{lstlisting}
+
+Tak zdefiniowana funkcja zostanie wywołana zaraz po jej wczytaniu. Nasze testy nie będą bardzo skomplikowane, więc pozwolimy sobie na umieszczenia całej logiki bezpośrednio w tej funkcji. W przypadku bardziej rozbudowanych aplikacji i testów warto zgromadzić kodu obiekty.
+
+Mamy zamiar sprawdzić, czy Working Square działa poprawnie w obu ustawieniach ekranu, więc musimy skorzystać z kontekstów 
+
+\begin{quote}
+   Ash.orientationHorizontal()
+\end{quote}
+
+oraz 
+
+\begin{quote}
+   Ash.orientationVertical()
+\end{quote}
+
+które pozwalają na odwrócenie ekranu. Możemy z nich skorzystać w następujący sposób
+
+ \begin{lstlisting}
+  //myTest.js
+
+  Ash.orientationHorizontal().then(function(msg){
+     //ten kod bedzie wywolany, gdy ekran znajdzie sie w orientacji poziomej
+      var worksquare = $('.worksquare');
+      Ash.assert(worksquare);
+      
+      var sidebar = $('.sidebar');
+      Ash.assert(sidebar);
+
+      Ash.equal(worksquare.getBoundingClientRect().top, sidebar.getBoundingClientRect().top);
+     Ash.assert(worksquare.getBoundingClientRect().left < sidebar.getBoundingClientRect().left);
+
+      Ash.endTest();
+    });  
+\end{lstlisting}
+
+Powyższy test sprawdza trzy rzeczy. Po pierwsze znajduje elementy interfejsu, które chcemy zbadać. Przy użyciu Ash.assert() upewnia się, czy istnieją. A następnie porównuje ich pozycje upewniąjąc się, że lelementy są ułożone obok siebie i we właściwej kolejności. Ostanią operacją jest Ash.endTest() co oznacza zakończenie testu sukcesem.
+
+Taki test obejmuje tylko część funkcjonalności. Musimy też zadbać o orientację pionową oraz o to, czy przejście nie ,,psuje'' interfejsu. Aby to zbadać możemy podpiąć dalszą część testu. Na przykład w ten sposób
+
+ \begin{lstlisting}
+  //myTest.js
+
+  Ash.orientationHorizontal().then(function(msg){
+       //kod z porzedniego punktu
+
+      //to jeszcze nie koniec testu, wiec musimy zakomentowac lub usunac endTest()
+      //Ash.endTest();
+  }).then(
+      Ash.orientationVertical //a teraz odwroc ekran pionowo
+    ).then(function(msg){
+      var worksquare = $('.worksquare');
+      Ash.assert(worksquare);
+      
+      var sidebar = $('.sidebar');
+      Ash.assert(sidebar);
+
+      Ash.assert(worksquare.getBoundingClientRect().top < sidebar.getBoundingClientRect().top);
+      Ash.equal(worksquare.getBoundingClientRect().left, sidebar.getBoundingClientRect().left);        
+
+      //jesli aplikacja dotarla tutaj, to zaliczmy ten przypadek testowy
+      Ash.endTest();
+    });
+\end{lstlisting}
+
+Powyższy kod nie jest bardziej skomplikowany od poprzedniego. Jedyną nowością jest zastosowanie wielu bloków then(), które są wykonywane jeden po drugim w kolejności podania i pozwalają łączyć nam mniejsze funkcje testujace w bardziej złożone bloki.
+
+ \item Dodajemy wywołanie kodu testującego do aplikacji
+
+Teraz kiedy mamy już kod testów czas dodać go do aplikacji. W przypadku AshHello dobrym na to miejscem będzie index.js i metoda onDeviceReady(). Metoda ta jest wywołana, gdy zajdzie już zdarzenie 'deviceready' więc jesteśmy w stanie skorzystać z wszystkich dobrodziejstw Apache Cordova.
+
+ \begin{lstlisting}
+  //index.js
+  
+  var app = {
+	...
+    onDeviceReady: function() {
+        console.log('Received onDeviceReady Event');
+        app.setupUI();
+        app.runAshTests();
+    },
+    runAshTests: function() {
+        window.onerror = function(errorMsg, url, lineNumber) {
+            alert("Error " + url + ":" + lineNumber + "\n" + errorMsg);
+        };
+        Ash.loadTests(["test/myTest.js"]);
+    },
+	...
+  };
+
+\end{lstlisting}
+
+Nasza metoda runAshTests() robi dwie rzeczy dodaje wywołanie zwrotne dla zdarzenia onerror. W tym uproszczonym scenariuszu chcemy, żeby wszystkie błędy znalezione objawiały się wyskującym okienkiem z opisem problemu. Następnie korzystając z dotarczonej przez Ash metody loadTests() ładujemy myTests.js, jeśli przypomnimy sobie jak skonstruowany jest ten plik jasne stanie się, że od razu po wczytaniu zostanie on uruchomiony. 
+
+\end{enumerate}
+
+Tak niewiele potrzeba, żeby stworzyć i uruchomić pierwszy prosty test Ash. W razie problemów z uruchomieniem działający kod testowy znajduje się w branchu ,,with-tests''.
 
 \section{Podejście do tworzenia testów}
 
