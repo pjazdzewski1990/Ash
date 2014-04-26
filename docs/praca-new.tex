@@ -69,7 +69,7 @@ hybrydowe aplikacje mobilne}
 
 Wstęp
 
-\chapter{Wprowadzenie}
+\chapter{Podstawowe terminy oraz techniki}
 \section{Hybrydowe aplikacje mobilne}
 Mówiąc o \textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z myślą o konkretnej platformie (Android, iOS, itp.) przy użyciu narzuconych przez twórcę platformy narzędzi (Java, Objective-C, itd.). Aplikacje mobile web są to z kolei aplikacje webowe zoptymalizowane po kątem urządzeń natywnych.
 Adobe PhoneGap oraz jej odpowiednik o otwartym źródle Apache Cordova, to
@@ -457,7 +457,9 @@ Ash.assert( ... )
 \end{quote}
 
 \begin{quote}
-Ash.assert( A, B ) 
+Ash.equal( A, B )
+
+Ash.equals( A, B ) 
 \end{quote}
 
 \begin{quote}
@@ -472,17 +474,19 @@ Ash.isInvisible( ... )
 
 \subsubsection{Opis}
 
-Funckje assert są podstawowymi funkcjami z których tworzymy testy. Pozwalają one na 
+Funkcje assert oraz equal są podstawowymi składowymi testów w Ash. Pozwalają one na 
 
 \begin{itemize}
-  \item sprawdzenie czy obiekt istnieje - funkcja assert(object) pozwala na sprawdzenie czy przekazany obiekt istnieje. Asercja ta zakłada, że każdy przekazany obiekt, który nie jest "falsy" z znaczeniu znanym z Javascript jest poprawny. 
-  \item porównanie dwóch wartości - assert(A, B) sprawdza, czy oba podane arguemnty są identyczne wykorzystując do tego porównanie dokładne, tzn. bierzemy po uwagę typ, wartość oraz nie wykonujemy konwersji obiektów celem porównania.
+  \item sprawdzenie czy obiekt istnieje - funkcja assert(object) pozwala na sprawdzenie czy przekazany obiekt istnieje. Asercja ta zakłada, że każdy przekazany obiekt, który nie jest "falsy" w znaczeniu znanym z Javascript jest poprawny. 
+  \item porównanie dwóch wartości - equal(A, B) sprawdza, czy oba podane argumenty są identyczne. Wykorzystując do tego porównanie dokładne, tzn. bierzemy po uwagę typ, wartość oraz nie wykonujemy konwersji obiektów celem porównania.
 \end{itemize}
 Powyższe asercje w przypadku, gdy argumenty nie spełniają założeń rzucają ustandardyzowane wyjątki Ash. 
 
 Funkcja widzialności visible(A) określają czy przekazany element DOM jest widoczny na ekranie, tzn. czy jego właściwości nie wskazują na to, że jest ukryty oraz czy nie jest poza widocznym ekranem. Analogicznie obiekt spełnia invisible(A), gdy nie spełnia visible(A). 
 
 Różnica pomiędzy funkcjami X oraz isX jest taka, że te pierwsze rzucają wyjatki Ash, gdy założenie nie jest spełnione, natomiast te drugie tylko zwracają wartość boolowksą określającą czy arguemnt spełnia założenia.  
+
+Ash udostępnia także metodę equals, która działa identycznie jak equal, ale została dodana dla uproszczenia składni testów.
 
 \section{Zmiana położenia ekranu}
 
@@ -579,7 +583,7 @@ W przypadku gdy do testowanej aplikacji dodane jest wtyczka cordova-plugin-netwo
 Pozwala realizować scenariusze testowe zakładające operowanie na plikach.
 
 \begin{quote}
-var options = { type: 'audio/amr', limit: 3};
+var options = \{ type: 'audio/amr', limit: 3\};
 
 Ash.withFile(options).then( ... )
 \end{quote}

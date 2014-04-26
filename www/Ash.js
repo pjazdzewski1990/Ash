@@ -155,16 +155,21 @@ var Ash = {
   
   equal: function(valA, valB) {
     if(!(valA === valB)){
+      var msg = "Elements " + (valA? JSON.stringify(valA).substring(0,20) : valA) + 
+          " and " + (valB? JSON.stringify(valB).substring(0,20) : valB) + " aren't equal!";
       throw {
         level:  "Error",
         code: 3,
-        message: "Elements " + JSON.stringify(valA).substring(0,20) + 
-          " and " + JSON.stringify(valB).substring(0,20) + " aren't equal!",
+        message: msg,
         toString: function(){return JSON.stringify(this);}
       }
     }
   },
-  
+
+  equals: function(valA, valB) {
+      this.equal(valA, valB);
+  },
+
   /**
    * Load the js files that contain test code as script tags
    * @param {Array} Array of strings being paths to access test files
