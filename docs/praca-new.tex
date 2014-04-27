@@ -482,7 +482,17 @@ Funkcje assert oraz equal są podstawowymi składowymi testów w Ash. Pozwalają
 \end{itemize}
 Powyższe asercje w przypadku, gdy argumenty nie spełniają założeń rzucają ustandardyzowane wyjątki Ash. 
 
-Funkcja widzialności visible(A) określają czy przekazany element DOM jest widoczny na ekranie, tzn. czy jego właściwości nie wskazują na to, że jest ukryty oraz czy nie jest poza widocznym ekranem. Analogicznie obiekt spełnia invisible(A), gdy nie spełnia visible(A). 
+Funkcja widzialności invisible(A) określają czy przekazany element DOM jest nie widoczny na ekranie. Analogicznie obiekt spełnia visible(A), gdy nie spełnia invisible(A). Stwierdzenie, że element {\it nie jest widoczy na ekranie} oznacza, że zachodzi żaden z poniższych warunków
+
+\begin{itemize}
+  \item Wartość 'display' określona na elemencie jest równy 'hidden' lub 'none'
+  \item Wartość 'visiblity' elementu jest równa 'hidden'
+  \item Element jest położony poza zasięgiem ciała (w sensie document.body) dokumentu
+  \item Rozmiar elementu jest większy niż 0 x 0
+  \item Właściwość 'hidden' elementu jest ustawiona na true
+\end{itemize}
+
+Do asercji związanych z widocznością można przekazywać pojedynczy obiekt DOM, ich tablicę lub obiekt JQuery. W przypadku przekazania tablicy lub kilku elementów zagłębionych w JQuery asercja powodzi się, tylko gdy każdy z elementów spełnia założenie. 
 
 Różnica pomiędzy funkcjami X oraz isX jest taka, że te pierwsze rzucają wyjatki Ash, gdy założenie nie jest spełnione, natomiast te drugie tylko zwracają wartość boolowksą określającą czy arguemnt spełnia założenia.  
 

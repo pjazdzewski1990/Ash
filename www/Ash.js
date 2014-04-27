@@ -81,26 +81,70 @@ var Ash = {
   },
     
   _hidden: function(args) {
+      //array of html DOM elements can be considered hidden if all elements ...
       var elements = this._argToArray(args);
-      return elements.reduce(function(previousValue, element, index, array){
-        return previousValue && element.style && element.style.display === "none";
+      Log.d("Check if hidden " + elements);
+      
+      // ... style is set to none or hidden
+      var hiddenByStyle = elements.reduce(function(previousValue, element, index, array){
+        return previousValue && element.style && (element.style.display === "none" || element.style.display === "hidden");
       }, true);
-//    var outOfScreen = function(){
-//      var height = element.clientHeight;
-//      var width = element.clientWidth;
-//      var vertical = element.offsetTop + height < 0 || 
-//        element.offsetTop > document.body.offsetHeight;
-//      var horizontal = element.offsetLeft + width < 0 || 
-//        element.offsetLeft > document.body.offsetWidth;
-//      return vertical || horizontal
-//    };
-//
-    
-    //var displayNone = element.style && element.style.display === "none";
-//    var noVisibility = ["hidden", "collapse"].indexOf(element.style.visibility)>-1;
-//    console.log("_hidden: " + displayNone + " " + noVisibility + " " + outOfScreen() + " " + element.hidden);
-    //return displayNone || noVisibility || 
-    //outOfScreen() || element.hidden;
+      if(hiddenByStyle) {
+        Log.d("Hidden By Style");
+        return true;
+      }
+      
+      // or
+      // ... are drawn outside document body
+      var outOfScreen = function(element){
+        var elementHeight = element.clientHeight;
+        var elementWidth = element.clientWidth;
+          
+        var vertical = element.offsetTop + elementHeight < 0 || 
+            element.offsetTop > document.body.offsetHeight;
+        var horizontal = element.offsetLeft + elementWidth < 0 || 
+            element.offsetLeft > document.body.offsetWidth;
+      };
+      var hiddenOutOfScreen = elements.reduce(function(previousValue, element, index, array){
+        return previousValue && outOfScreen(element);
+      }, true);
+      if(hiddenOutOfScreen) {
+        Log.d("Hidden Out Of Screen");
+        return true;
+      }
+      
+      //or
+      // ... size is zero
+      var hiddenByZeroSize = elements.reduce(function(previousValue, element, index, array){
+        return previousValue && element.offsetWidth==0 && element.offsetHeight==0;
+      }, true);
+      if(hiddenByZeroSize) {
+        Log.d("Hidden By Zero Size");
+        return true;
+      }
+      
+      //or
+      // ... visibility is set to hidden
+      var hiddenByVisibility = elements.reduce(function(previousValue, element, index, array){
+        return previousValue && element.style && element.style.visibility === "hidden";
+      }, true);
+      if(hiddenByVisibility) {
+        Log.d("Hidden By Visibility");
+        return true;
+      }
+      
+      //or
+      // ... hidden property is simply set to true
+      var hiddenByHiddenProperty = elements.reduce(function(previousValue, element, index, array){
+        return previousValue && element.hidden === true;
+      }, true);
+      if(hiddenByHiddenProperty) {
+        Log.d("Hidden By Hidden Property");
+        return true;
+      }
+      
+      Log.d("Element is visible");
+      return false;
   },
 
   /**
@@ -113,7 +157,7 @@ var Ash = {
       throw {
         level:  "Error",
         code: 3,
-        message: "Element " + element.id.substring(0,20) + " is not visible!",
+        message: "Element " + ((element && element.id)? element.id.substring(0,20) : "element") + " is not visible!",
         toString: function(){return JSON.stringify(this);}
       }
     }
@@ -138,7 +182,7 @@ var Ash = {
       throw {
         level:  "Error",
         code: 3,
-        message: "Element " + element.id.substring(0,20) + " is visible!",
+        message: "Element " + ((element && element.id)? element.id.substring(0,20) : "element") + " is visible!",
         toString: function(){return JSON.stringify(this);}
       }
     }
