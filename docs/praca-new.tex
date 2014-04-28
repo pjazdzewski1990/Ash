@@ -807,6 +807,8 @@ W kodu Javascript kod natywny możemy wywołać w następujący sposób:
 //Ash.js
 var cordova = require('cordova');
 
+...
+
 cordova.exec( 
         successCallback,
         failureCallback, 
@@ -1060,7 +1062,7 @@ Scenariusze przekazujemy jako tablicę obiektów na przykład:
   ];
 \end{lstlisting}
 
-każdy z obiektów musi defioniować następujące klucze:
+każdy z obiektów musi definiować następujące klucze:
 
 \begin{itemize}
   \item PageObject where - określa na jakim ekranie aplikacji ma zostać uruchomiony test
@@ -1096,7 +1098,7 @@ Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o wykona
 
 \section{Obsługa błędów}
 
-Ash do obsługi błędów wykorzystuje wydarzenie 'window.onerror', które ma miejsce, kiedy wyjątek (lub błąd) nie zostanie złapany na żadnym poziomie stosu wywołania. Podczas uruchomienia zestawu testów korzystając z metod run lub play Ash podmienia zastane window.onerror na własną implementację. Zadaniem naszej implementacji jest przechwycenie błedu, jego obsłużenie łącznie w wywołaniem odpowiedniego wywołania zwrotnego oraz dalsze wykonywanie testów.
+Ash do obsługi błędów wykorzystuje wydarzenie 'window.onerror', które ma miejsce, kiedy wyjątek (lub błąd) nie zostanie złapany na żadnym poziomie stosu wywołania. Podczas uruchomienia zestawu testów, korzystając z metod run() lub play(), Ash podmienia zastane window.onerror własną funkcją. Zadaniem naszej implementacji jest przechwycenie błedu, jego obsłużenie, łącznie w uruchomieniem odpowiedniego wywołania zwrotnego. Następnie procedura obsługi uruchamia kolejny test, jeśli jakiś jest dostępny. 
 
 Każdy z obiektów rzucanych jako wyjątek jest ustandaryzowany i zawiera następujące pola: 
 
@@ -1107,6 +1109,24 @@ Każdy z obiektów rzucanych jako wyjątek jest ustandaryzowany i zawiera nastę
 		"message": // string, komunikat bledu 
 	}
 \end{lstlisting}
+
+dodatkowo każdy wyjątek ma też funkcję toString(), która wyświetla informacje na temat wyjątku w formie przystępnej dla użytkownika.
+
+Wykaz wszystkich wyjątków Ash:
+
+//TODO: zapanować nad tą tabelą
+\begin{center}
+    \begin{tabular}{ | p{1cm} | p{2cm} | p{4cm} | l |}
+    \hline
+    Code & Level & Message & Komentarz \\ \hline
+    2 & "Error" & "Element not found!" & Element nie istnieje, jest pusty lub w inny sposób 'falsy' (w sensie JavaScript)  \\ \hline
+    3 & "Error" & "Element X is not visible" & Podany element nie jest widoczny. Wbrew założeniu  \\ \hline
+    4 & "Error" & "Element X is visible" & Podany element jest widoczny Wbrew założeniu  \\ \hline
+    5 & "Error" & "Elements X and Y aren't equal" & Przekazane elementy nie są sobie równe w senie dokładnego porównania, tj.  nie prawdą jest, że X===Y  \\ \hline
+    11 & "Error" & "Not on page!" & Obecnie nie znajdujemy się na podstronie definiowanej przez przekazany PageObject lub interfejs użytkownika nie pokrywa się z założeniami Page Object  \\ \hline
+    12 & "Error" & "Page element doesn't implement required method!" & Obiekt przekazany jako Ash jako Page Object nie implementuje którejś z wymaganych funkcji  \\ \hline
+    \end{tabular}
+\end{center}
 
 \chapter{Implementacja}
 

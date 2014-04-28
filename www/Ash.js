@@ -181,7 +181,7 @@ var Ash = {
     if(!this._hidden(element)){
       throw {
         level:  "Error",
-        code: 3,
+        code: 4,
         message: "Element " + ((element && element.id)? element.id.substring(0,20) : "element") + " is visible!",
         toString: function(){return JSON.stringify(this);}
       }
@@ -203,7 +203,7 @@ var Ash = {
           " and " + (valB? JSON.stringify(valB).substring(0,20) : valB) + " aren't equal!";
       throw {
         level:  "Error",
-        code: 3,
+        code: 5,
         message: msg,
         toString: function(){return JSON.stringify(this);}
       }
