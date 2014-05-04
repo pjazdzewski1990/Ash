@@ -630,7 +630,7 @@ var Ash = {
   },
   
   /**
-  * Simulate user movement. User starts in position startPos expressed as object with two fields: latitude and longitude. Movement is defined by options object contaning: step - how many steps will be provided, latitude and logitude - define the end position. On each step the callback is called with current location - an object containing a "coords" key with 2 further keys - latitude and logitude
+  * Simulate user movement. User starts in position startPos expressed as object with two fields: latitude and longitude. Movement is defined by options object contaning: step - how many steps will be provided, latitude and logitude - define the end position. On each step the callback is called with current location - an object containing a "coords" key with 2 further keys - latitude and logitude set (the rest is defaulted)
   * @param {Object} startPos Movement starting position
   * @param {Callback} options Options for configuring movement
   * @param {Callback} callback The callback function performing the test

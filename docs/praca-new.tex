@@ -1201,7 +1201,40 @@ W przypadku noNetwork() i slowNetwork() status sieci ustalany jest przez wtyczk�
 
 \section{Dostęp do systemu plików}
 
+Obecna implementacja dostępu do plików w Ash jest tylko symulacją i nie przewiduje operowania na realnych danych zgromadzonych na urządzeniu. Jest to podyktowane kilkoma czynnikami
+
+\begin{itemize}
+  \item wielością formatów - każda z platform wspiera wiele różnych typów i formatów plików (pliki muzyczne, video itp.) 
+  \item wsparciem uzależnionym od platformy - nie każda z platform daje dostęp do tego samego zestawu formatów i rozszerzeń plików
+  \item wielkością rozwiązania - nawet gdyby uwzględnić tylko jeden plik dla każdego typu i zaszyć go w Ash, to rozmiar biblioteki utrudniłby korzystanie z niej
+\end{itemize}
+
+Obecnie w momencie wywołania Ash konstruuje obiekty, który spełniają założenia Apache Cordova co do obsługi plików, tzn. mają wszystkie wymagane pola oraz ich dane pokrywają się z tym, co zażadał użytkownik. 
+
+Taka minimalna implementacja pozwala z jednej strony korzystanie z tej funkcjonalności bez kompromisów, które utrudniłyby korzystanie z biblioteki, jednocześnie pozwala na podmianę implementacji w przyszłości, np. tak żeby korzystała z plików dostarczonych przez użytkownika.
+
 \section{Symulacja ruchu}
+
+W obecnej implementacji, na żadnym etapie, urządzenie nie jest manipulowane w ten sposób, aby zmienić jego wewnętrzne informacje na temat położenia. Powodem takiego podejścia jest to, że celem podmiany danych lokalizacji należy uzyskać prawa administratora (roota) na danym urządzeniu. Jako, że wiąże się to z naruszeniem bezpieczeństwa i stabilności platformy na większości urządzeń jest to wyłączone. Jako, że jednym z podstawowych założeń jest to, żeby możliwe było uruchomienie testów na dowolnym urządzeniu bez konieczności jego wcześniejszego przygotowania, dlatego należało ograniczyć sposób działania Ash jeśli chodzi o emulację zmiany położenia urządzenia. 
+
+Ash symuluje ruch poprzez tworzenie obiektu javascript, który zawiera nową pozorowaną lokalizację i przekazanie go wywołania zwrotnego. Funkcja zwrotna jest wywoływana przynajmniej raz, z różnymi obiektami lokalizacji. Ta pozorowana lokalizacja zawiera następujące klucze
+
+\begin{lstlisting}
+
+{
+  "coords" :  {
+      "latitude": X, 
+      "longitude": Y,
+      "accuracy": 0, 
+      "altitudeAccuracy": 0, 
+      "heading": 0, 
+      "speed": 0
+   }
+}
+
+\end{lstlisting}
+
+gdzie X oraz Y oznaczają (odpowiednio) szerokość i długość w aktualnym kroku, a pozostałe mają wartości jak pokazane wyżej.   
 
 \section{Obsługa przycisku powrotu}
 
