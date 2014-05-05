@@ -1270,18 +1270,23 @@ Na poziomie API wtyczka zwraca Promise, które jest rozwiązane gdy uda się wr�
 
 \chapter{Dalsze kierunki rozwoju}
 
+Na obecnym etapie Ash jest już gotowym produktem, który udostępnia całą niezbędną użytkownikowi funkcjonalność. Co nie oznacza, że nie jest możliwe jego dalsze rozszerzenie. Biblioteka będzie rozwijana poprzez wzbogacanie istniejących już funkcjonalności oraz zwiększanie zasięgu poprzez dodawanie obsługi nowych platform. 
+
+Testy pisane w Ash zostaną wzbogacone poprzez
+
+\begin{itemize}
+  \item dodanie nowych, bardziej precyzyjnych asercji wzorowanych na tych z biblioteki Hamcrest, które pozwolą na lepsze wyrażanie zamiarów, bez konieczności pisania dodtkowego
+  \item dodanie nowej składni, dzięki której łatwiejsze będzie wyrażanie testów jako bloków Given-When-Then
+  \item rozwój już istniejących kontekstów i asercji, tak żeby bliżej odpowiadały one realistycznym scenariuszom 
+\end{itemize}
+
+Jednocześnie, aby w pełni wykorzystać potencjał Apache Cordova jako platformy do tworzenia hybrydowych aplikacji moblinych istotnym jest wyjście poza monokulturę platformy Android oraz przygotować implementacje na inne systemy. W pierwszej kolejności będzie to Apple iOS, a następnie Microsoft Windows Phone. Decydującym czynnikiem w określeniu następnych platform docelowych dla Ash jest wielkośc rynku. Udostępnienie implementacji dla tych trzech platform pozwoli "pokryć" większość rynku urządzeń mobilnych oraz dotrzeć do większego grona deweloperów. 
+
 \summary
 
 Zakończenie
 
 \appendix
-\chapter{Tytuł załącznika}
-
-Załącznik…
-
-\chapter{Tytuł załącznika}
-
-Załącznik…
 
 % literatura
 \bibliographystyle{unsrt}
