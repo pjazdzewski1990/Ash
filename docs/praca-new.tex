@@ -446,6 +446,8 @@ Założnie Ash co do projektu testowanego:
 
 W każdej chwili istnieje możliwość wygenerowania aktualnej dokumentacji wprost z kodu aplikacji przy użyciu skryptu gen-doc.sh\footnote{Wymaga sh oraz zainstalowania programu jsdoc}
 
+TODO : schemat wszystkich funkcji obiektu Ash
+
 \section{Asercje}
 
 \subsubsection{Sposób użycia}
@@ -724,6 +726,8 @@ Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie
 Ash pozwala na cofanie się aż do szczytu stosu historii aplikacji. W szczególności od razu po uruchomieniu aplikacji nie możliwe jest wykonie pressBack. W takiej sytuacji pressBack nie powiedzie się, ale nie dojdzie także do wyjścia z aplikacji.
 
 Testowanie obsługi przycisku powrotu na olbrzymie znaczenie w przypadku apliakcji mobilnych  oraz tzw. "Single Page Applications". Tworząc aplikacje bardzo wiele uwagi jest poświęcane sytuacjom kiedy użytkownik porusza się niejako "w głąb" aplikacji otwiera kolejne ekrany na zaplanowanej ścieżce zmieniając jej stan.  Właśnie globalny stan bywa w takich sytuacjach problemem. Bardzo często bywa, że użytkownik przechodzi przez ekrany A i B, w czasie swojego pobytu na B zmienia globalny stan, ale zamiast przechodzić dalej cofa się do A, które od czasu zmiany stanu zachowuje się inaczej niż zakładano. Tworząc aplikację należy zabezpieczyć się przed takimi sytuacjami. Ash.pressBack pozwala na przetestowanie czy taka sytuacja ma miejsce. 
+
+\section{Zdrzenia w czasie wywoływania testów}
 
 \chapter{Zastosowania}
 Ash został pomyślany jako biblioteka, która jest w stanie oprócz dostarczania ,,tradycyjnej'' infrastruktury testowej, tzn.:
@@ -1268,6 +1272,27 @@ Na poziomie API wtyczka zwraca Promise, które jest rozwiązane gdy uda się wr�
 
 \section{Tworzenie laboratorium urządzeń}
 
+Możliwe jest stworzenie swoistego \textit{laboratorium urządzeń} dla aplikacji testowanych przy użyciu Ash. Mówiąc laboratorium mamy na myśli miejsce do którego możemy oddelegować wykonanie testów naszej aplikacji gdy ze względów praktycznych nie chcemy robić tego lokalnie tylko masowo w zdalnej lokacji lub gdy chcemy testować na urządzeniach do których nie mamy dostępu. Spodziewamy się, że laboratorium będzie także raportować o wynikach testów. Takie laboratorium może działać na zasadzie serwera Continuous Integration\footnote{ Więcej informacji na temat Continuous Integration można znaleźć \url{http://www.thoughtworks.com/continuous-integration} lub \url{http://martinfowler.com/articles/continuousIntegration.html} } oraz z powodzeniem stać się częścią procesu wdrażania aplikacji (tzw. deployment pipeline).
+
+Aby mieć móc skorzystania z tej możliwości należy najpierw przygotować samą aplikację jak i serwer, który będzie działać jako laboratorium urządzeń. 
+
+Aplikacja, której testy chcemy oddelegować do zdalnego laboratorium powinna być gotowa do raportowania wyników testów. W tym celu możemy skorzystać w wywołań zwrotnych z metoda run(), play() oraz Ash.callbacks. Pozwalają one nam na podejmowanie działań w kluczowych momentach wykonania testów (pomyślne zakończenie, niepowodzenie, przejście z jednego testu do drugiego ....) bez ingerencji w samą strukturę zestawu testów. Daje to szerokie możliwości, np. możliwe jest wysłanie wyników na zdalny serwer. Obecnie w Ash nie ma jeszcze możliwości na dynamiczne wstrzyknięcie testów w czasie ładowania, dlatego użytkownik musi dopilnować, żeby testy były wywoływane automatycznie tuż po starcie aplikacji. Laboratorium po otrzymaniu żądania testowania zbuduje i zainstaluje aplikację, po czym ją uruchomi na dostępnych urządzeniach, ale to użytkownik musi uruchomić testy po załadowaniu aplikacji.
+
+Laboratorium nie może obyć się bez maszyny która będzie odbierać żądania do przetestowania aplikacji, tworzyć aplikację oraz komunikować się z urządzeniami. Aby móc skutecznie zintegrować testy z procesem wytwarzania oprogramowania należy skorzystać z jakiegoś serwer CI\footnote{ Na przykład z darmowego i bardzo popularnego Jenkinsa http://jenkins-ci.org/}. Serwer CI pownien mieć możliwość wykrycia zmain w repozytorium kodu oraz być w stanie uruchamiać polecenia z konsoli. Dodatkowo na sam serwer powinien mieć dostęp do urządzeń na których chcemy wystartować testy. Mogą one być podpięte kablem do urządzenia (realne) lub uruchomione w systemie (emulowane). 
+
+Automatyczne wykonywanie testów w laboratorium może wyglądać na przykład w ten sposób:
+
+\begin{enumerate}
+  \item Serwer CI inicjuje procedurę uruchomienia testów. Może to nastąpić w reakcji na dodanie nowego kodu do repozytorium z aplikacją lub żądanie użytkownika.
+  \item Najnowsze źródło aplikacji jest pobierane na serwer.
+  \item Serwer uruchamia skrypt budujący aplikację do postaci wykonywalnej.
+  \item Po zbudowaniu aplikacja jest wysyłana na wszystkie dostepne urządzenia.
+  \item Aplikacja uruchamia się na każdym z urządzeń i wykonywane są testy.
+  \item Po zakończeniu testów uruchamiane jest wywołanie zwrotne, które wysyła wyniki w ustalone miejsce oraz informuje serwer CI o zakończeniu i wynikach testów.
+\end{enumerate}
+
+Sama procedura jest bardzo prosta, ale użytkownicy powinni pamiętać, że Continuous Integration przynosi najlepsze wyniki, gdy jest dostosowane do potrzeb konkretnego projektu/organizacji. Tak samo należy dostosować laboratorium i proces wykonywania do swoich potrzeb. 
+
 \chapter{Dalsze kierunki rozwoju}
 
 Na obecnym etapie Ash jest już gotowym produktem, który udostępnia całą niezbędną użytkownikowi funkcjonalność. Co nie oznacza, że nie jest możliwe jego dalsze rozszerzenie. Biblioteka będzie rozwijana poprzez wzbogacanie istniejących już funkcjonalności oraz zwiększanie zasięgu poprzez dodawanie obsługi nowych platform. 
@@ -1278,6 +1303,8 @@ Testy pisane w Ash zostaną wzbogacone poprzez
   \item dodanie nowych, bardziej precyzyjnych asercji wzorowanych na tych z biblioteki Hamcrest, które pozwolą na lepsze wyrażanie zamiarów, bez konieczności pisania dodtkowego
   \item dodanie nowej składni, dzięki której łatwiejsze będzie wyrażanie testów jako bloków Given-When-Then
   \item rozwój już istniejących kontekstów i asercji, tak żeby bliżej odpowiadały one realistycznym scenariuszom 
+  \item dynamiczne wstrzykiwanie testów w momencie budowania aplikacji
+  \item lepsze wsparcie dla cordova-cli oraz narzędzi do Continuous Integration
 \end{itemize}
 
 Jednocześnie, aby w pełni wykorzystać potencjał Apache Cordova jako platformy do tworzenia hybrydowych aplikacji moblinych istotnym jest wyjście poza monokulturę platformy Android oraz przygotować implementacje na inne systemy. W pierwszej kolejności będzie to Apple iOS, a następnie Microsoft Windows Phone. Decydującym czynnikiem w określeniu następnych platform docelowych dla Ash jest wielkośc rynku. Udostępnienie implementacji dla tych trzech platform pozwoli "pokryć" większość rynku urządzeń mobilnych oraz dotrzeć do większego grona deweloperów. 
