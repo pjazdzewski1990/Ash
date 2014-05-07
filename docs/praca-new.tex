@@ -729,6 +729,19 @@ Testowanie obsługi przycisku powrotu na olbrzymie znaczenie w przypadku apliakc
 
 \section{Zdrzenia w czasie wywoływania testów}
 
+Ash daje możliwości kontrolowania procesu wykonywania testów poprzez zestaw dodatkowych bezparametrowych wywołań zwrotnych uruchamianych w momencie startu oraz zakończenia każdego pojedynczego testu lub ich grupy. Są one dostępne w obiekcie Ash.callbacks i mogą być swobodnie nadpisywane przez użytkowników biblioteki. Dotyczy to tylko testów uruchamianych przez run() oraz play().
+
+Ash.callbacks składa się z:
+
+\begin{itemize}
+  \item beforeTest - jest wołane przed pierwszym testem z grupy lub scenariuszem, przed before
+  \item before - uruchamiane przed testem
+  \item after - uruchamiane po zakończeniu test, niezależnie od tego czy powiódł się czy nie
+  \item afterTest - jest wywoływane po zakończeniu się całego zbioru testów, ale przed wywołaniem zwrotnym z run() (lub play()) 
+\end{itemize}
+
+Nadrzędnym testem Ash.callbacks jest pozwolenie użytkownikowi na przygotowanie interfejsu pod działanie testu oraz jego posprzątanie po wykonaniu. Nic nie stoi jednak na przeszkodzie, żeby skorzystać z tych metod np. do raportowania postępów.
+
 \chapter{Zastosowania}
 Ash został pomyślany jako biblioteka, która jest w stanie oprócz dostarczania ,,tradycyjnej'' infrastruktury testowej, tzn.:
 \begin{itemize}
