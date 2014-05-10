@@ -55,6 +55,8 @@ możliwa jest emulacja zachowania, co wpływa na większy realizm testów, a tym
 zaletami bliblioteki są elastyczna struktura testów, która ułatwia ich utrzymywanie oraz możliwość budowania złożonych scenariuszy z prostych kroków, a także
 to, że pozwala na wykorzystania asercji w~aplikacji poza testami.
 Możliwe jest także wykorzystanie Ash do testowania mobilnych wersji stron internetowych. 
+
+TODO: Praca zorganizowana jest w następujący sposób
 \end{abstract}
 \keywords{Javascript, 
  Apache Cordova, 
@@ -776,7 +778,122 @@ Ash działa na zasadzie wtyczki do Apache Cordova jest więc w stanie komunikowa
 
 Zewnętrzne API Ash napisane jest w jezyku Javascript i także w tym języku pisane są testy. Jestem zdania, że Javascript ze względu na swój charakter pozwoli w prosty i przejrzysty sposób wyrazić testy oraz będą one na tyle elastyczne, że wymagane zmiany będą mogły być wprowadzane niewielkimi nakładami sił. API Ash kładzie nacisk na na powtórne wykorzystywanie kodu oraz korzystanie ze wzorca Page Object, co pozwala na zapanowanie nad potrzebą aktualizacji testów do szybko zmieniającej się aplikacji. 
 
-\section{RWE - real world example}
+\section{Przykład zastosowania Ash - Wikipedia Mobile}
+
+Przydatność Ash najlepiej udowodnić pokazując jak można go wykorzystać do przetestowania prawdziwej aplikacji. W tym celu zdecydowałem się pokryć testami Ash część aplikacji Wikipedia Mobile\footnote{Projekt jest dostępny pod adresem https://github.com/wikimedia/WikipediaMobile}. Wybrałem akurat ten projekt gdyż
+
+\begin{itemize}
+  \item wykorzystuje Apache Cordova
+  \item cały źródłowy kod jest dostępny w internecie
+  \item licencja jest bardzo liberalna
+  \item projekt jest prowadzony pod egidą szanowanej organizacji
+  \item aplikacja jest rozbudowana
+  \item jest publicznie dostępna np. pod adresem https://play.google.com/store/apps/details?id=org.wikipedia
+\end{itemize}
+
+Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z której korzysta Wikipedia, a 3.X z myslą o której pisany był Ash zaszły poważne zmiany w sposobie budowania aplikacji oraz działania wtyczke, dlatego konieczne będą pewne zmiany w kodzie biblioteki. Na szczęście elstyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją.
+
+Całość kodu Wikipedia Mobile z dodanym kodem testów jest dostępna pod adresem \url{https://github.com/pjazdzewski1990/WikipediaMobile} 
+
+\subsection{Przygotowanie Ash do działania z Cordova 2.X}
+  
+Stara wersja Cordovy nie korzysta jeszcze z systemu modułów dlatego konieczne jest poprawienie plików Ash.js oraz promise.js tak, żeby były dodawane do aplikacji nawet bez modułów.  W Ash.js należy usunąć następujący kod działający z modułami
+
+\begin{lstlisting}
+   //Ash.js
+  
+  var argscheck = require('cordova/argscheck'), // linia 2
+    utils = require('cordova/utils'),
+    exec = require('cordova/exec'),
+    cordova = require('cordova');
+
+  ...
+
+  module.exports = Ash;   // linia 691
+
+\end{lstlisting}
+
+oraz manualnie podpiąć Ash pod obiekt window
+
+\begin{lstlisting}
+   //Ash.js
+  
+  window.Log = Log;   // linia 693
+  window.Ash = Ash;
+
+\end{lstlisting}
+
+W pliku promise.js usuwamy kod odpowiadający za eksport modułu
+
+\begin{lstlisting}
+   //promise.js
+
+  module.exports = Promise;   // linia 62 
+
+\end{lstlisting}
+
+zamiast tego eksportujemy go samodzielnie 
+
+\begin{lstlisting}
+   //promise.js
+  
+  window.AshPromise = Promise;   // linia 154
+
+\end{lstlisting}
+
+Większe zmiany czekają nas po stronie natywnej. W wersji Cordovy 2.X możliwość pisania wtyczek była dużo skromniejsza, dlatego konieczne jest przerobienie głównej metody wtyczki oraz wyłączenie części funkcjonalności. Sam plik ze wszystkimi zmianami jest dostępny tutaj \url{https://github.com/pjazdzewski1990/WikipediaMobile/blob/master/src/pl/ug/ash/AshPlugin.java}
+
+\subsection{Dodanie Ash do projektu}
+
+Tak zmodyfikowany kod Ash może zostać użyty w projekcie Wikipedia Mobile.
+
+Pliki promise.js oraz Ash.js należy przenieść w takie miejsce, żeby możliwy był do nich dostęp z pliku assets/www/index.html. Można je na przykład przenieść do assets/www/test/. Potem wystaczy już tylko wczytać je na głównym ekranie 
+
+\begin{lstlisting}
+   //index.html
+  
+  ...
+  <script type="text/javascript" charset="utf-8" src="test/ash/promise.js"></script>
+  <script type="text/javascript" charset="utf-8" src="test/ash/Ash.js"></script>
+  ...
+\end{lstlisting}
+
+Celem dodania cześci natywnej należy zapisać plik AsPlugin.java jako src/pl/ug/ash/AshPlugin.java oraz poinformować o nowym pluginie Cordove poprzez dodanie nowej linijki do res/xml/plugins.xml
+
+\begin{lstlisting}
+   //plugins.xml
+  
+  ...
+  <plugin name="Ash" value="pl.ug.ash.AshPlugin"/>
+  ...
+
+\end{lstlisting}
+
+Teraz zostaje nam juz tylko dodanie testów do projektu np. w postaci pliku  assets/www/test/ash/wikitest.js 
+
+\begin{lstlisting}
+   //wikitest.js
+
+  (function(win){  
+    console.log("Wikitest zostalo wczytane");
+  })(window);
+\end{lstlisting}
+
+oraz załadowanie tego testu z poziomu Ash po zajściu zdarzenia 'deviceready'. Stosownym miejscem dla tego będzie assets/www/js/main.js
+
+\begin{lstlisting}
+   //wikitest.js
+
+  function init() {   //linia 25
+    $(document.body).addClass('jsEnabled');
+    document.addEventListener("deviceready", function() {
+      chrome.initialize(); 
+      Ash.loadTests(["test/ash/wikitest.js"]);
+    }, true);
+  }
+\end{lstlisting}
+
+Teraz jesteśmy już gotowi do testowanie aplikacji Wikipedia Mobile z użyciem Ash.
 
 \chapter{Wtyczki}
 
