@@ -1400,6 +1400,31 @@ Na poziomie API wtyczka zwraca Promise, które jest rozwiązane gdy uda się wr�
 
 \section{Rozpraszanie wykonania testów}
 
+Celem zwiększenia produktywności programistów oraz ułatwienia pracy z Apche Crodova wraz z wersją 3.x pojawił się projekt Cordova-Cli. Ma on na celu umożliwienie uruchamiania i zarządząnia apliakcją z poziomu konsoli. Niestety nawet w przypadku korzystania z tej biblioteki uruchamianie testów na wielu urządzeniach jest kłopotliwe. Wraz z każdym urządzeniem na którym należy przetestować apliakcję cykl pracy programisty wydłuża się. Co znacząco utrudnia to deweloperom wytwarzanie oprogramowania.
+
+Aby ułatwić deweloperom pracę z Ash stworzony został skrypt \textit{Furnace}\footnote{Z angielskiego piec, palenisko.}. Dostępny pod adresem \url{https://github.com/pjazdzewski1990/furnance}
+
+Furnace jest to mały program napisany w Javascript i Node.js\footnote{Dostępny pod adresem http://nodejs.org/}, korzystający z Apache Ant\footnote{Strona projektu to  http://ant.apache.org/} oraz adb z pakietu Android SDK\footnote{Do pobrania z http://developer.android.com/sdk/index.html}. Pozwala on na zbudowanie aplikacji pod Androida z projektu Cordova oraz uruchomienie jej na każdym kompatybilnym urządzeniu podłączonym do maszyny na której jest uruchamiany. Jeśli projekt został odpowiednio skonfigurowany możliwe jest przetestowanie kodu na wielu urządzeniach wydając tylko jedno polecenie. Odpowiednia konfiguracja oznacza, że testy startują automatycznie (nie wymagają ingerencji użytkownika) oraz ich wyniki są raportowane do uruchamiającego. 
+
+Furnace obsługujemy w nastąpujący sposób
+
+\begin{quote}
+	node Furnance.js [pełna nazwa klasy uruchamialne] [polecenie]
+\end{quote}
+
+gdzie
+
+\begin{enumerate}
+  \item Pierwszy argument to pełna nazwa (tzw. Fully Qualified Class Name) klasy, która jest uruchamiana przy starcie aplikacji. 
+  \item Kolejny, to polecenie dla Furnace oznaczające na którym etapie wykonania ma zakończyć. Dostępne są trzy: clean (czyszczenie aplikacji), build (budowanie wykonywalnej wersji aplikacji) oraz test (uruchomienie aplikacji, co w domyśle jest tożsame ze startem testów). Furnace buduje w kolejności jak podano powyżej, tzn. uruchomienie z argumentem 'build' oznacza, że wykonane zostaną 'clean' oraz 'build', ale 'test' już nie.
+\end{enumerate}
+
+Na przykład polecenie uruchamia testy dla AshHello na wszystkich dostępnych maszynach 
+
+\begin{lstlisting}
+	node Furnance.js pl.ug.ash.AshHello.AshHello test
+\end{lstlisting}
+
 \section{Tworzenie laboratorium urządzeń}
 
 Możliwe jest stworzenie swoistego \textit{laboratorium urządzeń} dla aplikacji testowanych przy użyciu Ash. Mówiąc laboratorium mamy na myśli miejsce do którego możemy oddelegować wykonanie testów naszej aplikacji gdy ze względów praktycznych nie chcemy robić tego lokalnie tylko masowo w zdalnej lokacji lub gdy chcemy testować na urządzeniach do których nie mamy dostępu. Spodziewamy się, że laboratorium będzie także raportować o wynikach testów. Takie laboratorium może działać na zasadzie serwera Continuous Integration\footnote{ Więcej informacji na temat Continuous Integration można znaleźć \url{http://www.thoughtworks.com/continuous-integration} lub \url{http://martinfowler.com/articles/continuousIntegration.html} } oraz z powodzeniem stać się częścią procesu wdrażania aplikacji (tzw. deployment pipeline).
@@ -1430,7 +1455,7 @@ Na obecnym etapie Ash jest już gotowym produktem, który udostępnia całą nie
 Testy pisane w Ash zostaną wzbogacone poprzez
 
 \begin{itemize}
-  \item dodanie nowych, bardziej precyzyjnych asercji wzorowanych na tych z biblioteki Hamcrest, które pozwolą na lepsze wyrażanie zamiarów, bez konieczności pisania dodtkowego
+  \item dodanie nowych, bardziej precyzyjnych asercji wzorowanych na tych z biblioteki Hamcrest\footnote{Dostępna na stronie https://code.google.com/p/hamcrest/}, które pozwolą na lepsze wyrażanie zamiarów, bez konieczności pisania dodtkowego
   \item dodanie nowej składni, dzięki której łatwiejsze będzie wyrażanie testów jako bloków Given-When-Then
   \item rozwój już istniejących kontekstów i asercji, tak żeby bliżej odpowiadały one realistycznym scenariuszom 
   \item dynamiczne wstrzykiwanie testów w momencie budowania aplikacji
