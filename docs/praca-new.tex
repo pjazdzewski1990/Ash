@@ -895,6 +895,101 @@ oraz załadowanie tego testu z poziomu Ash po zajściu zdarzenia 'deviceready'. 
 
 Teraz jesteśmy już gotowi do testowanie aplikacji Wikipedia Mobile z użyciem Ash.
 
+\subsection{Tworzenie testów Ash}
+
+Testy dopisane do Wikipedia Mobile na razie są bardzo proste i testują trzy podstawowe funkcjonalności aplikacji 
+
+\begin{itemize}
+  \item ,,Random Page Walk'', czyli przejście po artykułach wg. pojawiajacych się w nich odnośnikach. W taki sposób możemy upewnić się czy artykuły są poprawnie wyświetlane.
+  \item Tryb Offline. Wikipedia Mobile oczywiście nie przechowuje danych na temat wszystkich haseł na urządzeniu, tylko pobiera je z sieci. Ten test pozwala ustalić jak zachowa się aplikacja w przypadku jej braku.
+  \item Wyszukiwanie. Aby skorzystać z bogactwa informacji zawartych w Wikipedii konieczny jest sprawny mechanizm wyszukiwania. Ten test sprawdza, czy wyniki są poprawne.  
+\end{itemize}
+
+Przygotowane testy są relatywnie proste i mają charakter poglądowy. 
+
+W przygotowanych testach intensywnie korzystamy z możliwości komponowania testów z mniejszych funkcji oraz Page Objects. O ile w przypadku mniejszych testów wydaje się, że prowadzi to do zwiększenia objętości kodu. Jednak na dłuższą metę pozwala nam to oszczędzić pracy, przez możliwość łatwego komponowanie testów z już gotowych i sprawdzonych funkcji i obiektów. W praktyce wygląda to następująco
+
+\begin{lstlisting}
+   //wikitest.js
+
+    var wikiPage = {
+        validate: function(){
+            var searchText = $("#searchParam");
+            var search = $("#search");
+            return searchText.size()>0 && search.size()>0;
+        },
+        goto: function(){
+            if(!wikiPage.validate()){
+                ($(".titlebarIcon")[0]).click();
+            }
+            return true;
+        }
+    };
+    
+    var mainPage = {
+        validate: function(){
+            var content = $("#content");
+            return wikiPage.validate() && content;
+        },
+        goto: function(){
+            return wikiPage.goto();
+        }
+    };
+
+    .... // oraz inne
+\end{lstlisting}
+
+w powyższym przykładzie definiujemy dwa obiekty - wikiPage oraz mainPage. Pierwszy reprezentuje generyczną podstronę w Wikipedia Mobile. To co łączy je wszystkie, to górny pasek menu zawierający pasek szukania. Każda podstronę możemy traktować jako wikiPage, gdy spełenia ona założenia metody validate(). W tym przypadku ma górny paske wyszukiwania. MainPage z kolei odpowiada za główny ekran aplikacji zawierający przykładowe, wybrane artykuły w elemencie "content". MainPage oczywiście jest podstoną wikipedii, więc w swoich metodach korzysta wikiPage. W ten oto sposób, dzięki kompozycji, ograniczliśmy duplikację kodu oraz uprościliśmy test. Utworzone obiekty wykorzystamy do definicji testów.
+
+Teraz możemy zdefiniować funkcje-testy. Na przykład w ten sposób
+
+\begin{lstlisting}
+   //wikitest.js
+
+   var randomWalkStep = {
+       name: "Choose random link",
+       where: mainPage,
+       what: [function(){
+           var links = $("#content p a");
+           Ash.assert(links);
+           chosenLink = links[0];
+           $(chosenLink).click();
+           Ash.endTest();
+       }],
+       howLong: loadWaitTime + 5000
+    };
+\end{lstlisting}
+
+Tak zdefiniowany obiekt randomWalkStep to pojedynczy krok testów Ash. Zawiera on cztery rzeczy. Klucz ,,name'' pełni jedynie funkcję informacyjną jakie zachowanie testują dalsze funkcje. Do ,,where'' podajemy zdefiniowany wcześniej obiekt głównej strony. W ten sposób określamy na jakim ekranie mają się odbyć testy. ,,What'' zawiera właściwą funkcję. Jest ona bardzo prosta, ale później skorzystamy z niej do zbudowania testu ,,Random Walk''. Jej zadaniem jest wybranie przykładowego odnośnika i przejście po nim. 
+
+Z kilku tak zbudowanych plików możemy zbudować pełen scenariusz testowy.
+
+\begin{lstlisting}
+   //wikitest.js
+
+   var randomWalkScenario = [
+        randomWalkStep,
+        randomWalkCheckStep,
+        randomWalkStep,
+        randomWalkCheckStep];
+
+\end{lstlisting}
+
+Ten scenariusz jest bardzo prosty. Wyraża on dwa przejścia po wybrancyh linkach, przeplatane krokami odpowiedzialnymi za sprawdzenie zawartości artykułu. Oczywiście nic nie stoi na przeszkodzi, żeby dodać jeszcze jedną rundę przejścia czy skorzystać z kroków z ,,randomWalkScenario'' w innym scenariuszu.
+
+Teraz pozostaje nam już tylko uruchomić scenariusz przy użyciu metody ,,Ash.play()''
+
+\begin{lstlisting}
+   //wikitest.js
+
+   Ash.config(conf).play(randomWalkScenario, function(errorData){
+        alert("Test failed " + JSON.stringify(errorData));
+    }, function(successData){
+        console.log("Test success " + JSON.stringify(successData));
+    });
+
+\end{lstlisting}
+
 \chapter{Wtyczki}
 
 Apache Cordova udostępnia swoje API na zasadzie wtyczek. Każda wtyczka może być indywidualnie instalowana oraz udostępnia określone API i związane z nim funkcjonalności. Takie podejście pozwala na rozbicie monolitycznego API na mniejsze części oraz zapewnia możliwość rozszerzenia platformy poprzez własne wtyczki.
