@@ -2,6 +2,7 @@
 
 \usepackage{listings}
 \usepackage{color}
+\usepackage{tabularx}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -41,7 +42,7 @@
 \date     {2014}
 \miejsce  {Gdańsk}
 
-\opiekun  {dr W. Pawłowski}
+\opiekun  {dr Wiesław Pawłowski}
 
 \begin{document}
 
@@ -49,8 +50,8 @@
   Poniższa praca zawiera opis biblioteki „Ash” służącej do funkcjonalnego testowania
 hybrydowych aplikacji mobilnych stworzonych przy użyciu Adobe PhoneGap lub
 Apache Cordova. Ash pozwala na testowanie zachowania się aplikacji w~różnorodnych
-realistycznych scenariuszach, które bywają trudne do symulowania przez inne narzędzia, takich jak poruszanie się użytkownika,
-obrót ekranu, utrata dostępu do sieci oraz~inne. Dzięki wykorzystaniu hybrydowego charakteru aplikacji
+realistycznych scenariuszach, które często bywają trudne do symulowania przez inne narzędzia. Tradycyjne podejścia nie pozwalaja nam na testowanie aplikacji w sytuacji, gdy  użytkownik porusza się,
+obraca ekran, traci dostęp do sieci u~tym~podibne. Dzięki wykorzystaniu hybrydowego charakteru aplikacji
 możliwa jest emulacja zachowania, co wpływa na większy realizm testów, a tym samym na wiarygodność ich wyników. Innymi
 zaletami bliblioteki są elastyczna struktura testów, która ułatwia ich utrzymywanie oraz możliwość budowania złożonych scenariuszy z prostych kroków, a także
 to, że pozwala na wykorzystania asercji w~aplikacji poza testami.
@@ -73,11 +74,11 @@ Wstęp
 
 \chapter{Podstawowe terminy oraz techniki}
 \section{Hybrydowe aplikacje mobilne}
-Mówiąc o \textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z myślą o konkretnej platformie (Android, iOS, itp.) przy użyciu narzuconych przez twórcę platformy narzędzi (Java, Objective-C, itd.). Aplikacje mobile web są to z kolei aplikacje webowe zoptymalizowane po kątem urządzeń natywnych.
+Mówiąc o \textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z myślą~o konkretnej platformie (Android, iOS, itp.) przy użyciu narzuconych przez twórcę platformy narzędzi (Java, Objective-C, itd.).  \textit{Aplikacje mobile web} są to z kolei aplikacje webowe zoptymalizowane po kątem urządzeń mobilnych.
 Adobe PhoneGap oraz jej odpowiednik o otwartym źródle Apache Cordova, to
 dwie popularne biblioteki pozwalajace na tworzenie hybrydowych aplikacji
-mobilnych, tj. aplikacji które łączą w sobie zalety aplikacji natywnych oraz \textit{aplikacji
-typu mobile web}. Zasada działania tego typu aplikacji jest w założeniu prosta i
+mobilnych, tj. aplikacji które łączą w sobie zalety aplikacji natywnych oraz aplikacji
+typu mobile web. Zasada działania tego typu aplikacji jest w założeniu prosta i
 polega na wykorzystaniu komponentów, które dalej nazywać będziemy WebView.
 Komponenty te są dostępne na każdej nowoczesnej platoformie i pozwalają na
 wyświetalnie stron internetowych z wnętrza natywnych aplikacji mobilnych. 
@@ -86,7 +87,7 @@ W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasob
 % tabelki w LaTeX-u też da się robić, chociaż najczytelniej to może nie wygląda
 % więcej na temt tabelek można poczytac np. na http://en.wikibooks.org/wiki/LaTeX/Tables
 \begin{center}
-    \begin{tabular}{ |  p{2cm} | p{4cm} | p{4cm} | p{4cm} |}
+    \begin{tabularx}{\textwidth}{ | X | X | X | X |}
     \hline
    			& Aplikacje natywne        & Aplikacje hybrydowe 	& Aplikacje mobile web 			\\ \hline
     Narzędzia	& Zależne od platformy	&   Narzędzia webowe	& 	Narzędzia webowe			\\ \hline
@@ -96,7 +97,7 @@ W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasob
     			&  Pobranie, reklamy, subskrybcje  & Pobranie, reklamy, subskrybcje & Reklamy, subskrybcje \\ \hline
     Dostęp do urządzenia
     			& 	Tak, pełen  	         &Najważniejsze funkcjonalności& Ograniczony        \\ \hline
-    \end{tabular}
+    \end{tabularx}
 \end{center}
 
 Takie podejście ma wiele zalet. Dzięki temu, że do tworzenia aplikacji hybrydowych wykorzystywane są technologie
