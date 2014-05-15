@@ -75,15 +75,15 @@ Wstęp
 
 \chapter{Podstawowe terminy oraz techniki}
 \section{Hybrydowe aplikacje mobilne}
-Mówiąc o \textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z myślą~o konkretnej platformie (Android, iOS, itp.) przy użyciu narzuconych przez twórcę platformy narzędzi (Java, Objective-C, itd.).  \textit{Aplikacje mobile web} są to z kolei aplikacje webowe zoptymalizowane po kątem urządzeń mobilnych.
+Mówiąc o \textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z myślą~o konkretnej platformie sprzętowej (Android, iOS, itp.) przy użyciu narzuconych przez jej twórcę narzędzi (Java, Objective-C, itd.).  \textit{Aplikacje mobile web} są to z kolei aplikacje webowe zoptymalizowane po kątem urządzeń mobilnych.
 Adobe PhoneGap oraz jej odpowiednik o otwartym źródle Apache Cordova, to
-dwie popularne biblioteki pozwalajace na tworzenie hybrydowych aplikacji
+dwie popularne biblioteki pozwalające na tworzenie hybrydowych aplikacji
 mobilnych, tj. aplikacji które łączą w sobie zalety aplikacji natywnych oraz aplikacji
-typu mobile web. Zasada działania tego typu aplikacji jest w założeniu prosta i
+typu mobile web. Zasada działania tego typu programów jest w założeniu prosta i
 polega na wykorzystaniu komponentów, które dalej nazywać będziemy WebView.
-Komponenty te są dostępne na każdej nowoczesnej platoformie i pozwalają na
+Komponenty te są dostępne na każdej nowoczesnej platformie i pozwalają na
 wyświetalnie stron internetowych z wnętrza natywnych aplikacji mobilnych. 
-W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasoby z określonego adresu (lokalnego lub zdalnego), które są wyświetlane w WebView. Najczęściej tym zasobem jest aplikacja stworzona przy użyciu technologii webowych.     
+W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasoby z określonego adresu (lokalnego lub zdalnego), które są wyświetlane w tym WebView. Najczęściej tym zasobem jest aplikacja stworzona przy użyciu technologii webowych.     
 
 % tabelki w LaTeX-u też da się robić, chociaż najczytelniej to może nie wygląda
 % więcej na temt tabelek można poczytac np. na http://en.wikibooks.org/wiki/LaTeX/Tables
@@ -93,7 +93,7 @@ W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasob
    			& Aplikacje natywne        & Aplikacje hybrydowe 	& Aplikacje mobile web 			\\ \hline
     Narzędzia	& Zależne od platformy	&   Narzędzia webowe	& 	Narzędzia webowe			\\ \hline
     Instalacja	&        Wymagana               &	 Wymagana         	& 		Nie wymagana		\\ \hline
-    Wydajność	& 	Bardzo dobra		&Ograniczona przez przeglądarkę&Ograniczona przez przeglądarkę\\ \hline
+    Wydajność	& 	Bardzo dobra		&Ograniczona przez komponent WebView&Ograniczona przez przeglądarkę\\ \hline
     Możliwość monetyzacji
     			&  Pobranie, reklamy, subskrybcje  & Pobranie, reklamy, subskrybcje & Reklamy, subskrybcje \\ \hline
     Dostęp do urządzenia
@@ -101,8 +101,7 @@ W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasob
     \end{tabularx}
 \end{center}
 
-Takie podejście ma wiele zalet. Dzięki temu, że do tworzenia aplikacji hybrydowych wykorzystywane są technologie
-znane z zastosowań intenetowych, koszt ich tworzenia i czas dostarczenia
+Takie podejście ma wiele zalet. Dzięki temu, że do tworzenia aplikacji hybrydowych wykorzystywane są powszechnie znane technologie internetowe, koszt ich tworzenia i~czas dostarczenia
 gotowego rozwiązania na rynek są znacznie zredukowane. Aplikacje tego typu są też
 z założenia wieloplatformowe. Używając PhoneGap z~tego samego kodu źródłowego
 możemy stworzyć aplikacje na platformę Android, iOS, Blackberry, WebOS,
@@ -111,21 +110,22 @@ ułatwia znalezienie właściwych programistów.
 
 \section{Wady podejścia hybrydowego}
 Największymi wadami podejścia hybrydowego są słabsza wydajność, błędy
-pojawiające się tylko na określonych urządzeniach oraz potencjalnie odmienne oczekiwania
-użytkowników różnych platform. Użytkownik instalując aplikację hybrydową w taki sam sposób co 
+pojawiające się tylko na określonych urządzeniach oraz potencjalnie odmienne oczekiwania użytkowników różnych platform. 
+
+Użytkownik instalując aplikację hybrydową w taki sam sposób co 
 natywną spodziewa się, że będzie ona działać niczym natywna. Tymczasem
 dodatkowy narzut hybrydy, często w połączeniu z niedopracowaną i nie
 zoptymalizowaną aplikacją, prowadzi do mniej responsywnego interfejsu
 użytkownika i w konskewencji do frustracji użytkownika. Częstym problemem przy
 tworzeniu aplikacji mobilnych są błędy, które są specyficzne tylko dla pewnych modeli urządzeń. Przy podejściu hybrydowym problem jest o tyle bardziej widoczny, że
-najczęściej tworzymy rozwiązanie które ma być przenośne nie tylko pomiędzy urządzeniami w ramach jednej platformy, ale także między platformami. Co z oczywistych względów zwiększa gamę urządzeń, które trzeba uzwględnić. Trzecim problemem hybryd jest kwestia
-tworzenia interfejsu użytkownika. Dostawcy systemów operacyjnych dla urządzeń
+najczęściej tworzymy rozwiązanie które ma być przenośne nie tylko pomiędzy urządzeniami w ramach jednej platformy, ale także między platformami. Co z~oczywistych względów zwiększa gamę urządzeń, które trzeba uzwględnić. Trzecim problemem hybryd jest kwestia
+tworzenia interfejsu użytkownika, który byłby intuicyjny i~wygodny dla użytkownika. Dostawcy systemów operacyjnych dla urządzeń
 mobilnych publikują zalecenia, co do tego jak powinien wyglądać interfejs aplikacji
-działającej pod danym systemem. Zalecenia te są specyficzne dla platformy i często
-wzajemnie się wykluczają. Przygotowanie jednej szaty graficznej i jednego interfejsu
+działającej pod danym systemem. Zalecenia te są specyficzne dla platformy i~często
+wzajemnie się wykluczają. Przygotowanie jednej szaty graficznej i~jednego interfejsu
 może zostać źle odebrane przez użytkowników spodziewających się wyglądu
 dostosowanego do platformy. Niestety stworzenie kilku wersji interfejsu jest dużo
-bardziej pracochłonne i skomplikowane, niweczy także podstawową zaletę apliakcji
+bardziej pracochłonne i~skomplikowane, niweczy także podstawową zaletę aplikacji
 hybrydowych – przenośność. 
 Są to poważne niedostatki, ale braki te można zniwelować z pomocą skutecznych narzędzi.
 
@@ -139,17 +139,16 @@ oprogramowania Ash pozwala zbierać informacje o responsywności interfejsu
 oraz realistycznie symulować scenariusze dużego obciążenia. Programista
 korzystający z Ash ma możliwość zdefiniowania w scenariuszach maksymalnego
 czasu trwania testu. Jeśli test nie zakończy się w założonym czasie jest on oznaczany jako niepowodzenie. Niska responsywność interfejsu traktowana jest na równi z błędami
-logiki czy prezentacji. Wymusza to na twórcy zadbanie o szybkość reakcji interfejsu.
+logiki czy prezentacji. Wymusza to na twórcy dbanie o szybkość reakcji interfejsu.
 Ash oferuje także możliwość chwilowego wyłączenia lub opóźnienia dostępu do
 sieci. Sytuacje w których dostępność internetu jest ograniczona są dość częste,
 jednak niewiele aplikacji jest pisanych biorąc to pod uwagę, a jeszcze mniej 
-testowana pod tym kątem. Bardzo często problemy z dotępem objawiają się kiepską
+testowana pod tym kątem. Bardzo często problemy z dotępem do sieci objawiają się kiepską
 wydajnością interfejsu lub długimi przestojami na ekranach ładowania. Ash pozwala
-twórcom świadomie zmierzyć się z tym problemem. Biblioteka wyposażona jest w
-mechanizmy pozwalajace na łatwe uruchomienie aplikacji na wielu urządzeniach, fizycznych i wirtualnych naraz. Także w zdalnych lokalizacjach. Sprawia to, że
+twórcom świadomie zmierzyć się z tym problemem. Biblioteka wyposażona jest także w~mechanizmy pozwalajace na łatwe uruchomienie aplikacji na wielu urządzeniach, fizycznych i~wirtualnych naraz. Nawet w zdalnych lokalizacjach. Sprawia to, że
 użytkownicy mają możliwość masowego uruchamiania testów na wszystkich
 dostępnych im urządzeniach oraz są bardziej skłonni skorzystać z testów w czasie
-swojej pracy. Zdalne uruchomienie testów daje możliwość stworzenia
+swojej pracy. Zdalne uruchamianie testów daje możliwość stworzenia
 rozproszonej bazy urządzeń, co pozwoli na testowanie także mniej typowych
 konfiguracji.
 
@@ -157,20 +156,20 @@ konfiguracji.
 Jako bazę do implementacji wybrałem Apache Cordova. Jest to
 wersja PhoneGap, którą korporacja Adobe (właściel praw do PhoneGap) udostępniła
 fundacji Apache. Od tego momentu ten wariant technologii udostępniany jest
-na zasadzie otwartego źródła. Pomimo tego oba projekty są niemal identyczne, a jedyna faktyczna różnica między nimi jest natury prawnej. Głównym powodem
+na zasadzie otwartego źródła. Pomimo tego oba projekty są niemal identyczne, a~jedyna faktyczna różnica między nimi jest natury prawnej. Głównym powodem
 wyboru tej technologii jest spory udziała w rynku hybrydowych aplikacji mobilnych,
-dynamizm rozwoju oraz liczna społeczność.
+dynamizm rozwoju oraz liczna społeczność. Nie bez znaczenia jest także swobodny dostęp do źródła biblioteki.
 
 \section{Test Driven Development}
 
-\textit{Test Driven Development} jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o których często mówimy \textit{red-green-refactor}
+\textit{Test Driven Development} jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o których często mówimy \textit{red-green-refactor}. Na taki cykl składają się fazy
 \begin{itemize}
   \item Red - Programista pisze testy automatyczne, pokrywające funkcjonalność, która została wyspecyfikowana, ale nie została jeszcze zaimplementowana. Na tym etapie testy nie przechodzą
-  \item Green - Następnie programista implementuje brakujące funkcjonalności, aż wszystkie testy napisane w poprzednim kroku stają się zielone, czyli uruchamiają się bez błędów
-  \item Rrefactor - Po zakończeniu implementacji tworzone są dodatkowe testy do istniejących już funkcjonalności. Testowana aplikacja też jest udoskonalana
+  \item Green - Następnie programista implementuje brakujące funkcjonalności, aż wszystkie testy napisane w poprzednim kroku staną się ,,zielone'', czyli uruchamiają się i kończą bez błędów
+  \item Refactor - Na tym etapie testowana aplikacja jest udoskonalana. Dzięki testom nie ma obawy, że nowe funcjonalności czy poprawki doprowadzą do regresji, czyli uszkodzenia starych funkcjonalności przez właśnie dodawane nowe. Wszelkie takie przypadki powinny być wykryte przez testy automatyczne. Po zakończeniu implementacji tworzone są dodatkowe testy do istniejących już funkcjonalności
 \end{itemize}
 
-Dzięki zastosowaniu krótkich cykli oraz automatycznych testów, metodologia ta pozwala na tworznie oprogramowania, które ma przemyślaną architekturę oraz unika problemów związanych z regresją. Tworząc kod  programu programista musi dopilnować, żeby jego kod można było przetestować, co prowadzi do poprawienia jakości tworzonego kodu. Testy automatyczne, które powstają podczas cyklu zwiększają prawdopodobieństwo, że w przypadku, gdy kod aplikacji zmieni się potencjalne błędy zostaną od razu wychwycone. 
+Dzięki zastosowaniu krótkich cykli oraz automatycznych testów, metodologia ta pozwala na tworznie oprogramowania, które ma przemyślaną architekturę oraz unika problemów związanych z regresją. Tworząc kod  programu programista musi dopilnować, żeby jego kod był testowalny, co prowadzi do poprawienia jakości tworzonego oprogramowania. Testy automatyczne, które powstają podczas cyklu zwiększają prawdopodobieństwo, że w~przypadku, gdy kod aplikacji zmieni się potencjalne błędy zostaną od razu wychwycone. 
 
 Test Driven Developement jako metodologia jest powiązana z Extreme Programming oraz z koncepcją ,,Tests First'', która zakłada że zestawy testów automatycznych powinny być tworzone jeszcze przed napisaniem testowanej aplikacji, co skutkuje wysoką jakością tworzonego oprogramowania.   
 
@@ -187,7 +186,7 @@ Więcej informacji można znaleźć na:
 Wyróżniamy wiele rodzajów testów:
 \begin{itemize}
   \item Jednostkowe - Testy obejmujące poszczególne funkcje na najniższym poziomie. Ich wykonywanie musi być możliwie jak najszybsze. Nie powinny korzystać z zewnętrznych zasobów
-  \item Integracyjne - Ten rodzaj testów pokrywa wiele komponentów aplikacji na raz i testuje nie tylko, czy każdy z poszczególnych działa poprawnie w izolacji, ale także czy komunikacja między nimi jest poprawna
+  \item Integracyjne - Ten rodzaj testów pokrywa wiele komponentów aplikacji na raz i testuje nie tylko, czy każdy z poszczególnych modułów działa poprawnie w izolacji, ale także czy komunikacja między nimi jest poprawna
   \item Funkcyjne - Testy tego typu sprawdzają, czy interfejs aplikacji jest poprawny oraz czy interakcja z użytkownikiem działa poprawnie. U podstaw działania tych testów leży symulowanie zachowania programu jak gdyby operowali na nim ludzie 
   \item A/B - Tak zwane testy A/B polegają na testowaniu oprogramowania pod kątem wygody i praktyczności interfejsu
   \item Wydajnościowe - Jak sama nazwa wskazuje służą one do sprawdzenia wydajności aplikacji
