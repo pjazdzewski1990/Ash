@@ -765,7 +765,7 @@ Ash.callbacks składa~się~z:
 Nadrzędnym testem Ash.callbacks jest pozwolenie użytkownikowi na przygotowanie interfejsu pod działanie testu oraz jego posprzątanie po wykonaniu. Nic nie stoi jednak na przeszkodzie, żeby skorzystać z tych metod np. do raportowania postępów.
 
 \chapter{Zastosowania}
-Ash został pomyślany jako biblioteka, która jest w~stanie oprócz dostarczania ,,tradycyjnej'' infrastruktury testowej, tzn.:
+Ash został pomyślany jako biblioteka, która oprócz dostarczania ,,tradycyjnej'' infrastruktury testowej, tzn.:
 \begin{itemize}
   \item asercji
   \item funkcji porównujących
@@ -773,30 +773,31 @@ Ash został pomyślany jako biblioteka, która jest w~stanie oprócz dostarczani
   \item narzędzi do budowania testów
   \item ustandaryzowanych wyjątków
 \end{itemize}
-ułatwić także tesotwanie sytuacji, które są albo trudne do odtworzenia
+jest także w~stanie ułatwić tesotwanie aplikacji w sytuacjach, które są albo trudne do odtworzenia jak
 \begin{itemize}
   \item operacje na plikach
   \item badanie widoczności elementu na ekranie
 \end{itemize}
- albo w poza możliwościami typowych rozwiązań testujących
+ albo poza możliwościami typowych rozwiązań testujących
 \begin{itemize}
   \item ustawienie ekranu urządzenia
   \item dostęp do sieci
   \item symulowanie ruchu
 \end{itemize}
-Ash może z powodzeniem być stosowany zarówno jako osobny (standalone) i samodzielny framework testujący, jak i uzupełnienie innych rozwiązań. W ogólnym ujęciu Ash jest przeznaczony do fukcyjnego testowania aplikacji, tzn. aplikacja jest testowana od strony interfejsu użytkownika, co ma swoje zalety (najbardziej wiarygodnie symuluje użytkownika) jak i wady (interfejs często podlega zmianom). Jak zostało wcześniej wspomniane testy funkcyjne dają najlepsze efekty, gdy są uzupełniane przez testy jednostkowe.  
+
+Ash może z powodzeniem być stosowany zarówno jako osobny (standalone) i samodzielny framework testujący, jak i~w~roli uzupełnienia innych rozwiązań. W~ogólnym ujęciu Ash jest przeznaczony do fukcyjnego testowania aplikacji, tzn. aplikacja jest testowana od strony interfejsu użytkownika, co ma swoje zalety (najbardziej wiarygodnie symuluje użytkownika) jak i~wady (interfejs często podlega zmianom). Jak zostało wcześniej wspomniane testy funkcyjne dają najlepsze efekty, gdy są uzupełniane przez testy jednostkowe.  
 
 \section{Problemy związane z obecnymi rozwiązaniami}
 
-Obecnie istniejące rozwiązania pozwalajace na funkcyjne testowanie hybrydowych aplikacji mobilnych nie są wystarczające. Większość z nich wywodzi się z technologii webowych co ogranicza ich zastosowanie tylko do tej części aplikacji, która odpowiada aplikacji typu mobile web. Rozwiązania te nie są w stanie wykorzystać przewagi jaką daje hybrydowe podejście Apache Cordova, nie są w stanie ani przetestować ani skorzystać z natywnych podwalin aplikacji hybrydowej. W naturalny sposób ogranicza to ich możliwości oraz zastosowanie w kontekście rozważanych aplikacji. Naturalną wadą wielu bibliotek do funkcyjnego testowania aplikacji jest ich wrażliwość na zmiany interfejsu użytkownika. W przypadku większości aplikacji warstwa interfejsu jest tą częścią, która zmienia się najczęściej. W konsekwencji pożądaną własnością dobrej biblioteki do testowania funkcyjnego jest abstrakcja pozwalajaca na oderwanie się od detali interfejsu użytkownika oraz prostota pozwalająca na łatwą zmianę testów, gdyby zaszła taka potrzeba. 
+Obecnie istniejące rozwiązania pozwalające na funkcyjne testowanie hybrydowych aplikacji mobilnych nie~są wystarczające. Większość z~nich wywodzi się z~technologii webowych, co ogranicza ich zastosowanie tylko do tej części aplikacji, która odpowiada aplikacji typu mobile web. Rozwiązania te nie są w~stanie wykorzystać przewagi jaką daje hybrydowe podejście Apache Cordova. Nie potrafią przetestować czy skorzystać z~natywnych podwalin aplikacji hybrydowej. W naturalny sposób ogranicza to ich możliwości oraz zastosowanie w kontekście rozważanych aplikacji. Naturalną wadą wielu bibliotek do funkcyjnego testowania aplikacji jest ich wrażliwość na zmiany interfejsu użytkownika. W~przypadku większości aplikacji warstwa interfejsu jest tą częścią, która zmienia się najczęściej. W konsekwencji pożądaną własnością dobrej biblioteki do testowania funkcyjnego jest abstrakcja pozwalajaca na oderwanie się od detali interfejsu użytkownika oraz prostota pozwalająca na łatwą zmianę testów, gdyby zaszła taka potrzeba. 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 \section{Ash jako rozwiązanie}
 
 Ash jest biblioteką służącą do funkcyjnego testowania hybrydowych aplikacji mobilnych, która stara się minimalizować niedostatki tego podejścia poprzez pełne wykorzystanie możliwości dawanych przez hybrydowy charakter testowanych aplikacji. 
 
-Ash działa na zasadzie wtyczki do Apache Cordova jest więc w stanie komunikować się z platformą sprzętową poprzez Native Bridge. Daje to możliwość manipulowanie ustawieniami czy zasobami urządzenia np. uzyskania dostępu do systemu plików czy ustawień połączenia. System operacyjny na którym uruchomiona jest aplikacja hybrydowa ma spory wpływ na to jak zachowa się aplikacja, niestety tradycyjne podejścia nie pozwalają na przetestowanie ich wpływu na aplikację. Co innego Ash, który udostępnia funkcjonalności pozwalające na wywoływanie określonych zachowań urządzenia. 
+Ash działa na zasadzie wtyczki do Apache Cordova jest więc w~stanie komunikować się z~platformą sprzętową poprzez \textit{Native Bridge}. Daje to możliwość manipulowania ustawieniami czy zasobami urządzenia, np. uzyskania dostępu do systemu plików czy ustawień połączenia. System operacyjny na którym uruchomiona jest aplikacja hybrydowa ma spory wpływ na to jak zachowa się aplikacja, niestety tradycyjne podejścia nie pozwalają na przetestowanie ich wpływu na aplikację. Co innego Ash, który udostępnia funkcjonalności pozwalające na wywoływanie określonych zachowań urządzenia. 
 
-Zewnętrzne API Ash napisane jest w jezyku Javascript i także w tym języku pisane są testy. Jestem zdania, że Javascript ze względu na swój charakter pozwoli w prosty i przejrzysty sposób wyrazić testy oraz będą one na tyle elastyczne, że wymagane zmiany będą mogły być wprowadzane niewielkimi nakładami sił. API Ash kładzie nacisk na na powtórne wykorzystywanie kodu oraz korzystanie ze wzorca Page Object, co pozwala na zapanowanie nad potrzebą aktualizacji testów do szybko zmieniającej się aplikacji. 
+Zewnętrzne API Ash napisane jest w jezyku Javascript i~także w tym języku pisane są testy. Jestem zdania, że Javascript ze względu na swój charakter pozwali w prosty i~przejrzysty sposób wyrazić testy oraz czyni je na tyle elastycznymi, że wymagane zmiany będą mogły być wprowadzane niewielkimi nakładami sił. API Ash kładzie nacisk na powtórne wykorzystywanie kodu oraz wykorzystanie wzorca Page Object, co pozwala na zapanowanie nad testami nawet w~najszybciej zmieniającej się aplikacji. 
 
 \section{Przykład zastosowania Ash - Wikipedia Mobile}
 
@@ -804,20 +805,20 @@ Przydatność Ash najlepiej udowodnić pokazując jak można go wykorzystać do 
 
 \begin{itemize}
   \item wykorzystuje Apache Cordova
-  \item cały źródłowy kod jest dostępny w internecie
+  \item cały źródłowy kod jest dostępny w~internecie
   \item licencja jest bardzo liberalna
   \item projekt jest prowadzony pod egidą szanowanej organizacji
   \item aplikacja jest rozbudowana
   \item jest publicznie dostępna np. pod adresem https://play.google.com/store/apps/details?id=org.wikipedia
 \end{itemize}
 
-Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z której korzysta Wikipedia, a 3.X z myslą o której pisany był Ash zaszły poważne zmiany w sposobie budowania aplikacji oraz działania wtyczke, dlatego konieczne będą pewne zmiany w kodzie biblioteki. Na szczęście elstyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją.
+Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z~której korzysta Wikipedia, a 3.X z myślą o której pisany był Ash zaszły poważne zmiany. Także w sposobie budowania aplikacji oraz działania wtyczek, dlatego konieczne będą pewne zmiany w kodzie samej biblioteki. Na szczęście elstyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją.
 
-Całość kodu Wikipedia Mobile z dodanym kodem testów jest dostępna pod adresem \url{https://github.com/pjazdzewski1990/WikipediaMobile} 
+Całość kodu Wikipedia Mobile z~dodanym kodem testów jest dostępna pod adresem \url{https://github.com/pjazdzewski1990/WikipediaMobile} 
 
-\subsection{Przygotowanie Ash do działania z Cordova 2.X}
+\subsection{Przygotowanie Ash do działania z~Cordova 2.X}
   
-Stara wersja Cordovy nie korzysta jeszcze z systemu modułów dlatego konieczne jest poprawienie plików Ash.js oraz promise.js tak, żeby były dodawane do aplikacji nawet bez modułów.  W Ash.js należy usunąć następujący kod działający z modułami
+Stara wersja Cordovy nie korzysta jeszcze z~systemu modułów dlatego konieczne jest poprawienie plików Ash.js oraz promise.js tak, żeby były dodawane do aplikacji nawet bez modułów.  W Ash.js należy usunąć następujący kod działający wyłącznie z~modułami
 
 \begin{lstlisting}
    //Ash.js
@@ -837,7 +838,9 @@ oraz manualnie podpiąć Ash pod obiekt window
 
 \begin{lstlisting}
    //Ash.js
-  
+
+  ...
+
   window.Log = Log;   // linia 693
   window.Ash = Ash;
 
@@ -847,7 +850,7 @@ W pliku promise.js usuwamy kod odpowiadający za eksport modułu
 
 \begin{lstlisting}
    //promise.js
-
+ 
   module.exports = Promise;   // linia 62 
 
 \end{lstlisting}
@@ -861,13 +864,13 @@ zamiast tego eksportujemy go samodzielnie
 
 \end{lstlisting}
 
-Większe zmiany czekają nas po stronie natywnej. W wersji Cordovy 2.X możliwość pisania wtyczek była dużo skromniejsza, dlatego konieczne jest przerobienie głównej metody wtyczki oraz wyłączenie części funkcjonalności. Sam plik ze wszystkimi zmianami jest dostępny tutaj \url{https://github.com/pjazdzewski1990/WikipediaMobile/blob/master/src/pl/ug/ash/AshPlugin.java}
+Większe zmiany czekają nas po stronie natywnej. W wersji Cordovy 2.X możliwość pisania wtyczek była dużo skromniejsza, dlatego konieczne jest przerobienie głównej metody wtyczki oraz wyłączenie części funkcjonalności. Plik ze wszystkimi koniecznymi zmianami jest dostępny tutaj \url{https://github.com/pjazdzewski1990/WikipediaMobile/blob/master/src/pl/ug/ash/AshPlugin.java}
 
 \subsection{Dodanie Ash do projektu}
 
 Tak zmodyfikowany kod Ash może zostać użyty w projekcie Wikipedia Mobile.
 
-Pliki promise.js oraz Ash.js należy przenieść w takie miejsce, żeby możliwy był do nich dostęp z pliku assets/www/index.html. Można je na przykład przenieść do assets/www/test/. Potem wystaczy już tylko wczytać je na głównym ekranie 
+Pliki promise.js oraz Ash.js należy przenieść w~takie miejsce, żeby możliwy był do nich dostęp z pliku assets/www/index.html. Można je na przykład przenieść do assets/www/test/. Potem wystaczy już tylko wczytać je na głównym ekranie 
 
 \begin{lstlisting}
    //index.html
@@ -876,9 +879,10 @@ Pliki promise.js oraz Ash.js należy przenieść w takie miejsce, żeby możliwy
   <script type="text/javascript" charset="utf-8" src="test/ash/promise.js"></script>
   <script type="text/javascript" charset="utf-8" src="test/ash/Ash.js"></script>
   ...
+
 \end{lstlisting}
 
-Celem dodania cześci natywnej należy zapisać plik AsPlugin.java jako src/pl/ug/ash/AshPlugin.java oraz poinformować o nowym pluginie Cordove poprzez dodanie nowej linijki do res/xml/plugins.xml
+Celem dodania cześci natywnej należy zapisać plik AsPlugin.java jako src/pl/ug/ash/AshPlugin.java oraz poinformować o nowej wtyczce Cordove, przez dodanie nowej linijki do res/xml/plugins.xml
 
 \begin{lstlisting}
    //plugins.xml
@@ -889,7 +893,7 @@ Celem dodania cześci natywnej należy zapisać plik AsPlugin.java jako src/pl/u
 
 \end{lstlisting}
 
-Teraz zostaje nam juz tylko dodanie testów do projektu np. w postaci pliku  assets/www/test/ash/wikitest.js 
+Teraz zostaje nam juz tylko dodanie testów do projektu np. w~postaci pliku  assets/www/test/ash/wikitest.js 
 
 \begin{lstlisting}
    //wikitest.js
@@ -899,7 +903,7 @@ Teraz zostaje nam juz tylko dodanie testów do projektu np. w postaci pliku  ass
   })(window);
 \end{lstlisting}
 
-oraz załadowanie tego testu z poziomu Ash po zajściu zdarzenia 'deviceready'. Stosownym miejscem dla tego będzie assets/www/js/main.js
+oraz załadowanie tego testu z poziomu Ash po zajściu zdarzenia 'deviceready'. Stosownym miejscem dla tego będzie funkcja init() w assets/www/js/main.js
 
 \begin{lstlisting}
    //wikitest.js
@@ -915,19 +919,19 @@ oraz załadowanie tego testu z poziomu Ash po zajściu zdarzenia 'deviceready'. 
 
 Teraz jesteśmy już gotowi do testowanie aplikacji Wikipedia Mobile z użyciem Ash.
 
-\subsection{Tworzenie testów Ash}
+\subsection{Tworzenie testów w~Ash}
 
-Testy dopisane do Wikipedia Mobile na razie są bardzo proste i testują trzy podstawowe funkcjonalności aplikacji 
+Testy dopisane do Wikipedia Mobile na razie są bardzo proste i~testują trzy podstawowe funkcjonalności aplikacji 
 
 \begin{itemize}
-  \item ,,Random Page Walk'', czyli przejście po artykułach wg. pojawiajacych się w nich odnośnikach. W taki sposób możemy upewnić się czy artykuły są poprawnie wyświetlane.
-  \item Tryb Offline. Wikipedia Mobile oczywiście nie przechowuje danych na temat wszystkich haseł na urządzeniu, tylko pobiera je z sieci. Ten test pozwala ustalić jak zachowa się aplikacja w przypadku jej braku.
-  \item Wyszukiwanie. Aby skorzystać z bogactwa informacji zawartych w Wikipedii konieczny jest sprawny mechanizm wyszukiwania. Ten test sprawdza, czy wyniki są poprawne.  
+  \item ,,Random Page Walk'' - Nie jest to nic innego, niż przejście po artykułach wg. pojawiajacych się w~nich odnośnikach. W~taki sposób możemy upewnić się czy artykuły są poprawnie wyświetlane.
+  \item Tryb Offline - Wikipedia Mobile oczywiście nie przechowuje danych na temat wszystkich haseł na urządzeniu, tylko pobiera je z~sieci. Ten test pozwala ustalić jak zachowa się aplikacja w~przypadku jej braku.
+  \item Wyszukiwanie - Aby skorzystać z~bogactwa informacji zawartych w~Wikipedii konieczny jest sprawny mechanizm wyszukiwania. Ten test sprawdza, czy wyniki są poprawne.  
 \end{itemize}
 
-Przygotowane testy są relatywnie proste i mają charakter poglądowy. 
+Przygotowane testy są relatywnie proste i~mają charakter poglądowy. 
 
-W przygotowanych testach intensywnie korzystamy z możliwości komponowania testów z mniejszych funkcji oraz Page Objects. O ile w przypadku mniejszych testów wydaje się, że prowadzi to do zwiększenia objętości kodu. Jednak na dłuższą metę pozwala nam to oszczędzić pracy, przez możliwość łatwego komponowanie testów z już gotowych i sprawdzonych funkcji i obiektów. W praktyce wygląda to następująco
+W przygotowanym kodzie testujacym intensywnie korzystamy z~możliwości komponowania testów z mniejszych funkcji oraz z Page Objects. O ile w~przypadku mniejszych testów wydawać się może, że jest to niepotrzebny trud. Jednak na dłuższą metę pozwala nam to oszczędzić pracy, przez możliwość łatwego komponowanie testów z~już gotowych i~sprawdzonych funkcji oraz obiektów. W praktyce wygląda to następująco
 
 \begin{lstlisting}
    //wikitest.js
@@ -959,9 +963,9 @@ W przygotowanych testach intensywnie korzystamy z możliwości komponowania test
     .... // oraz inne
 \end{lstlisting}
 
-w powyższym przykładzie definiujemy dwa obiekty - wikiPage oraz mainPage. Pierwszy reprezentuje generyczną podstronę w Wikipedia Mobile. To co łączy je wszystkie, to górny pasek menu zawierający pasek szukania. Każda podstronę możemy traktować jako wikiPage, gdy spełenia ona założenia metody validate(). W tym przypadku ma górny paske wyszukiwania. MainPage z kolei odpowiada za główny ekran aplikacji zawierający przykładowe, wybrane artykuły w elemencie "content". MainPage oczywiście jest podstoną wikipedii, więc w swoich metodach korzysta wikiPage. W ten oto sposób, dzięki kompozycji, ograniczliśmy duplikację kodu oraz uprościliśmy test. Utworzone obiekty wykorzystamy do definicji testów.
+w~powyższym przykładzie definiujemy dwa obiekty - wikiPage oraz mainPage. Pierwszy reprezentuje generyczną podstronę w~Wikipedia Mobile. To co łączy wszystkie strony w aplikacji, to górny pasek menu zawierający pasek szukania. Każda podstronę możemy traktować jako wikiPage, gdy spełenia ona założenia metody validate(), czyli w~tym przypadku ma górny pasek wyszukiwania. MainPage z~kolei odpowiada za główny ekran aplikacji zawierający przykładowe, wybrane artykuły w elemencie "content". MainPage oczywiście jest podstoną wikipedii, więc w swoich metodach korzysta wikiPage. W ten oto sposób, dzięki kompozycji, ograniczliśmy duplikację kodu oraz uprościliśmy test. Utworzone obiekty wykorzystamy do definicji testów.
 
-Teraz możemy zdefiniować funkcje-testy. Na przykład w ten sposób
+Teraz możemy zdefiniować funkcje-testy. Na przykład tak
 
 \begin{lstlisting}
    //wikitest.js
@@ -980,9 +984,9 @@ Teraz możemy zdefiniować funkcje-testy. Na przykład w ten sposób
     };
 \end{lstlisting}
 
-Tak zdefiniowany obiekt randomWalkStep to pojedynczy krok testów Ash. Zawiera on cztery rzeczy. Klucz ,,name'' pełni jedynie funkcję informacyjną jakie zachowanie testują dalsze funkcje. Do ,,where'' podajemy zdefiniowany wcześniej obiekt głównej strony. W ten sposób określamy na jakim ekranie mają się odbyć testy. ,,What'' zawiera właściwą funkcję. Jest ona bardzo prosta, ale później skorzystamy z niej do zbudowania testu ,,Random Walk''. Jej zadaniem jest wybranie przykładowego odnośnika i przejście po nim. 
+Tak zdefiniowany obiekt randomWalkStep to pojedynczy krok testów Ash. Zawiera on cztery rzeczy. Klucz ,,name'' pełni jedynie funkcję informacyjną. Opisuje jakie zachowanie testuje dany krok. Do ,,where'' podajemy zdefiniowany wcześniej obiekt głównej strony. W~ten sposób określamy na jakim ekranie mają się odbyć testy. ,,What'' zawiera właściwą funkcję. Jest ona bardzo prosta, ale później skorzystamy z~niej do zbudowania testu ,,Random Walk''. Jej zadaniem jest wybranie przykładowego odnośnika i~przejście po nim. Podajemy także klucz howLong, który określa limit czasu na przeprowadzenie tego kroku.
 
-Z kilku tak zbudowanych plików możemy zbudować pełen scenariusz testowy.
+Z~kilku tak zbudowanych plików możemy zbudować pełen scenariusz testowy.
 
 \begin{lstlisting}
    //wikitest.js
@@ -995,7 +999,7 @@ Z kilku tak zbudowanych plików możemy zbudować pełen scenariusz testowy.
 
 \end{lstlisting}
 
-Ten scenariusz jest bardzo prosty. Wyraża on dwa przejścia po wybrancyh linkach, przeplatane krokami odpowiedzialnymi za sprawdzenie zawartości artykułu. Oczywiście nic nie stoi na przeszkodzi, żeby dodać jeszcze jedną rundę przejścia czy skorzystać z kroków z ,,randomWalkScenario'' w innym scenariuszu.
+Ten scenariusz jest bardzo prosty. Wyraża on dwa przejścia po wybrancyh linkach, przeplatane krokami odpowiedzialnymi za sprawdzenie zawartości artykułu. Oczywiście nic nie stoi na przeszkodzi, żeby dodać jeszcze jedną rundę przejścia czy skorzystać z~kroków z ,,randomWalkScenario'' w~innym scenariuszu.
 
 Teraz pozostaje nam już tylko uruchomić scenariusz przy użyciu metody ,,Ash.play()''
 
