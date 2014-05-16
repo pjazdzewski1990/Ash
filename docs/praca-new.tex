@@ -1099,7 +1099,7 @@ Komunikacja pomiędzy warstwami wtyczki, natywną oraz Javascript, odbywa się p
 
 \chapter{Architektura}
 
-Ash dystrybuowany jest jako wtyczka do Apache Cordova z tego korzysta on także ze wszystkich mechanizmów typowych dla tego typu rozwiązań. Po dołączniu wtyczki do projektu np. za pomocą Cordova Command Line Interface w projekcie dostępny staje się globalny obiekt Ash, udostępniający wszystkie funkcjonalności biblioteki. 
+Ash dystrybuowany jest jako wtyczka do Apache Cordova, a~więc korzysta on także ze wszystkich mechanizmów typowych dla tego typu rozwiązań. Po dołączniu wtyczki do projektu np. za pomocą Cordova Command Line Interface, w projekcie dostępny staje się globalny obiekt Ash, udostępniający wszystkie funkcjonalności biblioteki. 
 
 Pola globalnego obiektu można podzielić na 3 grupy:  
 \begin{itemize}
@@ -1107,11 +1107,11 @@ Pola globalnego obiektu można podzielić na 3 grupy:
   \item fukcje działające asynchronicznie i udostępniające złożoną funkcjonalność 
   \item prywatne, wewnętrzne pola oraz funkcje biblioteki
 \end{itemize}
-Warto podkreślić, że trzecia grupa nie wchodzi w skład oficjalnego, publicznego API Ash. Oznacza to, że o ile wiele z tych funkcjonalności czy helperów może być przydatna dla twórców testów, to nie rozsądnym jest korzystanie z nich bezposrednio, gdyż w przyszłych wersjach aplikacji w zależności od potrzeb kod ten może zostać zmieniony w sposób, który zmieni jego zachowanie lub/oraz API, co spowoduje niekompatybilność kodu testów z nową wersją Ash.
+Warto podkreślić, że trzecia grupa nie wchodzi w~skład oficjalnego, publicznego API Ash. Oznacza to, że o~ile wiele z~tych funkcjonalności czy helperów może być przydatna dla twórców testów, to nierozsądnym jest korzystanie z~nich bezposrednio, gdyż w~przyszłych wersjach aplikacji kod ten może zostać zmieniony lub wręcz usunięty.
 
 \section{Spojrzenie z lotu ptaka}
 
-Ash definiuje funkcje pozwalajace na uruchamianie testów w kontekście pewnego zdarzenia sprzętowego, tj. możemy przygotować test, co do którego będziemy pewni, że w czasie jego działania będą zachodzić określone okoliczności. Możemy na przykład stworzyć test, który zostanie wykonany w sytuacji braku sieci np. w ten sposób:
+Ash definiuje funkcje pozwalajace na uruchamianie testów w~kontekście pewnego zdarzenia sprzętowego, tj. możemy przygotować test, co do którego będziemy pewni, że w~czasie jego działania będą zachodzić określone okoliczności. Możemy na przykład stworzyć test, który zostanie wykonany w~sytuacji braku sieci np.~w ten sposób:
 
 \begin{lstlisting}
      //example.js
@@ -1125,9 +1125,9 @@ Ash definiuje funkcje pozwalajace na uruchamianie testów w kontekście pewnego 
     });
 \end{lstlisting}
 
-Blok then pozwala zdefiniować co nastąpi po tym, jak sieć zostanie wyłączona. Jest to bardzo ważny aspekt biblioteki. Mamy pewność, że przez cały czas działania funkcji zachodzić będzie określony warunek. Warto zwrócić uwagę na przykładzie, że o ile w ramach kontektu stan sieci jest precyzyjnie zdefiniowany, to poza tymi ramami już tak nie musi być, stan możmy traktować jako dynamiczny lub nieokreślony. Dodatkowo należy pamiętać, że zmiana ustawień urządzenia w ramach kontekstu nie musi pociągać za sobą jego zmiany po wykonaniu testów. Ma to duże znaczenie z perspektywy testowania aplikacji, gdyż niejako wymusza, żeby w ramach jednego konteksu testować jedynie te rzeczy, które są z nim związane, a elementy interfesju które od nie zależą poza tym kontekstem.
+Blok then pozwala zdefiniować co nastąpi po tym, jak sieć zostanie wyłączona. Jest to bardzo ważny aspekt biblioteki. Mamy pewność, że przez cały czas działania funkcji zachodzić będzie określony warunek. Warto zwrócić uwagę na przykładzie, że o ile w ramach kontektu stan sieci jest precyzyjnie zdefiniowany, to poza tymi ramami już tak nie musi być. Stan poza kontekstem możmy traktować jako dynamiczny lub nieokreślony. Dodatkowo należy pamiętać, że zmiana ustawień urządzenia w ramach kontekstu nie musi pociągać za sobą jego powrotu do poprzedniego stanu po wykonaniu testów. Ma to duże znaczenie z perspektywy testowania aplikacji, gdyż niejako wymusza, żeby w~ramach jednego konteksu sprawdzać jedynie te rzeczy, które są z~nim związane, a~elementy interfesju które od nie zależą testować poza tym kontekstem.
 
-Warto zaznaczyć, że konteksty można ze sobą łączyć, aby tworzyć bardziej złożone scenariusze. Takie złączenie realizujemy poprzez wilelokrotne użycie funkcji 'then' wraz z funkcjami, które chcemy wywyłać. Pozwala to na zdefiniowanie na przykład takiego kontekstu:
+Warto zaznaczyć, że konteksty można ze sobą łączyć, aby tworzyć bardziej złożone scenariusze. Takie złączenie realizujemy poprzez wilelokrotne użycie funkcji then() wraz z~funkcjami, które chcemy wywyłać. Pozwala to na zdefiniowanie na przykład takiego kontekstu:
 
 \begin{lstlisting}
      //example.js
@@ -1143,7 +1143,7 @@ Warto zaznaczyć, że konteksty można ze sobą łączyć, aby tworzyć bardziej
     });
 \end{lstlisting}
 
-możemy także wywołania funckcji Ash przeplatać innym kodem JavaScript np. w ten sposób:
+możemy także wywołania funckcji Ash przeplatać innym kodem JavaScript np. w~ten sposób:
 
 \begin{lstlisting}
      //example.js
@@ -1166,9 +1166,9 @@ możemy także wywołania funckcji Ash przeplatać innym kodem JavaScript np. w 
 
 \section{Promises}
 
-Wewnętrznie Ash korzysta z mechanizmu obietnic tzw. Promise. Promises jest to mechanizm pozwalający programistom w lepszy prostszy i bardziej przejrzysty sposób panować nad  asynchronicznością. Dotychasowe podejście do kodu wykonującego się w sposób asynchroniczny wymagało oprócz parametrów wywołania przekazania także dwóch wywołań zwrotnych. Jednego wołanego w przypadku sukcesu oraz drugiego w przypadku wystąpienia błędu. Promise działają inaczej wywołanie promise zwraca obiekt o którym możemy myśleć jak o obietnicy, że kiedyś będzie on zawierał wynik jakiejś funkcji. Z jednej strony ułatwia to myślenie o asynchronicznych wywołaniach, z drugiej pozwala nam na traktowanie przyszłych zdarzeń jak obiektów. To znaczy, że możemy przypiąć do nich jedną lub wiele funkcji, które będą wołane dopiero gdy wewnętrzne obliczenia zostaną zakończone. Możliwe jest też łatwe szeregowanie obetnic, co w przypadku tradycyjnego podejścia prowadziło do tzw. "callback hell", czyli zagłębiania funkcji w funkcjach do tego stopnia że stają się one absolutnie nieczytelne. 
+Wewnętrznie Ash korzysta z~mechanizmu obietnic tzw. Promise. Promises jest to mechanizm pozwalający programistom w~prostszy i~bardziej przejrzysty sposób panować nad asynchronicznością. Dotychczasowe podejście do kodu wykonującego się w~sposób asynchroniczny wymagało oprócz parametrów wywołania przekazania także dwóch wywołań zwrotnych. Jednego wołanego w~przypadku sukcesu oraz drugiego w~przypadku wystąpienia błędu. Promise działają inaczej. Wywołanie promise zwraca obiekt o~którym możemy myśleć jak o~obietnicy, że kiedyś będzie on zawierał wynik działania jakiejś funkcji. Z~jednej strony ułatwia to myślenie o~asynchronicznych wywołaniach, z~drugiej pozwala nam na traktowanie przyszłych zdarzeń jak obiektów. To znaczy, że możemy przypiąć do nich jedną lub wiele funkcji, które będą wołane dopiero gdy obliczenia zostaną zakończone. Możliwe jest też łatwe szeregowanie obetnic, co w przypadku tradycyjnego podejścia prowadziło do tzw. \textit{callback hell}, czyli zagłębiania funkcji w funkcjach do tego stopnia że stają się one absolutnie nieczytelne. 
 
-Dokładny opis mechanizmu, jego wymagania oraz zastosowania można znaleźć na  stronie projektu
+Dokładny opis mechanizmu, jego wymagania oraz zastosowania można znaleźć na  stronie specyfikacji
 
 \url{http://promises-aplus.github.io/promises-spec/}
 
@@ -1176,11 +1176,11 @@ Na chwilę obecną nawet w samym JavaScript istnieje wiele implementacji specyfi
 
 \url{https://github.com/then/promise/}
 
-Za tym wyborem przemawiał niewielki rozmiar kodu (co ogranicza narzut związany z dodawaniem dodatkowej biblioteki do projektu korzystajacego z Ash) oraz bogactwo funkcjonalności (promises.js wiernie implementuje specyfikację oraz wzbogacając ją o kilka  nowych możliwości). Niestety szybko okazało się, że funkcjonalności oferowane przez promises.js nie do końca odpowiadają wymaganiom projektu. Biblioteka nie została jednak porzucona, ale zamiast tego zaadaptowana do specyficznych potrzeb Ash.  
+Za tym wyborem przemawiał jej niewielki rozmiar kodu (co ogranicza narzut związany z~dodawaniem dodatkowej biblioteki do projektu korzystajacego z Ash) oraz bogactwo funkcjonalności (promises.js nie tylko wiernie implementuje specyfikację, ale także wzbogaca ją~o~kilka nowych możliwości). Niestety szybko okazało się, że funkcjonalności oferowane przez promises.js nie do końca odpowiadają wymaganiom projektu. Biblioteka nie została jednak porzucona, ale zamiast tego zaadaptowana do specyficznych potrzeb Ash.  
 
 \section{Wzorzec Object Pages w Ash}
 
-W celu nadania testom struktury oraz zwiększenia elastyczności testów biblioteka Ash korzysta ze wzorca projektowego Object Pages znanego na przykład z biblioteki Selenium. 
+W~celu nadania testom struktury oraz zwiększenia elastyczności testów biblioteka Ash korzysta ze wzorca projektowego Object Pages znanego na przykład z~biblioteki Selenium. 
 
 \url{https://code.google.com/p/selenium/wiki/PageObjects}
 
@@ -1195,13 +1195,13 @@ Page Object reprezentuje stan interfejsu użytkownika, pojedynczego komponentu l
   \item goto
 \end{itemize}
 
-Metoda validate wywoływana jest w celu sprawdzenia, czy obecny UI spełnia wymagania danego Page Object. Innymi słowy, czy metoda ta pozwala nam ustalić, czy znajdujemy się na właściwej podstronie. 
+Metoda validate() wywoływana jest w celu sprawdzenia, czy obecny UI spełnia wymagania danego Page Object. Innymi słowy, metoda ta pozwala nam ustalić, czy znajdujemy się na właściwej podstronie. 
 
-Metoda goto pozwala na przejście na ekran definowany przez dany obiekt. Metoda ta może wewnątrz korzystać z validate w celu upewnienia się czy już nie znajdujemy się na właściwej stronie. 
+Metoda goto() pozwala na przejście na ekran definowany przez dany obiekt. Metoda ta może wewnątrz korzystać z validate w celu upewnienia się czy już nie znajdujemy się na właściwej stronie. 
 
 Oczywiście Page Objects można w sobie zagłębiać, na przykład jeden Page Object może zależeć od kilku mniejszych i jego metoda validate zakłada, że metody validate podstron będą spełnione. 
 
-Prosty Page Object w Ash może wyglądać w ten sposób:
+Prosty Page Object w Ash może wyglądać w~ten sposób:
 
 \begin{lstlisting}
      //example.js
@@ -1219,9 +1219,9 @@ Prosty Page Object w Ash może wyglądać w ten sposób:
 
 \section{Organizacja testów. Run oraz Play}
 
-Ash oferuje dwa podejścia do uruchamiania testów 'Run', o którym dalej będziemy nazywać "uruchamianiem testów" oraz 'Play', co dla rozróżnienia nazywiemy "odgrywaniem scenariuszy".
+Ash oferuje dwa podejścia do uruchamiania testów 'Run', o~którym dalej będziemy nazywać "uruchamianiem testów" oraz 'Play', co dla rozróżnienia nazywiemy "odgrywaniem scenariuszy".
 
-Obie wspomniane metody korzystają z wywołań zwrotnych raczej niż z podejścia wykorzystującego obietnice. Taka decyzja podyktowana jest tym, że 'Play' i 'Run' są  metodami najwyższego poziomu i nie ma powodu, żeby je łączyć ze sobą. Dodatkowo mechanizm promise w żaden sposób nie wymusza podania funkcji do obsługi zdarzeń, natomiast w tym przypadku chcemy mieć pewność, że zostały one podane.  
+Obie wspomniane metody korzystają z wywołań zwrotnych raczej niż z~podejścia wykorzystującego obietnice. Taka decyzja podyktowana jest tym, że 'Play' i 'Run' są  metodami najwyższego poziomu i nie ma powodu, żeby łączyć je ze sobą. Dodatkowo mechanizm promise w żaden sposób nie wymusza podania funkcji do obsługi zdarzeń, natomiast w tym przypadku chcemy mieć pewność, że zostały one podane.  
 
 \subsubsection{Run}
 
@@ -1247,9 +1247,9 @@ Przykładowe zastosowanie:
     });
 \end{lstlisting}
 
-Run pozwala na sekwencyjne uruchomienie przekazanych testów w kolejności zgodnej z indeksem tablicy. Ash nie czyni żadnych zabiegów, aby testy nie kolidowały i nie ingerowały w działanie innych testów, dlatego testy przekazywane winny być od siebie nawzajem niezależne. Dostarczane one są do Ash jako tablica bezparametrowych funkcji.
+Run pozwala na sekwencyjne uruchomienie przekazanych testów w~kolejności zgodnej z~indeksem tablicy. Ash nie czyni żadnych zabiegów, aby testy nie kolidowały i~nie ingerowały w~działanie innych testów, dlatego testy przekazywane winny być od siebie nawzajem niezależne. Dostarczane one są do Ash jako tablica bezparametrowych funkcji.
 
-Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia Run. Funkcje te znajdują się w globalnym obiekcie Ash.callbacks, ale mogą być swobodnie nadpisywane przez użytkowników. Ich wywołanie następuje w ściśle zdefiowanych momentach, dzięki czemu użytkownik Ash może lepiej kontrolować przebieg testów. Typowy przebieg wywołania Ash.run wygląda w ten sposób:
+Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia Run. Funkcje te znajdują się w globalnym obiekcie Ash.callbacks, ale mogą być swobodnie nadpisywane przez użytkowników. Ich wywołanie następuje w~ściśle zdefiowanych momentach, dzięki czemu użytkownik Ash może lepiej kontrolować przebieg testów. Typowy przebieg wywołania Ash.run wygląda w~ten sposób:
 
 \begin{itemize}
   \item Ash.callbacks.beforeClass
@@ -1263,13 +1263,13 @@ Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia Run. Funk
   \item Ash.callbacks.afterClass
 \end{itemize}
 
-Każdy z dostarczonych testów kończy się wywołaniem jednego z dostarczonych funckcji - obowiązkowego failureCallback wywoływanego jeśli z jakiegoś powodu test się nie powiedzie oraz opcjonalnego successCallback wołanego w momencie poprawnego wykonania się testu.
+Każdy z~dostarczonych testów kończy się wywołaniem jednego z~dostarczonych funckcji - obowiązkowego failureCallback wywoływanego jeśli z~jakiegoś powodu test się nie powiedzie oraz opcjonalnego successCallback wołanego w momencie poprawnego wykonania się testu.
 
-Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o wykonaniu testu. Do errorCallback:
+Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o~wykonaniu testu. Do errorCallback:
 
 \begin{lstlisting}
 	{
-		"level": // string, wskazuje jak powazny jest problem, moze byc uzyty jako tag np. do filtrowania 
+		"level": // string, wskazuje jak powazny jest problem, moze byc uzyty jako tag np. do filtrowania wiadomosci
 		"code": // int, kod bledu
 		"message": // string, komunikat bledu 
 		"url": // string, zawiera informacje w ktorym pliku doszlo do bledu 
@@ -1288,7 +1288,7 @@ Do successCallback:
 
 \subsubsection{Play} 
 
-Play jest wyższą formą uruchamiania testów niż run, ale tylko w sensie, że bazuje na run. Najważniejszą z różnic pomiędzy run a play jest to, że play wykonuje uporządkowany i zsynchronizowany zestaw testów, w którym to zestawie istnieje ściśle określona kolejność oraz zależność pomiędzy kolejnymi testami-krokami. Play pozwala na uruchomienie przygotowanego wcześniej scenariusza. 
+Play jest wyższą formą uruchamiania testów niż run, ale tylko w sensie, że bazuje na run. Najważniejszą z~różnic pomiędzy run a play jest to, że play wykonuje uporządkowany i~zsynchronizowany zestaw testów, w~którym to zestawie istnieje ściśle określona kolejność oraz zależność pomiędzy kolejnymi testami-krokami. Play pozwala na uruchomienie przygotowanego wcześniej scenariusza. 
 
 Sygnatura funkcji play jest podobna do run:
 
@@ -1315,21 +1315,21 @@ Scenariusze przekazujemy jako tablicę obiektów na przykład:
   ];
 \end{lstlisting}
 
-każdy z obiektów musi definiować następujące klucze:
+każdy z~obiektów musi definiować następujące klucze:
 
 \begin{itemize}
-  \item PageObject where - określa na jakim ekranie aplikacji ma zostać uruchomiony test
-  \item Array[Function] what - zestaw bezparametrowych funkcji, które będą wywoływane jedna po drugiej 
-  \item Integer howLong - jak długo ma trwać wykonanie testów, jeśli przekroczony zostanie wyznaczony tu limit test zostaje uznany za niepowodzenie 
+  \item PageObject where - Określa na jakim ekranie aplikacji ma zostać uruchomiony test
+  \item Array[Function] what - Zestaw bezparametrowych funkcji, które będą wywoływane jedna po drugiej 
+  \item Integer howLong - Jak długo ma trwać wykonanie testów, jeśli przekroczony zostanie wyznaczony tu limit test zostaje uznany za niepowodzenie 
 \end{itemize}
 
 dodatkowo może definiować:
 
 \begin{itemize} 
-  \item String name - nazwa kroku scenariusza, ma zastosowanie pomocnicze
+  \item String name - Nazwa kroku scenariusza, ma zastosowanie pomocnicze
 \end{itemize}
 
-Kroki scenariusza przekazane do play wykonywane są przy użyciu wcześniej opisanej metody run, jeden po drugim w kolejności od mniejszych indeksów. Po każdym pojedynczym wykonaniu porównywane są czasy realny oraz założony przekazany jako klucz 'howLong'. W przypadku, gdy czas realny jest większy niż założony test oznazany jest jako niepowodzenie. Biblioteka Ash definiuje takie surowe podejście do limitów czasowych, aby utrudnić deweloperom ignorowanie problemów z wydajnością ich aplikacji i niejako zmusić ich do zadbania o właściwą responsywność interfejsu użytkownika ich aplikacji. Page object where ma za zadanie ułatwić nawigację po aplikacji pomiędzy testami, tzn. test z danego kroku uruchamainy jest tylko wtedy, gdy znajdziemy się na ekranie związanym z danym testem. Kwestie sukcesu i niepowodzenia play są identyczne jak w przypadku run - przekazujemy failureCallback, który jest wywoływany po niepowodzeniu kroku oraz opcjonalny successCallback,  który jest wołany gdy krok scenariusza powiedzie się. 
+Kroki scenariusza przekazane do play() wykonywane są przy użyciu wcześniej opisanej metody run, jeden po drugim w kolejności od mniejszych indeksów. Po każdym pojedynczym wykonaniu porównywane są czasy realny oraz założony przekazany jako klucz 'howLong'. W przypadku, gdy czas realny jest większy niż założony test oznaczany jest jako niepowodzenie. Biblioteka Ash definiuje takie surowe podejście do limitów czasowych, aby utrudnić deweloperom ignorowanie problemów z wydajnością ich aplikacji i niejako zmusić ich do zadbania o responsywność interfejsu użytkownika. Klucz 'where' ma za zadanie ułatwić nawigację po aplikacji pomiędzy testami, tzn. test z danego kroku uruchamainy jest tylko wtedy, gdy znajdziemy się na ekranie związanym z danym testem. Wykorzystujemy do tego metody validate() oraz goto(). Kwestie sukcesu i niepowodzenia play() są identyczne jak w przypadku run - przekazujemy failureCallback, który jest wywoływany po niepowodzeniu kroku oraz opcjonalny successCallback,  który jest wołany gdy krok scenariusza powiedzie się. 
 
 Przykładowe wykonanie może wyglądać tak:
 
@@ -1347,13 +1347,13 @@ Przykładowe wykonanie może wyglądać tak:
   \item Ash.callbacks.afterClass
 \end{itemize}
 
-Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o wykonaniu testu, identycznie jak w przypadku metody run.
+Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o~wykonaniu testu, identycznie jak w przypadku metody run.
 
 \section{Obsługa błędów}
 
-Ash do obsługi błędów wykorzystuje wydarzenie 'window.onerror', które ma miejsce, kiedy wyjątek (lub błąd) nie zostanie złapany na żadnym poziomie stosu wywołania. Podczas uruchomienia zestawu testów, korzystając z metod run() lub play(), Ash podmienia zastane window.onerror własną funkcją. Zadaniem naszej implementacji jest przechwycenie błedu, jego obsłużenie, łącznie w uruchomieniem odpowiedniego wywołania zwrotnego. Następnie procedura obsługi uruchamia kolejny test, jeśli jakiś jest dostępny. 
+Ash do obsługi błędów wykorzystuje wydarzenie 'window.onerror', które ma miejsce, kiedy wyjątek (lub błąd) nie zostanie złapany na żadnym poziomie stosu wywołania. Podczas uruchomienia zestawu testów, korzystając z metod run() lub play(), Ash podmienia zastaną funkcję window.onerror własną metodą obsługi. Zadaniem naszej implementacji jest przechwycenie błedu, jego obsłużenie, łącznie z~uruchomieniem odpowiedniego wywołania zwrotnego. Następnie procedura obsługi uruchamia kolejny test, jeśli jakiś jest dostępny. 
 
-Każdy z obiektów rzucanych jako wyjątek jest ustandaryzowany i zawiera następujące pola: 
+Każdy z~obiektów rzucanych jako wyjątek jest ustandaryzowany i~zawiera następujące pola: 
 
 \begin{lstlisting}
 	{
@@ -1363,22 +1363,21 @@ Każdy z obiektów rzucanych jako wyjątek jest ustandaryzowany i zawiera nastę
 	}
 \end{lstlisting}
 
-dodatkowo każdy wyjątek ma też funkcję toString(), która wyświetla informacje na temat wyjątku w formie przystępnej dla użytkownika.
+dodatkowo każdy wyjątek ma też funkcję toString(), która wyświetla informacje na temat wyjątku w~formie przystępnej dla użytkownika.
 
 Wykaz wszystkich wyjątków Ash:
 
-//TODO: zapanować nad tą tabelą
 \begin{center}
-    \begin{tabular}{ | p{1cm} | p{2cm} | p{4cm} | l |}
+    \begin{tabularx}{\textwidth}{ | p{1cm} | p{2cm} | X | X |}
     \hline
     Code & Level & Message & Komentarz \\ \hline
-    2 & "Error" & "Element not found!" & Element nie istnieje, jest pusty lub w inny sposób 'falsy' (w sensie JavaScript)  \\ \hline
-    3 & "Error" & "Element X is not visible" & Podany element nie jest widoczny. Wbrew założeniu  \\ \hline
-    4 & "Error" & "Element X is visible" & Podany element jest widoczny Wbrew założeniu  \\ \hline
-    5 & "Error" & "Elements X and Y aren't equal" & Przekazane elementy nie są sobie równe w senie dokładnego porównania, tj.  nie prawdą jest, że X===Y  \\ \hline
-    11 & "Error" & "Not on page!" & Obecnie nie znajdujemy się na podstronie definiowanej przez przekazany PageObject lub interfejs użytkownika nie pokrywa się z założeniami Page Object  \\ \hline
-    12 & "Error" & "Page element doesn't implement required method!" & Obiekt przekazany jako Ash jako Page Object nie implementuje którejś z wymaganych funkcji  \\ \hline
-    \end{tabular}
+    2 & ,,Error'' & ,,Element not found!'' & Element nie istnieje, jest pusty lub w inny sposób 'falsy' (w sensie JavaScript)  \\ \hline
+    3 & ,,Error'' & ,,Element X is not visible'' & Wbrew założeniu, podany element nie jest widoczny  \\ \hline
+    4 & ,,Error'' & ,,Element X is visible'' & Wbrew założeniu, podany element jest widoczny  \\ \hline
+    5 & ,,Error'' & ,,Elements X and Y aren't equal'' & Przekazane elementy nie są sobie równe w sensie dokładnego porównania, tj.  nie prawdą jest, że X===Y  \\ \hline
+    11 & ,,Error'' & ,,Not on page!'' & Obecnie nie znajdujemy się na podstronie definiowanej przez przekazany PageObject lub interfejs użytkownika nie pokrywa się z założeniami Page Object  \\ \hline
+    12 & ,,Error'' & ,,Page element doesn't implement required method!'' & Obiekt przekazany jako Ash jako Page Object nie implementuje którejś z wymaganych funkcji  \\ \hline
+    \end{tabularx}
 \end{center}
 
 \chapter{Implementacja}
