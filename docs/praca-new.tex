@@ -50,14 +50,11 @@
   Poniższa praca zawiera opis biblioteki „Ash” służącej do funkcjonalnego testowania
 hybrydowych aplikacji mobilnych stworzonych przy użyciu Adobe PhoneGap lub
 Apache Cordova. Ash pozwala na testowanie zachowania się aplikacji w~różnorodnych
-realistycznych scenariuszach, które często bywają trudne do symulowania przez inne narzędzia. Tradycyjne podejścia nie pozwalaja nam na testowanie aplikacji w sytuacji, gdy  użytkownik porusza się,
-obraca ekran, traci dostęp do sieci i~tym~podobne. Dzięki wykorzystaniu hybrydowego charakteru aplikacji
+realistycznych scenariuszach, które często bywają trudne do symulowania przez inne narzędzia. Tradycyjne podejścia nie pozwalaja nam na testowanie aplikacji w~sytuacji, gdy  użytkownik porusza się,
+obraca ekran, traci dostęp do sieci i~tym~podobne. Ash został stworzony z myślą o takich scenariuszach. Dzięki wykorzystaniu hybrydowego charakteru aplikacji
 możliwa jest emulacja zachowania, co wpływa na większy realizm testów, a~tym~samym na wiarygodność ich wyników. Innymi
-zaletami bliblioteki są elastyczna struktura testów, która ułatwia ich utrzymywanie oraz możliwość budowania złożonych scenariuszy z prostych kroków. A także
-to, że pozwala na wykorzystania asercji w~aplikacji nwet poza testami.
-Możliwe jest także wykorzystanie Ash do testowania mobilnych wersji stron internetowych. 
-
-Praca zorganizowana jest w następujący sposób. Pierwsze rozdziały wprowadzają czytelnika w temat testowania aplikacji mobilnych oraz demonstrują jak skorzystać z~biblioteki do stworzenia prostych testów. Dalej następuje przegląd funkcjonalności oraz dyskusja na temat ich zastosowania. Kolejne rodziały opisują implementację najważniejszych części biblioteki oraz dają wgląd w to jak można zintegrować Ash z~narzędziami do automatycznego budowania aplikacji.
+zaletami bliblioteki są elastyczna struktura testów, która ułatwia ich utrzymywanie oraz możliwość budowania złożonych scenariuszy z prostych kroków. A~także
+to, że pozwala na wykorzystania asercji w~aplikacji nawet poza testami. 
 
 \end{abstract}
 \keywords{Javascript, 
@@ -71,7 +68,9 @@ hybrydowe aplikacje mobilne}
 
 \introduction
 
-Wstęp
+Tematem pracy jest przedstawienie biblioteki Ash, problemów które stara się rozwiązać, możliowści jakie oferuje oraz w~jaki sposób zaimplementowano bibliotekę. Praca została stworzona z myślą zarówno o~osobach myślących o~wykorzystaniu Ash w~ich projekcie, jak i~o~ludziach chcących zapoznać się ze sposobem działania biblioteki i~brać udział w~jej rozwoju.  
+
+Praca zorganizowana jest w~następujący sposób. Pierwsze rozdziały wprowadzają czytelnika w~temat testowania aplikacji mobilnych oraz demonstrują jak skorzystać z~biblioteki do stworzenia prostych testów. Dalej następuje przegląd funkcjonalności oraz dyskusja na temat ich zastosowania. Kolejne rodziały opisują implementację najważniejszych części biblioteki oraz dają wgląd w~to~jak można zintegrować Ash z~narzędziami do automatycznego budowania aplikacji.
 
 \chapter{Podstawowe terminy oraz techniki}
 \section{Hybrydowe aplikacje mobilne}
@@ -1594,7 +1593,11 @@ Jednocześnie, aby w~pełni wykorzystać potencjał Apache Cordova jako platform
 
 \summary
 
-Zakończenie
+Nie da się zaprzeczyć, że przyszłość należy do aplikacji moblinych. Wśród różnego rodziaju aplikacji mobilnych hybrydy wydają się być dobrym kompromisem łączącym zalety aplikacji natywnych oraz mobile web. Niestety wiąże się to z pewnymi ograniczeniami. Powyższa praca porusza istotną kwestię jaką jest zapewnienie wysokiej jakości hybrydowych aplikacji mobilnych. Problem ten do tej pory nie był zaadresowany w~kompleksowy sposób poprzez dedykowane narzędzia. Ash jest pierwszą biblioteką, która w~ taki sposób rozwiązuje trudności wspomniane wcześniej w~pracy.
+
+Mam nadzieję, że Ash położy fundament pod nową generację aplikacji hybrydowych, które będą tworzone z myślą o bezawaryjności oraz płynności działania. Uważam, że ten segment hybrydowych apliakcji ma duży potencjał, który należy zagospodarować. Nie może to być jednak oparte na tworzeniu oprogramowania które ma być jak najtańsze, tylko raczej na tworzeniu aplikacji, które będą niezawodnie działać na wielu platformach.
+
+\nocite{*}
 
 \appendix
 
