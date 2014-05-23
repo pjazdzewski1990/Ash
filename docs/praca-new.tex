@@ -159,6 +159,8 @@ na zasadzie otwartego źródła. Pomimo tego oba projekty są niemal identyczne,
 wyboru tej technologii jest spory udziała w rynku hybrydowych aplikacji mobilnych,
 dynamizm rozwoju oraz liczna społeczność. Nie bez znaczenia jest także swobodny dostęp do źródła biblioteki.
 
+Więcej informacji na temat historii projektu można znaleźć w książce Johna Wargo \cite{Wargo}. 
+
 \section{Test Driven Development}
 
 \textit{Test Driven Development} jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o których często mówimy \textit{red-green-refactor}. Na taki cykl składają się fazy
@@ -172,7 +174,7 @@ Dzięki zastosowaniu krótkich cykli oraz automatycznych testów, metodologia ta
 
 Test Driven Developement jako metodologia jest powiązana z Extreme Programming oraz z koncepcją ,,Tests First'', która zakłada że zestawy testów automatycznych powinny być tworzone jeszcze przed napisaniem testowanej aplikacji, co skutkuje wysoką jakością tworzonego oprogramowania.   
 
-Test Driven Developement zostało spopularyzowane przez Kenta Becka.
+Test Driven Developement zostało spopularyzowane przez Kenta Becka \cite{Beck}.
 
 Więcej informacji można znaleźć na:
 
@@ -185,14 +187,14 @@ Więcej informacji można znaleźć na:
 Wyróżniamy wiele rodzajów testów:
 \begin{itemize}
   \item Jednostkowe - Testy obejmujące poszczególne funkcje na najniższym poziomie. Ich wykonywanie musi być możliwie jak najszybsze. Nie powinny korzystać z zewnętrznych zasobów
-  \item Integracyjne - Ten rodzaj testów pokrywa wiele komponentów aplikacji na raz i testuje nie tylko, czy każdy z poszczególnych modułów działa poprawnie w izolacji, ale także czy komunikacja między nimi jest poprawna
+  \item Integracyjne - Ten rodzaj testów pokrywa wiele komponentów aplikacji na raz i~testuje nie tylko, czy każdy z poszczególnych modułów działa poprawnie w~izolacji, ale także czy komunikacja między nimi jest poprawna
   \item Funkcyjne - Testy tego typu sprawdzają, czy interfejs aplikacji jest poprawny oraz czy interakcja z użytkownikiem działa poprawnie. U podstaw działania tych testów leży symulowanie zachowania programu jak gdyby operowali na nim ludzie 
-  \item A/B - Tak zwane testy A/B polegają na testowaniu oprogramowania pod kątem wygody i praktyczności interfejsu
+  \item A/B - Tak zwane testy A/B polegają na testowaniu oprogramowania pod kątem wygody i~praktyczności interfejsu
   \item Wydajnościowe - Jak sama nazwa wskazuje służą one do sprawdzenia wydajności aplikacji
   \item Inne
 \end{itemize}
 
-W przypadku poprawnie zarządzanego projektu trzy pierwsze rodzaj tworzę hierarchię zwaną ,,piramidą testowania''. Dwa pozostałe z wymienionych przeze mnie rodzajów pełnią funkcję uzupełniającą. 
+W~przypadku poprawnie zarządzanego projektu trzy pierwsze rodzaj tworzę hierarchię zwaną ,,piramidą testowania''. Dwa pozostałe z wymienionych przeze mnie rodzajów pełnią funkcję uzupełniającą. 
 
 \begin{figure}[h]
     \centering
@@ -201,18 +203,18 @@ W przypadku poprawnie zarządzanego projektu trzy pierwsze rodzaj tworzę hierar
     \label{fig:pyramis}
 \end{figure}
 
-Informacje na temat piramidy testów oraz ich rozkładu w aplikacji można znaleźć tutaj:
+Informacje na temat piramidy testów oraz ich rozkładu w~aplikacji można znaleźć tutaj:
 
 \url{http://martinfowler.com/bliki/TestPyramid.html}
 
 \url{http://www.duncannisbet.co.uk/test-automation-basics-levels-pyramids-quadrants}
 
-Biblioteka Ash została stworzona z testowaniem funkcyjnym na myśli.
+Biblioteka Ash została stworzona z~testowaniem funkcyjnym na myśli.
 
 \chapter{Sposób użycia}
 \section{Pierwsze kroki}
 
-Aby dołączyć Ash do swojego projektu należy wydać następujące polecenie\footnote{Jeśli nie masz jeszcze zainstalowanego Cordova CLI spójrz tutaj https://github.com/apache/cordova-cli} w folderze z projektem:
+Aby dołączyć Ash do swojego projektu należy wydać następujące polecenie\footnote{Jeśli nie masz jeszcze zainstalowanego Cordova CLI spójrz tutaj https://github.com/apache/cordova-cli} w~folderze z~projektem:
 \begin{quote}
    cordova plugins add https://github.com/pjazdzewski1990/Ash
 \end{quote}
@@ -237,7 +239,7 @@ Aby pobrać projekt wydaj polecenie
    git clone git@github.com:pjazdzewski1990/AshHello.git
 \end{quote}
 
-Aplikacja AshHello zawiera w sobie bardzo prostą funkcjonalność. Jej zasadniczym celem jest pozwolenie użytkownikowi na zaznajomienie się z~testowaniem przy użyciu biblioteki Ash. Interfejs użytkownika w AshHello jest zorganizowany na zasadzie tzw. {\it Working Square}. Working Square jest to wzorzec tworzenia interfejsu, bardzo popularny na urządzeniach mobilnych. Polega on~na stworzeniu kwadratowego obszaru roboczego który zawiera główną treść aplikacji oraz obszaru pomocniczego na którym znajdować się mogą np. elementy związane z~nawigacją. Z zależności od orientacji ekranu, która dyktuje nam rozmiar i kształt powierzchni do zagospodarowania, obszar pomocniczy może znajdować się 
+Aplikacja AshHello zawiera w~sobie bardzo prostą funkcjonalność. Jej zasadniczym celem jest pozwolenie użytkownikowi na zaznajomienie się z~testowaniem przy użyciu biblioteki Ash. Interfejs użytkownika w AshHello jest zorganizowany na zasadzie tzw. {\it Working Square}. Working Square jest to wzorzec tworzenia interfejsu, bardzo popularny na urządzeniach mobilnych. Polega on~na stworzeniu kwadratowego obszaru roboczego który zawiera główną treść aplikacji oraz obszaru pomocniczego na którym znajdować się mogą np. elementy związane z~nawigacją. Z zależności od orientacji ekranu, która dyktuje nam rozmiar i~kształt powierzchni do zagospodarowania, obszar pomocniczy może znajdować się 
 
 \begin{itemize}
   \item poniżej obszaru głównego - gdy urządzenia jest w~orientacji pionowej, tzn. wysokość ekranu jest większa niż jego szerokość
@@ -1027,16 +1029,14 @@ Nastepne podrozdziały koncentrują się na implementacji na platformę Android,
 
 \section{Klasa CordovaPlugin}
 
-CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. Pozwala ona na dostęp do najważniejszych składowych aplikacji oraz komunikację z warstwą Javascript: 
+CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. Pozwala ona na dostęp do najważniejszych składowych aplikacji oraz komunikację z~warstwą Javascript: 
 
 \begin{itemize}
   \item CordovaWebView webView - Komponent WebView w~którym uruchomiona jest aplikacja
   \item CordovaInterface cordova - Daje dostęp do zasobów platofrmy np. Activity oraz puli wątków
 \end{itemize}
 
-{TODO prosty diagram klas dla commitu b872df0f314194ad50cbaa098ebbf717e53bb354}
-
-Punktem wejściowym dla kodu każdej wtyczki jest jest metoda exec(), która jest wywoływana, gdy warstwa javascript wyśle żądanie wywołania określonego kodu natywnego. Sygnatura exec wygląda tak:
+Punktem wejściowym dla kodu każdej wtyczki jest jest metoda exec(), która jest wywoływana, gdy warstwa javascript wyśle żądanie wywołania określonego kodu natywnego. Sygnatura exec wygląda następująco:
 
 \begin{lstlisting}
 public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException
@@ -1077,9 +1077,9 @@ Kolejne argumenty to
 
 \section{Wielowątkowość. Komunikacja między warstwami}
 
-Javascript ze swojej natury jest jednowątkowy. Tak samo wszystkie testy w Ash są wykonywane jeden po drugim. Poza trudnościami technicznymi powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o współdzielony zasób, jakim jest DOM, konieczne byłoby zadbanie o~ich synchronizację, co jest skomplikowane oraz mało wydajne. Z prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
+Javascript ze swojej natury jest jednowątkowy. Tak samo wszystkie testy w Ash są wykonywane jeden po drugim. Poza trudnościami technicznymi powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o~współdzielony zasób, jakim jest DOM, konieczne byłoby zadbanie o~ich synchronizację, co jest skomplikowane oraz mało wydajne. Z~prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
 
-Wtyczki działają asynchronicznie. Kod uruchamiany po stronie natywnej platformy przez wywołania cordova.exec() działa w~osobnym wątku. Realizuje on swoje cele, a następnie poprzez CallbackContext uruchamia odpowiednie wywołania zwrotne przekazane przez użytkownika wtyczki. Takie podejście pozwala maksymalnie wykorzystać wątki działające po stronie platformy bez komplikowania budowy aplikacji po stronie warstwy JavaScript. W takim przypadku kod natywny nie wpływa bezpośrednio na WebView czy sposób interfejs apliakcji użytkownikowi. Wszelkie tego typu mainpulacje odbywają się po stronie Javascript za pośrednictwem funkcji zwrotnych. Niestety czasami istnieje konieczność bezpośredniej manipulacji WebView. W tym celu istnieje możliwość skorzystania z metody runOnUiThread(). Metoda ta przyjmuje klasę implementującą interfejs Runnable, w~której mozemy nadpisać metodę run() tak, aby realizowała nasze cele. Na przykład w~ten sposób:
+Wtyczki działają asynchronicznie. Kod uruchamiany po stronie natywnej platformy przez wywołania cordova.exec() działa w~osobnym wątku. Realizuje on swoje cele, a następnie poprzez CallbackContext uruchamia odpowiednie wywołania zwrotne przekazane przez użytkownika wtyczki. Takie podejście pozwala maksymalnie wykorzystać wątki działające po stronie platformy bez komplikowania budowy aplikacji po stronie warstwy JavaScript. W takim przypadku kod natywny nie wpływa bezpośrednio na WebView czy sposób interfejs apliakcji użytkownikowi. Wszelkie tego typu mainpulacje odbywają się po stronie Javascript za pośrednictwem funkcji zwrotnych. Niestety czasami istnieje konieczność bezpośredniej manipulacji WebView. W tym celu istnieje możliwość skorzystania z~metody runOnUiThread(). Metoda ta przyjmuje klasę implementującą interfejs Runnable, w~której mozemy nadpisać metodę run() tak, aby realizowała nasze cele. Na przykład w~ten sposób:
 
 \begin{lstlisting}
 //AshPlugin.java
@@ -1091,6 +1091,8 @@ cordova.getActivity().runOnUiThread(new Runnable() {
 \end{lstlisting}
 
 Komunikacja pomiędzy warstwami wtyczki, natywną oraz Javascript, odbywa się przez tak zwaną \textit{Native To Js Queue}. Jak sama nazwa wskazuje komunikacja pomiędzy warstwami odbywa się za pomocą kolejki. Oba poziomy aplikacji mogą umieszczać zakodowane wiadomości w~kolejce, ale tylko jedna wiadomość może być przetwarzana. Pozwala to uniknąć kłopotów z~wielowątkowością. Konsekwencją takiej implementacji protokołu komunikacji jest to, że kluczowe znaczenie w~przypadku kodu, który wywołuje się między warstwami,  ma kolejność w~jakiej wiadomości są umieszczane w~kolejce. W~szczególności kolejka nie jest priorytetowa i~nie ma w~niej pojęcia ,,ważności'' wiadomości, czyli nie możliwe jest przepuszczenie wiadomości przed innymi.
+
+Więcej informacji na temat wielowątkowości w systemie Android można znaleźć w literaturze \cite{AndroidInPractice} lub w dokumentacji \cite{AndroidDoc}. 
 
 \chapter{Architektura}
 
