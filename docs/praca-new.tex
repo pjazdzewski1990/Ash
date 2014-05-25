@@ -1388,7 +1388,7 @@ Ash.orientationHorizontal().then( ... )
 Ash.orientationVertical().then( ... ) 
 \end{lstlisting}
 
-Konteksty orientationX działają na zasadzie przełączania ekranu z~jednego położenia do innego.  Na platformie Android jest to realizowane przez funkcję setRequestedOrientation klasy Activity do której uzyskujemy dostęp przez interfejs cordova. 
+Konteksty orientationX działają na zasadzie przełączania ekranu z~jednego położenia do innego. Na platformie Android jest to realizowane przez funkcję \texttt{setRequestedOrientation()} klasy \texttt{Activity} do której uzyskujemy dostęp przez interfejs cordova. 
 
 \begin{lstlisting}
 this.cordova.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -1410,7 +1410,7 @@ Ash.slowNetwork().then( ... )
 Ash.networkOn().then( ... ) 
 \end{lstlisting}
 
-Obsługa sieci w~Ash zrealizowana jest poprzez manipulowanie sposobem w~jaki WebView, z~którego korzysta Apache Cordova, przetwarza odpowiedzi przychodzące z~sieci. CordovaWebView udostępnia możliwość dodania instancji klasy WebViewClient jako filtra przez który będzie przechodzić cała komunikacja. Pozwala to wpływać na zachowanie się aplikacji. W~szczególności największe znaczenie dla nas ma metoda
+Obsługa sieci w~Ash zrealizowana jest poprzez manipulowanie sposobem w~jaki \texttt{WebView}, z~którego korzysta Apache Cordova, przetwarza odpowiedzi przychodzące z~sieci. \texttt{CordovaWebView} udostępnia możliwość dodania instancji klasy \texttt{WebViewClient} jako filtra przez który będzie przechodzić cała komunikacja. Pozwala to wpływać na zachowanie się aplikacji. W~szczególności największe znaczenie dla nas ma metoda
 
 \begin{lstlisting}
    @Override
@@ -1439,7 +1439,7 @@ aby spowolnić dostęp do sieci oraz
    }
 \end{lstlisting}
 
-celem anulowania pobierania zasobów. Jeśli chcemy przywrócić domyślne zachowanie WebView podpinamy naszą implementację nową instację domyślnej klasy IceCreamCordovaWebViewClient. IceCreamCordovaWebViewClient jest to implementacja CordovaWebView przeznaczona dla urządzeń działających z~systemem operacyjnym Android w~wersji 4.0 lub nowszej.
+celem anulowania pobierania zasobów. Jeśli chcemy przywrócić domyślne zachowanie \texttt{WebView} podpinamy naszą implementację nową instację domyślnej klasy \texttt{IceCreamCordovaWebViewClient}. \texttt{IceCreamCordovaWebViewClient} jest to implementacja \texttt{CordovaWebView} przeznaczona dla urządzeń działających z~systemem operacyjnym Android w~wersji 4.0 lub nowszej.
 
 W~przypadku, gdy zainstalowana jest wtyczka cordova-plugin-network-information \footnote{https://github.com/apache/cordova-plugin-network-information}, która jest często wykorzystywana do monitorowania stanu sieci, działanie Ash jest zmodyfikowane aby współgrać z~tą wtyczką. W przypadku poprawnego wywołania kodu Ash dochodzi do sprawdzenia czy network-information jest zainstalowane i~w~tym przypadku wywoływane są zdarzenia
 
@@ -1448,14 +1448,14 @@ W~przypadku, gdy zainstalowana jest wtyczka cordova-plugin-network-information \
   \item online - Gdy zachodzi noNetwork(), slowNetwork()
 \end{itemize}
 
-W~przypadku noNetwork() i~slowNetwork() dokładny status sieci ustalany jest przez wtyczkę network-information.
+W~przypadku \texttt{noNetwork()} i~\texttt{slowNetwork()} dokładny status sieci ustalany jest przez wtyczkę network-information.
 
 \section{Dostęp do systemu plików}
 
 Obecna implementacja dostępu do plików w Ash jest tylko symulacją i~nie przewiduje operowania na realnych danych zgromadzonych na urządzeniu. Jest to podyktowane kilkoma czynnikami
 
 \begin{itemize}
-  \item Wielością formatów - Każda z platform wspiera wiele różnych typów i~formatów plików (pliki muzyczne, video itp.) 
+  \item Wielością formatów - Każda z~platform wspiera wiele różnych typów i~formatów plików (pliki muzyczne, video itp.) 
   \item Wsparciem uzależnionym od platformy - nie każda z platform daje dostęp do tego samego zestawu formatów i~rozszerzeń plików
   \item Wielkością wtyczki - Nawet gdyby uwzględnić tylko jeden plik dla każdego typu i~zaszyć go w Ash, to rozmiar biblioteki utrudniłby korzystanie z~niej
 \end{itemize}
@@ -1466,7 +1466,7 @@ Taka minimalna implementacja pozwala ząjednej strony  nakorzystanie z~tej funkc
 
 \section{Symulacja ruchu}
 
-W~obecnej implementacji Ash pozwala jedynie na symulację ruchu. Urządzenie nie jest manipulowane w~ten sposób, aby zaszyte w~nim informacje na temat położenia uległy zmianie. Powodem takiego podejścia jest to, że celem podmiany danych lokalizacji należy uzyskać prawa administratora (roota) na danym urządzeniu. Jako, że wiąże się to z~potencjalnym naruszeniem bezpieczeństwa i~stabilności platformy na większości urządzeń jest to domyślnie wyłączone. Jednym z podstawowych założeń jest to, żeby możliwe było uruchomienie testów na dowolnym urządzeniu bez konieczności jego wcześniejszego przygotowania, dlatego trzeba było ograniczyć sposób działania Ash jeśli chodzi o~obsługę zmiany położenia urządzenia. 
+W~obecnej implementacji Ash pozwala jedynie na symulację ruchu. Urządzenie nie jest manipulowane w~ten sposób, aby zaszyte w~nim informacje na temat położenia uległy zmianie. Powodem takiego podejścia jest to, że celem podmiany danych lokalizacji należy uzyskać prawa administratora (\textit{roota}) na danym urządzeniu. Jako, że wiąże się to z~potencjalnym naruszeniem bezpieczeństwa i~stabilności platformy na większości urządzeń jest to domyślnie wyłączone. Jednym z podstawowych założeń jest to, żeby możliwe było uruchomienie testów na dowolnym urządzeniu bez konieczności jego wcześniejszego przygotowania, dlatego trzeba było ograniczyć sposób działania Ash jeśli chodzi o~obsługę zmiany położenia urządzenia. 
 
 Ash symuluje ruch poprzez tworzenie obiektu Javascript, który zawiera nową pozorowaną lokalizację i~przekazanie go wywołania zwrotnego. Funkcja zwrotna jest wywoływana przynajmniej raz, za każdym razem z~różnymi obiektami lokalizacji. Ta pozorowana lokalizacja zawiera następujące klucze
 
@@ -1493,11 +1493,11 @@ gdzie X oraz Y oznaczają (odpowiednio) szerokość i~długość w aktualnym kro
    Ash.pressBack().then( ... ) 
 \end{lstlisting}
 
-Ogólnie rzecz biorąc celem metody pressBack() jest powrót do poprzedniego ekranu w historii aplikacji. W praktyce mowa tutaj o~adresach URL ładowanych przez WebView w~czasie działania aplikacji. Większość aplikacji Cordova tworzona jest na zadadzie Single Page Apps, więc poszczególne adresy będą różnić się jedynie wartością tzw. \textit{hashu}, a~przejścia pomiędzy nimi będą polegać na zmianie obecnego interfejsu, raczej niż na załadowaniu nowej podstrony. Dane na temat historii przeglądania zbierane są w~kontrolce WebView w~formie stosu.
+Ogólnie rzecz biorąc celem metody \texttt{pressBack()} jest powrót do poprzedniego ekranu w historii aplikacji. W praktyce mowa tutaj o~adresach URL ładowanych przez WebView w~czasie działania aplikacji. Większość aplikacji Cordova tworzona jest na zadadzie Single Page Apps, więc poszczególne adresy będą różnić się jedynie wartością tzw. \textit{hashu}, a~przejścia pomiędzy nimi będą polegać na zmianie obecnego interfejsu, raczej niż na załadowaniu nowej podstrony. Dane na temat historii przeglądania zbierane są w~kontrolce \texttt{WebView} w~formie stosu.
 
-Na platformie Android, aby spowodować powrót do poprzedniego ekranu należy wywołać lub przeciążyć metodę onBackPressed() klasy Activity. W~tym przypdaku to podejście nie działa, gdyż Activity w~którym uruchomiona jest wtyczka jest inne niż to w~którym działa aplikacja. Cofnięcie się w~historii tego Activity prowadzi do zakończenia aplikacji. 
+Na platformie Android, aby spowodować powrót do poprzedniego ekranu należy wywołać lub przeciążyć metodę \texttt{onBackPressed()} klasy Activity. W~tym przypdaku to podejście nie działa, gdyż Activity w~którym uruchomiona jest wtyczka jest inne niż to w~którym działa aplikacja. Cofnięcie się w~historii tego Activity prowadzi do zakończenia aplikacji. 
 
-Aby uniknąć tego typu problemów należy cofnąć się obrębie WebView a~nie aktywności. Klasa CordovaPlugin daje dostęp do CordovaWebView. Ta klasa z~kolei udostępnia metodę 
+Aby uniknąć tego typu problemów należy cofnąć się obrębie WebView a~nie aktywności. Klasa \texttt{CordovaPlugin} daje dostęp do \texttt{CordovaWebView}. Ta klasa z~kolei udostępnia metodę 
 
 \begin{lstlisting}
     // CordovaWebView.java
@@ -1509,31 +1509,31 @@ Aby uniknąć tego typu problemów należy cofnąć się obrębie WebView a~nie 
     public boolean backHistory()
 \end{lstlisting}
 
-pozwalającą na dostęp do historii i~powrotu do poprzedniego  adresu URL zapisanego na stosie odwiedzonych. Operowanie na zasobach związanych z działaniem aplikacji PhoneGap nie jest dozwolone, gdyż oznaczałoby to modyfikację zasobów z~jednego wątku w ramach innego wątku. Co z oczywistych przyczyn prowadzi do awarii aplikacji. Dlatego też nasze operacje musimy wykonywać na wątku UI korzystając z~metody runOnUiThread().
+pozwalającą na dostęp do historii i~powrotu do poprzedniego  adresu URL zapisanego na stosie odwiedzonych. Operowanie na zasobach związanych z działaniem aplikacji PhoneGap nie jest dozwolone, gdyż oznaczałoby to modyfikację zasobów z~jednego wątku w ramach innego wątku. Co z oczywistych przyczyn prowadzi do awarii aplikacji. Dlatego też nasze operacje musimy wykonywać na wątku UI korzystając z~metody \texttt{runOnUiThread()}.
 
-Na poziomie API wtyczka zwraca Promise, które jest rozwiązane gdy uda się wrócić do poprzedniego adresu ze stosu i~odrzucony w~systuacji, gdy stos jest pusty lub dojdzie do błędu w~czasie wykonywania kodu wtyczki.
+Na poziomie API wtyczka zwraca \texttt{Promise}, które jest rozwiązane gdy uda się wrócić do poprzedniego adresu ze stosu i~odrzucony w~systuacji, gdy stos jest pusty lub dojdzie do błędu w~czasie wykonywania kodu wtyczki.
 
 \chapter{Narzędzia oraz środowisko programisty}
 
 \section{Rozpraszanie wykonania testów}
 
-Celem zwiększenia produktywności programistów oraz ułatwienia pracy z~Apche Crodova wraz z~wersją 3.x pojawił się projekt Cordova-Cli. Ma on na celu umożliwienie uruchamiania i~zarządząnia projektem z~poziomu konsoli. Niestety nawet w~przypadku korzystania z~tego narzędzia uruchamianie testów na wielu urządzeniach jest kłopotliwe. Wraz z~każdym urządzeniem na którym należy przetestować aplikację cykl pracy programisty wydłuża się. Co znacząco utrudnia wytwarzanie oprogramowania.
+Celem zwiększenia produktywności programistów oraz ułatwienia pracy z~Apache Crodova wraz z~wersją 3.x pojawił się projekt Cordova-Cli. Ma on na celu umożliwienie uruchamiania i~zarządząnia projektem z~poziomu konsoli. Niestety nawet w~przypadku korzystania z~tego narzędzia uruchamianie testów na wielu urządzeniach jest kłopotliwe. Wraz z~każdym urządzeniem na którym należy przetestować aplikację cykl pracy programisty wydłuża się. Co znacząco utrudnia wytwarzanie oprogramowania.
 
 Aby ułatwić pracę z~Ash stworzony został skrypt \textit{Furnace}\footnote{Z~angielskiego piec, palenisko.}. Dostępny pod adresem \url{https://github.com/pjazdzewski1990/furnance}
 
 Furnace jest to mały program napisany w Javascript i Node.js\footnote{Dostępny pod adresem http://nodejs.org/}, korzystający z~Apache Ant\footnote{Strona projektu to  http://ant.apache.org/} oraz adb będącego częścią pakietu Android SDK\footnote{Do pobrania z http://developer.android.com/sdk/index.html}. Pozwala on na zbudowanie aplikacji pod Androida z~projektu Cordova oraz uruchomienie jej na każdym kompatybilnym urządzeniu podłączonym do maszyny na której jest uruchamiany. Jeśli projekt został odpowiednio skonfigurowany możliwe jest przetestowanie kodu na wielu urządzeniach wydając tylko jedno polecenie. Odpowiednia konfiguracja oznacza, że testy startują automatycznie (nie wymagają ingerencji użytkownika) oraz ich wyniki są raportowane do uruchamiającego. 
 
-Furnace obsługujemy w nastąpujący sposób
+Furnace obsługujemy w następujący sposób
 
 \begin{quote}
-	node Furnance.js [pełna nazwa klasy uruchamialnej] [polecenie]
+	node Furnace.js [pełna nazwa klasy uruchamialnej] [polecenie]
 \end{quote}
 
 gdzie
 
 \begin{enumerate}
   \item Pierwszy argument to pełna nazwa (tzw. \textit{Fully Qualified Class Name}) klasy, która jest uruchamiana przy starcie aplikacji. 
-  \item Kolejny, to polecenie dla Furnace oznaczające na którym etapie wykonania ma zakończyć pracę. Dostępne są trzy: clean (czyszczenie aplikacji), build (budowanie wykonywalnej wersji aplikacji) oraz test (uruchomienie aplikacji, co w domyśle jest tożsame ze startem testów). Furnace buduje w~kolejności jak podano powyżej. Na przykład uruchomienie z~argumentem 'build' oznacza, że wykonane zostaną 'clean' potem 'build', ale 'test' już nie.
+  \item Kolejny, to polecenie dla Furnace oznaczające na którym etapie wykonania ma zakończyć pracę. Dostępne są trzy: \texttt{clean} (czyszczenie aplikacji), \texttt{build} (budowanie wykonywalnej wersji aplikacji) oraz \texttt{test} (uruchomienie aplikacji, co w domyśle jest tożsame ze startem testów). Furnace buduje w~kolejności jak podano powyżej. Na przykład uruchomienie z~argumentem \texttt{build} oznacza, że wykonane zostaną \texttt{clean} potem \texttt{build}, ale \texttt{test} już nie.
 \end{enumerate}
 
 Poniższe polecenie uruchamia testy dla AshHello na wszystkich dostępnych maszynach 
@@ -1545,9 +1545,9 @@ Poniższe polecenie uruchamia testy dla AshHello na wszystkich dostępnych maszy
 gdzie
 
 \begin{enumerate}
-  \item ,,pl.ug.ash.AshHello'' to nazwa pakietu
-  \item ,,AshHello'' to klasa startowa aplikacji
-  \item ,,test'' to polecenie do skryptu 
+  \item \texttt{pl.ug.ash.AshHello} to nazwa pakietu
+  \item \texttt{AshHello} to klasa startowa aplikacji
+  \item \texttt{test} to polecenie do skryptu 
 \end{enumerate}
 
 \section{Tworzenie laboratorium urządzeń}
@@ -1556,19 +1556,19 @@ Jeśli myślimy o~zastosowaniu Ash do większych projektów, to możliwe jest st
 
 Aby móc skorzystania z~tej możliwości należy najpierw przygotować samą aplikację jak i~serwer, który będzie działać jako laboratorium urządzeń. 
 
-Aplikacja, której testy chcemy oddelegować do zdalnego laboratorium powinna być gotowa do raportowania wyników testów. W~tym celu możemy skorzystać w~wywołań zwrotnych metod run() i play() oraz z Ash.callbacks. Pozwalają one nam na podejmowanie działań w~kluczowych momentach wykonania testów (pomyślne zakończenie, niepowodzenie, przejście z jednego testu do drugiego ....) bez ingerencji w~samą strukturę zestawu testów. Daje to szerokie możliwości, np. możliwe jest wysłanie wyników na zdalny serwer. Obecnie w~Ash nie ma jeszcze możliwości na dynamiczne wstrzyknięcie testów w~czasie ładowania, dlatego użytkownik musi dopilnować, żeby testy były wywoływane automatycznie tuż po starcie aplikacji. Laboratorium po otrzymaniu żądania testowania zbuduje i~zainstaluje aplikację, po czym ją uruchomi na dostępnych urządzeniach, ale to kod użytkownika musi uruchomić testy po załadowaniu aplikacji.
+Aplikacja, której testy chcemy oddelegować do zdalnego laboratorium powinna być gotowa do raportowania wyników testów. W~tym celu możemy skorzystać w~wywołań zwrotnych metod \texttt{run()} i~\texttt{play()} oraz z~\texttt{Ash.callbacks}. Pozwalają one nam na podejmowanie działań w~kluczowych momentach wykonania testów (pomyślne zakończenie, niepowodzenie, przejście z jednego testu do drugiego ....) bez ingerencji w~samą strukturę zestawu testów. Daje to szerokie możliwości, np. możliwe jest wysłanie wyników na zdalny serwer. Obecnie w~Ash nie ma jeszcze możliwości na dynamiczne wstrzyknięcie testów w~czasie ładowania, dlatego użytkownik musi dopilnować, żeby testy były wywoływane automatycznie tuż po starcie aplikacji. Laboratorium po otrzymaniu żądania testowania zbuduje i~zainstaluje aplikację, po czym ją uruchomi na dostępnych urządzeniach, ale to kod użytkownika musi uruchomić testy po załadowaniu aplikacji.
 
-Laboratorium nie może obyć się bez maszyny która będzie odbierać żądania do przetestowania aplikacji, tworzyć aplikację oraz komunikować się z~urządzeniami. Aby móc skutecznie zintegrować testy z procesem wytwarzania oprogramowania należy skorzystać z dowolnego serwer CI\footnote{ Na przykład z darmowego i~bardzo popularnego Jenkinsa http://jenkins-ci.org/}. Serwer CI pownien mieć możliwość wykrycia zmain w~repozytorium kodu oraz być w~stanie uruchamiać polecenia z~konsoli. Dodatkowo sam serwer powinien mieć dostęp do urządzeń na których chcemy wystartować testy. Mogą one być podpięte kablem do urządzenia (realne) lub uruchomione w~systemie (emulowane). 
+Laboratorium nie może obyć się bez maszyny która będzie odbierać żądania do przetestowania aplikacji, tworzyć aplikację oraz komunikować się z~urządzeniami. Aby móc skutecznie zintegrować testy z procesem wytwarzania oprogramowania należy skorzystać z dowolnego serwera CI\footnote{ Na przykład z darmowego i~bardzo popularnego Jenkinsa http://jenkins-ci.org/}. Serwer CI pownien mieć możliwość wykrycia zmian w~repozytorium kodu oraz być w~stanie uruchamiać polecenia z~konsoli. Dodatkowo sam serwer powinien mieć dostęp do urządzeń na których chcemy wystartować testy. Mogą one być podpięte kablem do urządzenia (realne) lub uruchomione w~systemie (emulowane). 
 
-Automatyczne wykonywanie testów w laboratorium może wyglądać na przykład w~ten sposób:
+Automatyczne wykonywanie testów w~laboratorium może wyglądać na przykład w~ten sposób:
 
 \begin{enumerate}
-  \item Serwer CI inicjuje procedurę uruchomienia testów. Może to nastąpić w reakcji na dodanie nowego kodu do repozytorium z~aplikacją lub żądanie użytkownika.
+  \item Serwer CI inicjuje procedurę uruchomienia testów. Może to nastąpić w~reakcji na dodanie nowego kodu do repozytorium z~aplikacją lub żądanie użytkownika.
   \item Najnowsze źródło aplikacji jest pobierane na serwer.
   \item Serwer uruchamia skrypt budujący aplikację do postaci wykonywalnej.
   \item Po zbudowaniu aplikacja jest wysyłana na wszystkie dostepne urządzenia.
   \item Aplikacja uruchamia się na każdym z~urządzeń i~wykonywane są testy.
-  \item Po zakończeniu testów uruchamiane jest wywołanie zwrotne, które wysyła wyniki w ustalone miejsce oraz informuje serwer CI i użytkowika o~końcu testów i~ich wynikach.
+  \item Po zakończeniu testów uruchamiane jest wywołanie zwrotne, które wysyła wyniki w ustalone miejsce oraz informuje serwer CI i~użytkowika o~końcu testów i~ich wynikach.
 \end{enumerate}
 
 Sama procedura jest bardzo prosta, ale użytkownicy powinni pamiętać, że Continuous Integration przynosi najlepsze wyniki, gdy jest dostosowane do potrzeb konkretnego projektu/organizacji. Tak samo należy dostosować laboratorium i~proces wykonywania do swoich potrzeb. 
@@ -1582,8 +1582,8 @@ Testy pisane w~Ash zostaną wzbogacone poprzez
 \begin{itemize}
   \item Dodanie nowych, bardziej precyzyjnych asercji wzorowanych na tych z~biblioteki Hamcrest\footnote{Dostępna na stronie https://code.google.com/p/hamcrest/}. Pozwolą one na lepsze wyrażanie zamiarów, bez konieczności pisania dodtkowego kodu
   \item Dodanie nowej składni, dzięki której łatwiejsze będzie wyrażanie testów jako bloków \textit{Given-When-Then}
-  \item Rozwój już istniejących kontekstów i asercji, tak żeby bliżej odpowiadały one realistycznym scenariuszom 
-  \item Dynamiczne wstrzykiwanie testów w momencie budowania aplikacji
+  \item Rozwój już istniejących kontekstów i~asercji, tak żeby bliżej odpowiadały one realistycznym scenariuszom 
+  \item Dynamiczne wstrzykiwanie testów w~momencie budowania aplikacji
   \item Lepsze wsparcie dla cordova-cli oraz narzędzi do Continuous Integration
 \end{itemize}
 
@@ -1591,9 +1591,9 @@ Jednocześnie, aby w~pełni wykorzystać potencjał Apache Cordova jako platform
 
 \summary
 
-Nie da się zaprzeczyć, że przyszłość należy do aplikacji moblinych. Wśród różnego rodziaju aplikacji mobilnych hybrydy wydają się być dobrym kompromisem łączącym zalety aplikacji natywnych oraz mobile web. Niestety wiąże się to z pewnymi ograniczeniami. Powyższa praca porusza istotną kwestię jaką jest zapewnienie wysokiej jakości hybrydowych aplikacji mobilnych. Problem ten do tej pory nie był zaadresowany w~kompleksowy sposób poprzez dedykowane narzędzia. Ash jest pierwszą biblioteką, która w~ taki sposób rozwiązuje trudności wspomniane wcześniej w~pracy.
+Nie da się zaprzeczyć, że przyszłość należy do aplikacji moblinych. Wśród różnego rodzaju aplikacji mobilnych hybrydy wydają się być dobrym kompromisem łączącym zalety aplikacji natywnych oraz mobile web. Niestety wiąże się to z~pewnymi ograniczeniami. Powyższa praca porusza istotną kwestię jaką jest zapewnienie wysokiej jakości hybrydowych aplikacji mobilnych. Problem ten do tej pory nie był zaadresowany w~kompleksowy sposób poprzez dedykowane narzędzia. Ash jest pierwszą biblioteką, która w~ taki sposób rozwiązuje trudności wspomniane wcześniej w~pracy.
 
-Mam nadzieję, że Ash położy fundament pod nową generację aplikacji hybrydowych, które będą tworzone z myślą o bezawaryjności oraz płynności działania. Uważam, że ten segment hybrydowych apliakcji ma duży potencjał, który należy zagospodarować. Nie może to być jednak oparte na tworzeniu oprogramowania które ma być jak najtańsze, tylko raczej na tworzeniu aplikacji, które będą niezawodnie działać na wielu platformach.
+Mam nadzieję, że Ash położy fundament pod nową generację aplikacji hybrydowych, które będą tworzone z~myślą o~bezawaryjności oraz płynności działania. Uważam, że ten segment hybrydowych apliakcji ma duży potencjał, który należy zagospodarować. Nie może to być jednak oparte na tworzeniu oprogramowania które ma być jak najtańsze, tylko raczej na tworzeniu aplikacji, które będą niezawodnie działać na wielu platformach.
 
 \nocite{*}
 
