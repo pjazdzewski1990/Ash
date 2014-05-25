@@ -757,7 +757,7 @@ Ash.callbacks składa~się~z:
   \item afterTest - Jest wywoływane po zakończeniu się całego zbioru testów, ale przed wywołaniem zwrotnym z \texttt{run()} (lub \texttt{play()}) 
 \end{itemize}
 
-Nadrzędnym testem \texttt{Ash.callbacks} jest pozwolenie użytkownikowi na przygotowanie interfejsu pod działanie testu oraz jego posprzątanie po wykonaniu. Nic nie stoi jednak na przeszkodzie, żeby skorzystać z tych metod np. do raportowania postępów.
+Nadrzędnym testem \texttt{Ash.callbacks} jest pozwolenie użytkownikowi na przygotowanie interfejsu pod działanie testu oraz jego posprzątanie po wykonaniu. Nic nie stoi jednak na przeszkodzie, żeby skorzystać z~tych metod np. do raportowania postępów.
 
 \chapter{Zastosowania}
 Ash został pomyślany jako biblioteka, która oprócz dostarczania ,,tradycyjnej'' infrastruktury testowej, tzn.:
@@ -780,11 +780,11 @@ jest także w~stanie ułatwić tesotwanie aplikacji w sytuacjach, które są alb
   \item symulowanie ruchu
 \end{itemize}
 
-Ash może z powodzeniem być stosowany zarówno jako osobny (standalone) i samodzielny framework testujący, jak i~w~roli uzupełnienia innych rozwiązań. W~ogólnym ujęciu Ash jest przeznaczony do fukcyjnego testowania aplikacji, tzn. aplikacja jest testowana od strony interfejsu użytkownika, co ma swoje zalety (najbardziej wiarygodnie symuluje użytkownika) jak i~wady (interfejs często podlega zmianom). Jak zostało wcześniej wspomniane testy funkcyjne dają najlepsze efekty, gdy są uzupełniane przez testy jednostkowe.  
+Ash może z powodzeniem być stosowany zarówno jako osobny i~samodzielny framework testujący, jak i~w~roli uzupełnienia innych rozwiązań. W~ogólnym ujęciu Ash jest przeznaczony do fukcyjnego testowania aplikacji, tzn. aplikacja jest testowana od strony interfejsu użytkownika, co ma swoje zalety (najbardziej wiarygodnie symuluje użytkownika) jak i~wady (interfejs często podlega zmianom). Jak zostało wcześniej wspomniane testy funkcyjne dają najlepsze efekty, gdy są uzupełniane przez testy jednostkowe.  
 
 \section{Problemy związane z obecnymi rozwiązaniami}
 
-Obecnie istniejące rozwiązania pozwalające na funkcyjne testowanie hybrydowych aplikacji mobilnych nie~są wystarczające. Większość z~nich wywodzi się z~technologii webowych, co ogranicza ich zastosowanie tylko do tej części aplikacji, która odpowiada aplikacji typu mobile web. Rozwiązania te nie są w~stanie wykorzystać przewagi jaką daje hybrydowe podejście Apache Cordova. Nie potrafią przetestować czy skorzystać z~natywnych podwalin aplikacji hybrydowej. W naturalny sposób ogranicza to ich możliwości oraz zastosowanie w kontekście rozważanych aplikacji. Naturalną wadą wielu bibliotek do funkcyjnego testowania aplikacji jest ich wrażliwość na zmiany interfejsu użytkownika. W~przypadku większości aplikacji warstwa interfejsu jest tą częścią, która zmienia się najczęściej. W konsekwencji pożądaną własnością dobrej biblioteki do testowania funkcyjnego jest abstrakcja pozwalajaca na oderwanie się od detali interfejsu użytkownika oraz prostota pozwalająca na łatwą zmianę testów, gdyby zaszła taka potrzeba. 
+Obecnie istniejące rozwiązania pozwalające na funkcyjne testowanie hybrydowych aplikacji mobilnych nie~są wystarczające. Większość z~nich wywodzi się z~technologii webowych, co ogranicza ich zastosowanie tylko do tej części aplikacji, która odpowiada aplikacji typu mobile web. Rozwiązania te nie są w~stanie wykorzystać przewagi jaką daje hybrydowe podejście Apache Cordova. Nie potrafią przetestować czy skorzystać z~natywnych podwalin aplikacji hybrydowej. W~naturalny sposób ogranicza to ich możliwości oraz zastosowanie w~kontekście rozważanych aplikacji. Naturalną wadą wielu bibliotek do funkcyjnego testowania aplikacji jest ich wrażliwość na zmiany interfejsu użytkownika. W~przypadku większości aplikacji warstwa interfejsu jest tą częścią, która zmienia się najczęściej. W~konsekwencji pożądaną własnością dobrej biblioteki do testowania funkcyjnego jest abstrakcja pozwalajaca na oderwanie się od detali interfejsu użytkownika oraz prostota pozwalająca na łatwą zmianę testów, gdyby zaszła taka potrzeba. 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 \section{Ash jako rozwiązanie}
 
@@ -792,11 +792,11 @@ Ash jest biblioteką służącą do funkcyjnego testowania hybrydowych aplikacji
 
 Ash działa na zasadzie wtyczki do Apache Cordova jest więc w~stanie komunikować się z~platformą sprzętową poprzez \textit{Native Bridge}. Daje to możliwość manipulowania ustawieniami czy zasobami urządzenia, np. uzyskania dostępu do systemu plików czy ustawień połączenia. System operacyjny na którym uruchomiona jest aplikacja hybrydowa ma spory wpływ na to jak zachowa się aplikacja, niestety tradycyjne podejścia nie pozwalają na przetestowanie ich wpływu na aplikację. Co innego Ash, który udostępnia funkcjonalności pozwalające na wywoływanie określonych zachowań urządzenia. 
 
-Zewnętrzne API Ash napisane jest w jezyku Javascript i~także w tym języku pisane są testy. Jestem zdania, że Javascript ze względu na swój charakter pozwali w prosty i~przejrzysty sposób wyrazić testy oraz czyni je na tyle elastycznymi, że wymagane zmiany będą mogły być wprowadzane niewielkimi nakładami sił. API Ash kładzie nacisk na powtórne wykorzystywanie kodu oraz wykorzystanie wzorca Page Object, co pozwala na zapanowanie nad testami nawet w~najszybciej zmieniającej się aplikacji. 
+Zewnętrzne API Ash napisane jest w jezyku Javascript i~także w tym języku pisane są testy. Jestem zdania, że Javascript ze względu na swój charakter pozwali w~prosty i~przejrzysty sposób wyrazić testy oraz czyni je na tyle elastycznymi, że wymagane zmiany będą mogły być wprowadzane niewielkimi nakładami sił. API Ash kładzie nacisk na powtórne wykorzystywanie kodu oraz wykorzystanie wzorca Page Object, co pozwala na zapanowanie nad testami nawet w~najszybciej zmieniającej się aplikacji. 
 
 \section{Przykład zastosowania Ash - Wikipedia Mobile}
 
-Przydatność Ash najlepiej udowodnić pokazując jak można go wykorzystać do przetestowania prawdziwej aplikacji. W tym celu zdecydowałem się pokryć testami Ash część aplikacji Wikipedia Mobile\footnote{Projekt jest dostępny pod adresem https://github.com/wikimedia/WikipediaMobile}. Wybrałem akurat ten projekt gdyż
+Przydatność Ash najlepiej udowodnić pokazując jak można go wykorzystać do przetestowania prawdziwej aplikacji. W~tym celu zdecydowałem się pokryć testami Ash część aplikacji Wikipedia Mobile\footnote{Projekt jest dostępny pod adresem https://github.com/wikimedia/WikipediaMobile}. Wybrałem akurat ten projekt gdyż
 
 \begin{itemize}
   \item wykorzystuje Apache Cordova
@@ -807,13 +807,13 @@ Przydatność Ash najlepiej udowodnić pokazując jak można go wykorzystać do 
   \item jest publicznie dostępna np. pod adresem https://play.google.com/store/apps/details?id=org.wikipedia
 \end{itemize}
 
-Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z~której korzysta Wikipedia, a 3.X z myślą o której pisany był Ash zaszły poważne zmiany. Także w sposobie budowania aplikacji oraz działania wtyczek, dlatego konieczne będą pewne zmiany w kodzie samej biblioteki. Na szczęście elstyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją.
+Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z~której korzysta Wikipedia, a~3.X z~myślą o której pisany był Ash zaszły poważne zmiany. Także w~sposobie budowania aplikacji oraz działania wtyczek, dlatego konieczne będą pewne zmiany w kodzie samej biblioteki. Na szczęście elstyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją.
 
 Całość kodu Wikipedia Mobile z~dodanym kodem testów jest dostępna pod adresem \url{https://github.com/pjazdzewski1990/WikipediaMobile} 
 
 \subsection{Przygotowanie Ash do działania z~Cordova 2.X}
   
-Stara wersja Cordovy nie korzysta jeszcze z~systemu modułów dlatego konieczne jest poprawienie plików Ash.js oraz promise.js tak, żeby były dodawane do aplikacji nawet bez modułów.  W Ash.js należy usunąć następujący kod działający wyłącznie z~modułami
+Stara wersja Cordovy nie korzysta jeszcze z~systemu modułów dlatego konieczne jest poprawienie plików Ash.js oraz promise.js tak, żeby były dodawane do aplikacji nawet bez modułów.  W~Ash.js należy usunąć następujący kod działający wyłącznie z~modułami
 
 \begin{lstlisting}
    //Ash.js
@@ -861,6 +861,8 @@ zamiast tego eksportujemy go samodzielnie
 
 Większe zmiany czekają nas po stronie natywnej. W wersji Cordovy 2.X możliwość pisania wtyczek była dużo skromniejsza, dlatego konieczne jest przerobienie głównej metody wtyczki oraz wyłączenie części funkcjonalności. Plik ze wszystkimi koniecznymi zmianami jest dostępny tutaj \url{https://github.com/pjazdzewski1990/WikipediaMobile/blob/master/src/pl/ug/ash/AshPlugin.java}
 
+Więcej informacji o tworzeniu wtyczek dla tej wersji można znaleźć w literaturze\cite{Ghatol-Patel}.
+
 \subsection{Dodanie Ash do projektu}
 
 Tak zmodyfikowany kod Ash może zostać użyty w projekcie Wikipedia Mobile.
@@ -888,17 +890,17 @@ Celem dodania cześci natywnej należy zapisać plik AsPlugin.java jako src/pl/u
 
 \end{lstlisting}
 
-Teraz zostaje nam juz tylko dodanie testów do projektu np. w~postaci pliku  assets/www/test/ash/wikitest.js 
+Teraz zostaje nam już tylko dodanie testów do projektu np. w~postaci pliku  assets/www/test/ash/wikitest.js 
 
 \begin{lstlisting}
    //wikitest.js
 
   (function(win){  
-    console.log("Wikitest zostalo wczytane");
+    console.log("Wikitest wczytane");
   })(window);
 \end{lstlisting}
 
-oraz załadowanie tego testu z poziomu Ash po zajściu zdarzenia 'deviceready'. Stosownym miejscem dla tego będzie funkcja init() w assets/www/js/main.js
+oraz załadowanie tego testu z~poziomu Ash po zajściu zdarzenia \texttt{deviceready}. Stosownym miejscem dla tego będzie funkcja \texttt{init()} w~assets/www/js/main.js
 
 \begin{lstlisting}
    //wikitest.js
@@ -912,7 +914,7 @@ oraz załadowanie tego testu z poziomu Ash po zajściu zdarzenia 'deviceready'. 
   }
 \end{lstlisting}
 
-Teraz jesteśmy już gotowi do testowanie aplikacji Wikipedia Mobile z użyciem Ash.
+Teraz jesteśmy już gotowi do testowanie aplikacji Wikipedia Mobile z~użyciem Ash.
 
 \subsection{Tworzenie testów w~Ash}
 
@@ -926,7 +928,7 @@ Testy dopisane do Wikipedia Mobile na razie są bardzo proste i~testują trzy po
 
 Przygotowane testy są relatywnie proste i~mają charakter poglądowy. 
 
-W przygotowanym kodzie testujacym intensywnie korzystamy z~możliwości komponowania testów z mniejszych funkcji oraz z Page Objects. O ile w~przypadku mniejszych testów wydawać się może, że jest to niepotrzebny trud. Jednak na dłuższą metę pozwala nam to oszczędzić pracy, przez możliwość łatwego komponowanie testów z~już gotowych i~sprawdzonych funkcji oraz obiektów. W praktyce wygląda to następująco
+W przygotowanym kodzie testujacym intensywnie korzystamy z~możliwości komponowania testów z mniejszych funkcji oraz z~Page Objects. O~ile w~przypadku mniejszych testów wydawać się może, że jest to niepotrzebny trud. Jednak na dłuższą metę pozwala nam to oszczędzić pracy, przez możliwość łatwego komponowanie testów z~już gotowych i~sprawdzonych funkcji oraz obiektów. W praktyce wygląda to następująco
 
 \begin{lstlisting}
    //wikitest.js
@@ -958,7 +960,7 @@ W przygotowanym kodzie testujacym intensywnie korzystamy z~możliwości komponow
     .... // oraz inne
 \end{lstlisting}
 
-w~powyższym przykładzie definiujemy dwa obiekty - wikiPage oraz mainPage. Pierwszy reprezentuje generyczną podstronę w~Wikipedia Mobile. To co łączy wszystkie strony w aplikacji, to górny pasek menu zawierający pasek szukania. Każda podstronę możemy traktować jako wikiPage, gdy spełenia ona założenia metody validate(), czyli w~tym przypadku ma górny pasek wyszukiwania. MainPage z~kolei odpowiada za główny ekran aplikacji zawierający przykładowe, wybrane artykuły w elemencie "content". MainPage oczywiście jest podstoną wikipedii, więc w swoich metodach korzysta wikiPage. W ten oto sposób, dzięki kompozycji, ograniczliśmy duplikację kodu oraz uprościliśmy test. Utworzone obiekty wykorzystamy do definicji testów.
+w~powyższym przykładzie definiujemy dwa obiekty - \texttt{wikiPage} oraz \texttt{mainPage}. Pierwszy reprezentuje generyczną podstronę w~Wikipedia Mobile. To co łączy wszystkie strony w aplikacji, to górny pasek menu zawierający pasek szukania. Każdą podstronę możemy traktować jako \texttt{wikiPage}, gdy spełenia ona założenia metody \texttt{validate()}, czyli w~tym przypadku ma górny pasek wyszukiwania. \texttt{MainPage} z~kolei odpowiada za główny ekran aplikacji zawierający przykładowe, wybrane artykuły w elemencie \texttt{content}. \texttt{MainPage} oczywiście jest podstoną wikipedii, więc w swoich metodach korzysta \texttt{wikiPage}. W~ten sposób, dzięki kompozycji, ograniczliśmy duplikację kodu oraz uprościliśmy test. Utworzone obiekty wykorzystamy do definicji testów.
 
 Teraz możemy zdefiniować funkcje-testy. Na przykład tak
 
@@ -979,7 +981,7 @@ Teraz możemy zdefiniować funkcje-testy. Na przykład tak
     };
 \end{lstlisting}
 
-Tak zdefiniowany obiekt randomWalkStep to pojedynczy krok testów Ash. Zawiera on cztery rzeczy. Klucz ,,name'' pełni jedynie funkcję informacyjną. Opisuje jakie zachowanie testuje dany krok. Do ,,where'' podajemy zdefiniowany wcześniej obiekt głównej strony. W~ten sposób określamy na jakim ekranie mają się odbyć testy. ,,What'' zawiera właściwą funkcję. Jest ona bardzo prosta, ale później skorzystamy z~niej do zbudowania testu ,,Random Walk''. Jej zadaniem jest wybranie przykładowego odnośnika i~przejście po nim. Podajemy także klucz howLong, który określa limit czasu na przeprowadzenie tego kroku.
+Tak zdefiniowany obiekt randomWalkStep to pojedynczy krok testów Ash. Zawiera on cztery rzeczy. Klucz \texttt{name} pełni jedynie funkcję informacyjną. Opisuje jakie zachowanie testuje dany krok. Do \texttt{where} podajemy zdefiniowany wcześniej obiekt głównej strony. W~ten sposób określamy na jakim ekranie mają się odbyć testy. \texttt{What} zawiera właściwą funkcję. Jest ona bardzo prosta, ale później skorzystamy z~niej do zbudowania testu \texttt{Random Walk}. Jej zadaniem jest wybranie przykładowego odnośnika i~przejście po nim. Podajemy także klucz \texttt{howLong}, który określa limit czasu na przeprowadzenie tego kroku.
 
 Z~kilku tak zbudowanych plików możemy zbudować pełen scenariusz testowy.
 
@@ -994,9 +996,9 @@ Z~kilku tak zbudowanych plików możemy zbudować pełen scenariusz testowy.
 
 \end{lstlisting}
 
-Ten scenariusz jest bardzo prosty. Wyraża on dwa przejścia po wybrancyh linkach, przeplatane krokami odpowiedzialnymi za sprawdzenie zawartości artykułu. Oczywiście nic nie stoi na przeszkodzi, żeby dodać jeszcze jedną rundę przejścia czy skorzystać z~kroków z ,,randomWalkScenario'' w~innym scenariuszu.
+Ten scenariusz jest bardzo prosty. Wyraża on dwa przejścia po wybrancyh linkach, przeplatane krokami odpowiedzialnymi za sprawdzenie zawartości artykułu. Oczywiście nic nie stoi na przeszkodzi, żeby dodać jeszcze jedną rundę przejścia czy skorzystać z~kroków z \texttt{randomWalkScenario} w~innym scenariuszu.
 
-Teraz pozostaje nam już tylko uruchomić scenariusz przy użyciu metody ,,Ash.play()''
+Teraz pozostaje nam już tylko uruchomić scenariusz przy użyciu metody \texttt{Ash.play()}
 
 \begin{lstlisting}
    //wikitest.js
@@ -1013,9 +1015,9 @@ Teraz pozostaje nam już tylko uruchomić scenariusz przy użyciu metody ,,Ash.p
 
 Apache Cordova udostępnia swoje API na zasadzie wtyczek. Każda wtyczka może być indywidualnie instalowana oraz udostępnia określone API i~związane z~nim funkcjonalności. Takie podejście pozwala na rozbicie monolitycznego API na mniejsze części oraz zapewnia możliwość rozszerzenia platformy poprzez własne wtyczki.
 
-Każda wtyczka składa się z~dwóch części - API programisty napisanego w języku Javascript i~udostępionego użytkownikom oraz warstwy kodu natywnego, która realizuje zadania niewykonywalne z poziomu WebView. Część natywna implementowana jest w~technologiach zależnych od platformy. Przenośna wtyczka posiada kilka implementacji, w~różnych językach, które sa podmieniane w~czasie budowania aplikacji. Kod natywny jest opcjonalny dla wtyczek, ale korzystając z~platformy istnieje możliwość wzbogacenia aplikacji.
+Każda wtyczka składa się z~dwóch części - API programisty napisanego w języku Javascript i~udostępionego użytkownikom oraz warstwy kodu natywnego, która realizuje zadania niewykonywalne z poziomu WebView. Część natywna implementowana jest w~technologiach zależnych od platformy, dlatego przenośna wtyczka posiada kilka implementacji, w~różnych językach, które sa podmieniane w~czasie budowania aplikacji. Kod natywny jest opcjonalny dla wtyczek, ale korzystając z~platformy istnieje możliwość wzbogacenia aplikacji.
 
-Ash, został zaimplementowany jako wtyczka do platformy. Obecnie warstwa natywna jest przygotowana tylko dla platformy Android, ale dalszym etapie rozwóju biblioteki planowane jest dodanie wsparcia dla innych platform. Kod działający po stronie systemu Android został napisany w~języku Java.
+Ash, został zaimplementowany jako wtyczka dla Apache Cordova. Obecnie warstwa natywna jest przygotowana tylko dla platformy Android, ale dalszym etapie rozwóju biblioteki planowane jest dodanie wsparcia dla innych platform. Kod działający po stronie systemu Android został napisany w~języku Java.
 
 Więcej informacji można znaleźć w~oficjalnej instrukcji dla twórców wtyczek
 
@@ -1031,10 +1033,10 @@ CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. Poz
 
 \begin{itemize}
   \item CordovaWebView webView - Komponent WebView w~którym uruchomiona jest aplikacja
-  \item CordovaInterface cordova - Daje dostęp do zasobów platofrmy np. Activity oraz puli wątków
+  \item CordovaInterface cordova - Daje dostęp do zasobów platformy np. \texttt{Activity} oraz puli wątków
 \end{itemize}
 
-Punktem wejściowym dla kodu każdej wtyczki jest jest metoda exec(), która jest wywoływana, gdy warstwa javascript wyśle żądanie wywołania określonego kodu natywnego. Sygnatura exec wygląda następująco:
+Punktem wejściowym dla kodu każdej wtyczki jest jest metoda \texttt{exec()}, która jest wywoływana, gdy warstwa javascript wyśle żądanie wywołania określonego kodu natywnego. Sygnatura \texttt{exec} wygląda następująco:
 
 \begin{lstlisting}
 public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException
@@ -1064,26 +1066,26 @@ cordova.exec(
 );
 \end{lstlisting}
 
-Kolejne argumenty to
+Kolejne argumenty to naj następuje
 \begin{itemize}
   \item successCallback - Wywołanie zwrotne uruchamiane, gdy odwołanie do natywnej części wtyczki się powiedzie
   \item failureCallback - Wywołanie zwrotne uruchamiane, gdy odwołanie do natywnej części wtyczki zakończy się błędem
   \item pluginName - Nazwa pluginu, będąca jego unikalnym identyfikatorem w~obrębie aplikacji
-  \item actionName - Identyfikator akcji, która ma być wywołana. Ten argument jest później przekazywany do exec() jako parametr name 
-\item arguments - Tablica argumentów wywołania przekazywana do exec() jako zmienna args 
+  \item actionName - Identyfikator akcji, która ma być wywołana. Ten argument jest później przekazywany do \texttt{exec()} jako parametr \texttt{name} 
+\item arguments - Tablica argumentów wywołania przekazywana do \texttt{exec()} jako zmienna \texttt{args} 
 \end{itemize}
 
 \section{Wielowątkowość. Komunikacja między warstwami}
 
-Javascript ze swojej natury jest jednowątkowy. Tak samo wszystkie testy w Ash są wykonywane jeden po drugim. Poza trudnościami technicznymi powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o~współdzielony zasób, jakim jest DOM, konieczne byłoby zadbanie o~ich synchronizację, co jest skomplikowane oraz mało wydajne. Z~prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
+Javascript ze swojej natury jest jednowątkowy. Tak samo wszystkie testy w Ash są wykonywane jeden po drugim. Poza trudnościami technicznymi powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o~współdzielony zasób, jakim jest \textit{Document Object Model}, konieczne byłoby zadbanie o~ich synchronizację, co jest skomplikowane oraz mało wydajne. Z~prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
 
-Wtyczki działają asynchronicznie. Kod uruchamiany po stronie natywnej platformy przez wywołania cordova.exec() działa w~osobnym wątku. Realizuje on swoje cele, a następnie poprzez CallbackContext uruchamia odpowiednie wywołania zwrotne przekazane przez użytkownika wtyczki. Takie podejście pozwala maksymalnie wykorzystać wątki działające po stronie platformy bez komplikowania budowy aplikacji po stronie warstwy JavaScript. W takim przypadku kod natywny nie wpływa bezpośrednio na WebView czy sposób interfejs apliakcji użytkownikowi. Wszelkie tego typu mainpulacje odbywają się po stronie Javascript za pośrednictwem funkcji zwrotnych. Niestety czasami istnieje konieczność bezpośredniej manipulacji WebView. W tym celu istnieje możliwość skorzystania z~metody runOnUiThread(). Metoda ta przyjmuje klasę implementującą interfejs Runnable, w~której mozemy nadpisać metodę run() tak, aby realizowała nasze cele. Na przykład w~ten sposób:
+Wtyczki działają asynchronicznie. Kod uruchamiany po stronie natywnej platformy przez wywołania \texttt{cordova.exec()} działa w~osobnym wątku. Realizuje on swoje cele, a następnie poprzez \texttt{CallbackContext} uruchamia odpowiednie wywołania zwrotne przekazane przez użytkownika wtyczki. Takie podejście pozwala maksymalnie wykorzystać wątki działające po stronie platformy bez komplikowania budowy aplikacji po stronie warstwy JavaScript. W takim przypadku kod natywny nie wpływa bezpośrednio na \texttt{WebView} czy sposób interfejs apliakcji użytkownikowi. Wszelkie tego typu mainpulacje odbywają się po stronie Javascript za pośrednictwem funkcji zwrotnych. Niestety czasami istnieje konieczność bezpośredniej manipulacji \texttt{WebView}. W~tym celu istnieje możliwość skorzystania z~metody \texttt{runOnUiThread()}. Metoda ta przyjmuje klasę implementującą interfejs \texttt{Runnable}, w~której mozemy nadpisać metodę \texttt{run()} tak, aby realizowała nasze cele. Na przykład w~ten sposób:
 
 \begin{lstlisting}
 //AshPlugin.java
 cordova.getActivity().runOnUiThread(new Runnable() {
       public void run() {
-           // .... tu mozna bezpiecznie operowac na WebView oraz interfejsie
+           // .... %* tu można bezpiecznie operować na WebView oraz na interfejsie *)
       }
 });
 \end{lstlisting}
@@ -1094,7 +1096,7 @@ Więcej informacji na temat wielowątkowości w systemie Android można znaleź�
 
 \chapter{Architektura}
 
-Ash dystrybuowany jest jako wtyczka do Apache Cordova, a~więc korzysta on także ze wszystkich mechanizmów typowych dla tego typu rozwiązań. Po dołączniu wtyczki do projektu np. za pomocą Cordova Command Line Interface, w projekcie dostępny staje się globalny obiekt Ash, udostępniający wszystkie funkcjonalności biblioteki. 
+Ash dystrybuowany jest jako wtyczka do Apache Cordova, a~więc korzysta on także ze wszystkich mechanizmów typowych dla tego typu rozwiązań. Po dołączniu wtyczki do projektu np. za pomocą Cordova Command Line Interface, w projekcie dostępny staje się globalny obiekt \texttt{Ash}, udostępniający wszystkie funkcjonalności biblioteki. 
 
 Pola globalnego obiektu można podzielić na 3 grupy:  
 \begin{itemize}
@@ -1102,7 +1104,7 @@ Pola globalnego obiektu można podzielić na 3 grupy:
   \item fukcje działające asynchronicznie i udostępniające złożoną funkcjonalność 
   \item prywatne, wewnętrzne pola oraz funkcje biblioteki
 \end{itemize}
-Warto podkreślić, że trzecia grupa nie wchodzi w~skład oficjalnego, publicznego API Ash. Oznacza to, że o~ile wiele z~tych funkcjonalności czy helperów może być przydatna dla twórców testów, to nierozsądnym jest korzystanie z~nich bezposrednio, gdyż w~przyszłych wersjach aplikacji kod ten może zostać zmieniony lub wręcz usunięty.
+Warto podkreślić, że trzecia grupa nie wchodzi w~skład oficjalnego, publicznego API Ash. Oznacza to, że o~ile wiele z~tych funkcjonalności może być przydatna dla twórców testów, to nierozsądnym jest korzystanie z~nich bezposrednio, gdyż w~przyszłych wersjach aplikacji kod ten może zostać zmieniony lub wręcz usunięty.
 
 \section{Spojrzenie z lotu ptaka}
 
@@ -1113,16 +1115,16 @@ Ash definiuje funkcje pozwalajace na uruchamianie testów w~kontekście pewnego 
 
    //zdefiniuj kontekst braku sieci oraz uruchom w jego ramach przekazana funkcje
     Ash.noNetwork().then(function(){
-	// tu mozemy umiescic kod testu
-     	// zostanie on wykonany z kontekscie braku dostepu do sieci
+	// %* tu możemy umieścić kod testu *)
+     	// %* zostanie on wykonany z kontekście braku dostępu do sieci *)
 
-	//tu powinien znalezc sie kod testujacy zachowanie aplikacji 
+	//%* tu powinien znaleźć się kod testujący zachowanie aplikacji *) 
     });
 \end{lstlisting}
 
 Blok then pozwala zdefiniować co nastąpi po tym, jak sieć zostanie wyłączona. Jest to bardzo ważny aspekt biblioteki. Mamy pewność, że przez cały czas działania funkcji zachodzić będzie określony warunek. Warto zwrócić uwagę na przykładzie, że o ile w ramach kontektu stan sieci jest precyzyjnie zdefiniowany, to poza tymi ramami już tak nie musi być. Stan poza kontekstem możmy traktować jako dynamiczny lub nieokreślony. Dodatkowo należy pamiętać, że zmiana ustawień urządzenia w ramach kontekstu nie musi pociągać za sobą jego powrotu do poprzedniego stanu po wykonaniu testów. Ma to duże znaczenie z perspektywy testowania aplikacji, gdyż niejako wymusza, żeby w~ramach jednego konteksu sprawdzać jedynie te rzeczy, które są z~nim związane, a~elementy interfesju które od nie zależą testować poza tym kontekstem.
 
-Warto zaznaczyć, że konteksty można ze sobą łączyć, aby tworzyć bardziej złożone scenariusze. Takie złączenie realizujemy poprzez wilelokrotne użycie funkcji then() wraz z~funkcjami, które chcemy wywyłać. Pozwala to na zdefiniowanie na przykład takiego kontekstu:
+Warto zaznaczyć, że konteksty można ze sobą łączyć, aby tworzyć bardziej złożone scenariusze. Takie złączenie realizujemy poprzez wilelokrotne użycie funkcji \texttt{then()} wraz z~funkcjami, które chcemy wywyłać. Pozwala to na zdefiniowanie na przykład takiego kontekstu:
 
 \begin{lstlisting}
      //example.js
@@ -1130,11 +1132,11 @@ Warto zaznaczyć, że konteksty można ze sobą łączyć, aby tworzyć bardziej
     Ash.noNetwork().then(
 	Ash.orientationHorizontal
     ).then(function(arg){
-      	// w tym momencie mozemy byc pewni, ze zachodza dwa warunki:
-	// 1) dostep do sieci zostal odciety 
-	// 2) ekran znajduje sie w pozycji horyzontalnej
+      	// %* w tym momencie możemy być pewni, ze zachodzą dwa warunki: *)
+	// %* 1) dostęp do sieci został odcięty *) 
+	// %* 2) ekran znajduje się w pozycji horyzontalnej *)
 
-	//tu powinien znalezc sie kod testujacy zachowanie aplikacji 
+	//%*tu powinien znaleźć się kod testujący zachowanie aplikacji *) 
     });
 \end{lstlisting}
 
@@ -1144,24 +1146,24 @@ możemy także wywołania funckcji Ash przeplatać innym kodem JavaScript np. w~
      //example.js
 
     Ash.orientationHorizontal().then(function(msg){
-	// tu mozemy umiescic kod JavaScript
+	// %* tu możemy umieścić kod JavaScript *)
       	
 	// ekran jest w pozycji horyzontalnej
       
-	// tu mozemy umieccic kod JavaScript
+	// %* tu możemy umieścić kod JavaScript *)
       	Ash.orientationVertical().then(function(){
-		// tu mozemy umiescic kod JavaScript
+		// %* tu możemy umieścić kod JavaScript *)
 
         		// ekran jest w pozycji wertykalnej 
 
-		// tu mozemy umiescic kod JavaScript
+		// %* tu możemy umieścić kod JavaScript *)
       	});
     });
 \end{lstlisting}
 
 \section{Promises}
 
-Wewnętrznie Ash korzysta z~mechanizmu obietnic tzw. Promise. Promises jest to mechanizm pozwalający programistom w~prostszy i~bardziej przejrzysty sposób panować nad asynchronicznością. Dotychczasowe podejście do kodu wykonującego się w~sposób asynchroniczny wymagało oprócz parametrów wywołania przekazania także dwóch wywołań zwrotnych. Jednego wołanego w~przypadku sukcesu oraz drugiego w~przypadku wystąpienia błędu. Promise działają inaczej. Wywołanie promise zwraca obiekt o~którym możemy myśleć jak o~obietnicy, że kiedyś będzie on zawierał wynik działania jakiejś funkcji. Z~jednej strony ułatwia to myślenie o~asynchronicznych wywołaniach, z~drugiej pozwala nam na traktowanie przyszłych zdarzeń jak obiektów. To znaczy, że możemy przypiąć do nich jedną lub wiele funkcji, które będą wołane dopiero gdy obliczenia zostaną zakończone. Możliwe jest też łatwe szeregowanie obetnic, co w przypadku tradycyjnego podejścia prowadziło do tzw. \textit{callback hell}, czyli zagłębiania funkcji w funkcjach do tego stopnia że stają się one absolutnie nieczytelne. 
+Wewnętrznie Ash korzysta z~mechanizmu obietnic tzw. \textit{Promise}. Promises jest to mechanizm pozwalający programistom w~prostszy i~bardziej przejrzysty sposób panować nad asynchronicznością. Dotychczasowe podejście do kodu wykonującego się w~sposób asynchroniczny wymagało oprócz parametrów wywołania przekazania także dwóch wywołań zwrotnych. Jednego wołanego w~przypadku sukcesu oraz drugiego w~przypadku wystąpienia błędu. Promise działają inaczej. Wywołanie promise zwraca obiekt o~którym możemy myśleć jak o~obietnicy, że kiedyś będzie on zawierał wynik działania jakiejś funkcji. Z~jednej strony ułatwia to myślenie o~asynchronicznych wywołaniach, z~drugiej pozwala nam na traktowanie przyszłych zdarzeń jak obiektów. To znaczy, że możemy przypiąć do nich jedną lub wiele funkcji, które będą wołane dopiero gdy obliczenia zostaną zakończone. Możliwe jest też łatwe szeregowanie obetnic, co w przypadku tradycyjnego podejścia prowadziło do tzw. \textit{callback hell}, czyli zagłębiania funkcji w funkcjach do tego stopnia że stają się one absolutnie nieczytelne. 
 
 Dokładny opis mechanizmu, jego wymagania oraz zastosowania można znaleźć na  stronie specyfikacji
 
