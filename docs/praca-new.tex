@@ -6,6 +6,7 @@
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{black}{rgb}{0.0,0.0,0.0}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \lstset{frame=tb,
@@ -18,11 +19,12 @@
   numbers=none,
   numberstyle=\tiny\color{gray},
   keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
+  commentstyle=\color{black},
   stringstyle=\color{mauve},
   breaklines=true,
   breakatwhitespace=true
-  tabsize=3
+  tabsize=3,
+  escapeinside={\%*}{*)}
 }
 
 % tak można zmienić domyślną rodzinę fontów Latin Modern 
@@ -47,14 +49,14 @@
 \begin{document}
 
 \begin{abstract}
-  Poniższa praca zawiera opis biblioteki „Ash” służącej do funkcjonalnego testowania
+  Poniższa praca zawiera opis biblioteki \textit{Ash} służącej do funkcjonalnego testowania
 hybrydowych aplikacji mobilnych stworzonych przy użyciu Adobe PhoneGap lub
 Apache Cordova. Ash pozwala na testowanie zachowania się aplikacji w~różnorodnych
-realistycznych scenariuszach, które często bywają trudne do symulowania przez inne narzędzia. Tradycyjne podejścia nie pozwalaja nam na testowanie aplikacji w~sytuacji, gdy  użytkownik porusza się,
-obraca ekran, traci dostęp do sieci i~tym~podobne. Ash został stworzony z myślą o takich scenariuszach. Dzięki wykorzystaniu hybrydowego charakteru aplikacji
+realistycznych scenariuszach, które często są trudne do symulowania przez inne narzędzia. Tradycyjne podejścia nie pozwalają nam na testowanie aplikacji w~sytuacjach, gdy  użytkownik porusza się,
+obraca ekran, traci dostęp do sieci i~tym~podobnych. Ash został stworzony z~myślą o~takich przypadkach. Dzięki wykorzystaniu hybrydowego charakteru aplikacji
 możliwa jest emulacja zachowania, co wpływa na większy realizm testów, a~tym~samym na wiarygodność ich wyników. Innymi
-zaletami bliblioteki są elastyczna struktura testów, która ułatwia ich utrzymywanie oraz możliwość budowania złożonych scenariuszy z prostych kroków. A~także
-to, że pozwala na wykorzystania asercji w~aplikacji nawet poza testami. 
+zaletami bliblioteki są między innymi elastyczna struktura testów, która ułatwia ich utrzymywanie oraz możliwość budowania złożonych scenariuszy z~prostych kroków. 
+A~takżeto, że pozwala na wykorzystania asercji w~aplikacji nawet poza testami. 
 
 \end{abstract}
 \keywords{Javascript, 
@@ -68,21 +70,20 @@ hybrydowe aplikacje mobilne}
 
 \introduction
 
-Tematem pracy jest przedstawienie biblioteki Ash, problemów które stara się rozwiązać, możliowści jakie oferuje oraz w~jaki sposób zaimplementowano bibliotekę. Praca została stworzona z myślą zarówno o~osobach myślących o~wykorzystaniu Ash w~ich projekcie, jak i~o~ludziach chcących zapoznać się ze sposobem działania biblioteki i~brać udział w~jej rozwoju.  
+Tematem pracy jest przedstawienie biblioteki Ash, problemów które stara się rozwiązać, możliowści jakie oferuje oraz w~jaki sposób zaimplementowano bibliotekę. Praca została stworzona z~myślą zarówno o~osobach myślących o~wykorzystaniu Ash w~ich projekcie, jak i~o~ludziach chcących zapoznać się ze sposobem działania biblioteki i~brać udział w~jej rozwoju.  
 
-Praca zorganizowana jest w~następujący sposób. Pierwsze rozdziały wprowadzają czytelnika w~temat testowania aplikacji mobilnych oraz demonstrują jak skorzystać z~biblioteki do stworzenia prostych testów. Dalej następuje przegląd funkcjonalności oraz dyskusja na temat ich zastosowania. Kolejne rodziały opisują implementację najważniejszych części biblioteki oraz dają wgląd w~to~jak można zintegrować Ash z~narzędziami do automatycznego budowania aplikacji.
+Praca zorganizowana jest w~następujący sposób. Pierwsze rozdziały wprowadzają czytelnika w~temat testowania aplikacji mobilnych oraz demonstrują jak skorzystać z~biblioteki do stworzenia prostych testów. Dalej następuje przegląd funkcjonalności oraz dyskusja na temat ich potencjalnego zastosowania. Kolejne rodziały opisują implementację najważniejszych części biblioteki oraz dają wgląd w~to~jak można zintegrować Ash z~narzędziami do automatycznego budowania aplikacji.
 
 \chapter{Podstawowe terminy oraz techniki}
 \section{Hybrydowe aplikacje mobilne}
-Mówiąc o \textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z myślą~o konkretnej platformie sprzętowej (Android, iOS, itp.) przy użyciu narzuconych przez jej twórcę narzędzi (Java, Objective-C, itd.).  \textit{Aplikacje mobile web} są to z kolei aplikacje webowe zoptymalizowane po kątem urządzeń mobilnych.
-Adobe PhoneGap oraz jej odpowiednik o otwartym źródle Apache Cordova, to
-dwie popularne biblioteki pozwalające na tworzenie hybrydowych aplikacji
-mobilnych, tj. aplikacji które łączą w sobie zalety aplikacji natywnych oraz aplikacji
-typu mobile web. Zasada działania tego typu programów jest w założeniu prosta i
-polega na wykorzystaniu komponentów, które dalej nazywać będziemy WebView.
-Komponenty te są dostępne na każdej nowoczesnej platformie i pozwalają na
-wyświetalnie stron internetowych z wnętrza natywnych aplikacji mobilnych. 
-W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasoby z określonego adresu (lokalnego lub zdalnego), które są wyświetlane w tym WebView. Najczęściej tym zasobem jest aplikacja stworzona przy użyciu technologii webowych.     
+Mówiąc o \textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z myślą~o konkretnej platformie sprzętowej (Android, iOS, itp.) przy użyciu narzuconych przez jej twórcę narzędzi (Java, Objective-C, itd.).  \textit{Aplikacje mobile web} są to z~kolei aplikacje webowe zoptymalizowane po kątem urządzeń mobilnych.
+Adobe PhoneGap oraz jej odpowiednik o~otwartym źródle Apache Cordova, to
+dwie popularne biblioteki pozwalające na tworzenie \textit{hybrydowych aplikacji
+mobilnych}, tj. aplikacji które łączą w~sobie zalety aplikacji natywnych oraz aplikacji
+typu mobile web. Zasada działania tego typu programów jest w założeniu prosta i~polega na wykorzystaniu komponentów, które dalej nazywać będziemy WebView.
+Komponenty te są dostępne na każdej nowoczesnej platformie i~pozwalają na
+wyświetalnie stron internetowych z~wnętrza natywnych aplikacji mobilnych. 
+W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasoby z~określonego adresu (lokalnego lub zdalnego), które są wyświetlane w~tym WebView. Najczęściej tym zasobem jest aplikacja stworzona przy użyciu technologii webowych.     
 
 % tabelki w LaTeX-u też da się robić, chociaż najczytelniej to może nie wygląda
 % więcej na temt tabelek można poczytac np. na http://en.wikibooks.org/wiki/LaTeX/Tables
@@ -102,7 +103,7 @@ W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasob
 
 Takie podejście ma wiele zalet. Dzięki temu, że do tworzenia aplikacji hybrydowych wykorzystywane są powszechnie znane technologie internetowe, koszt ich tworzenia i~czas dostarczenia
 gotowego rozwiązania na rynek są znacznie zredukowane. Aplikacje tego typu są też
-z założenia wieloplatformowe. Używając PhoneGap z~tego samego kodu źródłowego
+z~założenia wieloplatformowe. Używając PhoneGap z~tego samego kodu źródłowego
 możemy stworzyć aplikacje na platformę Android, iOS, Blackberry, WebOS,
 Windows Phone, Symbian i Bada. Dodatkowo popularność narzędzi internetowych
 ułatwia znalezienie właściwych programistów.
@@ -111,42 +112,41 @@ ułatwia znalezienie właściwych programistów.
 Największymi wadami podejścia hybrydowego są słabsza wydajność, błędy
 pojawiające się tylko na określonych urządzeniach oraz potencjalnie odmienne oczekiwania użytkowników różnych platform. 
 
-Użytkownik instalując aplikację hybrydową w taki sam sposób co 
+Użytkownik instalując aplikację hybrydową w~taki sam sposób co 
 natywną spodziewa się, że będzie ona działać niczym natywna. Tymczasem
-dodatkowy narzut hybrydy, często w połączeniu z niedopracowaną i nie
+dodatkowy narzut hybrydy, często w~połączeniu z~niedopracowaną i ~ie
 zoptymalizowaną aplikacją, prowadzi do mniej responsywnego interfejsu
-użytkownika i w konskewencji do frustracji użytkownika. Częstym problemem przy
+użytkownika i~w~konskewencji do frustracji użytkownika. Częstym problemem przy
 tworzeniu aplikacji mobilnych są błędy, które są specyficzne tylko dla pewnych modeli urządzeń. Przy podejściu hybrydowym problem jest o tyle bardziej widoczny, że
-najczęściej tworzymy rozwiązanie które ma być przenośne nie tylko pomiędzy urządzeniami w ramach jednej platformy, ale także między platformami. Co z~oczywistych względów zwiększa gamę urządzeń, które trzeba uzwględnić. Trzecim problemem hybryd jest kwestia
-tworzenia interfejsu użytkownika, który byłby intuicyjny i~wygodny dla użytkownika. Dostawcy systemów operacyjnych dla urządzeń
-mobilnych publikują zalecenia, co do tego jak powinien wyglądać interfejs aplikacji
+najczęściej tworzymy rozwiązanie które ma być przenośne nie tylko pomiędzy urządzeniami w~ramach jednej platformy, ale także między platformami. Co z~oczywistych względów zwiększa gamę urządzeń, które trzeba uzwględnić. Trzecim problemem hybryd jest kwestia
+tworzenia interfejsu użytkownika, tak aby był intuicyjny i~wygodny dla użytkownika. Dostawcy systemów operacyjnych dla urządzeń
+mobilnych publikują zalecenia, co do tego jak powinien wyglądać i zachowywać się interfejs aplikacji
 działającej pod danym systemem. Zalecenia te są specyficzne dla platformy i~często
 wzajemnie się wykluczają. Przygotowanie jednej szaty graficznej i~jednego interfejsu
 może zostać źle odebrane przez użytkowników spodziewających się wyglądu
 dostosowanego do platformy. Niestety stworzenie kilku wersji interfejsu jest dużo
-bardziej pracochłonne i~skomplikowane, niweczy także podstawową zaletę aplikacji
+bardziej pracochłonne i~skomplikowane. Niweczy także podstawową zaletę aplikacji
 hybrydowych – przenośność. 
-Są to poważne niedostatki, ale braki te można zniwelować z pomocą skutecznych narzędzi.
+Są to poważne niedostatki, ale braki te można zniwelować z~pomocą skutecznych narzędzi.
 
 \section{Propozycja rozwiązania problemów}
-Ash ma za zadanie pomóc rozwiązywać problemy z wydajnością aplikacji oraz z
-błędami zależnymi od konfiguracji sprzętowych. Aby
+Ash ma za zadanie pomóc rozwiązywać problemy z wydajnością aplikacji oraz z~błędami zależnymi od konfiguracji sprzętowych. Aby
 zapewnić wysoką sprawność działania aplikacji konieczny jest rygor przy tworzeniu
 oprogramowania oraz możliwość testowania jej w sytuacjach, które pozwalają
-uwydatnić problemy z wydajnością. Dzięki funkcyjnemu podejściu do testowania
-oprogramowania Ash pozwala zbierać informacje o responsywności interfejsu
+uwydatnić problemy z~wydajnością. Dzięki funkcyjnemu podejściu do testowania
+oprogramowania Ash pozwala zbierać informacje o~responsywności interfejsu
 oraz realistycznie symulować scenariusze dużego obciążenia. Programista
-korzystający z Ash ma możliwość zdefiniowania w scenariuszach maksymalnego
-czasu trwania testu. Jeśli test nie zakończy się w założonym czasie jest on oznaczany jako niepowodzenie. Niska responsywność interfejsu traktowana jest na równi z błędami
-logiki czy prezentacji. Wymusza to na twórcy dbanie o szybkość reakcji interfejsu.
+korzystający z~Ash ma możliwość zdefiniowania w~scenariuszach maksymalnego
+czasu trwania testu. Jeśli test nie zakończy się w~założonym czasie jest on oznaczany jako niepowodzenie. Niska responsywność interfejsu traktowana jest na równi z~błędami
+logiki czy prezentacji. Wymusza to na twórcy dbanie o~szybkość reakcji interfejsu.
 Ash oferuje także możliwość chwilowego wyłączenia lub opóźnienia dostępu do
-sieci. Sytuacje w których dostępność internetu jest ograniczona są dość częste,
-jednak niewiele aplikacji jest pisanych biorąc to pod uwagę, a jeszcze mniej 
-testowana pod tym kątem. Bardzo często problemy z dotępem do sieci objawiają się kiepską
+sieci. Sytuacje w~których dostępność internetu jest ograniczona są dość częste,
+jednak niewiele aplikacji jest pisanych biorąc to pod uwagę, a~jeszcze mniej 
+testowana pod tym kątem. Bardzo często problemy z~dotępem do sieci objawiają się kiepską
 wydajnością interfejsu lub długimi przestojami na ekranach ładowania. Ash pozwala
-twórcom świadomie zmierzyć się z tym problemem. Biblioteka wyposażona jest także w~mechanizmy pozwalajace na łatwe uruchomienie aplikacji na wielu urządzeniach, fizycznych i~wirtualnych naraz. Nawet w zdalnych lokalizacjach. Sprawia to, że
+twórcom świadomie zmierzyć się z~tym problemem. Biblioteka wyposażona jest także w~mechanizmy pozwalajace na łatwe uruchomienie aplikacji na wielu urządzeniach, fizycznych i~wirtualnych naraz. Nawet w~zdalnych lokalizacjach. Sprawia to, że
 użytkownicy mają możliwość masowego uruchamiania testów na wszystkich
-dostępnych im urządzeniach oraz są bardziej skłonni skorzystać z testów w czasie
+dostępnych im urządzeniach oraz są bardziej skłonni skorzystać z~testów w~czasie
 swojej pracy. Zdalne uruchamianie testów daje możliwość stworzenia
 rozproszonej bazy urządzeń, co pozwoli na testowanie także mniej typowych
 konfiguracji.
@@ -156,23 +156,23 @@ Jako bazę do implementacji wybrałem Apache Cordova. Jest to
 wersja PhoneGap, którą korporacja Adobe (właściel praw do PhoneGap) udostępniła
 fundacji Apache. Od tego momentu ten wariant technologii udostępniany jest
 na zasadzie otwartego źródła. Pomimo tego oba projekty są niemal identyczne, a~jedyna faktyczna różnica między nimi jest natury prawnej. Głównym powodem
-wyboru tej technologii jest spory udziała w rynku hybrydowych aplikacji mobilnych,
+wyboru tej technologii jest spory udziała w~rynku hybrydowych aplikacji mobilnych,
 dynamizm rozwoju oraz liczna społeczność. Nie bez znaczenia jest także swobodny dostęp do źródła biblioteki.
 
 Więcej informacji na temat historii projektu można znaleźć w książce Johna Wargo \cite{Wargo}. 
 
 \section{Test Driven Development}
 
-\textit{Test Driven Development} jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o których często mówimy \textit{red-green-refactor}. Na taki cykl składają się fazy
+\textit{Test Driven Development} jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o~których często mówimy \textit{red-green-refactor}. Na taki cykl składają się fazy
 \begin{itemize}
   \item Red - Programista pisze testy automatyczne, pokrywające funkcjonalność, która została wyspecyfikowana, ale nie została jeszcze zaimplementowana. Na tym etapie testy nie przechodzą
-  \item Green - Następnie programista implementuje brakujące funkcjonalności, aż wszystkie testy napisane w poprzednim kroku staną się ,,zielone'', czyli uruchamiają się i kończą bez błędów
+  \item Green - Następnie programista implementuje brakujące funkcjonalności, aż wszystkie testy napisane w poprzednim kroku staną się ,,zielone'', czyli uruchamiają się i~kończą bez błędów
   \item Refactor - Na tym etapie testowana aplikacja jest udoskonalana. Dzięki testom nie ma obawy, że nowe funcjonalności czy poprawki doprowadzą do regresji, czyli uszkodzenia starych funkcjonalności przez właśnie dodawane nowe. Wszelkie takie przypadki powinny być wykryte przez testy automatyczne. Po zakończeniu implementacji tworzone są dodatkowe testy do istniejących już funkcjonalności
 \end{itemize}
 
 Dzięki zastosowaniu krótkich cykli oraz automatycznych testów, metodologia ta pozwala na tworznie oprogramowania, które ma przemyślaną architekturę oraz unika problemów związanych z regresją. Tworząc kod  programu programista musi dopilnować, żeby jego kod był testowalny, co prowadzi do poprawienia jakości tworzonego oprogramowania. Testy automatyczne, które powstają podczas cyklu zwiększają prawdopodobieństwo, że w~przypadku, gdy kod aplikacji zmieni się potencjalne błędy zostaną od razu wychwycone. 
 
-Test Driven Developement jako metodologia jest powiązana z Extreme Programming oraz z koncepcją ,,Tests First'', która zakłada że zestawy testów automatycznych powinny być tworzone jeszcze przed napisaniem testowanej aplikacji, co skutkuje wysoką jakością tworzonego oprogramowania.   
+Test Driven Developement jako metodologia jest powiązana z Extreme Programming oraz z koncepcją \textit{Tests First}, która zakłada że zestawy testów automatycznych powinny być tworzone jeszcze przed napisaniem testowanej aplikacji, co skutkuje wysoką jakością tworzonego oprogramowania.   
 
 Test Driven Developement zostało spopularyzowane przez Kenta Becka \cite{Beck}.
 
@@ -194,7 +194,7 @@ Wyróżniamy wiele rodzajów testów:
   \item Inne
 \end{itemize}
 
-W~przypadku poprawnie zarządzanego projektu trzy pierwsze rodzaj tworzę hierarchię zwaną ,,piramidą testowania''. Dwa pozostałe z wymienionych przeze mnie rodzajów pełnią funkcję uzupełniającą. 
+W~przypadku poprawnie zarządzanego projektu trzy pierwsze rodzaj tworzę hierarchię zwaną \textit{piramidą testowania}. Dwa pozostałe z wymienionych przeze mnie rodzajów pełnią funkcję uzupełniającą. 
 
 \begin{figure}[h]
     \centering
@@ -221,7 +221,7 @@ Aby dołączyć Ash do swojego projektu należy wydać następujące polecenie\f
 
 Wtyczka zostanie zainstalowana, a~do~globalnej przestrzeni nazw dodany zostanie obiekt Ash, który udostępnia wszystkie metody biblioteki.
 
-Punktem startowym Ash jest metoda loadTests. Przyjmuje ona tablicę ścieżek do plików zawierająych kod z~testami. Po wywołaniu dynamicznie dodaje wskazane pliki do dokumentu w ramach którego została wywołana. Pliki z testami należy napisać samodzielnie pamiętając, żeby były one zamknięte w ramach \textit{self-invocing-function}. Takie podejście służy temu, aby umożliwić użytkownikowi łatwe dodanie i~usunięcie testów z aplikacji oraz aby testy niepotrzebnie nie zaśmiecały produkcyjnej wersji aplikacji.
+Punktem startowym Ash jest metoda loadTests. Przyjmuje ona tablicę ścieżek do plików zawierająych kod z~testami. Po wywołaniu dynamicznie dodaje wskazane pliki do dokumentu w ramach którego została wywołana. Pliki z testami należy napisać samodzielnie pamiętając, żeby były one zamknięte w~ramach \textit{self-invocing-function}. Takie podejście służy temu, aby umożliwić użytkownikowi łatwe dodanie i~usunięcie testów z aplikacji oraz aby testy niepotrzebnie nie zaśmiecały produkcyjnej wersji aplikacji.
 
 Projekt demonstrujący użycie Ash oraz jego możliwości jest dostępny pod adresem
 
@@ -239,7 +239,7 @@ Aby pobrać projekt wydaj polecenie
    git clone git@github.com:pjazdzewski1990/AshHello.git
 \end{quote}
 
-Aplikacja AshHello zawiera w~sobie bardzo prostą funkcjonalność. Jej zasadniczym celem jest pozwolenie użytkownikowi na zaznajomienie się z~testowaniem przy użyciu biblioteki Ash. Interfejs użytkownika w AshHello jest zorganizowany na zasadzie tzw. {\it Working Square}. Working Square jest to wzorzec tworzenia interfejsu, bardzo popularny na urządzeniach mobilnych. Polega on~na stworzeniu kwadratowego obszaru roboczego który zawiera główną treść aplikacji oraz obszaru pomocniczego na którym znajdować się mogą np. elementy związane z~nawigacją. Z zależności od orientacji ekranu, która dyktuje nam rozmiar i~kształt powierzchni do zagospodarowania, obszar pomocniczy może znajdować się 
+Aplikacja AshHello zawiera w~sobie bardzo prostą funkcjonalność. Jej zasadniczym celem jest pozwolenie użytkownikowi na zaznajomienie się z~testowaniem przy użyciu biblioteki Ash. Interfejs użytkownika w AshHello jest zorganizowany na zasadzie tzw. {\it Working Square}. Working Square jest to wzorzec tworzenia interfejsu, bardzo popularny na urządzeniach mobilnych. Polega on~na stworzeniu kwadratowego obszaru roboczego który zawiera główną treść aplikacji oraz obszaru pomocniczego na którym znajdować się mogą np. elementy związane z~nawigacją. W~zależności od orientacji ekranu, która dyktuje nam rozmiar i~kształt powierzchni do zagospodarowania, obszar pomocniczy może znajdować się 
 
 \begin{itemize}
   \item poniżej obszaru głównego - gdy urządzenia jest w~orientacji pionowej, tzn. wysokość ekranu jest większa niż jego szerokość
@@ -270,7 +270,7 @@ Wtyczkę instalujemy poleceniem
 \begin{quote}
    cordova plugins add https://github.com/pjazdzewski1990/Ash
 \end{quote}
-i jeśli wszystko przebiegło poprawnie, to zmienna window.Ash powinna zawierać obiekt udostępniający funkcjonalność biblioteki.  
+i~jeśli wszystko przebiegło poprawnie, to zmienna window.Ash powinna zawierać obiekt udostępniający funkcjonalność biblioteki.  
 
  \item Tworzymy plik z testami
 
@@ -282,18 +282,18 @@ a w nim plik
 \begin{quote}
 myTest.js
 \end{quote} 
-W przed chwilą stworzonym pliku definiujemy samowywołującą się funkcję, która będzie zawierać nasze testy. Możemy to zrobić na przykład w~ten sposób:
+W przed chwilą stworzonym pliku definiujemy samowywołującą się funkcję, która będzie zawierać nasze testy. Możemy  to zrobić na przykład w~ten sposób:
 
  \begin{lstlisting}
   (function(){
 	console.log("MyTest started!");
-	// tu znajdzie się kod testujący
+	// %* tu znajdzie się kod testujący *)
   })();
 \end{lstlisting}
 
-Tak zdefiniowana funkcja zostanie wywołana zaraz po jej wczytaniu. Nasze testy nie będą bardzo skomplikowane, więc pozwolimy sobie na umieszczenia całej logiki bezpośrednio w tej funkcji. Jednak w przypadku bardziej rozbudowanych testów warto pokusić się o zgromadzenie kodu w~obiektach.
+Tak zdefiniowana funkcja zostanie wywołana zaraz po jej wczytaniu. Nasze testy nie będą bardzo skomplikowane, więc pozwolimy sobie na umieszczenia całej logiki bezpośrednio w~tej funkcji. Jednak w~przypadku bardziej rozbudowanych testów warto pokusić się o~zgromadzenie kodu w~obiektach.
 
-Mamy zamiar sprawdzić, czy Working Square działa poprawnie w obu ustawieniach ekranu, więc musimy skorzystać z~\textit{kontekstów}. Kontekstami będziemy nazywać funkcje, które gwarantują nam, że w~obrębie ich działania zachodzić będą określone warunki. Przykładem kontekstów są na przykład
+Mamy zamiar sprawdzić, czy Working Square działa poprawnie w~obu ustawieniach ekranu, więc musimy skorzystać z~\textit{kontekstów}. Kontekstami będziemy nazywać funkcje, które gwarantują nam, że w~obrębie ich działania zachodzić będą określone warunki. Przykładem kontekstów są na przykład
 
 \begin{quote}
    Ash.orientationHorizontal()
@@ -311,7 +311,7 @@ które pozwalają na odwrócenie ekranu. W~obrębie funkcji przekazanych jako ar
   //myTest.js
 
   Ash.orientationHorizontal().then(function(msg){
-     //ten kod bedzie wywolany, gdy ekran znajdzie sie w orientacji poziomej
+     //%* ten kod będzie wywołany, gdy ekran znajdzie się w orientacji poziomej*)
       var worksquare = $('.worksquare');
       var sidebar = $('.sidebar');
 
@@ -331,7 +331,7 @@ Powyższy test sprawdza trzy rzeczy. Po pierwsze znajduje elementy interfejsu, k
 Ash.assert( ... ) 
 \end{quote}
 
-upewnia się, że istnieją. A następnie porównuje ich pozycje upewniając się, że elementy są ułożone obok siebie i~we właściwej kolejności. Ostanią operacją jest Ash.endTest() co oznacza zakończenie testu sukcesem.
+upewnia się, że istnieją. A następnie porównuje ich pozycje upewniając się, że elementy są ułożone obok siebie i~we właściwej kolejności. Ostanią operacją jest \texttt{Ash.endTest()} co oznacza zakończenie testu sukcesem.
 
 Taki test obejmuje tylko część funkcjonalności. Musimy też zadbać o~orientację pionową oraz~o~to, czy przejście nie ,,psuje'' interfejsu. Aby to zbadać możemy dodać dalszą część testu. Na przykład w ten sposób
 
@@ -341,10 +341,10 @@ Taki test obejmuje tylko część funkcjonalności. Musimy też zadbać o~orient
   Ash.orientationHorizontal().then(function(msg){
        //kod z porzedniego punktu
 
-      //to jeszcze nie koniec testu, wiec musimy ujac w komentarz lub usunac endTest()
+      //%*to jeszcze nie koniec testu, więc musimy ująć w komentarz lub usunąć endTest()*)
       //Ash.endTest();
   }).then(
-      Ash.orientationVertical //a teraz odwroc ekran pionowo
+      Ash.orientationVertical //%*a teraz odwróć ekran pionowo*)
     ).then(function(msg){
       var worksquare = $('.worksquare');
       Ash.assert(worksquare);
@@ -355,7 +355,7 @@ Taki test obejmuje tylko część funkcjonalności. Musimy też zadbać o~orient
       Ash.assert(worksquare.getBoundingClientRect().top < sidebar.getBoundingClientRect().top);
       Ash.equal(worksquare.getBoundingClientRect().left, sidebar.getBoundingClientRect().left);        
 
-      //jesli aplikacja dotarla tutaj, to zaliczmy ten przypadek testowy
+      //%*jesli aplikacja dotarła tutaj, to zaliczmy ten przypadek testowy*)
       Ash.endTest();
     });
 \end{lstlisting}
@@ -366,11 +366,11 @@ Powyższy kod nie jest bardziej skomplikowany od poprzedniego. Jedyną nowości�
 then(function(){ ... })
 \end{quote}
 
-które są wykonywane jeden po drugim w kolejności podania i pozwalają łączyć nam mniejsze funkcje testujace w bardziej złożone bloki.
+które są wykonywane jeden po drugim w~kolejności podania i~pozwalają nam łączyć mniejsze funkcje testujace w~bardziej złożone bloki.
 
  \item Dodajemy wywołanie kodu testującego do aplikacji
 
-Teraz kiedy mamy już kod testów czas dodać go do aplikacji. W przypadku AshHello dobrym na to miejscem będzie index.js i~metoda \mbox{onDeviceReady()}. Metoda ta jest wywołana, gdy zajdzie już zdarzenie 'deviceready' więc jesteśmy w~stanie skorzystać ze~wszystkich dobrodziejstw Apache Cordova.
+Teraz kiedy mamy już kod testów czas dodać go do aplikacji. W~przypadku AshHello dobrym na to miejscem będzie index.js i~metoda \mbox{\texttt{onDeviceReady()}}. Metoda ta jest wywołana, gdy zajdzie już zdarzenie 'deviceready' więc jesteśmy w~stanie skorzystać ze~wszystkich dobrodziejstw Apache Cordova.
 
  \begin{lstlisting}
   //index.js
@@ -397,7 +397,7 @@ Metoda runAshTests() robi dwie rzeczy. Dodaje wywołanie zwrotne dla zdarzenia o
 
 \end{enumerate}
 
-Tak niewiele potrzeba, żeby stworzyć i uruchomić pierwszy prosty test Ash. W razie problemów z uruchomieniem działający kod testowy znajduje~się w~gałęzi ,,with-tests''.
+Tak niewiele potrzeba, żeby stworzyć i uruchomić pierwszy prosty test Ash. W~razie problemów z uruchomieniem działający kod testowy znajduje~się w~gałęzi ,,with-tests''.
 
 \section{Podejście do tworzenia testów}
 
