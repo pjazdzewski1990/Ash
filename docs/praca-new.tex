@@ -401,22 +401,22 @@ Tak niewiele potrzeba, żeby stworzyć i uruchomić pierwszy prosty test Ash. W~
 
 \section{Podejście do tworzenia testów}
 
-Ash oferuje dużą swobodę jeśli chodzi o tworzenie zestawów testów przez użytkowników, jednocześnie sugeruje dobre techniki, które pozwalają w pełni wykorzystać możliwości biblioteki. W tym podrozdziale opiszemy kilka z tych zalecanych praktyk.    
+Ash oferuje dużą swobodę jeśli chodzi o~tworzenie zestawów testów przez użytkownika, jednocześnie sugeruje dobre praktyki, które pozwalają w~pełni wykorzystać możliwości biblioteki. W~tym podrozdziale opiszemy kilka z~tych zalecanych technik.    
 
 \begin{itemize}
-  \item Konteksty - Wyzwalają określone zachowanie urządzenia, co pozwala nam na sprawdzenia jak zachowuja się nasza aplikacja np. w przypadku braku połączenia z internetem lub naciśnięcia przez użytkownika przycisku powrotu. Do konteksu możemy przekazać dowolną funkcję, która zostanie wywołana dopiero gdy urządzenie znajdzie się w określonym przez kontekst stanie. Konteksty stosujemy w sposób pokazany poniżej:
+  \item Konteksty - Wyzwalają określone zachowanie urządzenia, co pozwala nam na sprawdzenia jak zachowuja się nasza aplikacja np. w~przypadku braku połączenia z~internetem lub naciśnięcia przez użytkownika przycisku powrotu. Do konteksu możemy przekazać dowolną funkcję, która zostanie wywołana dopiero gdy urządzenie znajdzie się w~określonym przez kontekst stanie. Konteksty stosujemy w~sposób pokazany poniżej:
 
 \begin{lstlisting}
   Ash.makeDeviceDoABC().then(function(msg){
-      //sprawdz jak aplikacja sprawuje sie, 
-      //  gdy zaszlo zdarzenie ABC
+      //%*sprawdz jak aplikacja sprawuje się,*) 
+      //  %*gdy zaszło zdarzenie ABC*)
       ....
-      //zakoncz kontekst
+      //%*zakończ kontekst*)
       Ash.endTest();
   });
 \end{lstlisting}
 
-Powyższy kod działa dokładnie tak jak się go czyta. Ash wymusza na urządzeniu przejście w~określony stan lub wykonanie pewnej czynności. Wtedy (,,then'') następuje wywołanie funkcji, która jest działa już po przejściu i może ona sprawdzić zachowanie aplikacji. Bloki then można ze sobą łączyć. W takim wypadku kolejne bloki będą wykonywane jeden po drugim. Fraza then może być także użyta do komponowania kontekstów. Jeśli przywołamy pewien kontekst~X to do bloku then po nim następującego możemy przekazać funkcję wywołującą~Y. W takiej sytuacji kolejne bloki then będą wykonywane, w~sytuacji gdy X~i~Y będą zachodzić.  
+Powyższy kod działa dokładnie tak jak się go czyta. Ash wymusza na urządzeniu przejście w~określony stan lub wykonanie pewnej czynności. Wtedy (,,then'') następuje wywołanie funkcji, która jest działa już po przejściu i~może ona sprawdzić zachowanie aplikacji. Bloki then można ze sobą łączyć. W takim wypadku kolejne bloki będą wykonywane jeden po drugim. Fraza then może być także użyta do komponowania kontekstów. Jeśli przywołamy pewien kontekst~X to do bloku then po nim następującego możemy przekazać funkcję wywołującą~Y. W takiej sytuacji kolejne bloki then będą wykonywane, w~sytuacji gdy X~i~Y będą zachodzić.  
 
 Istotną rzeczą na którą należy zwrócić uwagę jest 
 
@@ -424,21 +424,21 @@ Istotną rzeczą na którą należy zwrócić uwagę jest
    Ash.endTest();
 \end{lstlisting}
 
-Funkcja testująca może działać w sposób asynchroniczny lub być zagnieżdżona w innej funkcji. W takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. As.endTest() pełni tutaj rolę informacyjną - wskazuje gdzie znajduje się punkt końcowy oraz pozwala na zakończenie obecnie wykonywanego testu i~uruchomienie kolejnego z zestawu. Każdy test Ash powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie się zaplanowanemu scenariuszowi. W przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. O endTest() można myśleć jak o poleceniu do którego wykonania dążą testy i~po którego wykonaniu są one traktowane jako zakończone. 
+Funkcja testująca może działać w~sposób asynchroniczny lub być zagnieżdżona w~innej funkcji. W~takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. \texttt{Ash.endTest()} pełni tutaj rolę informacyjną - wskazuje gdzie znajduje się punkt końcowy oraz pozwala na zakończenie obecnie wykonywanego testu i~uruchomienie kolejnego z zestawu. Każdy test Ash powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie się zaplanowanemu scenariuszowi. W przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. O~\texttt{endTest()} można myśleć jak o~poleceniu do którego wykonania dążą testy i~po którego wykonaniu są one traktowane jako zakończone. 
 
-Musimy też pamiętać, że o~ile stan urządzenia jest zdefiniowany w~obrębie kontekstu, to poza nim już tak nie jest. Taka decyzja projektowa ma promować tworzenie testów, które są  niezależne od siebie i~od warunków zewnętrznych wynikających z urządzenia.
+Musimy też pamiętać, że o~ile stan urządzenia jest zdefiniowany w~obrębie kontekstu, to poza nim już takiej gwarancji nie ma. Taka decyzja projektowa ma promować tworzenie testów, które są  niezależne od siebie i~od warunków zewnętrznych wynikających z~urządzenia.
 
-  \item Page Objects (Obiekty Stron) - Jest to wzorzec projektowy pozwalający na zapanowanie nad złożonymi interfejsami użytkownika i ich modularne testowanie. W~Ash stosowane są głównie do nawigacji po aplikacji i~definiowanie na jakim ekranie ma odbyć się dany test. Pojedynczy Page Object reprezentuje element interfejsu np. stopkę, panel boczny, menu itp. Kilka takich obiektów składa się na ekran aplikacji. Dla Ash Obiektem Stron może być każdy obiekt, posiadający funkcje validate() oraz goto().
+  \item Page Objects (Obiekty Stron) - Jest to wzorzec projektowy pozwalający na zapanowanie nad złożonymi interfejsami użytkownika i~ich modularne testowanie. W~Ash stosowane są głównie do nawigacji po aplikacji i~definiowanie na jakim ekranie ma odbyć się dany test. Pojedynczy Page Object reprezentuje element interfejsu np. stopkę, panel boczny, menu itp. Kilka takich obiektów składa się na ekran aplikacji. Dla Ash Obiektem Stron może być każdy obiekt, posiadający funkcje \texttt{validate()} oraz \texttt{goto()}.
 
-validate() zwraca wartość boolowską określającą, czy na obecnym ekranie znajduje się element interfejsu za który odpowiada dany Page Object. Z~tej metody możemy skorzystać, aby upewnić się, czy całe bloki interfejsu są wyświetlone i~czy są wyświetlone poprawnie.
+\texttt{validate()} zwraca wartość boolowską określającą, czy na obecnym ekranie znajduje się element interfejsu za który odpowiada dany Page Object. Z~tej metody możemy skorzystać, aby upewnić się, czy całe bloki interfejsu są wyświetlone i~czy są wyświetlone poprawnie.
 
-goto() definiuje funkcję, która odpowiada za zmianę podstrony w~aplikacji, tak żeby znaleźć się na podstronie związanej z~danym obiektem. Funkcja powinna korzystać z~validate(). goto() może być zastosowane np. do zmiany stanu interfejsu przed lub po teście.
+\texttt{goto()} definiuje funkcję, która odpowiada za zmianę podstrony w~aplikacji, tak żeby znaleźć się na podstronie związanej z~danym obiektem. Funkcja powinna korzystać z~\texttt{validate()}. \texttt{goto()} może być zastosowane np. do zmiany stanu interfejsu przed lub po teście.
 
 Oczywiście Page Objects mogą zawierać także inne metody zdefiniowane przez użytkownika, które ułatwią operowanie na interfejsie z~poziomu testów oraz uczynią kod testów czytelniejszym.
 
 Prostota implementacji ma na celu uławienie korzystania z~biblioteki, zachęca także do łączenia Obiektów Stron ze sobą. Nic nie stoi na przeszkodzie, żeby zdefiniować Page Object ,,Menu'' jako zestaw kilku Page Objects, z~których każdy opisuje jakiś element menu. 
 
- \item Organizacja testów - Zestawy możemy wykonywać albo przez polecenie run() do którego przekazujemy tablicę funkcji-testów lub obiekt z testami (wtedy zgodnie z~przyjętą konwencją uruchamianie są wszystkie funkcje, których nazwa kończy się frazą 'Test') albo korzystając z~funkcji play wywoływanej ze scenariuszem testowym.
+ \item Organizacja testów - Zestawy możemy wykonywać albo przez polecenie \texttt{run()} do którego przekazujemy tablicę funkcji-testów lub obiekt z testami (wtedy zgodnie z~przyjętą konwencją uruchamianie są wszystkie funkcje, których nazwa kończy się frazą 'Test') albo korzystając z~funkcji \texttt{play()} wywoływanej ze scenariuszem testowym.
 
 Scenariusz testowy, jest to tablica obiektów, które nazywamy krokami. Na każdy krok składa się kilka atrybutów
 
@@ -449,7 +449,7 @@ Scenariusz testowy, jest to tablica obiektów, które nazywamy krokami. Na każd
     \item howLong - Limit czasu na wykonanie testu, ustawienie odpowiednich limitów pozwala testom wychwycić utratę wydajności określonych części interfejsu
   \end{itemize}
 
-Scenariusze pozwalają nam na tworzenie bardziej realistycznych przypadków użycia oraz wyrażanie ich w kodzie. 
+Scenariusze pozwalają nam na tworzenie bardziej realistycznych przypadków użycia oraz wyrażanie ich w~kodzie. 
 
 \end{itemize}
 
@@ -462,14 +462,12 @@ Założnie Ash co do projektu testowanego:
 \begin{itemize}
   \item wykonany w technologii Adobe Phonegap/Apache Cordova - istnieje możliwość aby w przyszłości testować także aplikacje typu mobile web, ale na obecnym etapie nie jest to celem Ash
   \item single page app - Ash zakłada, że aplikacja testowana będzie pisana zgodnie z najnowszymi trendami w~branży oraz zaleceniami twórców Phonegap
-  \item Android 4.0+ - obecnie Ash pozwala testować jedynie aplikacje bazujące na Androidzie jako platformie, gdyż ta jest dominująca na rynku, ale w~niedalekiej przyszłości planowana jest także wersja na iOS
+  \item Android 4.0+ - obecnie Ash pozwala testować jedynie aplikacje działające na Androidzie, gdyż ta jest dominująca na rynku, ale w~niedalekiej przyszłości planowana jest także wersja na iOS oraz inne platformy
 \end{itemize}
 
 \chapter{Przegląd funkcjonalności}
 
 W~każdej chwili istnieje możliwość wygenerowania aktualnej dokumentacji wprost z~kodu aplikacji przy użyciu skryptu gen-doc.sh\footnote{Wymaga sh oraz zainstalowania programu jsdoc}
-
-TODO : schemat wszystkich funkcji obiektu Ash
 
 \section{Asercje}
 
@@ -499,25 +497,25 @@ Ash.isInvisible( ... )
 
 \subsubsection{Opis}
 
-Funkcje assert oraz equal są podstawowymi składowymi testów w Ash. Pozwalają one na 
+Funkcje \texttt{assert()} oraz \texttt{equal()} są podstawowymi składowymi testów w Ash. Pozwalają one na 
 
 \begin{itemize}
-  \item Sprawdzenie czy obiekt istnieje - Funkcja assert(object) pozwala na sprawdzenie czy przekazany obiekt istnieje. Asercja ta zakłada, że każdy przekazany obiekt, który nie jest fałszywy (,,falsy'', w znaczeniu znanym z Javascript) jest poprawny. 
-  \item Porównanie dwóch wartości - equal(A, B) sprawdza, czy oba podane argumenty są identyczne. Wykorzystując do tego porównanie dokładne, tzn. bierzemy po uwagę typ, wartość oraz nie wykonujemy konwersji obiektów celem porównania. Referencje wskazujące na różne obiekty są identyczne, jeśli te obiekty mają tą samą wartość.
+  \item Sprawdzenie czy obiekt istnieje - Funkcja \texttt{assert(object)} pozwala na sprawdzenie czy przekazany obiekt istnieje. Asercja ta zakłada, że każdy przekazany obiekt, który nie jest fałszywy (,,falsy'', w znaczeniu znanym z Javascript) jest poprawny. 
+  \item Porównanie dwóch wartości - \texttt{equal(A, B)} sprawdza, czy oba podane argumenty są identyczne. Wykorzystując do tego porównanie dokładne, tzn. bierzemy po uwagę typ, wartość oraz nie wykonujemy konwersji obiektów celem porównania. Referencje wskazujące na różne obiekty są identyczne, jeśli te obiekty mają tą samą wartość.
 \end{itemize}
 Powyższe asercje w przypadku, gdy argumenty nie spełniają założeń rzucają ustandardyzowane wyjątki Ash. 
 
-Funkcja widzialności invisible(A) określa czy przekazany element DOM nie jest widoczny na ekranie. Analogicznie obiekt spełnia visible(A), gdy nie spełnia invisible(A). Stwierdzenie, że element {\it nie jest widoczy na ekranie} oznacza, że któryś z poniższych warunków jest spełniony
+Funkcja widzialności \texttt{invisible(A)} określa czy przekazany element DOM nie jest widoczny na ekranie. Analogicznie obiekt spełnia visible(A), gdy nie spełnia invisible(A). Stwierdzenie, że element {\it nie jest widoczy na ekranie} oznacza, że któryś z poniższych warunków jest spełniony
 
 \begin{itemize}
-  \item Wartość 'display' określona na elemencie jest równa 'none'
-  \item Wartość 'visiblity' elementu jest równa 'hidden'
-  \item Element jest położony poza zasięgiem ciała (w sensie document.body) dokumentu
-  \item Atrybut 'hidden' elementu jest ustawiona na true
+  \item Wartość \texttt{display} określona na elemencie jest równa \texttt{none}
+  \item Wartość \texttt{visiblity} elementu jest równa \texttt{hidden}
+  \item Element jest położony poza zasięgiem ciała (w sensie \texttt{document.body)} dokumentu
+  \item Atrybut \texttt{hidden} elementu jest ustawiona na \texttt{true}
   \item Szerokość i~wysokość elementu są większe niż~0
 \end{itemize}
 
-Do asercji związanych z widocznością można przekazywać pojedynczy obiekt DOM, ich tablicę lub obiekt jQuery. W przypadku przekazania tablicy lub kilku elementów opakowanych w obiekt jQuery asercja powodzi się, tylko gdy każdy z elementów spełnia założenie. 
+Do asercji związanych z~widocznością można przekazywać pojedynczy obiekt DOM, ich tablicę lub obiekt jQuery. W~przypadku przekazania tablicy lub kilku elementów opakowanych w obiekt jQuery asercja powodzi się, tylko gdy każdy z elementów spełnia założenie. 
 
 Różnica pomiędzy funkcjami X oraz isX jest taka, że pierwsze rzucają wyjątki Ash, gdy założenie nie jest spełnione, natomiast drugie tylko zwracają wartość boolowską określającą czy argument spełnia założenia.  
 
@@ -526,7 +524,7 @@ Ash udostępnia także metodę equals, która działa identycznie jak equal, ale
 \section{Zmiana położenia ekranu}
 
 \subsubsection{Sposób użycia}
-Pozwala ustawić ekran w określonym położeniu
+Pozwala ustawić ekran w~określonym położeniu
 
 \begin{quote}
 Ash.orientationHorizontal().then( ... ) 
@@ -547,21 +545,21 @@ Smartfony i~tablety ze względu na swój mobilny charakter oraz dotykowy ekran b
 
 Każda dobrze wykonana aplikacja powinna uwzględniać te dwie pozycje. W każdej z~nich przestrzeń, którą mamy do dyspozycji jest w~prawdzie taka sama, ale jej postrzeganie przez użytkownika jest inne, dlatego należy inaczej rozmieścić elementy interfejsu.  
 
-Funkcje orientationHorizontal() oraz orientationVertical() ustawiają ekran na pozycjach, odpowiednio, poziomej oraz pionowej względem domyślnej pozycji ,,zero'' urządzenia. Pozycja ta może, ale nie musi być tą pozycją w której w momencie wywołania znajduje się ekran.  
+Funkcje \texttt{orientationHorizontal()} oraz \texttt{orientationVertical()} ustawiają ekran na pozycjach, odpowiednio, poziomej oraz pionowej względem domyślnej pozycji ,,zero'' urządzenia. Pozycja ta może, ale nie musi być tą pozycją w~której w momencie wywołania znajduje się ekran.  
 
 Należy pamiętać, że poza kontekstem orientationX status ekranu nie jest określony. Może być on dowolny. W szczególności wykonanie testu z~kontekstami orientacji nie musi po fakcie przywracać poprzedniego ustawienia. Celem takiego podejścia jest wymuszenie na użytkowniku biblioteki zamykanie całego kodu związanego z położeniem w~kontekście obrotu ekranu. 
 
-Praktycznym podejściem może być sprawdzanie jak na zmianę ekranu reagują pojedyncze części ekranu zamiast całość. Innym podejściem jest przetestowanie jak aplikacja reaguje na zmianę położenia ekranu a następnie na jego powrót. Można to zrealizować w~ten sposób:
+Praktycznym podejściem może być sprawdzanie jak na zmianę ekranu reagują pojedyncze części ekranu zamiast całość. Innym podejściem jest przetestowanie jak aplikacja reaguje na zmianę położenia ekranu a~następnie na jego powrót. Można to zrealizować w~ten sposób:
 
 \begin{lstlisting}
    //example.js
 
   Ash.orientationHorizontal().then(function(msg){
-      //sprawdz czy interfejs jest ulozony dla pozycji poziomej
+      //%*sprawdź czy interfejs jest ułożony dla pozycji poziomej*)
     }).then(
       Ash.orientationVertical
     ).then(function(msg){
-      //sprawdz czy interfejs jest ulozony dla pozycji pionowej
+      //%*sprawdź czy interfejs jest ułożony dla pozycji pionowej*)
       Ash.endTest();
     });
   };
@@ -587,7 +585,7 @@ Ash.networkOn().then( ... )
 
 \subsubsection{Opis}
 
-Większość aplikacji mobilnych korzysta w ten czy inny sposób z~zasobów zgromadzonych na zdalnych serwerach. W wielu przypadkach komunikacja z~serwerem jest najistotniejszym  czynnikiem wpływającym na szybkość oraz poprawność działania aplikacji. Niestety ze względu na mobilny charakter urządzeń dostęp do sieci bardzo często bywa utrudniony lub wręcz niemożliwy. Co gorsza dzieje się tak w nieregularnych odstępach czasu w~zależności od czynników zewnętrznych. Dlatego kluczowe znaczenie ma przetestowanie w~jaki sposób zachowa się aplikacja, gdy z~jakiegoś powodu nie możliwe będzie nazwiązanie połączenia z internetem. Właśnie taką możliwość udostępnia Ash. 
+Większość aplikacji mobilnych korzysta w~ten czy inny sposób z~zasobów zgromadzonych na zdalnych serwerach. W wielu przypadkach komunikacja z~serwerem jest najistotniejszym czynnikiem wpływającym na szybkość oraz poprawność działania aplikacji. Niestety ze względu na mobilny charakter urządzeń dostęp do sieci bardzo często bywa utrudniony lub wręcz niemożliwy. Co gorsza dzieje się tak w~nieregularnych odstępach czasu w~zależności od czynników zewnętrznych. Dlatego kluczowe znaczenie ma przetestowanie w~jaki sposób zachowa się aplikacja, gdy z~jakiegoś powodu nie możliwe będzie nazwiązanie połączenia z internetem. Właśnie taką możliwość udostępnia Ash. 
 
 \begin{lstlisting}
    //example.js
@@ -602,15 +600,15 @@ Większość aplikacji mobilnych korzysta w ten czy inny sposób z~zasobów zgro
 
 W kontekście noNetwork dostęp do sieci zostanie zablokowany i~nie możliwe będzie skomunikowanie się z~zewnętrznymi serwisami.
 
-Testując brak dostępu do internetu warto zwrócić uwagę nie tylko na to co dzieje się w~przypadku, gdy żądanie nie powiedzie się ale także jak szybko się to stanie. Może dojść do sytuacji, gdy aplikacja testowana, w przypadku braku internetu, będzie wysyłać zapytania do serwera i czekać na upływ limitu czasu lub powtarzać je do skutku. W~takiej sytuacji płynność działania aplikacji może ulec znacznemu pogorszeniu lub może ona zmusić użytkownika do czekania na odpowiedź serwera, która nigdy nie nadejdzie. Jeśli chcemy zabezpieczyć się przed utratą płynności w~przypadku ograniczenia dostępu do internetu, istnieje możliwość skorzystania z pola 'howLong' w specyfikacji scenariusza testowego, tzn. możemy skonfigurować testy w~ten sposób, że jeśli czas ich trafania przekroczy wybraną przez nas wartość test się nie powiedzie. Za wspomnianą wartość możemy przyjąć taką ilość czasu, po której użytkownik może poczuć dyskomfort. 
+Testując brak dostępu do internetu warto zwrócić uwagę nie tylko na to co dzieje się w~przypadku, gdy żądanie nie powiedzie się, ale także jak szybko się to stanie. Może dojść do sytuacji, gdy aplikacja testowana, w przypadku braku internetu, będzie wysyłać zapytania do serwera i czekać na upływ limitu czasu lub powtarzać je do skutku. W~takiej sytuacji płynność działania aplikacji może ulec znacznemu pogorszeniu lub może ona zmusić użytkownika do czekania na odpowiedź serwera, która nigdy nie nadejdzie. Jeśli chcemy zabezpieczyć się przed utratą płynności w~przypadku ograniczenia dostępu do internetu, istnieje możliwość skorzystania z pola \texttt{howLong} w~specyfikacji scenariusza testowego, tzn. możemy skonfigurować testy w~ten sposób, że jeśli czas ich trafania przekroczy wybraną przez nas wartość test się nie powiedzie. Za wspomnianą wartość możemy przyjąć taką ilość czasu, po której użytkownik może poczuć dyskomfort. 
 
-Podobną funkcjonlaność jak noNetwork() oferuje kontekst slowNetwork(). Jedyną różnicą jest to, że w~przypadku tego kontekstu sieć jest dostępna, z~tym że wszystkie żadania są opóźnione, tak jak przy słabych połączeniach. Sztucznie dodane kilku sekundowe spowolnienie sprawia, że jesteśmy w~stanie symulować utrudnienia przy korzystaniu z~sieci, które nie powodują całkowitej utraty połączenia. 
+Podobną funkcjonlaność jak \texttt{noNetwork()} oferuje kontekst \texttt{slowNetwork()}. Jedyną różnicą jest to, że w~przypadku tego kontekstu sieć jest dostępna, z~tym że wszystkie żadania są opóźnione, tak jak przy słabych połączeniach. Sztucznie dodane kilku sekundowe spowolnienie sprawia, że jesteśmy w~stanie symulować utrudnienia przy korzystaniu z~sieci, które nie powodują całkowitej utraty połączenia. 
 
-Należy zwrócić uwagę że, w~zależności od implementacji, po wyjściu z kontekstów noNetwork() oraz slowNetwork() dostęp do sieci nie musi być przywrócony. Celem przywrócenia urządzenia do poprzedniego stanu należy skorzystać z kontekstu networkOn(). 
+Należy zwrócić uwagę że, w~zależności od implementacji na danej platformie, po wyjściu z~kontekstów \texttt{noNetwork()} oraz \texttt{slowNetwork()} dostęp do sieci nie musi być przywrócony. Celem przywrócenia urządzenia do poprzedniego stanu należy skorzystać z~kontekstu \texttt{networkOn()}. 
 
-Kontekst networkOn() służy do przywrócenia domyślnego stanu sieci. W żadnym wypadku nie powoduje podłączenia do sieci, a~jedynie powrót do stanu sieci sprzed manipulacji przez Ash. W obrębie tego kontekstu możemy być pewni, że dostęp do internetu nie jest utrudniony bardziej niż to wynika z czynników zewnętrznych. Dlatego warto rozpoczynać testy z~urządzeniem podłączonym do sieci, tak żeby później w testach możliwa była manipulacja dostępem.
+Kontekst \texttt{networkOn()} służy do przywrócenia domyślnego stanu sieci. W~żadnym wypadku nie powoduje podłączenia do sieci, a~jedynie powrót do stanu sieci sprzed manipulacji przez Ash. W obrębie tego kontekstu możemy być pewni, że dostęp do internetu nie jest utrudniony bardziej niż to wynika z czynników zewnętrznych. Dlatego warto rozpoczynać testy z~urządzeniem podłączonym do sieci, tak żeby później w~testach możliwa była manipulacja dostępem.
 
-W przypadku gdy do testowanej aplikacji dodane jest wtyczka cordova-plugin-network-information,  to po wywołaniu kontekstu slowNetwork() oraz networkOn() zachodzi zdarzenie 'online'. Analogicznie w przypadku kontekstu noNetwork() wysyłane jest zdarzenie 'offline'. 
+W~przypadku, gdy do testowanej aplikacji dodane jest wtyczka cordova-plugin-network-information,  to po wywołaniu kontekstu \texttt{slowNetwork()} oraz \texttt{networkOn()} zachodzi zdarzenie \texttt{online}. Analogicznie w~przypadku kontekstu noNetwork() wysyłane jest zdarzenie 'offline'. 
 
 \section{Dostęp do systemu plików}
 
@@ -625,7 +623,7 @@ Ash.withFile(options).then( ... )
 
 \subsubsection{Opis}
 
-Bardzo częstym scenariuszem w przypadku wielu aplikacji jest konieczność operowania na lokalnym systemie plików. Może to być np. upload pliku z~karty SD, wykonanie zdjęcia i przesłanie na serwer lub inne. Ash daje możliwość przetestowania jak aplikacja zachowuje się przy operowaniu na plikach.  
+Bardzo częstym scenariuszem w przypadku wielu aplikacji jest konieczność operowania na lokalnym systemie plików. Może to być np. upload pliku z~karty SD, wykonanie zdjęcia i~przesłanie na serwer lub inne. Ash daje możliwość przetestowania jak aplikacja zachowuje się przy operowaniu na plikach.  
 
 Do kontekstu withFile przekazujemy obiekt zawierający informacje na jakich plikach chcemy przeprowadzić testy. Obiekt może posiadać następujące klucze:
 
@@ -634,7 +632,7 @@ Do kontekstu withFile przekazujemy obiekt zawierający informacje na jakich plik
   \item limit - Limit jest to wielkość plików w~zwracanej tablicy wyrażony liczbą całkowitą. W przypadku, gdy limit nie został podany tablica zawiera 1~element. 
 \end{itemize}
 
-WithFile zwraca obiekt Promise. W przypadku realizacji obietnicy do bloku przekazywana jest tablica plików, która może być wykorzystana w testach. Każdy~plik w jest identyczny i spełnia założenia podane w argumencie 'options'. Przykładowy plik z tablicy może wyglądać w~ten sposób:
+WithFile zwraca obiekt Promise. W przypadku realizacji obietnicy do bloku przekazywana jest tablica plików, która może być wykorzystana w testach. Każdy~plik w jest identyczny i~spełnia założenia podane w argumencie \texttt{options}. Przykładowy plik z~tablicy może wyglądać w~ten sposób:
 
 \begin{lstlisting}
    {
@@ -663,30 +661,30 @@ var moveOptions = \{latitude: 100, longitude: 50, steps: 10\};
 Ash.onMove(startPos, moveOptions, function(currentPosition)\{ ... \});
 \end{quote}
 
-Gdzie startPos to pozycja startowa z~której zaczynamy symulować ruch, moveOptions zawiera informacje o~docelowym położeniu oraz w ilu "krokach" (klucz steps) chcemy dotrzeć do tego miejsca. Do onMove przekazujemy także wywołanie zwrotne, które jest uruchamiane z  położeniem w danym momencie. Tyle razy ile podaliśmy w moveOptions.steps. 
+Gdzie startPos to pozycja startowa z~której zaczynamy symulować ruch, moveOptions zawiera informacje o~docelowym położeniu oraz w ilu "krokach" (klucz steps) chcemy dotrzeć do tego miejsca. Do onMove przekazujemy także wywołanie zwrotne, które jest uruchamiane z~położeniem w~danym momencie. Tyle razy ile podaliśmy w~\texttt{moveOptions.steps}. 
 
 \subsubsection{Sposób użycia}
 
-Wiele aplikacji mobilnych w~ten czy w~inny sposób wykorzystuje informacje o położeniu geograficznym. Najczęściej te informacje są wykorzystywane do śledzenia położenia użytkownika oraz jego odległości od określonych punktów lub do tego, żeby dostarczać użytkownikowi aplikacji spersonalizowane informacje uzależnione od miejsca w~jakim aktualnie się znajduje. 
+Wiele aplikacji mobilnych w~ten czy w~inny sposób wykorzystuje informacje o~położeniu geograficznym. Najczęściej te informacje są wykorzystywane do śledzenia położenia użytkownika oraz jego odległości od określonych punktów lub do tego, żeby dostarczać użytkownikowi aplikacji spersonalizowane informacje uzależnione od miejsca w~jakim aktualnie się znajduje. 
 
-Obiekt startPosition oraz moveOptions może zawierać następujące klucze
+Obiekt \texttt{startPosition} oraz \texttt{moveOptions} może zawierać następujące klucze
 
 \begin{lstlisting}
    var startPosition = {
-       "latitude": 0,  //szerokosc geograficzna
-       "longitude": 0  //długosc geograficzna
+       "latitude": 0,  //%*szerokość geograficzna*)
+       "longitude": 0  //%*długość geograficzna*)
    };
  
   var moveOptions = {
-      "latitude": 0,  //szerokosc geograficzna miejsca zakonczenia
-      "longitude": 0,  //dlugosc geograficzna miejsca zakonczenia
-      "steps": 1  //w ilu krokach nalezy dotrzec do miejsca zakonczenia
+      "latitude": 0,  //%*szerokość geograficzna miejsca zakończenia*)
+      "longitude": 0,  //%*dlugość geograficzna miejsca zakończenia*)
+      "steps": 1  //%*w ilu krokach należy dotrzeć do miejsca zakończenia*)
   };
 \end{lstlisting}
 
-w przypadku, gdy klucze nie zostaną dostarczone przyjmą one domyślne wartości, takie jak pokazano wyżej. 
+w~przypadku, gdy klucze nie zostaną dostarczone przyjmą one domyślne wartości, takie jak pokazano wyżej. 
 
-Obiekt który jest przekazywany do funkcji w kontekście ma następującą konstrukcję 
+Obiekt który jest przekazywany do funkcji w~kontekście ma następującą konstrukcję 
 
 \begin{lstlisting}
 
@@ -702,7 +700,7 @@ Obiekt który jest przekazywany do funkcji w kontekście ma następującą konst
 }
 
 \end{lstlisting}
-Ash pozwala symulować zmianę położenia poprzez kontekst onMove(). Ta funkcjonalność działa inaczej niż pozostałe bloki, gdyż NIE zwraca obiektu promise, tylko przyjmuje funkcję - wywołanie zwrotne jako jeden ze swoich argumentów. Podyktowane jest to tym, że onMove() potencjalnie może swój blok kodu wywoływać wielokrotnie, co jest sprzeczne z ideą obietnic. Każdy obiekt Promise jest jest rozstrzygany tylko raz. Jest on albo zaakceptowany albo odrzucony i nie można go wykorzystać wielokrotnie. 
+Ash pozwala symulować zmianę położenia poprzez kontekst \texttt{onMove()}. Ta funkcjonalność działa inaczej niż pozostałe bloki, gdyż NIE zwraca obiektu promise, tylko przyjmuje funkcję - wywołanie zwrotne jako jeden ze swoich argumentów. Podyktowane jest to tym, że \texttt{onMove()} potencjalnie może swój blok kodu wywoływać wielokrotnie, co jest sprzeczne z~ideą obietnic. Każdy obiekt \texttt{Promise} jest jest rozstrzygany tylko raz. Jest on albo zaakceptowany albo odrzucony i~nie można go wykorzystać wielokrotnie. 
 
 \section{Obsługa przycisku powrotu}
 
@@ -715,9 +713,9 @@ Ash.pressBack().then( ... )
 
 \subsubsection{Opis}
 
-Integralną cześcią sytemu Android jest przycisk powrotu do poprzedniego ekranu. Jego działanie zostało określone w specyfikacji platformy.
+Integralną cześcią sytemu Android jest przycisk powrotu do poprzedniego ekranu. Jego działanie zostało określone w~specyfikacji platformy.
 
-Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie przycisku zawsze jest takie samo - pozwolić użytkownikom na łatwą nawigację w aplikacji, która będzie spójna pomiędzy najróżniejszymi aplikacjami. Bardziej precyzyjnie nawigacja w tym kontekście  oznacza możliwość powrot do poprzedniej aktywności lub ekranu prezentowanego użytkownikowi. W przypadku aplikacji hybrydowych opartych na Javascript oraz technologiach webowych powrót do poprzedniej aktywności oznacza wycofanie stanu WebView oraz powrót do poprzedniego adresu URL. Wszystkie adresy dotychczas odwiedzone przechowywane są na stosie, a~ich unikalnośc determinowana jest przez 3 cześci adresu: hosta, ścieżkę oraz tzw. hash. 
+Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie przycisku zawsze jest takie samo - pozwolić użytkownikom na łatwą nawigację w~aplikacji, która będzie spójna pomiędzy najróżniejszymi aplikacjami. Bardziej precyzyjnie nawigacja~w tym kontekście  oznacza możliwość powrot do poprzedniej aktywności lub ekranu prezentowanego użytkownikowi. W~przypadku aplikacji hybrydowych opartych na Javascript oraz technologiach webowych powrót do poprzedniej aktywności oznacza wycofanie stanu WebView oraz powrót do poprzedniego adresu URL. Wszystkie adresy dotychczas odwiedzone przechowywane są na stosie, a~ich unikalność determinowana jest przez 3~części adresu: hosta, ścieżkę oraz tzw. hash, czyli część adresu po znaku \#. 
 
 \begin{lstlisting}
    //example.js
@@ -725,11 +723,11 @@ Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie
   var pressBackTest = function(){
     var pageOne = 1;
     var pageTwo = 2;
-    // function app.mySwipe.slide(A, x) nawiguje do podstrony A w ciagu x milisekund,
-    // po zakonczonej nawigacji hash adresu jest zmieniany
+    // %*function app.mySwipe.slide(A, x) nawiguje do podstrony A w ciągu x milisekund,*)
+    // %*po zakończonej nawigacji hash adresu jest zmieniany*)
     app.mySwipe.slide(pageOne, 1); 
     app.mySwipe.slide(pageTwo, 1); 
-    app.mySwipe.slide(pageTwo + 1, 1); // wykonujemy 3 ruchy, zeby moc cofnac sie 2 razy i wrocic do punktu wyjscia
+    app.mySwipe.slide(pageTwo + 1, 1); // %* wykonujemy 3 ruchy, żeby móc cofnąć się 2 razy i wrócić do punktu wyjścia *)
     
     Ash.pressBack().then(function(msg){
       Ash.equal("#" + pageTwo, window.location.hash);
@@ -742,24 +740,24 @@ Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie
   };
 \end{lstlisting}
 
-Ash pozwala na cofanie się aż do szczytu stosu historii aplikacji. W szczególności od razu po uruchomieniu aplikacji nie jest możliwe wykonie funkcji pressBack(). W takiej sytuacji pressBack() nie powiedzie się, ale nie dojdzie do wyjścia z~aplikacji.
+Ash pozwala na cofanie się aż do szczytu stosu historii aplikacji. W~szczególności od razu po uruchomieniu aplikacji nie jest możliwe wykonie funkcji \texttt{pressBack()}. W~takiej sytuacji \texttt{pressBack()} nie powiedzie się, ale nie dojdzie też do wyjścia z~aplikacji.
 
-Testowanie obsługi przycisku powrotu na olbrzymie znaczenie w~przypadku aplikacji mobilnych oraz tzw. "Single Page Applications". Tworząc aplikacje bardzo wiele uwagi jest poświęcane sytuacjom kiedy użytkownik porusza się niejako "w głąb" aplikacji, tj. otwiera kolejne ekrany na zaplanowanej ścieżce zmieniając tym samym jej stan.  Właśnie globalny stan bywa w takich sytuacjach problemem. Bardzo często prowdzi on do sytuacji, że użytkownik przechodzi przez ekrany A i B, w czasie swojego pobytu na B zmienia stan, ale zamiast przechodzić dalej cofa się do A, które od czasu zmiany stanu zachowuje się inaczej niż zakładano. Tworząc aplikację należy zabezpieczyć się przed takimi sytuacjami. Ash.pressBack() pozwala na przetestowanie czy taka sytuacja mają miejsce. 
+Testowanie obsługi przycisku powrotu na olbrzymie znaczenie w~przypadku aplikacji mobilnych oraz tzw. \textit{Single Page Applications}. Tworząc aplikacje bardzo wiele uwagi jest poświęcane sytuacjom kiedy użytkownik porusza się niejako "w głąb" aplikacji, tj. otwiera kolejne ekrany na zaplanowanej ścieżce zmieniając tym samym jej stan.  Właśnie globalny stan bywa w~takich sytuacjach problemem. Bardzo często prowdzi on do sytuacji, że użytkownik przechodzi przez ekrany A~i~B, w~czasie swojego pobytu na B zmienia stan, ale zamiast przechodzić dalej cofa się do A, które od czasu zmiany stanu zachowuje się inaczej niż zakładano. Tworząc aplikację należy zabezpieczyć się przed takimi sytuacjami. \texttt{Ash.pressBack()} pozwala na przetestowanie czy takie sytuacje mają miejsce. 
 
 \section{Zdrzenia w czasie wywoływania testów}
 
-Ash daje możliwości kontrolowania procesu wykonywania testów poprzez zestaw dodatkowych bezparametrowych wywołań zwrotnych uruchamianych w momencie startu oraz zakończenia każdego pojedynczego testu lub ich grupy. Są one dostępne w obiekcie Ash.callbacks i mogą być swobodnie nadpisywane przez użytkowników biblioteki. Dotyczy to tylko testów uruchamianych przez run() oraz play().
+Ash daje możliwości kontrolowania procesu wykonywania testów poprzez zestaw dodatkowych bezparametrowych wywołań zwrotnych uruchamianych w momencie startu oraz zakończenia każdego pojedynczego testu lub ich grupy. Są one dostępne w obiekcie \texttt{Ash.callbacks} i~mogą być swobodnie nadpisywane przez użytkowników biblioteki. Dotyczy to tylko testów uruchamianych przez \texttt{run()} oraz \texttt{play()}.
 
 Ash.callbacks składa~się~z:
 
 \begin{itemize}
-  \item beforeTest - Jest wołane przed pierwszym testem z~grupy lub scenariuszem, jeszcze przed before
+  \item beforeTest - Jest wołane przed pierwszym testem z~grupy lub scenariuszem, jeszcze przed \texttt{before}
   \item before - Uruchamiane przed pojedynczym testem
   \item after - Działa po zakończeniu test, niezależnie od tego czy się powiódł czy nie
-  \item afterTest - Jest wywoływane po zakończeniu się całego zbioru testów, ale przed wywołaniem zwrotnym z run() (lub play()) 
+  \item afterTest - Jest wywoływane po zakończeniu się całego zbioru testów, ale przed wywołaniem zwrotnym z \texttt{run()} (lub \texttt{play()}) 
 \end{itemize}
 
-Nadrzędnym testem Ash.callbacks jest pozwolenie użytkownikowi na przygotowanie interfejsu pod działanie testu oraz jego posprzątanie po wykonaniu. Nic nie stoi jednak na przeszkodzie, żeby skorzystać z tych metod np. do raportowania postępów.
+Nadrzędnym testem \texttt{Ash.callbacks} jest pozwolenie użytkownikowi na przygotowanie interfejsu pod działanie testu oraz jego posprzątanie po wykonaniu. Nic nie stoi jednak na przeszkodzie, żeby skorzystać z tych metod np. do raportowania postępów.
 
 \chapter{Zastosowania}
 Ash został pomyślany jako biblioteka, która oprócz dostarczania ,,tradycyjnej'' infrastruktury testowej, tzn.:
