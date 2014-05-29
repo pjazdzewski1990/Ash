@@ -54,12 +54,12 @@ hybrydowych aplikacji mobilnych stworzonych przy użyciu Adobe PhoneGap lub
 Apache Cordova. Ash pozwala na testowanie zachowania się aplikacji w~różnorodnych
 realistycznych scenariuszach, które często są trudne do symulowania przez inne narzędzia. Tradycyjne podejścia nie pozwalają nam na testowanie aplikacji w~sytuacjach, gdy  użytkownik porusza się,
 obraca ekran, traci dostęp do sieci i~tym~podobnych. Ash został stworzony z~myślą o~takich przypadkach. Dzięki wykorzystaniu hybrydowego charakteru aplikacji
-możliwa jest emulacja zachowania, co wpływa na większy realizm testów, a~tym~samym na wiarygodność ich wyników. Innymi
-zaletami bliblioteki są między innymi elastyczna struktura testów, która ułatwia ich utrzymywanie oraz możliwość budowania złożonych scenariuszy z~prostych kroków. 
-A~takżeto, że pozwala na wykorzystania asercji w~aplikacji nawet poza testami. 
+możliwa jest emulacja zachowania, co wpływa na większy realizm testów, a~tym~samym na wiarygodność ich wyników. 
+Biblioteka pozwala na budowanie złożonych scenariuszy z~prostych kroków, dzięki czemu struktura testów jest niezwykle elastyczna, a ich utrzymanie łatwe. 
+Dodatkowo pozwala na wykorzystania asercji w~aplikacji nawet poza testami. 
 
 \end{abstract}
-\keywords{Javascript, 
+\keywords{JavaScript, 
  Apache Cordova, 
  Adobe Phonegap,
 testowanie,
@@ -70,23 +70,24 @@ hybrydowe aplikacje mobilne}
 
 \introduction
 
-Tematem pracy jest przedstawienie biblioteki Ash, problemów które stara się rozwiązać, możliowści jakie oferuje oraz w~jaki sposób zaimplementowano bibliotekę. Praca została stworzona z~myślą zarówno o~osobach myślących o~wykorzystaniu Ash w~ich projekcie, jak i~o~ludziach chcących zapoznać się ze sposobem działania biblioteki i~brać udział w~jej rozwoju.  
+Tematem pracy jest przedstawienie biblioteki Ash, problemów które stara się rozwiązać, możliwości jakie oferuje oraz zagadnień związanych z jej implementacją. Ten dokument  został stworzony z~myślą zarówno o~osobach myślących o~wykorzystaniu Ash w~ich projekcie, jak i~o~ludziach chcących zapoznać się ze sposobem działania biblioteki i~brać udział w~jej rozwoju.  
 
-Praca zorganizowana jest w~następujący sposób. Pierwsze rozdziały wprowadzają czytelnika w~temat testowania aplikacji mobilnych oraz demonstrują jak skorzystać z~biblioteki do stworzenia prostych testów. Dalej następuje przegląd funkcjonalności oraz dyskusja na temat ich potencjalnego zastosowania. Kolejne rodziały opisują implementację najważniejszych części biblioteki oraz dają wgląd w~to~jak można zintegrować Ash z~narzędziami do automatycznego budowania aplikacji.
+Pierwsze rozdziały wprowadzają czytelnika w~temat testowania aplikacji mobilnych oraz demonstrują jak skorzystać z~biblioteki do stworzenia prostych testów. Dalej następuje przegląd funkcjonalności oraz dyskusja na temat potencjalnych zastosowań. Kolejne rodziały opisują implementację najważniejszych części biblioteki oraz dają wgląd w~to,~jak można zintegrować Ash z~narzędziami do automatycznego budowania aplikacji.
 
 \chapter{Podstawowe terminy oraz techniki}
 \section{Hybrydowe aplikacje mobilne}
-Mówiąc o \textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z myślą~o konkretnej platformie sprzętowej (Android, iOS, itp.) przy użyciu narzuconych przez jej twórcę narzędzi (Java, Objective-C, itd.).  \textit{Aplikacje mobile web} są to z~kolei aplikacje webowe zoptymalizowane po kątem urządzeń mobilnych.
+Mówiąc o \textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z~myślą~o konkretnej platformie systemowej (Android, iOS, itp.) przy użyciu narzuconych przez jej twórcę narzędzi (Java, Objective-C, itd.).  \textit{Aplikacje mobile web} są to z~kolei aplikacje webowe zoptymalizowane po kątem urządzeń mobilnych.
 Adobe PhoneGap oraz jej odpowiednik o~otwartym źródle Apache Cordova, to
 dwie popularne biblioteki pozwalające na tworzenie \textit{hybrydowych aplikacji
 mobilnych}, tj. aplikacji które łączą w~sobie zalety aplikacji natywnych oraz aplikacji
-typu mobile web. Zasada działania tego typu programów jest w założeniu prosta i~polega na wykorzystaniu komponentów, które dalej nazywać będziemy WebView.
+typu mobile web. Zasada działania tego typu programów jest w założeniu prosta i~polega na wykorzystaniu komponentów, które dalej nazywać będziemy \textit{WebView}.
 Komponenty te są dostępne na każdej nowoczesnej platformie i~pozwalają na
 wyświetalnie stron internetowych z~wnętrza natywnych aplikacji mobilnych. 
-W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasoby z~określonego adresu (lokalnego lub zdalnego), które są wyświetlane w~tym WebView. Najczęściej tym zasobem jest aplikacja stworzona przy użyciu technologii webowych.     
+W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasoby z~określonego adresu (lokalnego lub zdalnego). Najczęściej zasobem jest aplikacja stworzona przy użyciu technologii webowych.     
 
 % tabelki w LaTeX-u też da się robić, chociaż najczytelniej to może nie wygląda
 % więcej na temt tabelek można poczytac np. na http://en.wikibooks.org/wiki/LaTeX/Tables
+//TODO: tabelka do poprawy
 \begin{center}
     \begin{tabularx}{\textwidth}{ | X | X | X | X |}
     \hline
@@ -114,12 +115,12 @@ pojawiające się tylko na określonych urządzeniach oraz potencjalnie odmienne
 
 Użytkownik instalując aplikację hybrydową w~taki sam sposób co 
 natywną spodziewa się, że będzie ona działać niczym natywna. Tymczasem
-dodatkowy narzut hybrydy, często w~połączeniu z~niedopracowaną i ~ie
-zoptymalizowaną aplikacją, prowadzi do mniej responsywnego interfejsu
+dodatkowy narzut hybrydy, często w~połączeniu z~niedopracowaną i~nie
+zoptymalizowaną aplikacją, prowadzi do mało responsywnego interfejsu
 użytkownika i~w~konskewencji do frustracji użytkownika. Częstym problemem przy
 tworzeniu aplikacji mobilnych są błędy, które są specyficzne tylko dla pewnych modeli urządzeń. Przy podejściu hybrydowym problem jest o tyle bardziej widoczny, że
-najczęściej tworzymy rozwiązanie które ma być przenośne nie tylko pomiędzy urządzeniami w~ramach jednej platformy, ale także między platformami. Co z~oczywistych względów zwiększa gamę urządzeń, które trzeba uzwględnić. Trzecim problemem hybryd jest kwestia
-tworzenia interfejsu użytkownika, tak aby był intuicyjny i~wygodny dla użytkownika. Dostawcy systemów operacyjnych dla urządzeń
+najczęściej tworzymy rozwiązanie które ma być przenośne nie tylko pomiędzy urządzeniami w~ramach jednej platformy, ale także między platformami. Z~oczywistych względów zwiększa to gamę urządzeń, które trzeba uzwględnić. Trzecim problemem hybryd jest kwestia
+tworzenia interfejsu użytkownika tak, aby był intuicyjny i~wygodny dla użytkownika. Dostawcy systemów operacyjnych dla urządzeń
 mobilnych publikują zalecenia, co do tego jak powinien wyglądać i zachowywać się interfejs aplikacji
 działającej pod danym systemem. Zalecenia te są specyficzne dla platformy i~często
 wzajemnie się wykluczają. Przygotowanie jednej szaty graficznej i~jednego interfejsu
@@ -133,18 +134,18 @@ Są to poważne niedostatki, ale braki te można zniwelować z~pomocą skuteczny
 Ash ma za zadanie pomóc rozwiązywać problemy z wydajnością aplikacji oraz z~błędami zależnymi od konfiguracji sprzętowych. Aby
 zapewnić wysoką sprawność działania aplikacji konieczny jest rygor przy tworzeniu
 oprogramowania oraz możliwość testowania jej w sytuacjach, które pozwalają
-uwydatnić problemy z~wydajnością. Dzięki funkcyjnemu podejściu do testowania
+uwydatnić problemy z~wydajnością. Dzięki \textit{funkcyjnemu} podejściu do testowania
 oprogramowania Ash pozwala zbierać informacje o~responsywności interfejsu
 oraz realistycznie symulować scenariusze dużego obciążenia. Programista
 korzystający z~Ash ma możliwość zdefiniowania w~scenariuszach maksymalnego
 czasu trwania testu. Jeśli test nie zakończy się w~założonym czasie jest on oznaczany jako niepowodzenie. Niska responsywność interfejsu traktowana jest na równi z~błędami
-logiki czy prezentacji. Wymusza to na twórcy dbanie o~szybkość reakcji interfejsu.
+logiki czy prezentacji. Wymusza to na twórcy dbanie o~szybkość reakcji aplikacji.
 Ash oferuje także możliwość chwilowego wyłączenia lub opóźnienia dostępu do
 sieci. Sytuacje w~których dostępność internetu jest ograniczona są dość częste,
-jednak niewiele aplikacji jest pisanych biorąc to pod uwagę, a~jeszcze mniej 
+jednak niewiele programów jest pisanych biorąc to pod uwagę, a~jeszcze mniej 
 testowana pod tym kątem. Bardzo często problemy z~dotępem do sieci objawiają się kiepską
 wydajnością interfejsu lub długimi przestojami na ekranach ładowania. Ash pozwala
-twórcom świadomie zmierzyć się z~tym problemem. Biblioteka wyposażona jest także w~mechanizmy pozwalajace na łatwe uruchomienie aplikacji na wielu urządzeniach, fizycznych i~wirtualnych naraz. Nawet w~zdalnych lokalizacjach. Sprawia to, że
+twórcom świadomie zmierzyć się z~tym problemem. Biblioteka wyposażona jest także w~mechanizmy pozwalajace na łatwe uruchomienie aplikacji na wielu urządzeniach, fizycznych i~wirtualnych naraz -- nawet w~zdalnych lokalizacjach. Sprawia to, że
 użytkownicy mają możliwość masowego uruchamiania testów na wszystkich
 dostępnych im urządzeniach oraz są bardziej skłonni skorzystać z~testów w~czasie
 swojej pracy. Zdalne uruchamianie testów daje możliwość stworzenia
@@ -155,46 +156,53 @@ konfiguracji.
 Jako bazę do implementacji wybrałem Apache Cordova. Jest to
 wersja PhoneGap, którą korporacja Adobe (właściel praw do PhoneGap) udostępniła
 fundacji Apache. Od tego momentu ten wariant technologii udostępniany jest
-na zasadzie otwartego źródła. Pomimo tego oba projekty są niemal identyczne, a~jedyna faktyczna różnica między nimi jest natury prawnej. Głównym powodem
+na zasadzie otwartego źródła. Pomimo tego, oba projekty są niemal identyczne, a~jedyna faktyczna różnica między nimi jest natury prawnej. Głównym powodem
 wyboru tej technologii jest spory udziała w~rynku hybrydowych aplikacji mobilnych,
-dynamizm rozwoju oraz liczna społeczność. Nie bez znaczenia jest także swobodny dostęp do źródła biblioteki.
+dynamizm rozwoju oraz liczna społeczność użytkowników. Nie bez znaczenia jest także swobodny dostęp do źródła biblioteki.
 
 Więcej informacji na temat historii projektu można znaleźć w książce Johna Wargo \cite{Wargo}. 
 
 \section{Test Driven Development}
 
-\textit{Test Driven Development} jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o~których często mówimy \textit{red-green-refactor}. Na taki cykl składają się fazy
+\textit{Test Driven Development} (w skrócie TDD) jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o~których często mówimy \textit{red-green-refactor}. Na taki cykl składają się fazy.
 \begin{itemize}
-  \item Red - Programista pisze testy automatyczne, pokrywające funkcjonalność, która została wyspecyfikowana, ale nie została jeszcze zaimplementowana. Na tym etapie testy nie przechodzą
-  \item Green - Następnie programista implementuje brakujące funkcjonalności, aż wszystkie testy napisane w poprzednim kroku staną się ,,zielone'', czyli uruchamiają się i~kończą bez błędów
-  \item Refactor - Na tym etapie testowana aplikacja jest udoskonalana. Dzięki testom nie ma obawy, że nowe funcjonalności czy poprawki doprowadzą do regresji, czyli uszkodzenia starych funkcjonalności przez właśnie dodawane nowe. Wszelkie takie przypadki powinny być wykryte przez testy automatyczne. Po zakończeniu implementacji tworzone są dodatkowe testy do istniejących już funkcjonalności
+  \item Red - Programista pisze testy automatyczne, pokrywające funkcjonalność, która została wyspecyfikowana, ale nie została jeszcze zaimplementowana. Na tym etapie testy oczywiście nie przechodzą.
+  \item Green - Następnie programista implementuje brakujące funkcjonalności, aż wszystkie testy napisane w poprzednim kroku staną się ,,zielone'', czyli uruchamiają się i~kończą bez błędów.
+  \item Refactor - Na tym etapie testowana aplikacja jest udoskonalana. Dzięki testom nie ma obawy, że nowe funcjonalności czy poprawki doprowadzą do regresji, do błędów w działaniu elementów, które wcześniej funkcjonowały poprawnie. Wszelkie takie przypadki powinny zostać wykryte przez testy automatyczne. Po zakończeniu implementacji tworzone są dodatkowe pokrywające poszerzony zakres funkcjonalności.
 \end{itemize}
 
-Dzięki zastosowaniu krótkich cykli oraz automatycznych testów, metodologia ta pozwala na tworznie oprogramowania, które ma przemyślaną architekturę oraz unika problemów związanych z regresją. Tworząc kod  programu programista musi dopilnować, żeby jego kod był testowalny, co prowadzi do poprawienia jakości tworzonego oprogramowania. Testy automatyczne, które powstają podczas cyklu zwiększają prawdopodobieństwo, że w~przypadku, gdy kod aplikacji zmieni się potencjalne błędy zostaną od razu wychwycone. 
+Dzięki zastosowaniu krótkich cykli oraz automatycznych testów, metodologia TDD pozwala na tworzenie oprogramowania, które ma przemyślaną architekturę oraz unika problemów związanych z regresją. Tworząc kod  programu programista musi dopilnować, aby jego kod był testowalny, co prowadzi do poprawienia jakości tworzonego oprogramowania. Testy automatyczne, które powstają podczas cyklu zwiększają prawdopodobieństwo, że w~przypadku, gdy kod aplikacji zmieni się, potencjalne błędy zostaną od razu wychwycone. 
 
-Test Driven Developement jako metodologia jest powiązana z Extreme Programming oraz z koncepcją \textit{Tests First}, która zakłada że zestawy testów automatycznych powinny być tworzone jeszcze przed napisaniem testowanej aplikacji, co skutkuje wysoką jakością tworzonego oprogramowania.   
+Test Driven Developement jako metodologia jest powiązana z \textit{Extreme Programming} oraz z koncepcją \textit{Tests First}, która zakłada, że zestawy testów automatycznych powinny być tworzone jeszcze przed napisaniem testowanej aplikacji.
 
-Test Driven Developement zostało spopularyzowane przez Kenta Becka \cite{Beck}.
-
-Więcej informacji można znaleźć na:
+Metodologia TDD została spopularyzowana przez Kenta Becka \cite{Beck}.
+\footnote{
+Więcej informacji na teamt TDD można znaleźć na stronach:
 
 \url{http://www.agiledata.org/essays/tdd.html}
 
 \url{http://msdn.microsoft.com/en-us/library/aa730844(v=vs.80).aspx}
+}
 
 \section{Hierarchia testów}
 
-Wyróżniamy wiele rodzajów testów:
+Wyróżniamy wiele rodzajów testów. Poniżej krótko zostały scharakteryzowane niektóre z nich.
 \begin{itemize}
-  \item Jednostkowe - Testy obejmujące poszczególne funkcje na najniższym poziomie. Ich wykonywanie musi być możliwie jak najszybsze. Nie powinny korzystać z zewnętrznych zasobów
-  \item Integracyjne - Ten rodzaj testów pokrywa wiele komponentów aplikacji na raz i~testuje nie tylko, czy każdy z poszczególnych modułów działa poprawnie w~izolacji, ale także czy komunikacja między nimi jest poprawna
-  \item Funkcyjne - Testy tego typu sprawdzają, czy interfejs aplikacji jest poprawny oraz czy interakcja z użytkownikiem działa poprawnie. U podstaw działania tych testów leży symulowanie zachowania programu jak gdyby operowali na nim ludzie 
-  \item A/B - Tak zwane testy A/B polegają na testowaniu oprogramowania pod kątem wygody i~praktyczności interfejsu
-  \item Wydajnościowe - Jak sama nazwa wskazuje służą one do sprawdzenia wydajności aplikacji
-  \item Inne
+  \item Jednostkowe -- Testy obejmujące poszczególne funkcje na najniższym poziomie. Ich wykonywanie musi być możliwie jak najszybsze. Nie powinny korzystać z zewnętrznych zasobów.
+  \item Integracyjne -- Ten rodzaj testów pokrywa wiele komponentów aplikacji naraz i~testuje nie tylko, czy każdy z poszczególnych modułów działa poprawnie w~izolacji, ale także czy komunikacja między nimi jest poprawna.
+  \item Funkcyjne -- Testy tego typu sprawdzają, czy interfejs aplikacji jest poprawny oraz czy interakcja z użytkownikiem działa poprawnie. U~podstaw ich działania leży symulowanie zachowania programu jak gdyby operowali na nim ludzie. 
+  \item A/B - Tak zwane testy A/B polegają na testowaniu oprogramowania pod kątem wygody i~praktyczności interfejsu.
+  \item Wydajnościowe - Jak sama nazwa wskazuje służą one do sprawdzenia wydajności aplikacji.
 \end{itemize}
 
-W~przypadku poprawnie zarządzanego projektu trzy pierwsze rodzaj tworzę hierarchię zwaną \textit{piramidą testowania}. Dwa pozostałe z wymienionych przeze mnie rodzajów pełnią funkcję uzupełniającą. 
+W~przypadku poprawnie zarządzanego projektu trzy pierwsze rodzaje tworzą hierarchię zwaną \textit{piramidą testowania}. Dwa pozostałe z wymienionych przeze mnie rodzajów pełnią funkcję uzupełniającą. 
+\footnote{
+Informacje na temat piramidy testów oraz ich rozkładu w~aplikacjach można znaleźć na stronach:
+
+\url{http://martinfowler.com/bliki/TestPyramid.html}
+
+\url{http://www.duncannisbet.co.uk/test-automation-basics-levels-pyramids-quadrants}
+}
 
 \begin{figure}[h]
     \centering
@@ -203,13 +211,7 @@ W~przypadku poprawnie zarządzanego projektu trzy pierwsze rodzaj tworzę hierar
     \label{fig:pyramis}
 \end{figure}
 
-Informacje na temat piramidy testów oraz ich rozkładu w~aplikacji można znaleźć tutaj:
-
-\url{http://martinfowler.com/bliki/TestPyramid.html}
-
-\url{http://www.duncannisbet.co.uk/test-automation-basics-levels-pyramids-quadrants}
-
-Biblioteka Ash została stworzona z~testowaniem funkcyjnym na myśli.
+Biblioteka Ash została stworzona z~myślą o testowaniu funkcyjnym.
 
 \chapter{Sposób użycia}
 \section{Pierwsze kroki}
