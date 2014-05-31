@@ -164,11 +164,11 @@ Więcej informacji na temat historii projektu można znaleźć w~książce Johna
 
 \section{Test Driven Development}
 
-\textit{Test Driven Development} (w skrócie TDD) jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o~których często mówimy \textit{red-green-refactor}. Na taki cykl składają się fazy.
+\textit{Test Driven Development} (w skrócie TDD) jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o~których często mówimy \textit{red--green--refactor}. Na taki cykl składają się fazy.
 \begin{itemize}
-  \item Red - Programista pisze testy automatyczne, pokrywające funkcjonalność, która została wyspecyfikowana, ale nie została jeszcze zaimplementowana. Na tym etapie testy oczywiście nie przechodzą.
-  \item Green - Następnie programista implementuje brakujące funkcjonalności, aż wszystkie testy napisane w~poprzednim kroku staną się ,,zielone'', czyli uruchamiają się i~kończą bez błędów.
-  \item Refactor - Na tym etapie testowana aplikacja jest udoskonalana. Dzięki testom nie ma obawy, że nowe funcjonalności czy poprawki doprowadzą do regresji, do błędów w~działaniu elementów, które wcześniej funkcjonowały poprawnie. Wszelkie takie przypadki powinny zostać wykryte przez testy automatyczne. Po zakończeniu implementacji tworzone są dodatkowe pokrywające poszerzony zakres funkcjonalności.
+  \item Red -- Programista pisze testy automatyczne, pokrywające funkcjonalność, która została wyspecyfikowana, ale nie została jeszcze zaimplementowana. Na tym etapie testy oczywiście nie przechodzą.
+  \item Green -- Następnie programista implementuje brakujące funkcjonalności, aż wszystkie testy napisane w~poprzednim kroku staną się ,,zielone'', czyli uruchamiają się i~kończą bez błędów.
+  \item Refactor -- Na tym etapie testowana aplikacja jest udoskonalana. Dzięki testom nie ma obawy, że nowe funcjonalności czy poprawki doprowadzą do regresji, do błędów w~działaniu elementów, które wcześniej funkcjonowały poprawnie. Wszelkie takie przypadki powinny zostać wykryte przez testy automatyczne. Po zakończeniu implementacji tworzone są dodatkowe pokrywające poszerzony zakres funkcjonalności.
 \end{itemize}
 
 Dzięki zastosowaniu krótkich cykli oraz automatycznych testów, metodologia TDD pozwala na tworzenie oprogramowania, które ma przemyślaną architekturę oraz unika problemów związanych z~regresją. Tworząc kod  programu programista musi dopilnować, aby jego kod był testowalny, co prowadzi do poprawienia jakości tworzonego oprogramowania. Testy automatyczne, które powstają podczas cyklu zwiększają prawdopodobieństwo, że w~przypadku, gdy kod aplikacji zmieni się, potencjalne błędy zostaną od razu wychwycone. 
@@ -191,8 +191,8 @@ Wyróżniamy wiele rodzajów testów. Poniżej krótko zostały scharakteryzowan
   \item Jednostkowe -- Testy obejmujące poszczególne funkcje na najniższym poziomie. Ich wykonywanie musi być możliwie jak najszybsze. Nie powinny korzystać z~zewnętrznych zasobów.
   \item Integracyjne -- Ten rodzaj testów pokrywa wiele komponentów aplikacji naraz i~testuje nie tylko, czy każdy z~poszczególnych modułów działa poprawnie w~izolacji, ale także czy komunikacja między nimi jest poprawna.
   \item Funkcyjne -- Testy tego typu sprawdzają, czy interfejs aplikacji jest poprawny oraz czy interakcja z~użytkownikiem działa poprawnie. U~podstaw ich działania leży symulowanie zachowania programu jak gdyby operowali na nim ludzie. 
-  \item A/B - Tak zwane testy A/B polegają na testowaniu oprogramowania pod kątem wygody i~praktyczności interfejsu.
-  \item Wydajnościowe - Jak sama nazwa wskazuje służą one do sprawdzenia wydajności aplikacji.
+  \item A/B -- Tak zwane testy A/B polegają na testowaniu oprogramowania pod kątem wygody i~praktyczności interfejsu.
+  \item Wydajnościowe -- Jak sama nazwa wskazuje służą one do sprawdzenia wydajności aplikacji.
 \end{itemize}
 
 W~przypadku poprawnie zarządzanego projektu trzy pierwsze rodzaje tworzą hierarchię zwaną \textit{piramidą testowania}. Dwa pozostałe z~wymienionych przeze mnie rodzajów pełnią funkcję uzupełniającą. 
@@ -223,7 +223,7 @@ Aby dołączyć Ash do swojego projektu należy wydać następujące polecenie\f
 
 Wtyczka zostanie zainstalowana, a~do~globalnej przestrzeni nazw dodany zostanie obiekt Ash, który udostępnia wszystkie metody biblioteki.
 
-Punktem startowym Ash jest metoda \texttt{loadTests}. Przyjmuje ona tablicę ścieżek do plików zawierająych kod z~testami. Po wywołaniu dynamicznie dodaje wskazane pliki do dokumentu w~ramach którego została wywołana. Pliki z~testami należy napisać samodzielnie pamiętając, żeby były one zamknięte w~ramach \textit{self-invoking-function}. Takie podejście służy temu, aby umożliwić użytkownikowi łatwe dodanie i~usunięcie testów z~aplikacji oraz aby testy niepotrzebnie nie zaśmiecały produkcyjnej wersji aplikacji.
+Punktem startowym Ash jest metoda \texttt{loadTests}. Przyjmuje ona tablicę ścieżek do plików zawierająych kod z~testami. Po wywołaniu dynamicznie dodaje wskazane pliki do dokumentu w~ramach którego została wywołana. Pliki z~testami należy napisać samodzielnie pamiętając, żeby były one zamknięte w~ramach \textit{self--invoking--function}. Takie podejście służy temu, aby umożliwić użytkownikowi łatwe dodanie i~usunięcie testów z~aplikacji oraz aby testy niepotrzebnie nie zaśmiecały produkcyjnej wersji aplikacji.
 
 Projekt demonstrujący użycie Ash oraz jego możliwości jest dostępny pod adresem
 
@@ -244,7 +244,7 @@ Aby pobrać projekt wydaj polecenie
 Aplikacja AshHello oferuje bardzo prostą funkcjonalność. Jej zasadniczym celem jest zaznajomienie użytkownika z~testowaniem przy użyciu biblioteki Ash. Interfejs użytkownika w~AshHello jest zorganizowany na zasadzie tzw. {\it Working Square}. Working Square jest to wzorzec tworzenia interfejsu, bardzo popularny na urządzeniach mobilnych. Polega on~na stworzeniu kwadratowego obszaru roboczego który zawiera główną treść aplikacji oraz obszaru pomocniczego na którym znajdować się mogą np. elementy związane z~nawigacją. W~zależności od orientacji ekranu, która dyktuje nam rozmiar i~kształt powierzchni do zagospodarowania, obszar pomocniczy może znajdować się 
 
 \begin{itemize}
-  \item poniżej obszaru głównego - gdy urządzenia jest w~orientacji pionowej, tzn. wysokość ekranu jest większa niż jego szerokość,
+  \item poniżej obszaru głównego -- gdy urządzenia jest w~orientacji pionowej, tzn. wysokość ekranu jest większa niż jego szerokość,
 
 \begin{figure}[h]
     \centering
@@ -253,7 +253,7 @@ Aplikacja AshHello oferuje bardzo prostą funkcjonalność. Jej zasadniczym cele
     \label{fig:AshHello1}
 \end{figure}
 
-  \item obok obszaru głównego - gdy urządzenie jest w~orientacji poziomej, czyli szerokość dostępnego ekranu jest większa niż jego wysokość,
+  \item obok obszaru głównego -- gdy urządzenie jest w~orientacji poziomej, czyli szerokość dostępnego ekranu jest większa niż jego wysokość,
 
 \begin{figure}[h]
     \centering
@@ -263,7 +263,7 @@ Aplikacja AshHello oferuje bardzo prostą funkcjonalność. Jej zasadniczym cele
 \end{figure}
 \end{itemize}
 
-Poniższa intrukcja krok~po~kroku wyjaśni, jak dodać testy Ash-a do projektu AshHello. Dla większej przejrzystości demonstracji testy będą korzystać z~popularnej biblioteki \textit{jQuery}\footnote{Dostępna pod http://jquery.com/}, chociaż jej dołączenie nie jest wymagane, gdy pracujemy z~Ash.  
+Poniższa intrukcja krok~po~kroku wyjaśni, jak dodać testy Ash--a do projektu AshHello. Dla większej przejrzystości demonstracji testy będą korzystać z~popularnej biblioteki \textit{jQuery}\footnote{Dostępna pod http://jquery.com/}, chociaż jej dołączenie nie jest wymagane, gdy pracujemy z~Ash.  
 
 \begin{enumerate}
   \item Dodajemy Ash do projektu korzystając z~\textit{Cordova CLI}.\footnote{Projekt dostępny pod adresem https://github.com/apache/cordova-cli}
@@ -400,14 +400,14 @@ Metoda \texttt{runAshTests()} robi dwie rzeczy. Dodaje wywołanie zwrotne dla zd
 
 \end{enumerate}
 
-Tak niewiele potrzeba, żeby stworzyć i~uruchomić pierwszy prosty test Ash. W~razie problemów z~uruchomieniem działający kod testowy znajduje~się w~gałęzi ,,with-tests''.
+Tak niewiele potrzeba, żeby stworzyć i~uruchomić pierwszy prosty test Ash. W~razie problemów z~uruchomieniem działający kod testowy znajduje~się w~gałęzi ,,with--tests''.
 
 \section{Podejście do tworzenia testów}
 
 Ash oferuje dużą swobodę jeśli chodzi o~tworzenie zestawów testów przez użytkownika, jednocześnie sugeruje dobre praktyki, które pozwalają w~pełni wykorzystać możliwości biblioteki. W~tym podrozdziale opiszemy kilka z~tych zalecanych technik.    
 
 \begin{itemize}
-  \item Konteksty - Wyzwalają określone zachowanie urządzenia, co pozwala na sprawdzenie jak zachowuja się nasza aplikacja np. w~przypadku braku połączenia z~internetem lub naciśnięcia przez użytkownika przycisku powrotu. Do kontekstu możemy przekazać dowolną funkcję, która zostanie wywołana dopiero gdy urządzenie znajdzie się w~określonym przez niego stanie. Konteksty stosujemy w~sposób pokazany poniżej:
+  \item Konteksty -- Wyzwalają określone zachowanie urządzenia, co pozwala na sprawdzenie jak zachowuja się nasza aplikacja np. w~przypadku braku połączenia z~internetem lub naciśnięcia przez użytkownika przycisku powrotu. Do kontekstu możemy przekazać dowolną funkcję, która zostanie wywołana dopiero gdy urządzenie znajdzie się w~określonym przez niego stanie. Konteksty stosujemy w~sposób pokazany poniżej:
 
 \begin{lstlisting}
   Ash.makeDeviceDoABC().then(function(msg){
@@ -427,11 +427,11 @@ Istotną rzeczą na którą należy zwrócić uwagę jest
    Ash.endTest();
 \end{lstlisting}
 
-Funkcja testująca może działać w~sposób asynchroniczny lub być zagnieżdżona w~innej funkcji. W~takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. \texttt{Ash.endTest()} pełni tutaj rolę informacyjną - wskazuje gdzie znajduje się punkt końcowy oraz pozwala na zakończenie obecnie wykonywanego testu i~uruchomienie kolejnego z~zestawu. Każdy test Ash powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie zaplanowanego scenariusza. W przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. O~\texttt{endTest()} można myśleć jak o~poleceniu do którego wykonania dążą testy i~po którego wykonaniu są one traktowane jako pomyślnie zakończone. 
+Funkcja testująca może działać w~sposób asynchroniczny lub być zagnieżdżona w~innej funkcji. W~takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. \texttt{Ash.endTest()} pełni tutaj rolę informacyjną -- wskazuje gdzie znajduje się punkt końcowy oraz pozwala na zakończenie obecnie wykonywanego testu i~uruchomienie kolejnego z~zestawu. Każdy test Ash powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie zaplanowanego scenariusza. W przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. O~\texttt{endTest()} można myśleć jak o~poleceniu do którego wykonania dążą testy i~po którego wykonaniu są one traktowane jako pomyślnie zakończone. 
 
 Musimy też pamiętać, że o~ile stan urządzenia jest zdefiniowany w~obrębie kontekstu, to poza nim już takiej gwarancji nie ma. Taka decyzja projektowa ma promować tworzenie testów, które są  niezależne od siebie i~od warunków zewnętrznych wynikających z~urządzenia.
 
-  \item Obiekty Stron (Page Objects) - Jest to wzorzec projektowy pozwalający na zapanowanie nad złożonymi interfejsami użytkownika i~ich modularne testowanie. W~Ash stosowane są głównie do nawigacji po aplikacji i~definiowanie na jakim ekranie ma odbyć się dany test. Pojedynczy Page Object reprezentuje element interfejsu np. stopkę, panel boczny, menu itp. Kilka takich obiektów składa się na ekran aplikacji. Dla Ash-a Obiektem Stron może być każdy obiekt, posiadający funkcje \texttt{validate()} oraz \texttt{goto()}.
+  \item Obiekty Stron (Page Objects) -- Jest to wzorzec projektowy pozwalający na zapanowanie nad złożonymi interfejsami użytkownika i~ich modularne testowanie. W~Ash stosowane są głównie do nawigacji po aplikacji i~definiowanie na jakim ekranie ma odbyć się dany test. Pojedynczy Page Object reprezentuje element interfejsu np. stopkę, panel boczny, menu itp. Kilka takich obiektów składa się na ekran aplikacji. Dla Ash--a Obiektem Stron może być każdy obiekt, posiadający funkcje \texttt{validate()} oraz \texttt{goto()}.
 
 \texttt{validate()} zwraca wartość boolowską określającą, czy na obecnym ekranie znajduje się element interfejsu za który odpowiada dany Page Object. Z~tej metody możemy skorzystać, aby upewnić się, czy całe bloki interfejsu są wyświetlone i~czy są wyświetlone poprawnie.
 
@@ -441,15 +441,15 @@ Oczywiście Page Objects mogą zawierać także inne metody zdefiniowane przez u
 
 Prostota implementacji ma na celu uławienie korzystania z~biblioteki, zachęca także do łączenia Obiektów Stron ze sobą. Nic nie stoi na przeszkodzie, żeby zdefiniować Page Object ,,Menu'' jako zestaw kilku Page Objects, z~których każdy opisuje jakiś element menu. 
 
- \item Organizacja testów - Zestawy możemy wykonywać albo przez polecenie \texttt{run()} do którego przekazujemy tablicę funkcji-testów lub obiekt z~testami (wtedy zgodnie z~przyjętą konwencją uruchamianie są wszystkie funkcje, których nazwa kończy się frazą \texttt{Test}) albo korzystając z~funkcji \texttt{play()} wywoływanej ze scenariuszem testowym.
+ \item Organizacja testów -- Zestawy możemy wykonywać albo przez polecenie \texttt{run()} do którego przekazujemy tablicę funkcji--testów lub obiekt z~testami (wtedy zgodnie z~przyjętą konwencją uruchamianie są wszystkie funkcje, których nazwa kończy się frazą \texttt{Test}) albo korzystając z~funkcji \texttt{play()} wywoływanej ze scenariuszem testowym.
 
 Scenariusz testowy, jest to tablica obiektów, które nazywamy krokami. Na każdy krok składa się kilka atrybutów
 
   \begin{itemize}
-    \item \texttt{name} - Możemy (ale nie jest to wymagane) podać nazwę kroku, ułatwi to czytanie komunikatów o~błędach
-    \item \texttt{where} - Zawiera Page Object, do którego trzeba przejść, aby móc wykonać krok 
-    \item \texttt{what} - Tablica testów, które należy wykonać w~tym kroku
-    \item \texttt{howLong} - Limit czasu na wykonanie testu, ustawienie odpowiednich limitów pozwala testom wychwycić utratę wydajności określonych części interfejsu
+    \item \texttt{name} -- Możemy (ale nie jest to wymagane) podać nazwę kroku, ułatwi to czytanie komunikatów o~błędach
+    \item \texttt{where} -- Zawiera Page Object, do którego trzeba przejść, aby móc wykonać krok 
+    \item \texttt{what} -- Tablica testów, które należy wykonać w~tym kroku
+    \item \texttt{howLong} -- Limit czasu na wykonanie testu, ustawienie odpowiednich limitów pozwala testom wychwycić utratę wydajności określonych części interfejsu
   \end{itemize}
 
 Scenariusze pozwalają nam na tworzenie bardziej realistycznych przypadków użycia oraz wyrażanie ich w~kodzie. 
@@ -463,9 +463,9 @@ Ash został stworzony w~sposób na tyle elastyczny, aby był~w stanie integrowa�
 Założnie Ash co do projektu testowanego:
 
 \begin{itemize}
-  \item wykonany w~technologii Adobe Phonegap/Apache Cordova - istnieje możliwość aby w~przyszłości testować także aplikacje typu mobile web, ale na obecnym etapie nie jest to celem Ash
-  \item single page app - Ash zakłada, że aplikacja testowana będzie pisana zgodnie z~najnowszymi trendami w~branży oraz zaleceniami twórców Phonegap
-  \item Android 4.0+ - obecnie Ash pozwala testować jedynie aplikacje działające na Androidzie, gdyż ta jest dominująca na rynku, ale w~niedalekiej przyszłości planowana jest także wersja na iOS oraz inne platformy
+  \item wykonany w~technologii Adobe Phonegap/Apache Cordova -- istnieje możliwość aby w~przyszłości testować także aplikacje typu mobile web, ale na obecnym etapie nie jest to celem Ash
+  \item single page app -- Ash zakłada, że aplikacja testowana będzie pisana zgodnie z~najnowszymi trendami w~branży oraz zaleceniami twórców Phonegap
+  \item Android 4.0+ -- obecnie Ash pozwala testować jedynie aplikacje działające na Androidzie, gdyż ta jest dominująca na rynku, ale w~niedalekiej przyszłości planowana jest także wersja na iOS oraz inne platformy
 \end{itemize}
 
 \chapter{Przegląd funkcjonalności}
@@ -503,8 +503,8 @@ Zestaw funkcji pomocniczych użytecznych podczas tworzenia testów.
 Funkcje \texttt{assert()} oraz \texttt{equal()} są podstawowymi składowymi testów w~Ash. Pozwalają one na 
 
 \begin{itemize}
-  \item Sprawdzenie czy obiekt istnieje - Funkcja \texttt{assert(object)} pozwala na sprawdzenie czy przekazany obiekt istnieje. Asercja ta zakłada, że każdy przekazany obiekt, który nie jest fałszywy (,,falsy'', w~znaczeniu znanym z~Javascript) jest poprawny. 
-  \item Porównanie dwóch wartości - \texttt{equal(A, B)} sprawdza, czy oba podane argumenty są identyczne. Wykorzystując do tego porównanie dokładne, tzn. bierzemy po uwagę typ, wartość oraz nie wykonujemy konwersji obiektów celem porównania. Referencje wskazujące na różne obiekty są identyczne, jeśli te obiekty mają tą samą wartość.
+  \item Sprawdzenie czy obiekt istnieje -- Funkcja \texttt{assert(object)} pozwala na sprawdzenie czy przekazany obiekt istnieje. Asercja ta zakłada, że każdy przekazany obiekt, który nie jest fałszywy (,,falsy'', w~znaczeniu znanym z~Javascript) jest poprawny. 
+  \item Porównanie dwóch wartości -- \texttt{equal(A, B)} sprawdza, czy oba podane argumenty są identyczne. Wykorzystując do tego porównanie dokładne, tzn. bierzemy po uwagę typ, wartość oraz nie wykonujemy konwersji obiektów celem porównania. Referencje wskazujące na różne obiekty są identyczne, jeśli te obiekty mają tą samą wartość.
 \end{itemize}
 Powyższe asercje w~przypadku, gdy argumenty nie spełniają założeń rzucają ustandardyzowane wyjątki Ash. 
 
@@ -542,8 +542,8 @@ Ash.orientationVertical().then( ... )
 Smartfony i~tablety ze względu na swój mobilny charakter oraz dotykowy ekran bardzo często używane są w~pozycjach i~w~sposób, który może być zaskakujący dla twórców aplikacji. Najczęściej rozróżniamy dwie pozycje definiujące położnie ekranu wzgledem użytkownika. 
 
 \begin{itemize}
-  \item Pionowe - Gdy szerokość ekranu jest mniejsza niż jego wysokość
-  \item Poziome - Gdy szerokość ekranu jest większa niż jego wysokość
+  \item Pionowe -- Gdy szerokość ekranu jest mniejsza niż jego wysokość
+  \item Poziome -- Gdy szerokość ekranu jest większa niż jego wysokość
 \end{itemize}
 
 Każda dobrze wykonana aplikacja powinna uwzględniać te dwie pozycje. W każdej z~nich przestrzeń, którą mamy do dyspozycji jest w~prawdzie taka sama, ale jej postrzeganie przez użytkownika jest inne, dlatego należy inaczej rozmieścić elementy interfejsu.  
@@ -572,7 +572,7 @@ Praktycznym podejściem może być sprawdzanie jak na zmianę ekranu reagują po
 
 \subsubsection{Sposób użycia}
 
-Daje możliwość manipulowania dostępem do sieci - pozwala blokować dostęp do sieci.
+Daje możliwość manipulowania dostępem do sieci -- pozwala blokować dostęp do sieci.
 
 \begin{quote}
 Ash.noNetwork().then( ... ) 
@@ -631,8 +631,8 @@ Bardzo częstym scenariuszem w~przypadku wielu aplikacji jest konieczność oper
 Do kontekstu withFile przekazujemy obiekt zawierający informacje na jakich plikach chcemy przeprowadzić testy. Obiekt może posiadać następujące klucze:
 
 \begin{itemize}
-  \item type - Jest to ciąg znaków, który określa jakiego typu mają być zwrócone pliki. Domyślnie jest to 'audio/amr' czyli plik dźwiękowy. 
-  \item limit - Limit jest to wielkość plików w~zwracanej tablicy wyrażony liczbą całkowitą. W przypadku, gdy limit nie został podany tablica zawiera 1~element. 
+  \item type -- Jest to ciąg znaków, który określa jakiego typu mają być zwrócone pliki. Domyślnie jest to 'audio/amr' czyli plik dźwiękowy. 
+  \item limit -- Limit jest to wielkość plików w~zwracanej tablicy wyrażony liczbą całkowitą. W przypadku, gdy limit nie został podany tablica zawiera 1~element. 
 \end{itemize}
 
 WithFile zwraca obiekt Promise. W przypadku realizacji obietnicy do bloku przekazywana jest tablica plików, która może być wykorzystana w~testach. Każdy~plik w~jest identyczny i~spełnia założenia podane w~argumencie \texttt{options}. Przykładowy plik z~tablicy może wyglądać w~ten sposób:
@@ -703,7 +703,7 @@ Obiekt który jest przekazywany do funkcji w~kontekście ma następującą konst
 }
 
 \end{lstlisting}
-Ash pozwala symulować zmianę położenia poprzez kontekst \texttt{onMove()}. Ta funkcjonalność działa inaczej niż pozostałe bloki, gdyż NIE zwraca obiektu promise, tylko przyjmuje funkcję - wywołanie zwrotne jako jeden ze swoich argumentów. Podyktowane jest to tym, że \texttt{onMove()} potencjalnie może swój blok kodu wywoływać wielokrotnie, co jest sprzeczne z~ideą obietnic. Każdy obiekt \texttt{Promise} jest jest rozstrzygany tylko raz. Jest on albo zaakceptowany albo odrzucony i~nie można go wykorzystać wielokrotnie. 
+Ash pozwala symulować zmianę położenia poprzez kontekst \texttt{onMove()}. Ta funkcjonalność działa inaczej niż pozostałe bloki, gdyż NIE zwraca obiektu promise, tylko przyjmuje funkcję -- wywołanie zwrotne jako jeden ze swoich argumentów. Podyktowane jest to tym, że \texttt{onMove()} potencjalnie może swój blok kodu wywoływać wielokrotnie, co jest sprzeczne z~ideą obietnic. Każdy obiekt \texttt{Promise} jest jest rozstrzygany tylko raz. Jest on albo zaakceptowany albo odrzucony i~nie można go wykorzystać wielokrotnie. 
 
 \section{Obsługa przycisku powrotu}
 
@@ -718,7 +718,7 @@ Ash.pressBack().then( ... )
 
 Integralną cześcią sytemu Android jest przycisk powrotu do poprzedniego ekranu. Jego działanie zostało określone w~specyfikacji platformy.
 
-Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie przycisku zawsze jest takie samo - pozwolić użytkownikom na łatwą nawigację w~aplikacji, która będzie spójna pomiędzy najróżniejszymi aplikacjami. Bardziej precyzyjnie nawigacja~w tym kontekście  oznacza możliwość powrot do poprzedniej aktywności lub ekranu prezentowanego użytkownikowi. W~przypadku aplikacji hybrydowych opartych na Javascript oraz technologiach webowych powrót do poprzedniej aktywności oznacza wycofanie stanu WebView oraz powrót do poprzedniego adresu URL. Wszystkie adresy dotychczas odwiedzone przechowywane są na stosie, a~ich unikalność determinowana jest przez 3~części adresu: hosta, ścieżkę oraz tzw. hash, czyli część adresu po znaku \#. 
+Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie przycisku zawsze jest takie samo -- pozwolić użytkownikom na łatwą nawigację w~aplikacji, która będzie spójna pomiędzy najróżniejszymi aplikacjami. Bardziej precyzyjnie nawigacja~w tym kontekście  oznacza możliwość powrot do poprzedniej aktywności lub ekranu prezentowanego użytkownikowi. W~przypadku aplikacji hybrydowych opartych na Javascript oraz technologiach webowych powrót do poprzedniej aktywności oznacza wycofanie stanu WebView oraz powrót do poprzedniego adresu URL. Wszystkie adresy dotychczas odwiedzone przechowywane są na stosie, a~ich unikalność determinowana jest przez 3~części adresu: hosta, ścieżkę oraz tzw. hash, czyli część adresu po znaku \#. 
 
 \begin{lstlisting}
    //example.js
@@ -754,10 +754,10 @@ Ash daje możliwości kontrolowania procesu wykonywania testów poprzez zestaw d
 Ash.callbacks składa~się~z:
 
 \begin{itemize}
-  \item beforeTest - Jest wołane przed pierwszym testem z~grupy lub scenariuszem, jeszcze przed \texttt{before}
-  \item before - Uruchamiane przed pojedynczym testem
-  \item after - Działa po zakończeniu test, niezależnie od tego czy się powiódł czy nie
-  \item afterTest - Jest wywoływane po zakończeniu się całego zbioru testów, ale przed wywołaniem zwrotnym z~\texttt{run()} (lub \texttt{play()}) 
+  \item \texttt{beforeTest} -- Jest wołane przed pierwszym testem z~grupy lub scenariuszem, jeszcze przed \texttt{before}
+  \item \texttt{before} -- Uruchamiane przed pojedynczym testem
+  \item \texttt{after} -- Działa po zakończeniu test, niezależnie od tego czy się powiódł czy nie
+  \item \texttt{afterTest} -- Jest wywoływane po zakończeniu się całego zbioru testów, ale przed wywołaniem zwrotnym z~\texttt{run()} (lub \texttt{play()}) 
 \end{itemize}
 
 Nadrzędnym testem \texttt{Ash.callbacks} jest pozwolenie użytkownikowi na przygotowanie interfejsu pod działanie testu oraz jego posprzątanie po wykonaniu. Nic nie stoi jednak na przeszkodzie, żeby skorzystać z~tych metod np. do raportowania postępów.
@@ -1035,8 +1035,8 @@ Nastepne podrozdziały koncentrują się na implementacji na platformę Android,
 CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. Pozwala ona na dostęp do najważniejszych składowych aplikacji oraz komunikację z~warstwą Javascript: 
 
 \begin{itemize}
-  \item CordovaWebView webView - Komponent WebView w~którym uruchomiona jest aplikacja
-  \item CordovaInterface cordova - Daje dostęp do zasobów platformy np. \texttt{Activity} oraz puli wątków
+  \item \texttt{CordovaWebView webView} - Komponent WebView w~którym uruchomiona jest aplikacja
+  \item \texttt{CordovaInterface cordova} - Daje dostęp do zasobów platformy np. \texttt{Activity} oraz puli wątków
 \end{itemize}
 
 Punktem wejściowym dla kodu każdej wtyczki jest jest metoda \texttt{exec()}, która jest wywoływana, gdy warstwa javascript wyśle żądanie wywołania określonego kodu natywnego. Sygnatura \texttt{exec} wygląda następująco:
@@ -1047,9 +1047,9 @@ public boolean execute(String action, JSONArray args, final CallbackContext call
 
 Kolejne argumenty to
 \begin{itemize}
-  \item action - Nazwa metody, która ma zostać wywołana
-  \item args - Argumenty wysłane z~warstwy Javascript zakodowane w~postaci JSON
-  \item callbackContext - Specjalna klasa Apache Cordova pozwalająca na wywoływanie zdarzeń po stronie WebView 
+  \item \texttt{action} - Nazwa metody, która ma zostać wywołana
+  \item \texttt{args} - Argumenty wysłane z~warstwy Javascript zakodowane w~postaci JSON
+  \item \texttt{callbackContext} - Specjalna klasa Apache Cordova pozwalająca na wywoływanie zdarzeń po stronie WebView 
 \end{itemize}
 
 Z Javascript kod natywny możemy wywołać w~następujący sposób:
@@ -1071,10 +1071,10 @@ cordova.exec(
 
 Kolejne argumenty to naj następuje
 \begin{itemize}
-  \item successCallback - Wywołanie zwrotne uruchamiane, gdy odwołanie do natywnej części wtyczki się powiedzie
-  \item failureCallback - Wywołanie zwrotne uruchamiane, gdy odwołanie do natywnej części wtyczki zakończy się błędem
-  \item pluginName - Nazwa pluginu, będąca jego unikalnym identyfikatorem w~obrębie aplikacji
-  \item actionName - Identyfikator akcji, która ma być wywołana. Ten argument jest później przekazywany do \texttt{exec()} jako parametr \texttt{name} 
+  \item \texttt{successCallback} -- Wywołanie zwrotne uruchamiane, gdy odwołanie do natywnej części wtyczki się powiedzie
+  \item \texttt{failureCallback} -- Wywołanie zwrotne uruchamiane, gdy odwołanie do natywnej części wtyczki zakończy się błędem
+  \item \texttt{pluginName} -- Nazwa pluginu, będąca jego unikalnym identyfikatorem w~obrębie aplikacji
+  \item \texttt{actionName} -- Identyfikator akcji, która ma być wywołana. Ten argument jest później przekazywany do \texttt{exec()} jako parametr \texttt{name} 
 \item arguments - Tablica argumentów wywołania przekazywana do \texttt{exec()} jako zmienna \texttt{args} 
 \end{itemize}
 
@@ -1252,18 +1252,18 @@ Run pozwala na sekwencyjne uruchomienie przekazanych testów w~kolejności zgodn
 Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia \texttt{run()}. Funkcje te znajdują się w~globalnym obiekcie \texttt{Ash.callbacks}, ale mogą być swobodnie nadpisywane przez użytkowników. Ich wywołanie następuje w~ściśle zdefiowanych momentach, dzięki czemu użytkownik Ash może lepiej kontrolować przebieg testów. Typowy przebieg wywołania Ash.run wygląda w~ten sposób:
 
 \begin{itemize}
-  \item Ash.callbacks.beforeClass
-  \item Ash.callbacks.before
+  \item \texttt{Ash.callbacks.beforeClass}
+  \item \texttt{Ash.callbacks.before}
   \item {test dostarczony przez użytkownika}
-  \item Ash.callbacks.after
+  \item \texttt{Ash.callbacks.after}
   \item ....
-  \item Ash.callbacks.before
+  \item \texttt{Ash.callbacks.before}
   \item Test dostarczony przez użytkownika jest wywoływany
-  \item Ash.callbacks.after
-  \item Ash.callbacks.afterClass
+  \item \texttt{Ash.callbacks.after}
+  \item \texttt{Ash.callbacks.afterClass}
 \end{itemize}
 
-Każdy z~dostarczonych testów kończy się wywołaniem jednego z~dostarczonych funckcji - obowiązkowego \texttt{failureCallback} wywoływanego jeśli z~jakiegoś powodu test się nie powiedzie oraz opcjonalnego \texttt{successCallback} wołanego tylko w~momencie poprawnego wykonania się testu.
+Każdy z~dostarczonych testów kończy się wywołaniem jednego z~dostarczonych funckcji -- obowiązkowego \texttt{failureCallback} wywoływanego jeśli z~jakiegoś powodu test się nie powiedzie oraz opcjonalnego \texttt{successCallback} wołanego tylko w~momencie poprawnego wykonania się testu.
 
 Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o~wykonaniu testu. Do errorCallback:
 
@@ -1288,7 +1288,7 @@ Do successCallback:
 
 \subsubsection{Play} 
 
-\texttt{play()} jest wyższą formą uruchamiania testów niż \texttt{run()}, ale tylko w~sensie, że bazuje na \texttt{run()}. Najważniejszą z~różnic pomiędzy \texttt{run()} a~\texttt{play()} jest to, że ten drugi wykonuje uporządkowany i~zsynchronizowany zestaw testów, w~którym to zestawie istnieje ściśle określona kolejność oraz zależność pomiędzy kolejnymi testami-krokami. Play pozwala na uruchomienie przygotowanego wcześniej scenariusza. 
+\texttt{play()} jest wyższą formą uruchamiania testów niż \texttt{run()}, ale tylko w~sensie, że bazuje na \texttt{run()}. Najważniejszą z~różnic pomiędzy \texttt{run()} a~\texttt{play()} jest to, że ten drugi wykonuje uporządkowany i~zsynchronizowany zestaw testów, w~którym to zestawie istnieje ściśle określona kolejność oraz zależność pomiędzy kolejnymi testami--krokami. Play pozwala na uruchomienie przygotowanego wcześniej scenariusza. 
 
 Sygnatura funkcji \texttt{play()} jest podobna do \texttt{run()}:
 
@@ -1318,18 +1318,18 @@ Scenariusze przekazujemy jako tablicę obiektów na przykład:
 każdy z~obiektów musi definiować następujące klucze:
 
 \begin{itemize}
-  \item PageObject where - Określa na jakim ekranie aplikacji ma zostać uruchomiony test
-  \item Array[Function] what - Zestaw bezparametrowych funkcji, które będą wywoływane jedna po drugiej 
-  \item Integer howLong - Jak długo ma trwać wykonanie testów, jeśli przekroczony zostanie wyznaczony tu limit test zostaje uznany za niepowodzenie 
+  \item \texttt{PageObject where} -- Określa na jakim ekranie aplikacji ma zostać uruchomiony test
+  \item \texttt{Array[Function] what} -- Zestaw bezparametrowych funkcji, które będą wywoływane jedna po drugiej 
+  \item \texttt{Integer howLong} -- Jak długo ma trwać wykonanie testów, jeśli przekroczony zostanie wyznaczony tu limit test zostaje uznany za niepowodzenie 
 \end{itemize}
 
 dodatkowo może definiować:
 
 \begin{itemize} 
-  \item String name - Nazwa kroku scenariusza, ma zastosowanie pomocnicze
+  \item \texttt{String name} -- Nazwa kroku scenariusza, ma zastosowanie pomocnicze
 \end{itemize}
 
-Kroki scenariusza przekazane do \texttt{play()} wykonywane są przy użyciu wcześniej opisanej metody \texttt{run()}, jeden po drugim w~kolejności od mniejszych indeksów. Po każdym pojedynczym wykonaniu porównywane są czasy realny oraz założony przekazany jako klucz \texttt{howLong}. W~przypadku, gdy czas realny jest większy niż założony test oznaczany jest jako niepowodzenie. Biblioteka Ash definiuje takie surowe podejście do limitów czasowych, aby utrudnić deweloperom ignorowanie problemów z~wydajnością ich aplikacji i~niejako zmusić ich do zadbania o~responsywność interfejsu użytkownika. Klucz \texttt{where} ma za zadanie ułatwić nawigację po aplikacji pomiędzy testami, tzn. test z~danego kroku uruchamainy jest tylko wtedy, gdy znajdziemy się na ekranie związanym z~danym testem. Wykorzystujemy do tego metody \texttt{validate()} oraz \texttt{goto()}. Kwestie sukcesu i~niepowodzenia \texttt{play()} są identyczne jak w~przypadku \texttt{run()} - przekazujemy failureCallback, który jest wywoływany po niepowodzeniu kroku oraz opcjonalny successCallback,  który jest wołany gdy krok scenariusza powiedzie się. 
+Kroki scenariusza przekazane do \texttt{play()} wykonywane są przy użyciu wcześniej opisanej metody \texttt{run()}, jeden po drugim w~kolejności od mniejszych indeksów. Po każdym pojedynczym wykonaniu porównywane są czasy realny oraz założony przekazany jako klucz \texttt{howLong}. W~przypadku, gdy czas realny jest większy niż założony test oznaczany jest jako niepowodzenie. Biblioteka Ash definiuje takie surowe podejście do limitów czasowych, aby utrudnić deweloperom ignorowanie problemów z~wydajnością ich aplikacji i~niejako zmusić ich do zadbania o~responsywność interfejsu użytkownika. Klucz \texttt{where} ma za zadanie ułatwić nawigację po aplikacji pomiędzy testami, tzn. test z~danego kroku uruchamainy jest tylko wtedy, gdy znajdziemy się na ekranie związanym z~danym testem. Wykorzystujemy do tego metody \texttt{validate()} oraz \texttt{goto()}. Kwestie sukcesu i~niepowodzenia \texttt{play()} są identyczne jak w~przypadku \texttt{run()} -- przekazujemy \texttt{failureCallback}, który jest wywoływany po niepowodzeniu kroku oraz opcjonalny \texttt{successCallback},  który jest wołany gdy krok scenariusza powiedzie się. 
 
 Przykładowe wykonanie może wyglądać tak:
 
@@ -1387,20 +1387,22 @@ Ten rozdziała zawiera informacje na temat szczegółów implementacji bibliotek
 \section{Zmiana położenia ekranu}
 
 \begin{lstlisting}
-Ash.orientationHorizontal().then( ... ) 
-Ash.orientationVertical().then( ... ) 
+  \texttt{Ash.orientationHorizontal().then( ... )}   
+  \texttt{Ash.orientationVertical().then( ... )} 
 \end{lstlisting}
 
 Konteksty orientationX działają na zasadzie przełączania ekranu z~jednego położenia do innego. Na platformie Android jest to realizowane przez funkcję \texttt{setRequestedOrientation()} klasy \texttt{Activity} do której uzyskujemy dostęp przez interfejs cordova. 
 
 \begin{lstlisting}
-this.cordova.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+this.cordova.getActivity().setRequestedOrientation(
+  ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+);
 \end{lstlisting}
 
 Każdemu z~widoków odpowiada stała zdefiniowana przez platformę Android
 \begin{itemize}
-  \item orientationHorizontal - ActivityInfo.SCREEN\_ORIENTATION\_LANDSCAPE
-  \item orientationVertical - ActivityInfo.SCREEN\_ORIENTATION\_PORTRAIT
+  \item \texttt{orientationHorizontal} -- \texttt{ActivityInfo.SCREEN\_ORIENTATION\_LANDSCAPE}
+  \item \texttt{orientationVertical} -- \texttt{ActivityInfo.SCREEN\_ORIENTATION\_PORTRAIT}
 \end{itemize}
 
 Obecna implementacja po zakończeniu testów zawartych w~kontekście nie przywraca zastanego stanu ekranu. Nie oznacza to jednak, że to zachowanie nie zmieni się przyszłości lub na innej platformie.
@@ -1447,8 +1449,8 @@ celem anulowania pobierania zasobów. Jeśli chcemy przywrócić domyślne zacho
 W~przypadku, gdy zainstalowana jest wtyczka cordova-plugin-network-information \footnote{https://github.com/apache/cordova-plugin-network-information}, która jest często wykorzystywana do monitorowania stanu sieci, działanie Ash jest zmodyfikowane aby współgrać z~tą wtyczką. W przypadku poprawnego wywołania kodu Ash dochodzi do sprawdzenia czy network-information jest zainstalowane i~w~tym przypadku wywoływane są zdarzenia
 
 \begin{itemize}
-  \item offline - Dla kontekstu networkOn() 
-  \item online - Gdy zachodzi noNetwork(), slowNetwork()
+  \item \texttt{offline} -- Dla kontekstu \texttt{networkOn()} 
+  \item \texttt{online} -- Gdy zachodzi \texttt{noNetwork()}, \texttt{slowNetwork()}
 \end{itemize}
 
 W~przypadku \texttt{noNetwork()} i~\texttt{slowNetwork()} dokładny status sieci ustalany jest przez wtyczkę network-information.
@@ -1458,9 +1460,9 @@ W~przypadku \texttt{noNetwork()} i~\texttt{slowNetwork()} dokładny status sieci
 Obecna implementacja dostępu do plików w~Ash jest tylko symulacją i~nie przewiduje operowania na realnych danych zgromadzonych na urządzeniu. Jest to podyktowane kilkoma czynnikami
 
 \begin{itemize}
-  \item Wielością formatów - Każda z~platform wspiera wiele różnych typów i~formatów plików (pliki muzyczne, video itp.) 
-  \item Wsparciem uzależnionym od platformy - nie każda z~platform daje dostęp do tego samego zestawu formatów i~rozszerzeń plików
-  \item Wielkością wtyczki - Nawet gdyby uwzględnić tylko jeden plik dla każdego typu i~zaszyć go w~Ash, to rozmiar biblioteki utrudniłby korzystanie z~niej
+  \item Wielością formatów -- Każda z~platform wspiera wiele różnych typów i~formatów plików (pliki muzyczne, video itp.) 
+  \item Wsparciem uzależnionym od platformy -- nie każda z~platform daje dostęp do tego samego zestawu formatów i~rozszerzeń plików
+  \item Wielkością wtyczki -- Nawet gdyby uwzględnić tylko jeden plik dla każdego typu i~zaszyć go w~Ash, to rozmiar biblioteki utrudniłby korzystanie z~niej
 \end{itemize}
 
 Obecnie w~momencie wywołania Ash konstruuje obiekty, który spełniają założenia Apache Cordova co do obsługi plików, tzn. mają wszystkie wymagane pola oraz ich dane pokrywają się z~tym, co zażądał użytkownik. 
@@ -1584,7 +1586,7 @@ Testy pisane w~Ash zostaną wzbogacone poprzez
 
 \begin{itemize}
   \item Dodanie nowych, bardziej precyzyjnych asercji wzorowanych na tych z~biblioteki Hamcrest\footnote{Dostępna na stronie https://code.google.com/p/hamcrest/}. Pozwolą one na lepsze wyrażanie zamiarów, bez konieczności pisania dodtkowego kodu
-  \item Dodanie nowej składni, dzięki której łatwiejsze będzie wyrażanie testów jako bloków \textit{Given-When-Then}
+  \item Dodanie nowej składni, dzięki której łatwiejsze będzie wyrażanie testów jako bloków \textit{Given--When--Then}
   \item Rozwój już istniejących kontekstów i~asercji, tak żeby bliżej odpowiadały one realistycznym scenariuszom 
   \item Dynamiczne wstrzykiwanie testów w~momencie budowania aplikacji
   \item Lepsze wsparcie dla cordova-cli oraz narzędzi do Continuous Integration
