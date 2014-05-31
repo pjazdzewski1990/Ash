@@ -70,9 +70,9 @@ hybrydowe aplikacje mobilne}
 
 \introduction
 
-Tematem pracy jest przedstawienie biblioteki Ash, problemów które stara się rozwiązać, możliwości jakie oferuje oraz zagadnień związanych z~jej~implementacją. Ten dokument  został stworzony z~myślą zarówno o~osobach myślących o~wykorzystaniu Ash w~ich projekcie, jak i~o~ludziach chcących zapoznać się ze sposobem działania biblioteki i~brać udział w~jej rozwoju.  
+Tematem pracy jest przedstawienie biblioteki Ash, problemów które stara się rozwiązać, możliwości jakie oferuje oraz zagadnień związanych z~jej~implementacją. Ten dokument  został stworzony z~myślą zarówno o~osobach myślących o~wykorzystaniu Ash-a w~ich projekcie, jak i~o~ludziach chcących zapoznać się ze sposobem działania biblioteki i~brać udział w~jej rozwoju.  
 
-Pierwsze rozdziały wprowadzają czytelnika w~temat testowania aplikacji mobilnych oraz demonstrują jak skorzystać z~biblioteki do stworzenia prostych testów. Dalej następuje przegląd funkcjonalności oraz dyskusja na temat potencjalnych zastosowań. Kolejne rodziały opisują implementację najważniejszych części biblioteki oraz dają wgląd w~to,~jak można zintegrować Ash z~narzędziami do automatycznego budowania aplikacji.
+Pierwsze rozdziały wprowadzają czytelnika w~temat testowania aplikacji mobilnych oraz demonstrują jak skorzystać z~biblioteki do stworzenia prostych testów. Dalej następuje przegląd funkcjonalności oraz dyskusja na temat potencjalnych zastosowań. Kolejne rodziały opisują implementację najważniejszych części biblioteki oraz dają wgląd w~to,~jak można zintegrować Ash-a z~narzędziami do automatycznego budowania aplikacji.
 
 \chapter{Podstawowe terminy oraz techniki}
 \section{Hybrydowe aplikacje mobilne}
@@ -137,7 +137,7 @@ oprogramowania oraz możliwość testowania jej w~sytuacjach, które pozwalają
 uwydatnić problemy z~wydajnością. Dzięki \textit{funkcyjnemu} podejściu do testowania
 oprogramowania Ash pozwala zbierać informacje o~responsywności interfejsu
 oraz realistycznie symulować scenariusze dużego obciążenia. Programista
-korzystający z~Ash ma możliwość zdefiniowania w~scenariuszach maksymalnego
+korzystający z~Ash-a ma możliwość zdefiniowania w~scenariuszach maksymalnego
 czasu trwania testu. Jeśli test nie zakończy się w~założonym czasie jest on oznaczany jako niepowodzenie. Niska responsywność interfejsu traktowana jest na równi z~błędami
 logiki czy prezentacji. Wymusza to na twórcy dbanie o~szybkość reakcji aplikacji.
 Ash oferuje także możliwość chwilowego wyłączenia lub opóźnienia dostępu do
@@ -216,29 +216,29 @@ Biblioteka Ash została stworzona z~myślą o~testowaniu funkcyjnym.
 \chapter{Sposób użycia}
 \section{Pierwsze kroki}
 
-Aby dołączyć Ash do swojego projektu należy wydać następujące polecenie\footnote{Jeśli nie masz jeszcze zainstalowanego Cordova CLI spójrz tutaj https://github.com/apache/cordova-cli} w~folderze z~projektem:
+Aby dołączyć Ash-a do swojego projektu należy wydać następujące polecenie\footnote{Jeśli nie masz jeszcze zainstalowanego Cordova CLI spójrz tutaj https://github.com/apache/cordova-cli} w~folderze z~projektem:
 \begin{quote}
    \texttt{cordova plugins add https://github.com/pjazdzewski1990/Ash}
 \end{quote}
 
 Wtyczka zostanie zainstalowana, a~do~globalnej przestrzeni nazw dodany zostanie obiekt Ash, który udostępnia wszystkie metody biblioteki.
 
-Punktem startowym Ash jest metoda \texttt{loadTests}. Przyjmuje ona tablicę ścieżek do plików zawierająych kod z~testami. Po wywołaniu dynamicznie dodaje wskazane pliki do dokumentu w~ramach którego została wywołana. Pliki z~testami należy napisać samodzielnie pamiętając, żeby były one zamknięte w~ramach \textit{self--invoking--function}. Takie podejście służy temu, aby umożliwić użytkownikowi łatwe dodanie i~usunięcie testów z~aplikacji oraz aby testy niepotrzebnie nie zaśmiecały produkcyjnej wersji aplikacji.
+Punktem startowym Ash-a jest metoda \texttt{loadTests}. Przyjmuje ona tablicę ścieżek do plików zawierająych kod z~testami. Po wywołaniu dynamicznie dodaje wskazane pliki do dokumentu w~ramach którego została wywołana. Pliki z~testami należy napisać samodzielnie pamiętając, żeby były one zamknięte w~ramach \textit{self--invoking--function}. Takie podejście służy temu, aby umożliwić użytkownikowi łatwe dodanie i~usunięcie testów z~aplikacji oraz aby testy niepotrzebnie nie zaśmiecały produkcyjnej wersji aplikacji.
 
-Projekt demonstrujący użycie Ash oraz jego możliwości jest dostępny pod adresem
+Projekt demonstrujący użycie Ash-a oraz jego możliwości jest dostępny pod adresem
 
 \url{https://github.com/pjazdzewski1990/AshDemo}
 
 \section{Hello World}
 
-Na porzeby wprowadzenia do testowania przy użyciu Ash powstała aplikacja AshHello, która jest dostępna pod adresem 
+Na porzeby wprowadzenia do testowania przy użyciu Ash-a powstała aplikacja AshHello, która jest dostępna pod adresem 
 
 \url{https://github.com/pjazdzewski1990/AshHello}
 
 Aby pobrać projekt wydaj polecenie
 
 \begin{quote}
-   git clone git@github.com:pjazdzewski1990/AshHello.git
+   \texttt{git clone git@github.com:pjazdzewski1990/AshHello.git}
 \end{quote}
 
 Aplikacja AshHello oferuje bardzo prostą funkcjonalność. Jej zasadniczym celem jest zaznajomienie użytkownika z~testowaniem przy użyciu biblioteki Ash. Interfejs użytkownika w~AshHello jest zorganizowany na zasadzie tzw. {\it Working Square}. Working Square jest to wzorzec tworzenia interfejsu, bardzo popularny na urządzeniach mobilnych. Polega on~na stworzeniu kwadratowego obszaru roboczego który zawiera główną treść aplikacji oraz obszaru pomocniczego na którym znajdować się mogą np. elementy związane z~nawigacją. W~zależności od orientacji ekranu, która dyktuje nam rozmiar i~kształt powierzchni do zagospodarowania, obszar pomocniczy może znajdować się 
@@ -266,7 +266,7 @@ Aplikacja AshHello oferuje bardzo prostą funkcjonalność. Jej zasadniczym cele
 Poniższa intrukcja krok~po~kroku wyjaśni, jak dodać testy Ash--a do projektu AshHello. Dla większej przejrzystości demonstracji testy będą korzystać z~popularnej biblioteki \textit{jQuery}\footnote{Dostępna pod \url{http://jquery.com/}}, chociaż jej dołączenie nie jest wymagane, gdy pracujemy z~Ash.  
 
 \begin{enumerate}
-  \item Dodajemy Ash do projektu korzystając z~\textit{Cordova CLI}.\footnote{Projekt dostępny pod adresem \url{https://github.com/apache/cordova-cli}}
+  \item Dodajemy Ash-a do projektu korzystając z~\textit{Cordova CLI}.\footnote{Projekt dostępny pod adresem \url{https://github.com/apache/cordova-cli}}
 
 Wtyczkę instalujemy poleceniem 
 \begin{quote}
@@ -396,7 +396,7 @@ Teraz kiedy mamy już kod testów czas dodać go do aplikacji. W~przypadku AshHe
 
 \end{lstlisting}
 
-Metoda \texttt{runAshTests()} robi dwie rzeczy. Dodaje wywołanie zwrotne dla zdarzenia onerror oraz ładuje testy. W~tym uproszczonym scenariuszu chcemy, żeby wszystkie znalezione błędy objawiały się wyskującym okienkiem z~opisem problemu. Następnie korzystając z~dotarczonej przez Ash metody \texttt{loadTests()} ładujemy myTests.js, jeśli przypomnimy sobie jak skonstruowany jest ten plik jasne stanie się, że od razu po wczytaniu zostanie on uruchomiony. 
+Metoda \texttt{runAshTests()} robi dwie rzeczy. Dodaje wywołanie zwrotne dla zdarzenia onerror oraz ładuje testy. W~tym uproszczonym scenariuszu chcemy, żeby wszystkie znalezione błędy objawiały się wyskującym okienkiem z~opisem problemu. Następnie korzystając z~dotarczonej przez Ash-a metody \texttt{loadTests()} ładujemy myTests.js, jeśli przypomnimy sobie jak skonstruowany jest ten plik jasne stanie się, że od razu po wczytaniu zostanie on uruchomiony. 
 
 \end{enumerate}
 
@@ -427,11 +427,11 @@ Istotną rzeczą na którą należy zwrócić uwagę jest
    Ash.endTest();
 \end{lstlisting}
 
-Funkcja testująca może działać w~sposób asynchroniczny lub być zagnieżdżona w~innej funkcji. W~takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. \texttt{Ash.endTest()} pełni tutaj rolę informacyjną -- wskazuje gdzie znajduje się punkt końcowy oraz pozwala na zakończenie obecnie wykonywanego testu i~uruchomienie kolejnego z~zestawu. Każdy test Ash powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie zaplanowanego scenariusza. W przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. O~\texttt{endTest()} można myśleć jak o~poleceniu do którego wykonania dążą testy i~po którego wykonaniu są one traktowane jako pomyślnie zakończone. 
+Funkcja testująca może działać w~sposób asynchroniczny lub być zagnieżdżona w~innej funkcji. W~takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. \texttt{Ash.endTest()} pełni tutaj rolę informacyjną -- wskazuje gdzie znajduje się punkt końcowy oraz pozwala na zakończenie obecnie wykonywanego testu i~uruchomienie kolejnego z~zestawu. Każdy test Ash-a powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie zaplanowanego scenariusza. W przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. O~\texttt{endTest()} można myśleć jak o~poleceniu do którego wykonania dążą testy i~po którego wykonaniu są one traktowane jako pomyślnie zakończone. 
 
 Musimy też pamiętać, że o~ile stan urządzenia jest zdefiniowany w~obrębie kontekstu, to poza nim już takiej gwarancji nie ma. Taka decyzja projektowa ma promować tworzenie testów, które są  niezależne od siebie i~od warunków zewnętrznych wynikających z~urządzenia.
 
-  \item Obiekty Stron (Page Objects) -- Jest to wzorzec projektowy pozwalający na zapanowanie nad złożonymi interfejsami użytkownika i~ich modularne testowanie. W~Ash stosowane są głównie do nawigacji po aplikacji i~definiowanie na jakim ekranie ma odbyć się dany test. Pojedynczy Page Object reprezentuje element interfejsu np. stopkę, panel boczny, menu itp. Kilka takich obiektów składa się na ekran aplikacji. Dla Ash--a Obiektem Stron może być każdy obiekt, posiadający funkcje \texttt{validate()} oraz \texttt{goto()}.
+  \item Obiekty Stron (Page Objects) -- Jest to wzorzec projektowy pozwalający na zapanowanie nad złożonymi interfejsami użytkownika i~ich modularne testowanie. W~Ash-u stosowane są głównie do nawigacji po aplikacji i~definiowanie na jakim ekranie ma odbyć się dany test. Pojedynczy Page Object reprezentuje element interfejsu np. stopkę, panel boczny, menu itp. Kilka takich obiektów składa się na ekran aplikacji. Dla Ash--a Obiektem Stron może być każdy obiekt, posiadający funkcje \texttt{validate()} oraz \texttt{goto()}.
 
 \texttt{validate()} zwraca wartość boolowską określającą, czy na obecnym ekranie znajduje się element interfejsu za który odpowiada dany Page Object. Z~tej metody możemy skorzystać, aby upewnić się, czy całe bloki interfejsu są wyświetlone i~czy są wyświetlone poprawnie.
 
@@ -458,9 +458,9 @@ Scenariusze pozwalają nam na tworzenie bardziej realistycznych przypadków uży
 
 \section{Ograniczenia}
 
-Ash został stworzony w~sposób na tyle elastyczny, aby był~w stanie integrować się z~najróżniejszymi projektami. Niestety nie zawsze możliwe było uwzględnienie wszystkich możliwości, dlatego konieczne było przyjęcie pewnych założeń co do projektu który ma być testowany przez Ash. Zrozumienie tych założeń jest istotne dla sprawnego posługiwania się biblioteką, zrozumienia przyczyn trudności w~jej używaniu oraz podejmowania decyzji o~dołączeniu Ash do swojego projektu.
+Ash został stworzony w~sposób na tyle elastyczny, aby był~w stanie integrować się z~najróżniejszymi projektami. Niestety nie zawsze możliwe było uwzględnienie wszystkich możliwości, dlatego konieczne było przyjęcie pewnych założeń co do projektu który ma być testowany przez Ash. Zrozumienie tych założeń jest istotne dla sprawnego posługiwania się biblioteką, zrozumienia przyczyn trudności w~jej używaniu oraz podejmowania decyzji o~dołączeniu Ash-a do swojego projektu.
 
-Założnie Ash co do projektu testowanego:
+Założnie Ash-a co do projektu testowanego:
 
 \begin{itemize}
   \item wykonany w~technologii Adobe Phonegap/Apache Cordova -- istnieje możliwość aby w~przyszłości testować także aplikacje typu mobile web, ale na obecnym etapie nie jest to celem Ash
@@ -798,11 +798,11 @@ Ash jest biblioteką służącą do funkcyjnego testowania hybrydowych aplikacji
 
 Ash działa na zasadzie wtyczki do Apache Cordova jest więc w~stanie komunikować się z~platformą sprzętową poprzez \textit{Native Bridge}. Daje to możliwość manipulowania ustawieniami czy zasobami urządzenia, np. uzyskania dostępu do systemu plików czy ustawień połączenia. System operacyjny na którym uruchomiona jest aplikacja hybrydowa ma spory wpływ na to jak zachowa się aplikacja, niestety tradycyjne podejścia nie pozwalają na przetestowanie ich wpływu na aplikację. Co innego Ash, który udostępnia funkcjonalności pozwalające na wywoływanie określonych zachowań urządzenia. 
 
-Zewnętrzne API Ash napisane jest w~jezyku Javascript i~także w~tym języku pisane są testy. Jestem zdania, że Javascript ze względu na swój charakter pozwali w~prosty i~przejrzysty sposób wyrazić testy oraz czyni je na tyle elastycznymi, że wymagane zmiany będą mogły być wprowadzane niewielkimi nakładami sił. API Ash kładzie nacisk na powtórne wykorzystywanie kodu oraz wykorzystanie wzorca Page Object, co pozwala na zapanowanie nad testami nawet w~najszybciej zmieniającej się aplikacji. 
+Zewnętrzne API Ash-a napisane jest w~jezyku Javascript i~także w~tym języku pisane są testy. Jestem zdania, że Javascript ze względu na swój charakter pozwali w~prosty i~przejrzysty sposób wyrazić testy oraz czyni je na tyle elastycznymi, że wymagane zmiany będą mogły być wprowadzane niewielkimi nakładami sił. API Ash-a kładzie nacisk na powtórne wykorzystywanie kodu oraz wykorzystanie wzorca Page Object, co pozwala na zapanowanie nad testami nawet w~najszybciej zmieniającej się aplikacji. 
 
 \section{Przykład zastosowania Ash - Wikipedia Mobile}
 
-Przydatność Ash najlepiej udowodnić pokazując jak można go wykorzystać do przetestowania prawdziwej aplikacji. W~tym celu zdecydowałem się pokryć testami Ash część aplikacji Wikipedia Mobile\footnote{Projekt jest dostępny pod adresem \url{https://github.com/wikimedia/WikipediaMobile} }. Wybrałem akurat ten projekt gdyż
+Przydatność Ash-a najlepiej udowodnić pokazując jak można go wykorzystać do przetestowania prawdziwej aplikacji. W~tym celu zdecydowałem się pokryć testami Ash-a część aplikacji Wikipedia Mobile\footnote{Projekt jest dostępny pod adresem \url{https://github.com/wikimedia/WikipediaMobile} }. Wybrałem akurat ten projekt gdyż
 
 \begin{itemize}
   \item wykorzystuje Apache Cordova
@@ -813,11 +813,11 @@ Przydatność Ash najlepiej udowodnić pokazując jak można go wykorzystać do 
   \item jest publicznie dostępna np. pod adresem \url{https://play.google.com/store/apps/details?id=org.wikipedia}
 \end{itemize}
 
-Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z~której korzysta Wikipedia, a~3.X z~myślą o~której pisany był Ash zaszły poważne zmiany. Także w~sposobie budowania aplikacji oraz działania wtyczek, dlatego konieczne będą pewne zmiany w~kodzie samej biblioteki. Na szczęście elstyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją.
+Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z~której korzysta Wikipedia, a~3.X z~myślą o~której pisany był Ash zaszły poważne zmiany. Także w~sposobie budowania aplikacji oraz działania wtyczek, dlatego konieczne będą pewne zmiany w~kodzie samej biblioteki. Na szczęście elastyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją.
 
 Całość kodu Wikipedia Mobile z~dodanym kodem testów jest dostępna pod adresem \url{https://github.com/pjazdzewski1990/WikipediaMobile} 
 
-\subsection{Przygotowanie Ash do działania z~Cordova 2.X}
+\subsection{Przygotowanie Ash-a do działania z~Cordova 2.X}
   
 Stara wersja Cordovy nie korzysta jeszcze z~systemu modułów dlatego konieczne jest poprawienie plików Ash.js oraz promise.js tak, żeby były dodawane do aplikacji nawet bez modułów.  W~Ash.js należy usunąć następujący kod działający wyłącznie z~modułami
 
@@ -835,7 +835,7 @@ Stara wersja Cordovy nie korzysta jeszcze z~systemu modułów dlatego konieczne 
 
 \end{lstlisting}
 
-oraz manualnie podpiąć Ash pod obiekt window
+oraz manualnie podpiąć Ash-a pod obiekt window
 
 \begin{lstlisting}
    //Ash.js
@@ -869,9 +869,9 @@ Większe zmiany czekają nas po stronie natywnej. W wersji Cordovy 2.X możliwo�
 
 Więcej informacji o~tworzeniu wtyczek dla tej wersji można znaleźć w~literaturze\cite{Ghatol-Patel}.
 
-\subsection{Dodanie Ash do projektu}
+\subsection{Dodanie Ash-a do projektu}
 
-Tak zmodyfikowany kod Ash może zostać użyty w~projekcie Wikipedia Mobile.
+Tak zmodyfikowany kod Ash-a może zostać użyty w~projekcie Wikipedia Mobile.
 
 Pliki promise.js oraz Ash.js należy przenieść w~takie miejsce, żeby możliwy był do nich dostęp z~pliku assets/www/index.html. Można je na przykład przenieść do assets/www/test/. Potem wystaczy już tylko wczytać je na głównym ekranie 
 
@@ -906,7 +906,7 @@ Teraz zostaje nam już tylko dodanie testów do projektu np. w~postaci pliku  as
   })(window);
 \end{lstlisting}
 
-oraz załadowanie tego testu z~poziomu Ash po zajściu zdarzenia \texttt{deviceready}. Stosownym miejscem dla tego będzie funkcja \texttt{init()} w~assets/www/js/main.js
+oraz załadowanie tego testu z~poziomu Ash-a po zajściu zdarzenia \texttt{deviceready}. Stosownym miejscem dla tego będzie funkcja \texttt{init()} w~assets/www/js/main.js
 
 \begin{lstlisting}
    //wikitest.js
@@ -1083,7 +1083,7 @@ Kolejne argumenty to naj następuje
 
 \section{Wielowątkowość. Komunikacja między warstwami}
 
-Javascript ze swojej natury jest jednowątkowy. Tak samo wszystkie testy w~Ash są wykonywane jeden po drugim. Poza trudnościami technicznymi powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o~współdzielony zasób, jakim jest \textit{Document Object Model}, konieczne byłoby zadbanie o~ich synchronizację, co jest skomplikowane oraz mało wydajne. Z~prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
+Javascript ze swojej natury jest jednowątkowy. Tak samo wszystkie testy w~Ashsą wykonywane jeden po drugim. Poza trudnościami technicznymi powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o~współdzielony zasób, jakim jest \textit{Document Object Model}, konieczne byłoby zadbanie o~ich synchronizację, co jest skomplikowane oraz mało wydajne. Z~prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
 
 Wtyczki działają asynchronicznie. Kod uruchamiany po stronie natywnej platformy przez wywołania \texttt{cordova.exec()} działa w~osobnym wątku. Realizuje on swoje cele, a następnie poprzez \texttt{CallbackContext} uruchamia odpowiednie wywołania zwrotne przekazane przez użytkownika wtyczki. Takie podejście pozwala maksymalnie wykorzystać wątki działające po stronie platformy bez komplikowania budowy aplikacji po stronie warstwy JavaScript. W takim przypadku kod natywny nie wpływa bezpośrednio na \texttt{WebView} czy sposób interfejs apliakcji użytkownikowi. Wszelkie tego typu mainpulacje odbywają się po stronie Javascript za pośrednictwem funkcji zwrotnych. Niestety czasami istnieje konieczność bezpośredniej manipulacji \texttt{WebView}. W~tym celu istnieje możliwość skorzystania z~metody \texttt{runOnUiThread()}. Metoda ta przyjmuje klasę implementującą interfejs \texttt{Runnable}, w~której mozemy nadpisać metodę \texttt{run()} tak, aby realizowała nasze cele. Na przykład w~ten sposób:
 
@@ -1146,7 +1146,7 @@ Warto zaznaczyć, że konteksty można ze sobą łączyć, aby tworzyć bardziej
     });
 \end{lstlisting}
 
-możemy także wywołania funckcji Ash przeplatać innym kodem JavaScript np. w~ten sposób:
+możemy także wywołania funkcji Ash-a przeplatać innym kodem JavaScript np. w~ten sposób:
 
 \begin{lstlisting}
      //example.js
@@ -1175,7 +1175,7 @@ Dokładny opis mechanizmu, jego wymagania oraz zastosowania można znaleźć na 
 
 \url{http://promises-aplus.github.io/promises-spec/}
 
-Na chwilę obecną nawet w~samym JavaScript istnieje wiele implementacji specyfikacji Promises. W Ash pierwotnie zastosowano bibliotekę o~nazwie promises.js dostępną pod adresem
+Na chwilę obecną nawet w~samym JavaScript istnieje wiele implementacji specyfikacji Promises. W Ash-u pierwotnie zastosowano bibliotekę o~nazwie promises.js dostępną pod adresem
 
 \url{https://github.com/then/promise/}
 
@@ -1204,7 +1204,7 @@ Metoda \texttt{goto()} pozwala na przejście na ekran definowany przez dany obie
 
 Oczywiście Page Objects można w~sobie zagłębiać. Na przykład jeden Page Object może zależeć od kilku mniejszych i~jego metoda \texttt{validate()} zakłada, że metody \texttt{validate()} podstron będą spełnione. 
 
-Prosty Page Object w~Ash może wyglądać w~ten sposób:
+Prosty Page Object w~Ash-u może wyglądać w~ten sposób:
 
 \begin{lstlisting}
      //example.js
@@ -1250,9 +1250,9 @@ Przykładowe zastosowanie:
     });
 \end{lstlisting}
 
-Run pozwala na sekwencyjne uruchomienie przekazanych testów w~kolejności zgodnej z~indeksem tablicy. Ash nie czyni żadnych zabiegów, aby testy nie kolidowały i~nie ingerowały w~działanie innych testów, dlatego testy przekazywane winny być od siebie nawzajem niezależne. Dostarczane one są do Ash jako tablica bezparametrowych funkcji.
+Run pozwala na sekwencyjne uruchomienie przekazanych testów w~kolejności zgodnej z~indeksem tablicy. Ash nie czyni żadnych zabiegów, aby testy nie kolidowały i~nie ingerowały w~działanie innych testów, dlatego testy przekazywane winny być od siebie nawzajem niezależne. Dostarczane one są do Ash-a jako tablica bezparametrowych funkcji.
 
-Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia \texttt{run()}. Funkcje te znajdują się w~globalnym obiekcie \texttt{Ash.callbacks}, ale mogą być swobodnie nadpisywane przez użytkowników. Ich wywołanie następuje w~ściśle zdefiowanych momentach, dzięki czemu użytkownik Ash może lepiej kontrolować przebieg testów. Typowy przebieg wywołania Ash.run wygląda w~ten sposób:
+Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia \texttt{run()}. Funkcje te znajdują się w~globalnym obiekcie \texttt{Ash.callbacks}, ale mogą być swobodnie nadpisywane przez użytkowników. Ich wywołanie następuje w~ściśle zdefiowanych momentach, dzięki czemu użytkownik Ash-a może lepiej kontrolować przebieg testów. Typowy przebieg wywołania Ash.run wygląda w~ten sposób:
 
 \begin{itemize}
   \item \texttt{Ash.callbacks.beforeClass}
@@ -1379,7 +1379,7 @@ Wykaz wszystkich wyjątków Ash:
     4 & ,,Error'' & ,,Element X is visible'' & Wbrew założeniu, podany element jest widoczny  \\ \hline
     5 & ,,Error'' & ,,Elements X and Y aren't equal'' & Przekazane elementy nie są sobie równe w~sensie dokładnego porównania, tj.  nie prawdą jest, że X===Y  \\ \hline
     11 & ,,Error'' & ,,Not on page!'' & Obecnie nie znajdujemy się na podstronie definiowanej przez przekazany PageObject lub interfejs użytkownika nie pokrywa się z~założeniami Page Object  \\ \hline
-    12 & ,,Error'' & ,,Page element doesn't implement required method!'' & Obiekt przekazany jako Ash jako Page Object nie implementuje którejś z~wymaganych funkcji  \\ \hline
+    12 & ,,Error'' & ,,Page element doesn't implement required method!'' & Obiekt przekazany jako Ash-a jako Page Object nie implementuje którejś z~wymaganych funkcji  \\ \hline
     \end{tabularx}
 \end{center}
 
@@ -1449,7 +1449,7 @@ aby spowolnić dostęp do sieci oraz
 
 celem anulowania pobierania zasobów. Jeśli chcemy przywrócić domyślne zachowanie \texttt{WebView} podpinamy naszą implementację nową instację domyślnej klasy \texttt{IceCreamCordovaWebViewClient}. \texttt{IceCreamCordovaWebViewClient} jest to implementacja \texttt{CordovaWebView} przeznaczona dla urządzeń działających z~systemem operacyjnym Android w~wersji 4.0 lub nowszej.
 
-W~przypadku, gdy zainstalowana jest wtyczka cordova-plugin-network-information \footnote{ \url{https://github.com/apache/cordova-plugin-network-information} }, która jest często wykorzystywana do monitorowania stanu sieci, działanie Ash jest zmodyfikowane aby współgrać z~tą wtyczką. W przypadku poprawnego wywołania kodu Ash dochodzi do sprawdzenia czy network-information jest zainstalowane i~w~tym przypadku wywoływane są zdarzenia
+W~przypadku, gdy zainstalowana jest wtyczka cordova-plugin-network-information \footnote{ \url{https://github.com/apache/cordova-plugin-network-information} }, która jest często wykorzystywana do monitorowania stanu sieci, działanie Ash jest zmodyfikowane aby współgrać z~tą wtyczką. W przypadku poprawnego wywołania kodu Ash-a dochodzi do sprawdzenia czy network-information jest zainstalowane i~w~tym przypadku wywoływane są zdarzenia
 
 \begin{itemize}
   \item \texttt{offline} -- Dla kontekstu \texttt{networkOn()} 
@@ -1474,7 +1474,7 @@ Taka minimalna implementacja pozwala ząjednej strony  nakorzystanie z~tej funkc
 
 \section{Symulacja ruchu}
 
-W~obecnej implementacji Ash pozwala jedynie na symulację ruchu. Urządzenie nie jest manipulowane w~ten sposób, aby zaszyte w~nim informacje na temat położenia uległy zmianie. Powodem takiego podejścia jest to, że celem podmiany danych lokalizacji należy uzyskać prawa administratora (\textit{roota}) na danym urządzeniu. Jako, że wiąże się to z~potencjalnym naruszeniem bezpieczeństwa i~stabilności platformy na większości urządzeń jest to domyślnie wyłączone. Jednym z~podstawowych założeń jest to, żeby możliwe było uruchomienie testów na dowolnym urządzeniu bez konieczności jego wcześniejszego przygotowania, dlatego trzeba było ograniczyć sposób działania Ash jeśli chodzi o~obsługę zmiany położenia urządzenia. 
+W~obecnej implementacji Ash pozwala jedynie na symulację ruchu. Urządzenie nie jest manipulowane w~ten sposób, aby zaszyte w~nim informacje na temat położenia uległy zmianie. Powodem takiego podejścia jest to, że celem podmiany danych lokalizacji należy uzyskać prawa administratora (\textit{roota}) na danym urządzeniu. Jako, że wiąże się to z~potencjalnym naruszeniem bezpieczeństwa i~stabilności platformy na większości urządzeń jest to domyślnie wyłączone. Jednym z~podstawowych założeń jest to, żeby możliwe było uruchomienie testów na dowolnym urządzeniu bez konieczności jego wcześniejszego przygotowania, dlatego trzeba było ograniczyć sposób działania Ash-a jeśli chodzi o~obsługę zmiany położenia urządzenia. 
 
 Ash symuluje ruch poprzez tworzenie obiektu Javascript, który zawiera nową pozorowaną lokalizację i~przekazanie go wywołania zwrotnego. Funkcja zwrotna jest wywoływana przynajmniej raz, za każdym razem z~różnymi obiektami lokalizacji. Ta pozorowana lokalizacja zawiera następujące klucze
 
@@ -1560,7 +1560,7 @@ gdzie
 
 \section{Tworzenie laboratorium urządzeń}
 
-Jeśli myślimy o~zastosowaniu Ash do większych projektów, to możliwe jest stworzenie swoistego \textit{laboratorium urządzeń} dla aplikacji testowanych przy użyciu tej biblioteki. Mówiąc laboratorium mamy na myśli miejsce do którego możemy oddelegować wykonanie testów naszej aplikacji, gdy ze względów praktycznych nie chcemy robić tego lokalnie, tylko masowo w~zdalnej lokacji. Lub gdy chcemy testować na urządzeniach do których nie mamy dostępu. Spodziewamy się, że laboratorium będzie także raportować o~wynikach testów. Takie laboratorium może działać na zasadzie lub w~ramach serwera Continuous Integration\footnote{ Więcej informacji na temat Continuous Integration można znaleźć \url{http://www.thoughtworks.com/continuous-integration} lub \url{http://martinfowler.com/articles/continuousIntegration.html} } oraz z~powodzeniem stać się częścią procesu wdrażania aplikacji (tzw. \textit{deployment pipeline}).
+Jeśli myślimy o~zastosowaniu Ash-a do większych projektów, to możliwe jest stworzenie swoistego \textit{laboratorium urządzeń} dla aplikacji testowanych przy użyciu tej biblioteki. Mówiąc laboratorium mamy na myśli miejsce do którego możemy oddelegować wykonanie testów naszej aplikacji, gdy ze względów praktycznych nie chcemy robić tego lokalnie, tylko masowo w~zdalnej lokacji. Lub gdy chcemy testować na urządzeniach do których nie mamy dostępu. Spodziewamy się, że laboratorium będzie także raportować o~wynikach testów. Takie laboratorium może działać na zasadzie lub w~ramach serwera Continuous Integration\footnote{ Więcej informacji na temat Continuous Integration można znaleźć \url{http://www.thoughtworks.com/continuous-integration} lub \url{http://martinfowler.com/articles/continuousIntegration.html} } oraz z~powodzeniem stać się częścią procesu wdrażania aplikacji (tzw. \textit{deployment pipeline}).
 
 Aby móc skorzystania z~tej możliwości należy najpierw przygotować samą aplikację jak i~serwer, który będzie działać jako laboratorium urządzeń. 
 
@@ -1585,7 +1585,7 @@ Sama procedura jest bardzo prosta, ale użytkownicy powinni pamiętać, że Cont
 
 Na obecnym etapie Ash jest już gotowym produktem, który udostępnia całą niezbędną użytkownikowi funkcjonalność. Co nie oznacza, że nie jest możliwe jego dalsze rozszerzenie. Biblioteka będzie rozwijana poprzez wzbogacanie istniejących już funkcjonalności oraz zwiększanie zasięgu poprzez dodawanie obsługi nowych platform. 
 
-Testy pisane w~Ash zostaną wzbogacone poprzez
+Testy pisane w~Ash-u zostaną wzbogacone poprzez
 
 \begin{itemize}
   \item Dodanie nowych, bardziej precyzyjnych asercji wzorowanych na tych z~biblioteki Hamcrest\footnote{Dostępna na stronie \url{https://code.google.com/p/hamcrest/ } }. Pozwolą one na lepsze wyrażanie zamiarów, bez konieczności pisania dodtkowego kodu
@@ -1595,7 +1595,7 @@ Testy pisane w~Ash zostaną wzbogacone poprzez
   \item Lepsze wsparcie dla cordova-cli oraz narzędzi do Continuous Integration
 \end{itemize}
 
-Jednocześnie, aby w~pełni wykorzystać potencjał Apache Cordova jako platformy do tworzenia hybrydowych aplikacji moblinych istotnym jest wyjście poza monokulturę platformy Android oraz przygotować implementacje na inne systemy. W~pierwszej kolejności będzie to Apple iOS, a~następnie Microsoft Windows Phone. Decydującym czynnikiem w~określeniu następnych platform docelowych dla Ash jest wielkość rynku. Udostępnienie implementacji dla tych trzech platform pozwoli "pokryć" większość rynku urządzeń mobilnych oraz dotrzeć do większego grona odbiorców. 
+Jednocześnie, aby w~pełni wykorzystać potencjał Apache Cordova jako platformy do tworzenia hybrydowych aplikacji moblinych istotnym jest wyjście poza monokulturę platformy Android oraz przygotować implementacje na inne systemy. W~pierwszej kolejności będzie to Apple iOS, a~następnie Microsoft Windows Phone. Decydującym czynnikiem w~określeniu następnych platform docelowych dla Ash-a jest wielkość rynku. Udostępnienie implementacji dla tych trzech platform pozwoli "pokryć" większość rynku urządzeń mobilnych oraz dotrzeć do większego grona odbiorców. 
 
 \summary
 
