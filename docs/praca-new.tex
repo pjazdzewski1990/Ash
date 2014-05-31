@@ -263,10 +263,10 @@ Aplikacja AshHello oferuje bardzo prostą funkcjonalność. Jej zasadniczym cele
 \end{figure}
 \end{itemize}
 
-Poniższa intrukcja krok~po~kroku wyjaśni, jak dodać testy Ash--a do projektu AshHello. Dla większej przejrzystości demonstracji testy będą korzystać z~popularnej biblioteki \textit{jQuery}\footnote{Dostępna pod http://jquery.com/}, chociaż jej dołączenie nie jest wymagane, gdy pracujemy z~Ash.  
+Poniższa intrukcja krok~po~kroku wyjaśni, jak dodać testy Ash--a do projektu AshHello. Dla większej przejrzystości demonstracji testy będą korzystać z~popularnej biblioteki \textit{jQuery}\footnote{Dostępna pod \url{http://jquery.com/}}, chociaż jej dołączenie nie jest wymagane, gdy pracujemy z~Ash.  
 
 \begin{enumerate}
-  \item Dodajemy Ash do projektu korzystając z~\textit{Cordova CLI}.\footnote{Projekt dostępny pod adresem https://github.com/apache/cordova-cli}
+  \item Dodajemy Ash do projektu korzystając z~\textit{Cordova CLI}.\footnote{Projekt dostępny pod adresem \url{https://github.com/apache/cordova-cli}}
 
 Wtyczkę instalujemy poleceniem 
 \begin{quote}
@@ -508,7 +508,7 @@ Funkcje \texttt{assert()} oraz \texttt{equal()} są podstawowymi składowymi tes
 \end{itemize}
 Powyższe asercje w~przypadku, gdy argumenty nie spełniają założeń rzucają ustandardyzowane wyjątki Ash. 
 
-Funkcja widzialności \texttt{invisible(A)} określa czy przekazany element DOM nie jest widoczny na ekranie. Analogicznie obiekt spełnia visible(A), gdy nie spełnia invisible(A). Stwierdzenie, że element {\it nie jest widoczy na ekranie} oznacza, że któryś z~poniższych warunków jest spełniony
+Funkcja widzialności \texttt{invisible(A)} określa czy przekazany element DOM nie jest widoczny na ekranie. Analogicznie obiekt spełnia \texttt{visible(A)}, gdy nie spełnia \texttt{invisible(A)}. Stwierdzenie, że element {\it nie jest widoczy na ekranie} oznacza, że któryś z~poniższych warunków jest spełniony
 
 \begin{itemize}
   \item Wartość \texttt{display} określona na elemencie jest równa \texttt{none}
@@ -522,7 +522,7 @@ Do asercji związanych z~widocznością można przekazywać pojedynczy obiekt DO
 
 Różnica pomiędzy funkcjami X oraz isX jest taka, że pierwsze rzucają wyjątki Ash, gdy założenie nie jest spełnione, natomiast drugie tylko zwracają wartość boolowską określającą czy argument spełnia założenia.  
 
-Ash udostępnia także metodę equals, która działa identycznie jak equal, ale została dodana dla uproszczenia składni testów.
+Ash udostępnia także metodę equals, która działa identycznie jak \texttt{equal}, ale została dodana dla uproszczenia składni testów.
 
 \section{Zmiana położenia ekranu}
 
@@ -530,11 +530,11 @@ Ash udostępnia także metodę equals, która działa identycznie jak equal, ale
 Pozwala ustawić ekran w~określonym położeniu
 
 \begin{quote}
-Ash.orientationHorizontal().then( ... ) 
+  \texttt{  Ash.orientationHorizontal().then( ... )  }
 \end{quote}
 
 \begin{quote}
-Ash.orientationVertical().then( ... ) 
+  \texttt{  Ash.orientationVertical().then( ... )  } 
 \end{quote}
 
 \subsubsection{Opis}
@@ -575,15 +575,15 @@ Praktycznym podejściem może być sprawdzanie jak na zmianę ekranu reagują po
 Daje możliwość manipulowania dostępem do sieci -- pozwala blokować dostęp do sieci.
 
 \begin{quote}
-Ash.noNetwork().then( ... ) 
+  \texttt{  Ash.noNetwork().then( ... )  } 
 \end{quote}
 
 \begin{quote}
-Ash.slowNetwork().then( ... ) 
+  \texttt{  Ash.slowNetwork().then( ... )  }
 \end{quote}
 
 \begin{quote}
-Ash.networkOn().then( ... ) 
+  \texttt{  Ash.networkOn().then( ... )  } 
 \end{quote}
 
 \subsubsection{Opis}
@@ -619,23 +619,23 @@ W~przypadku, gdy do testowanej aplikacji dodane jest wtyczka cordova-plugin-netw
 Pozwala realizować scenariusze testowe zakładające operowanie na plikach.
 
 \begin{quote}
-var options = \{ type: 'audio/amr', limit: 3\};
+  \texttt{  var options = \{ type: 'audio/amr', limit: 3\};  }
 
-Ash.withFile(options).then( ... )
+  \texttt{  Ash.withFile(options).then( ... )  }
 \end{quote}
 
 \subsubsection{Opis}
 
 Bardzo częstym scenariuszem w~przypadku wielu aplikacji jest konieczność operowania na lokalnym systemie plików. Może to być np. upload pliku z~karty SD, wykonanie zdjęcia i~przesłanie na serwer lub inne. Ash daje możliwość przetestowania jak aplikacja zachowuje się przy operowaniu na plikach.  
 
-Do kontekstu withFile przekazujemy obiekt zawierający informacje na jakich plikach chcemy przeprowadzić testy. Obiekt może posiadać następujące klucze:
+Do kontekstu \texttt{withFile} przekazujemy obiekt zawierający informacje na jakich plikach chcemy przeprowadzić testy. Obiekt może posiadać następujące klucze:
 
 \begin{itemize}
-  \item type -- Jest to ciąg znaków, który określa jakiego typu mają być zwrócone pliki. Domyślnie jest to 'audio/amr' czyli plik dźwiękowy. 
-  \item limit -- Limit jest to wielkość plików w~zwracanej tablicy wyrażony liczbą całkowitą. W przypadku, gdy limit nie został podany tablica zawiera 1~element. 
+  \item \texttt{type} -- Jest to ciąg znaków, który określa jakiego typu mają być zwrócone pliki. Domyślnie jest to 'audio/amr' czyli plik dźwiękowy. 
+  \item \texttt{limit} -- Limit jest to wielkość plików w~zwracanej tablicy wyrażony liczbą całkowitą. W przypadku, gdy limit nie został podany tablica zawiera 1~element. 
 \end{itemize}
 
-WithFile zwraca obiekt Promise. W przypadku realizacji obietnicy do bloku przekazywana jest tablica plików, która może być wykorzystana w~testach. Każdy~plik w~jest identyczny i~spełnia założenia podane w~argumencie \texttt{options}. Przykładowy plik z~tablicy może wyglądać w~ten sposób:
+\texttt{WithFile} zwraca obiekt \texttt{Promise}. W przypadku realizacji obietnicy do bloku przekazywana jest tablica plików, która może być wykorzystana w~testach. Każdy~plik w~jest identyczny i~spełnia założenia podane w~argumencie \texttt{options}. Przykładowy plik z~tablicy może wyglądać w~ten sposób:
 
 \begin{lstlisting}
    {
@@ -647,9 +647,8 @@ WithFile zwraca obiekt Promise. W przypadku realizacji obietnicy do bloku przeka
    };
 \end{lstlisting}
 
-Co odpowiada definicji pliku w~ujęciu Apache Cordova. Patrz:
-
-\url{https://cordova.apache.org/docs/en/3.0.0/cordova_file_file.md.html#File}
+Co odpowiada definicji pliku w~ujęciu Apache Cordova. 
+\footnote{Patrz \url{https://cordova.apache.org/docs/en/3.0.0/cordova_file_file.md.html\#File} }
 
 \section{Symulacja ruchu}
 
@@ -657,14 +656,18 @@ Co odpowiada definicji pliku w~ujęciu Apache Cordova. Patrz:
 Ash dostarcza API umożliwiające symulowanie położenia lub ruchu między dwoma punktami.
 
 \begin{quote}
-var startPos = \{latitude: 0, longitude: 0\};
+  \texttt{var startPos = \{latitude: 0, longitude: 0\};}
 
-var moveOptions = \{latitude: 100, longitude: 50, steps: 10\};
+  \texttt{var moveOptions = \{latitude: 100, longitude: 50, steps: 10\};}
 
-Ash.onMove(startPos, moveOptions, function(currentPosition)\{ ... \});
+  \texttt{ Ash.onMove(startPos, moveOptions, function(currentPosition)\{  }
+
+    \texttt{...} 
+
+  \texttt{   \});  }
 \end{quote}
 
-Gdzie startPos to pozycja startowa z~której zaczynamy symulować ruch, moveOptions zawiera informacje o~docelowym położeniu oraz w~ilu "krokach" (klucz steps) chcemy dotrzeć do tego miejsca. Do onMove przekazujemy także wywołanie zwrotne, które jest uruchamiane z~położeniem w~danym momencie. Tyle razy ile podaliśmy w~\texttt{moveOptions.steps}. 
+Gdzie \texttt{startPos} to pozycja startowa z~której zaczynamy symulować ruch, \texttt{moveOptions} zawiera informacje o~docelowym położeniu oraz w~ilu "krokach" (klucz \texttt{steps}) chcemy dotrzeć do tego miejsca. Do \texttt{onMove} przekazujemy także wywołanie zwrotne, które jest uruchamiane z~położeniem w~danym momencie. Tyle razy ile podaliśmy w~\texttt{moveOptions.steps}. 
 
 \subsubsection{Sposób użycia}
 
@@ -711,7 +714,7 @@ Ash pozwala symulować zmianę położenia poprzez kontekst \texttt{onMove()}. T
 Ta funkcjonalność emuluje naciśnięcie przycisku powrotu na telefonie. 
 
 \begin{quote}
-Ash.pressBack().then( ... ) 
+  \texttt{Ash.pressBack().then( ... )} 
 \end{quote}
 
 \subsubsection{Opis}
@@ -745,7 +748,7 @@ Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie
 
 Ash pozwala na cofanie się aż do szczytu stosu historii aplikacji. W~szczególności od razu po uruchomieniu aplikacji nie jest możliwe wykonie funkcji \texttt{pressBack()}. W~takiej sytuacji \texttt{pressBack()} nie powiedzie się, ale nie dojdzie też do wyjścia z~aplikacji.
 
-Testowanie obsługi przycisku powrotu na olbrzymie znaczenie w~przypadku aplikacji mobilnych oraz tzw. \textit{Single Page Applications}. Tworząc aplikacje bardzo wiele uwagi jest poświęcane sytuacjom kiedy użytkownik porusza się niejako "w głąb" aplikacji, tj. otwiera kolejne ekrany na zaplanowanej ścieżce zmieniając tym samym jej stan.  Właśnie globalny stan bywa w~takich sytuacjach problemem. Bardzo często prowdzi on do sytuacji, że użytkownik przechodzi przez ekrany A~i~B, w~czasie swojego pobytu na B zmienia stan, ale zamiast przechodzić dalej cofa się do A, które od czasu zmiany stanu zachowuje się inaczej niż zakładano. Tworząc aplikację należy zabezpieczyć się przed takimi sytuacjami. \texttt{Ash.pressBack()} pozwala na przetestowanie czy takie sytuacje mają miejsce. 
+Testowanie obsługi przycisku powrotu na olbrzymie znaczenie w~przypadku aplikacji mobilnych oraz tzw. \textit{Single Page Applications}. Tworząc aplikacje bardzo wiele uwagi jest poświęcane sytuacjom kiedy użytkownik porusza się niejako "wgłąb" aplikacji, tj. otwiera kolejne ekrany na zaplanowanej ścieżce zmieniając tym samym jej stan.  Właśnie globalny stan bywa w~takich sytuacjach problemem. Bardzo często prowdzi on do sytuacji, że użytkownik przechodzi przez ekrany A~i~B, w~czasie swojego pobytu na B zmienia stan, ale zamiast przechodzić dalej cofa się do A, które od czasu zmiany stanu zachowuje się inaczej niż zakładano. Tworząc aplikację należy zabezpieczyć się przed takimi sytuacjami. \texttt{Ash.pressBack()} pozwala na przetestowanie czy takie sytuacje mają miejsce. 
 
 \section{Zdrzenia w~czasie wywoływania testów}
 
@@ -799,7 +802,7 @@ Zewnętrzne API Ash napisane jest w~jezyku Javascript i~także w~tym języku pis
 
 \section{Przykład zastosowania Ash - Wikipedia Mobile}
 
-Przydatność Ash najlepiej udowodnić pokazując jak można go wykorzystać do przetestowania prawdziwej aplikacji. W~tym celu zdecydowałem się pokryć testami Ash część aplikacji Wikipedia Mobile\footnote{Projekt jest dostępny pod adresem https://github.com/wikimedia/WikipediaMobile}. Wybrałem akurat ten projekt gdyż
+Przydatność Ash najlepiej udowodnić pokazując jak można go wykorzystać do przetestowania prawdziwej aplikacji. W~tym celu zdecydowałem się pokryć testami Ash część aplikacji Wikipedia Mobile\footnote{Projekt jest dostępny pod adresem \url{https://github.com/wikimedia/WikipediaMobile} }. Wybrałem akurat ten projekt gdyż
 
 \begin{itemize}
   \item wykorzystuje Apache Cordova
@@ -807,7 +810,7 @@ Przydatność Ash najlepiej udowodnić pokazując jak można go wykorzystać do 
   \item licencja jest bardzo liberalna
   \item projekt jest prowadzony pod egidą szanowanej organizacji
   \item aplikacja jest rozbudowana
-  \item jest publicznie dostępna np. pod adresem https://play.google.com/store/apps/details?id=org.wikipedia
+  \item jest publicznie dostępna np. pod adresem \url{https://play.google.com/store/apps/details?id=org.wikipedia}
 \end{itemize}
 
 Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z~której korzysta Wikipedia, a~3.X z~myślą o~której pisany był Ash zaszły poważne zmiany. Także w~sposobie budowania aplikacji oraz działania wtyczek, dlatego konieczne będą pewne zmiany w~kodzie samej biblioteki. Na szczęście elstyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją.
@@ -1023,11 +1026,11 @@ Każda wtyczka składa się z~dwóch części - API programisty napisanego w~ję
 Ash, został zaimplementowany jako wtyczka dla Apache Cordova. Obecnie warstwa natywna jest przygotowana tylko dla platformy Android, ale dalszym etapie rozwóju biblioteki planowane jest dodanie wsparcia dla innych platform. Kod działający po stronie systemu Android został napisany w~języku Java.
 
 Więcej informacji można znaleźć w~oficjalnej instrukcji dla twórców wtyczek
-
-\url{http://cordova.apache.org/docs/en/edge/guide\_hybrid\_plugins\_index.md.html\#Plugin\%20Development\%20Guide}  
-
-\url{http://cordova.apache.org/docs/en/edge/guide\_platforms\_android\_plugin.md.html\#Android\%20Plugins}   
-
+\footnote{
+  \url{http://cordova.apache.org/docs/en/edge/guide\_hybrid\_plugins\_index.md.html\#Plugin\%20Development\%20Guide}  
+  oraz 
+  \url{http://cordova.apache.org/docs/en/edge/guide\_platforms\_android\_plugin.md.html\#Android\%20Plugins}   
+}
 Nastepne podrozdziały koncentrują się na implementacji na platformę Android, ale w~przypadku innych systemów zasada działania jest zbliżona.
 
 \section{Klasa CordovaPlugin}
@@ -1265,7 +1268,7 @@ Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia \texttt{r
 
 Każdy z~dostarczonych testów kończy się wywołaniem jednego z~dostarczonych funckcji -- obowiązkowego \texttt{failureCallback} wywoływanego jeśli z~jakiegoś powodu test się nie powiedzie oraz opcjonalnego \texttt{successCallback} wołanego tylko w~momencie poprawnego wykonania się testu.
 
-Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o~wykonaniu testu. Do errorCallback:
+Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o~wykonaniu testu. Do \texttt{errorCallback}:
 
 \begin{lstlisting}
 	{
@@ -1277,7 +1280,7 @@ Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o~wykona
 	}
 \end{lstlisting}
 
-Do successCallback: 
+Do \texttt{successCallback}: 
 
 \begin{lstlisting}
 	{
@@ -1446,7 +1449,7 @@ aby spowolnić dostęp do sieci oraz
 
 celem anulowania pobierania zasobów. Jeśli chcemy przywrócić domyślne zachowanie \texttt{WebView} podpinamy naszą implementację nową instację domyślnej klasy \texttt{IceCreamCordovaWebViewClient}. \texttt{IceCreamCordovaWebViewClient} jest to implementacja \texttt{CordovaWebView} przeznaczona dla urządzeń działających z~systemem operacyjnym Android w~wersji 4.0 lub nowszej.
 
-W~przypadku, gdy zainstalowana jest wtyczka cordova-plugin-network-information \footnote{https://github.com/apache/cordova-plugin-network-information}, która jest często wykorzystywana do monitorowania stanu sieci, działanie Ash jest zmodyfikowane aby współgrać z~tą wtyczką. W przypadku poprawnego wywołania kodu Ash dochodzi do sprawdzenia czy network-information jest zainstalowane i~w~tym przypadku wywoływane są zdarzenia
+W~przypadku, gdy zainstalowana jest wtyczka cordova-plugin-network-information \footnote{ \url{https://github.com/apache/cordova-plugin-network-information} }, która jest często wykorzystywana do monitorowania stanu sieci, działanie Ash jest zmodyfikowane aby współgrać z~tą wtyczką. W przypadku poprawnego wywołania kodu Ash dochodzi do sprawdzenia czy network-information jest zainstalowane i~w~tym przypadku wywoływane są zdarzenia
 
 \begin{itemize}
   \item \texttt{offline} -- Dla kontekstu \texttt{networkOn()} 
@@ -1526,7 +1529,7 @@ Celem zwiększenia produktywności programistów oraz ułatwienia pracy z~Apache
 
 Aby ułatwić pracę z~Ash stworzony został skrypt \textit{Furnace}\footnote{Z~angielskiego piec, palenisko.}. Dostępny pod adresem \url{https://github.com/pjazdzewski1990/furnance}
 
-Furnace jest to mały program napisany w~Javascript i~Node.js\footnote{Dostępny pod adresem http://nodejs.org/}, korzystający z~Apache Ant\footnote{Strona projektu to  http://ant.apache.org/} oraz adb będącego częścią pakietu Android SDK\footnote{Do pobrania z~http://developer.android.com/sdk/index.html}. Pozwala on na zbudowanie aplikacji pod Androida z~projektu Cordova oraz uruchomienie jej na każdym kompatybilnym urządzeniu podłączonym do maszyny na której jest uruchamiany. Jeśli projekt został odpowiednio skonfigurowany możliwe jest przetestowanie kodu na wielu urządzeniach wydając tylko jedno polecenie. Odpowiednia konfiguracja oznacza, że testy startują automatycznie (nie wymagają ingerencji użytkownika) oraz ich wyniki są raportowane do uruchamiającego. 
+Furnace jest to mały program napisany w~Javascript i~Node.js\footnote{Dostępny pod adresem \url{http://nodejs.org/} }, korzystający z~Apache Ant\footnote{Strona projektu to  \url{http://ant.apache.org/} } oraz adb będącego częścią pakietu Android SDK\footnote{Do pobrania z~\url{http://developer.android.com/sdk/index.html} }. Pozwala on na zbudowanie aplikacji pod Androida z~projektu Cordova oraz uruchomienie jej na każdym kompatybilnym urządzeniu podłączonym do maszyny na której jest uruchamiany. Jeśli projekt został odpowiednio skonfigurowany możliwe jest przetestowanie kodu na wielu urządzeniach wydając tylko jedno polecenie. Odpowiednia konfiguracja oznacza, że testy startują automatycznie (nie wymagają ingerencji użytkownika) oraz ich wyniki są raportowane do uruchamiającego. 
 
 Furnace obsługujemy w~następujący sposób
 
@@ -1563,7 +1566,7 @@ Aby móc skorzystania z~tej możliwości należy najpierw przygotować samą apl
 
 Aplikacja, której testy chcemy oddelegować do zdalnego laboratorium powinna być gotowa do raportowania wyników testów. W~tym celu możemy skorzystać w~wywołań zwrotnych metod \texttt{run()} i~\texttt{play()} oraz z~\texttt{Ash.callbacks}. Pozwalają one nam na podejmowanie działań w~kluczowych momentach wykonania testów (pomyślne zakończenie, niepowodzenie, przejście z~jednego testu do drugiego ....) bez ingerencji w~samą strukturę zestawu testów. Daje to szerokie możliwości, np. możliwe jest wysłanie wyników na zdalny serwer. Obecnie w~Ash nie ma jeszcze możliwości na dynamiczne wstrzyknięcie testów w~czasie ładowania, dlatego użytkownik musi dopilnować, żeby testy były wywoływane automatycznie tuż po starcie aplikacji. Laboratorium po otrzymaniu żądania testowania zbuduje i~zainstaluje aplikację, po czym ją uruchomi na dostępnych urządzeniach, ale to kod użytkownika musi uruchomić testy po załadowaniu aplikacji.
 
-Laboratorium nie może obyć się bez maszyny która będzie odbierać żądania do przetestowania aplikacji, tworzyć aplikację oraz komunikować się z~urządzeniami. Aby móc skutecznie zintegrować testy z~procesem wytwarzania oprogramowania należy skorzystać z~dowolnego serwera CI\footnote{ Na przykład z~darmowego i~bardzo popularnego Jenkinsa http://jenkins-ci.org/}. Serwer CI pownien mieć możliwość wykrycia zmian w~repozytorium kodu oraz być w~stanie uruchamiać polecenia z~konsoli. Dodatkowo sam serwer powinien mieć dostęp do urządzeń na których chcemy wystartować testy. Mogą one być podpięte kablem do urządzenia (realne) lub uruchomione w~systemie (emulowane). 
+Laboratorium nie może obyć się bez maszyny która będzie odbierać żądania do przetestowania aplikacji, tworzyć aplikację oraz komunikować się z~urządzeniami. Aby móc skutecznie zintegrować testy z~procesem wytwarzania oprogramowania należy skorzystać z~dowolnego serwera CI\footnote{ Na przykład z~darmowego i~bardzo popularnego Jenkinsa \url{ http://jenkins-ci.org/} }. Serwer CI pownien mieć możliwość wykrycia zmian w~repozytorium kodu oraz być w~stanie uruchamiać polecenia z~konsoli. Dodatkowo sam serwer powinien mieć dostęp do urządzeń na których chcemy wystartować testy. Mogą one być podpięte kablem do urządzenia (realne) lub uruchomione w~systemie (emulowane). 
 
 Automatyczne wykonywanie testów w~laboratorium może wyglądać na przykład w~ten sposób:
 
@@ -1585,7 +1588,7 @@ Na obecnym etapie Ash jest już gotowym produktem, który udostępnia całą nie
 Testy pisane w~Ash zostaną wzbogacone poprzez
 
 \begin{itemize}
-  \item Dodanie nowych, bardziej precyzyjnych asercji wzorowanych na tych z~biblioteki Hamcrest\footnote{Dostępna na stronie https://code.google.com/p/hamcrest/}. Pozwolą one na lepsze wyrażanie zamiarów, bez konieczności pisania dodtkowego kodu
+  \item Dodanie nowych, bardziej precyzyjnych asercji wzorowanych na tych z~biblioteki Hamcrest\footnote{Dostępna na stronie \url{https://code.google.com/p/hamcrest/ } }. Pozwolą one na lepsze wyrażanie zamiarów, bez konieczności pisania dodtkowego kodu
   \item Dodanie nowej składni, dzięki której łatwiejsze będzie wyrażanie testów jako bloków \textit{Given--When--Then}
   \item Rozwój już istniejących kontekstów i~asercji, tak żeby bliżej odpowiadały one realistycznym scenariuszom 
   \item Dynamiczne wstrzykiwanie testów w~momencie budowania aplikacji
