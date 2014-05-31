@@ -218,12 +218,12 @@ Biblioteka Ash została stworzona z~myślą o testowaniu funkcyjnym.
 
 Aby dołączyć Ash do swojego projektu należy wydać następujące polecenie\footnote{Jeśli nie masz jeszcze zainstalowanego Cordova CLI spójrz tutaj https://github.com/apache/cordova-cli} w~folderze z~projektem:
 \begin{quote}
-   cordova plugins add https://github.com/pjazdzewski1990/Ash
+   \texttt{cordova plugins add https://github.com/pjazdzewski1990/Ash}
 \end{quote}
 
 Wtyczka zostanie zainstalowana, a~do~globalnej przestrzeni nazw dodany zostanie obiekt Ash, który udostępnia wszystkie metody biblioteki.
 
-Punktem startowym Ash jest metoda loadTests. Przyjmuje ona tablicę ścieżek do plików zawierająych kod z~testami. Po wywołaniu dynamicznie dodaje wskazane pliki do dokumentu w ramach którego została wywołana. Pliki z testami należy napisać samodzielnie pamiętając, żeby były one zamknięte w~ramach \textit{self-invocing-function}. Takie podejście służy temu, aby umożliwić użytkownikowi łatwe dodanie i~usunięcie testów z aplikacji oraz aby testy niepotrzebnie nie zaśmiecały produkcyjnej wersji aplikacji.
+Punktem startowym Ash jest metoda \texttt{loadTests}. Przyjmuje ona tablicę ścieżek do plików zawierająych kod z~testami. Po wywołaniu dynamicznie dodaje wskazane pliki do dokumentu w ramach którego została wywołana. Pliki z testami należy napisać samodzielnie pamiętając, żeby były one zamknięte w~ramach \textit{self-invoking-function}. Takie podejście służy temu, aby umożliwić użytkownikowi łatwe dodanie i~usunięcie testów z aplikacji oraz aby testy niepotrzebnie nie zaśmiecały produkcyjnej wersji aplikacji.
 
 Projekt demonstrujący użycie Ash oraz jego możliwości jest dostępny pod adresem
 
@@ -241,10 +241,10 @@ Aby pobrać projekt wydaj polecenie
    git clone git@github.com:pjazdzewski1990/AshHello.git
 \end{quote}
 
-Aplikacja AshHello zawiera w~sobie bardzo prostą funkcjonalność. Jej zasadniczym celem jest pozwolenie użytkownikowi na zaznajomienie się z~testowaniem przy użyciu biblioteki Ash. Interfejs użytkownika w AshHello jest zorganizowany na zasadzie tzw. {\it Working Square}. Working Square jest to wzorzec tworzenia interfejsu, bardzo popularny na urządzeniach mobilnych. Polega on~na stworzeniu kwadratowego obszaru roboczego który zawiera główną treść aplikacji oraz obszaru pomocniczego na którym znajdować się mogą np. elementy związane z~nawigacją. W~zależności od orientacji ekranu, która dyktuje nam rozmiar i~kształt powierzchni do zagospodarowania, obszar pomocniczy może znajdować się 
+Aplikacja AshHello oferuje bardzo prostą funkcjonalność. Jej zasadniczym celem jest zaznajomienie użytkownika z~testowaniem przy użyciu biblioteki Ash. Interfejs użytkownika w AshHello jest zorganizowany na zasadzie tzw. {\it Working Square}. Working Square jest to wzorzec tworzenia interfejsu, bardzo popularny na urządzeniach mobilnych. Polega on~na stworzeniu kwadratowego obszaru roboczego który zawiera główną treść aplikacji oraz obszaru pomocniczego na którym znajdować się mogą np. elementy związane z~nawigacją. W~zależności od orientacji ekranu, która dyktuje nam rozmiar i~kształt powierzchni do zagospodarowania, obszar pomocniczy może znajdować się 
 
 \begin{itemize}
-  \item poniżej obszaru głównego - gdy urządzenia jest w~orientacji pionowej, tzn. wysokość ekranu jest większa niż jego szerokość
+  \item poniżej obszaru głównego - gdy urządzenia jest w~orientacji pionowej, tzn. wysokość ekranu jest większa niż jego szerokość,
 
 \begin{figure}[h]
     \centering
@@ -253,7 +253,7 @@ Aplikacja AshHello zawiera w~sobie bardzo prostą funkcjonalność. Jej zasadnic
     \label{fig:AshHello1}
 \end{figure}
 
-  \item obok obszaru głównego - gdy urządzenie jest w~orientacji poziomej, czyli szerokość dostępnego ekranu jest większa niż jego wysokość 
+  \item obok obszaru głównego - gdy urządzenie jest w~orientacji poziomej, czyli szerokość dostępnego ekranu jest większa niż jego wysokość,
 
 \begin{figure}[h]
     \centering
@@ -263,28 +263,28 @@ Aplikacja AshHello zawiera w~sobie bardzo prostą funkcjonalność. Jej zasadnic
 \end{figure}
 \end{itemize}
 
-Poniższa intrukcja krok~po~kroku wyjaśni, jak dodać testy Ash do projektu AshHello. Dla większej przejrzystości demonstracji testy będą korzystać z popularnej biblioteki \textit{jQuery}\footnote{Dostępna pod http://jquery.com/}, chociaż jej dołączenie nie jest wymagane, gdy pracujemy z~Ash.  
+Poniższa intrukcja krok~po~kroku wyjaśni, jak dodać testy Ash-a do projektu AshHello. Dla większej przejrzystości demonstracji testy będą korzystać z popularnej biblioteki \textit{jQuery}\footnote{Dostępna pod http://jquery.com/}, chociaż jej dołączenie nie jest wymagane, gdy pracujemy z~Ash.  
 
 \begin{enumerate}
-  \item Dodajemy Ash do projektu korzystając z \textit{Cordova CLI}.\footnote{Projekt jest dostępny do pobrania pod adresem https://github.com/apache/cordova-cli}
+  \item Dodajemy Ash do projektu korzystając z \textit{Cordova CLI}.\footnote{Projekt dostępny pod adresem https://github.com/apache/cordova-cli}
 
 Wtyczkę instalujemy poleceniem 
 \begin{quote}
-   cordova plugins add https://github.com/pjazdzewski1990/Ash
+   \texttt{cordova plugins add https://github.com/pjazdzewski1990/Ash}
 \end{quote}
-i~jeśli wszystko przebiegło poprawnie, to zmienna window.Ash powinna zawierać obiekt udostępniający funkcjonalność biblioteki.  
+i~jeśli wszystko przebiegło poprawnie, to zmienna \texttt{window.Ash} powinna zawierać obiekt udostępniający funkcjonalność biblioteki.  
 
  \item Tworzymy plik z testami
 
 W folderze projektu tworzymy katalog 
 \begin{quote}
-www/test/
+  \texttt{www/test/}
 \end{quote} 
 a w nim plik 
 \begin{quote}
-myTest.js
+  \texttt{myTest.js}
 \end{quote} 
-W przed chwilą stworzonym pliku definiujemy samowywołującą się funkcję, która będzie zawierać nasze testy. Możemy  to zrobić na przykład w~ten sposób:
+W przed chwilą stworzonym pliku definiujemy samowywołującą się funkcję, która będzie zawierać nasze testy. Możemy  to zrobić na przykład w~następujący sposób:
 
  \begin{lstlisting}
   (function(){
@@ -293,18 +293,18 @@ W przed chwilą stworzonym pliku definiujemy samowywołującą się funkcję, kt
   })();
 \end{lstlisting}
 
-Tak zdefiniowana funkcja zostanie wywołana zaraz po jej wczytaniu. Nasze testy nie będą bardzo skomplikowane, więc pozwolimy sobie na umieszczenia całej logiki bezpośrednio w~tej funkcji. Jednak w~przypadku bardziej rozbudowanych testów warto pokusić się o~zgromadzenie kodu w~obiektach.
+Powyższa funkcja zostanie wywołana zaraz po jej wczytaniu. Nasze testy nie będą zbyt skomplikowane, więc pozwolimy sobie na umieszczenia całej logiki bezpośrednio w~tej funkcji. Jednak w~przypadku bardziej rozbudowanych testów warto pokusić się o~zgromadzenie kodu w~obiektach.
 
 Mamy zamiar sprawdzić, czy Working Square działa poprawnie w~obu ustawieniach ekranu, więc musimy skorzystać z~\textit{kontekstów}. Kontekstami będziemy nazywać funkcje, które gwarantują nam, że w~obrębie ich działania zachodzić będą określone warunki. Przykładem kontekstów są na przykład
 
 \begin{quote}
-   Ash.orientationHorizontal()
+   \texttt{Ash.orientationHorizontal()}
 \end{quote}
 
 oraz 
 
 \begin{quote}
-   Ash.orientationVertical()
+   \texttt{Ash.orientationVertical()}
 \end{quote}
 
 które pozwalają na odwrócenie ekranu. W~obrębie funkcji przekazanych jako argumenty do tych kontekstów, możemy być pewni, że ekran znajdzie się w~takim a~nie innym położeniu. Korzystamy z~nich w~następujący sposób
@@ -313,7 +313,8 @@ które pozwalają na odwrócenie ekranu. W~obrębie funkcji przekazanych jako ar
   //myTest.js
 
   Ash.orientationHorizontal().then(function(msg){
-     //%* ten kod będzie wywołany, gdy ekran znajdzie się w orientacji poziomej*)
+     //%* ten kod będzie wywołany, gdy ekran *) 
+     // %*znajdzie się w orientacji poziomej *)
       var worksquare = $('.worksquare');
       var sidebar = $('.sidebar');
 
@@ -330,12 +331,12 @@ które pozwalają na odwrócenie ekranu. W~obrębie funkcji przekazanych jako ar
 Powyższy test sprawdza trzy rzeczy. Po pierwsze znajduje elementy interfejsu, które chcemy zbadać. Przy użyciu 
 
 \begin{quote}
-Ash.assert( ... ) 
+  \texttt{Ash.assert( ... )} 
 \end{quote}
 
 upewnia się, że istnieją. A następnie porównuje ich pozycje upewniając się, że elementy są ułożone obok siebie i~we właściwej kolejności. Ostanią operacją jest \texttt{Ash.endTest()} co oznacza zakończenie testu sukcesem.
 
-Taki test obejmuje tylko część funkcjonalności. Musimy też zadbać o~orientację pionową oraz~o~to, czy przejście nie ,,psuje'' interfejsu. Aby to zbadać możemy dodać dalszą część testu. Na przykład w ten sposób
+Póki co nasz test obejmuje tylko część funkcjonalności. Musimy też zadbać o~orientację pionową oraz~o~to, czy przejście nie ,,psuje'' interfejsu. Aby to zbadać możemy dodać dalszą część testu. Na przykład w ten sposób
 
  \begin{lstlisting}
   //myTest.js
@@ -365,14 +366,14 @@ Taki test obejmuje tylko część funkcjonalności. Musimy też zadbać o~orient
 Powyższy kod nie jest bardziej skomplikowany od poprzedniego. Jedyną nowością jest zastosowanie wielu bloków 
 
 \begin{quote}
-then(function(){ ... })
+  \texttt{then(function(){ ... })}
 \end{quote}
 
 które są wykonywane jeden po drugim w~kolejności podania i~pozwalają nam łączyć mniejsze funkcje testujace w~bardziej złożone bloki.
 
  \item Dodajemy wywołanie kodu testującego do aplikacji
 
-Teraz kiedy mamy już kod testów czas dodać go do aplikacji. W~przypadku AshHello dobrym na to miejscem będzie index.js i~metoda \mbox{\texttt{onDeviceReady()}}. Metoda ta jest wywołana, gdy zajdzie już zdarzenie 'deviceready' więc jesteśmy w~stanie skorzystać ze~wszystkich dobrodziejstw Apache Cordova.
+Teraz kiedy mamy już kod testów czas dodać go do aplikacji. W~przypadku AshHello dobrym na to miejscem będzie \texttt{index.js} i~metoda \mbox{\texttt{onDeviceReady()}}. Metoda ta jest wywołana, gdy zajdzie już zdarzenie \texttt{deviceready} więc jesteśmy w~stanie skorzystać ze~wszystkich dobrodziejstw Apache Cordova.
 
  \begin{lstlisting}
   //index.js
@@ -395,7 +396,7 @@ Teraz kiedy mamy już kod testów czas dodać go do aplikacji. W~przypadku AshHe
 
 \end{lstlisting}
 
-Metoda runAshTests() robi dwie rzeczy. Dodaje wywołanie zwrotne dla zdarzenia onerror oraz ładuje testy. W~tym uproszczonym scenariuszu chcemy, żeby wszystkie znalezione błędy objawiały się wyskującym okienkiem z~opisem problemu. Następnie korzystając z~dotarczonej przez Ash metody loadTests() ładujemy myTests.js, jeśli przypomnimy sobie jak skonstruowany jest ten plik jasne stanie się, że od razu po wczytaniu zostanie on uruchomiony. 
+Metoda \texttt{runAshTests()} robi dwie rzeczy. Dodaje wywołanie zwrotne dla zdarzenia onerror oraz ładuje testy. W~tym uproszczonym scenariuszu chcemy, żeby wszystkie znalezione błędy objawiały się wyskującym okienkiem z~opisem problemu. Następnie korzystając z~dotarczonej przez Ash metody \texttt{loadTests()} ładujemy myTests.js, jeśli przypomnimy sobie jak skonstruowany jest ten plik jasne stanie się, że od razu po wczytaniu zostanie on uruchomiony. 
 
 \end{enumerate}
 
@@ -406,7 +407,7 @@ Tak niewiele potrzeba, żeby stworzyć i uruchomić pierwszy prosty test Ash. W~
 Ash oferuje dużą swobodę jeśli chodzi o~tworzenie zestawów testów przez użytkownika, jednocześnie sugeruje dobre praktyki, które pozwalają w~pełni wykorzystać możliwości biblioteki. W~tym podrozdziale opiszemy kilka z~tych zalecanych technik.    
 
 \begin{itemize}
-  \item Konteksty - Wyzwalają określone zachowanie urządzenia, co pozwala nam na sprawdzenia jak zachowuja się nasza aplikacja np. w~przypadku braku połączenia z~internetem lub naciśnięcia przez użytkownika przycisku powrotu. Do konteksu możemy przekazać dowolną funkcję, która zostanie wywołana dopiero gdy urządzenie znajdzie się w~określonym przez kontekst stanie. Konteksty stosujemy w~sposób pokazany poniżej:
+  \item Konteksty - Wyzwalają określone zachowanie urządzenia, co pozwala na sprawdzenie jak zachowuja się nasza aplikacja np. w~przypadku braku połączenia z~internetem lub naciśnięcia przez użytkownika przycisku powrotu. Do kontekstu możemy przekazać dowolną funkcję, która zostanie wywołana dopiero gdy urządzenie znajdzie się w~określonym przez niego stanie. Konteksty stosujemy w~sposób pokazany poniżej:
 
 \begin{lstlisting}
   Ash.makeDeviceDoABC().then(function(msg){
@@ -418,7 +419,7 @@ Ash oferuje dużą swobodę jeśli chodzi o~tworzenie zestawów testów przez u�
   });
 \end{lstlisting}
 
-Powyższy kod działa dokładnie tak jak się go czyta. Ash wymusza na urządzeniu przejście w~określony stan lub wykonanie pewnej czynności. Wtedy (,,then'') następuje wywołanie funkcji, która jest działa już po przejściu i~może ona sprawdzić zachowanie aplikacji. Bloki then można ze sobą łączyć. W takim wypadku kolejne bloki będą wykonywane jeden po drugim. Fraza then może być także użyta do komponowania kontekstów. Jeśli przywołamy pewien kontekst~X to do bloku then po nim następującego możemy przekazać funkcję wywołującą~Y. W takiej sytuacji kolejne bloki then będą wykonywane, w~sytuacji gdy X~i~Y będą zachodzić.  
+Powyższy kod działa dokładnie tak jak się go czyta. Ash wymusza na urządzeniu przejście w~określony stan lub wykonanie pewnej czynności. Wtedy (\texttt{then}) następuje wywołanie funkcji, która działa już po przejściu i~może sprawdzić zachowanie aplikacji. Bloki \texttt{then} można ze sobą łączyć, komponując w ten sposób konteksty. Jest to często nazywane \textit{metod call chaining} i w takim wypadku kolejne bloki są wykonywane jeden po drugim. Jeśli przywołamy pewniem kontekst, to do jego bloku \texttt{then} możemy przekazać funkcję testującą albo kolejny kontekst. Nic nie stoi też na przeszkodzie, żeby wywoływać konteksty i testy jeden po drugim. 
 
 Istotną rzeczą na którą należy zwrócić uwagę jest 
 
@@ -426,11 +427,11 @@ Istotną rzeczą na którą należy zwrócić uwagę jest
    Ash.endTest();
 \end{lstlisting}
 
-Funkcja testująca może działać w~sposób asynchroniczny lub być zagnieżdżona w~innej funkcji. W~takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. \texttt{Ash.endTest()} pełni tutaj rolę informacyjną - wskazuje gdzie znajduje się punkt końcowy oraz pozwala na zakończenie obecnie wykonywanego testu i~uruchomienie kolejnego z zestawu. Każdy test Ash powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie się zaplanowanemu scenariuszowi. W przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. O~\texttt{endTest()} można myśleć jak o~poleceniu do którego wykonania dążą testy i~po którego wykonaniu są one traktowane jako zakończone. 
+Funkcja testująca może działać w~sposób asynchroniczny lub być zagnieżdżona w~innej funkcji. W~takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. \texttt{Ash.endTest()} pełni tutaj rolę informacyjną - wskazuje gdzie znajduje się punkt końcowy oraz pozwala na zakończenie obecnie wykonywanego testu i~uruchomienie kolejnego z zestawu. Każdy test Ash powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie zaplanowanego scenariusza. W przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. O~\texttt{endTest()} można myśleć jak o~poleceniu do którego wykonania dążą testy i~po którego wykonaniu są one traktowane jako pomyślnie zakończone. 
 
 Musimy też pamiętać, że o~ile stan urządzenia jest zdefiniowany w~obrębie kontekstu, to poza nim już takiej gwarancji nie ma. Taka decyzja projektowa ma promować tworzenie testów, które są  niezależne od siebie i~od warunków zewnętrznych wynikających z~urządzenia.
 
-  \item Page Objects (Obiekty Stron) - Jest to wzorzec projektowy pozwalający na zapanowanie nad złożonymi interfejsami użytkownika i~ich modularne testowanie. W~Ash stosowane są głównie do nawigacji po aplikacji i~definiowanie na jakim ekranie ma odbyć się dany test. Pojedynczy Page Object reprezentuje element interfejsu np. stopkę, panel boczny, menu itp. Kilka takich obiektów składa się na ekran aplikacji. Dla Ash Obiektem Stron może być każdy obiekt, posiadający funkcje \texttt{validate()} oraz \texttt{goto()}.
+  \item Obiekty Stron (Page Objects) - Jest to wzorzec projektowy pozwalający na zapanowanie nad złożonymi interfejsami użytkownika i~ich modularne testowanie. W~Ash stosowane są głównie do nawigacji po aplikacji i~definiowanie na jakim ekranie ma odbyć się dany test. Pojedynczy Page Object reprezentuje element interfejsu np. stopkę, panel boczny, menu itp. Kilka takich obiektów składa się na ekran aplikacji. Dla Ash-a Obiektem Stron może być każdy obiekt, posiadający funkcje \texttt{validate()} oraz \texttt{goto()}.
 
 \texttt{validate()} zwraca wartość boolowską określającą, czy na obecnym ekranie znajduje się element interfejsu za który odpowiada dany Page Object. Z~tej metody możemy skorzystać, aby upewnić się, czy całe bloki interfejsu są wyświetlone i~czy są wyświetlone poprawnie.
 
@@ -440,15 +441,15 @@ Oczywiście Page Objects mogą zawierać także inne metody zdefiniowane przez u
 
 Prostota implementacji ma na celu uławienie korzystania z~biblioteki, zachęca także do łączenia Obiektów Stron ze sobą. Nic nie stoi na przeszkodzie, żeby zdefiniować Page Object ,,Menu'' jako zestaw kilku Page Objects, z~których każdy opisuje jakiś element menu. 
 
- \item Organizacja testów - Zestawy możemy wykonywać albo przez polecenie \texttt{run()} do którego przekazujemy tablicę funkcji-testów lub obiekt z testami (wtedy zgodnie z~przyjętą konwencją uruchamianie są wszystkie funkcje, których nazwa kończy się frazą 'Test') albo korzystając z~funkcji \texttt{play()} wywoływanej ze scenariuszem testowym.
+ \item Organizacja testów - Zestawy możemy wykonywać albo przez polecenie \texttt{run()} do którego przekazujemy tablicę funkcji-testów lub obiekt z testami (wtedy zgodnie z~przyjętą konwencją uruchamianie są wszystkie funkcje, których nazwa kończy się frazą \texttt{Test}) albo korzystając z~funkcji \texttt{play()} wywoływanej ze scenariuszem testowym.
 
 Scenariusz testowy, jest to tablica obiektów, które nazywamy krokami. Na każdy krok składa się kilka atrybutów
 
   \begin{itemize}
-    \item name - Możemy (ale nie jest to wymagane) podać nazwę kroku, ułatwi to czytanie komunikatów o~błędach
-    \item where - Zawiera Page Object, do którego trzeba przejść, aby móc wykonać krok 
-    \item what - Tablica testów, które należy wykonać w~tym kroku
-    \item howLong - Limit czasu na wykonanie testu, ustawienie odpowiednich limitów pozwala testom wychwycić utratę wydajności określonych części interfejsu
+    \item \texttt{name} - Możemy (ale nie jest to wymagane) podać nazwę kroku, ułatwi to czytanie komunikatów o~błędach
+    \item \texttt{where} - Zawiera Page Object, do którego trzeba przejść, aby móc wykonać krok 
+    \item \texttt{what} - Tablica testów, które należy wykonać w~tym kroku
+    \item \texttt{howLong} - Limit czasu na wykonanie testu, ustawienie odpowiednich limitów pozwala testom wychwycić utratę wydajności określonych części interfejsu
   \end{itemize}
 
 Scenariusze pozwalają nam na tworzenie bardziej realistycznych przypadków użycia oraz wyrażanie ich w~kodzie. 
@@ -478,23 +479,23 @@ W~każdej chwili istnieje możliwość wygenerowania aktualnej dokumentacji wpro
 Zestaw funkcji pomocniczych użytecznych podczas tworzenia testów.
 
 \begin{quote}
-Ash.assert( ... ) 
+  \texttt{Ash.assert( ... )} 
 \end{quote}
 
 \begin{quote}
-Ash.equal( A, B )
+  \texttt{Ash.equal( A, B )}
 
-Ash.equals( A, B ) 
+  \texttt{Ash.equals( A, B )} 
 \end{quote}
 
 \begin{quote}
-Ash.visible( ... ) 
+  \texttt{Ash.visible( ... )} 
 
-Ash.isVisible( ... )
+  \texttt{Ash.isVisible( ... )}
 
-Ash.invisible( ... )
+  \texttt{Ash.invisible( ... )}
 
-Ash.isInvisible( ... )
+  \texttt{Ash.isInvisible( ... )}
 \end{quote}
 
 \subsubsection{Opis}
