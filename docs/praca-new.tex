@@ -406,8 +406,9 @@ Tak niewiele potrzeba, żeby stworzyć i~uruchomić pierwszy prosty test Ash. W~
 
 Ash oferuje dużą swobodę jeśli chodzi o~tworzenie zestawów testów przez użytkownika, jednocześnie sugeruje dobre praktyki, które pozwalają w~pełni wykorzystać możliwości biblioteki. W~tym podrozdziale opiszemy kilka z~tych zalecanych technik.    
 
-\begin{itemize}
-  \item Konteksty -- Wyzwalają określone zachowanie urządzenia, co pozwala na sprawdzenie jak zachowuja się nasza aplikacja np. w~przypadku braku połączenia z~internetem lub naciśnięcia przez użytkownika przycisku powrotu. Do kontekstu możemy przekazać dowolną funkcję, która zostanie wywołana dopiero gdy urządzenie znajdzie się w~określonym przez niego stanie. Konteksty stosujemy w~sposób pokazany poniżej:
+\subsection{Konteksty}
+
+Konteksty wyzwalają określone zachowanie urządzenia, co pozwala na sprawdzenie jak zachowuja się nasza aplikacja np. w~przypadku braku połączenia z~internetem lub naciśnięcia przez użytkownika przycisku powrotu. Do kontekstu możemy przekazać dowolną funkcję, która zostanie wywołana dopiero gdy urządzenie znajdzie się w~określonym przez niego stanie. Konteksty stosujemy w~sposób pokazany poniżej:
 
 \begin{lstlisting}
   Ash.makeDeviceDoABC().then(function(msg){
@@ -431,7 +432,9 @@ Funkcja testująca może działać w~sposób asynchroniczny lub być zagnieżdż
 
 Musimy też pamiętać, że o~ile stan urządzenia jest zdefiniowany w~obrębie kontekstu, to poza nim już takiej gwarancji nie ma. Taka decyzja projektowa ma promować tworzenie testów, które są  niezależne od siebie i~od warunków zewnętrznych wynikających z~urządzenia.
 
-  \item Obiekty Stron (Page Objects) -- Jest to wzorzec projektowy pozwalający na zapanowanie nad złożonymi interfejsami użytkownika i~ich modularne testowanie. W~Ash-u stosowane są głównie do nawigacji po aplikacji i~definiowanie na jakim ekranie ma odbyć się dany test. Pojedynczy Page Object reprezentuje element interfejsu np. stopkę, panel boczny, menu itp. Kilka takich obiektów składa się na ekran aplikacji. Dla Ash--a Obiektem Stron może być każdy obiekt, posiadający funkcje \texttt{validate()} oraz \texttt{goto()}.
+\subsection{Obiekty Stron} 
+
+\textit{Page Objects} -- Jest to wzorzec projektowy pozwalający na zapanowanie nad złożonymi interfejsami użytkownika i~ich modularne testowanie. W~Ash-u stosowane są głównie do nawigacji po aplikacji i~definiowanie na jakim ekranie ma odbyć się dany test. Pojedynczy Page Object reprezentuje element interfejsu np. stopkę, panel boczny, menu itp. Kilka takich obiektów składa się na ekran aplikacji. Dla Ash--a Obiektem Stron może być każdy obiekt, posiadający funkcje \texttt{validate()} oraz \texttt{goto()}.
 
 \texttt{validate()} zwraca wartość boolowską określającą, czy na obecnym ekranie znajduje się element interfejsu za który odpowiada dany Page Object. Z~tej metody możemy skorzystać, aby upewnić się, czy całe bloki interfejsu są wyświetlone i~czy są wyświetlone poprawnie.
 
@@ -441,7 +444,9 @@ Oczywiście Page Objects mogą zawierać także inne metody zdefiniowane przez u
 
 Prostota implementacji ma na celu uławienie korzystania z~biblioteki, zachęca także do łączenia Obiektów Stron ze sobą. Nic nie stoi na przeszkodzie, żeby zdefiniować Page Object ,,Menu'' jako zestaw kilku Page Objects, z~których każdy opisuje jakiś element menu. 
 
- \item Organizacja testów -- Zestawy możemy wykonywać albo przez polecenie \texttt{run()} do którego przekazujemy tablicę funkcji--testów lub obiekt z~testami (wtedy zgodnie z~przyjętą konwencją uruchamianie są wszystkie funkcje, których nazwa kończy się frazą \texttt{Test}) albo korzystając z~funkcji \texttt{play()} wywoływanej ze scenariuszem testowym.
+\subsection{Organizacja testów}
+
+Zestawy możemy wykonywać albo przez polecenie \texttt{run()} do którego przekazujemy tablicę funkcji--testów lub obiekt z~testami (wtedy zgodnie z~przyjętą konwencją uruchamianie są wszystkie funkcje, których nazwa kończy się frazą \texttt{Test}) albo korzystając z~funkcji \texttt{play()} wywoływanej ze scenariuszem testowym.
 
 Scenariusz testowy, jest to tablica obiektów, które nazywamy krokami. Na każdy krok składa się kilka atrybutów
 
@@ -453,8 +458,6 @@ Scenariusz testowy, jest to tablica obiektów, które nazywamy krokami. Na każd
   \end{itemize}
 
 Scenariusze pozwalają nam na tworzenie bardziej realistycznych przypadków użycia oraz wyrażanie ich w~kodzie. 
-
-\end{itemize}
 
 \section{Ograniczenia}
 
@@ -1374,12 +1377,12 @@ Wykaz wszystkich wyjątków Ash:
     \begin{tabularx}{\textwidth}{ | p{1cm} | p{2cm} | X | X |}
     \hline
     Code & Level & Message & Komentarz \\ \hline
-    2 & ,,Error'' & ,,Element not found!'' & Element nie istnieje, jest pusty lub w~inny sposób 'falsy' (w sensie JavaScript)  \\ \hline
-    3 & ,,Error'' & ,,Element X is not visible'' & Wbrew założeniu, podany element nie jest widoczny  \\ \hline
-    4 & ,,Error'' & ,,Element X is visible'' & Wbrew założeniu, podany element jest widoczny  \\ \hline
-    5 & ,,Error'' & ,,Elements X and Y aren't equal'' & Przekazane elementy nie są sobie równe w~sensie dokładnego porównania, tj.  nie prawdą jest, że X===Y  \\ \hline
-    11 & ,,Error'' & ,,Not on page!'' & Obecnie nie znajdujemy się na podstronie definiowanej przez przekazany PageObject lub interfejs użytkownika nie pokrywa się z~założeniami Page Object  \\ \hline
-    12 & ,,Error'' & ,,Page element doesn't implement required method!'' & Obiekt przekazany jako Ash-a jako Page Object nie implementuje którejś z~wymaganych funkcji  \\ \hline
+    2 & Error & Element not found! & Element nie istnieje, jest pusty lub w~inny sposób 'falsy' (w sensie JavaScript)  \\ \hline
+    3 & Error & Element X is not visible & Wbrew założeniu, podany element nie jest widoczny  \\ \hline
+    4 & Error & Element X is visible & Wbrew założeniu, podany element jest widoczny  \\ \hline
+    5 & Error & Elements X and Y aren't equal & Przekazane elementy nie są sobie równe w~sensie dokładnego porównania, tj.  nie prawdą jest, że X===Y  \\ \hline
+    11 & Error & Not on page! & Obecnie nie znajdujemy się na podstronie definiowanej przez przekazany PageObject lub interfejs użytkownika nie pokrywa się z~założeniami Page Object  \\ \hline
+    12 & Error & Page element doesn't implement required method! & Obiekt przekazany do Ash-a jako Page Object nie implementuje którejś z~wymaganych funkcji  \\ \hline
     \end{tabularx}
 \end{center}
 
