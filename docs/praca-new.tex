@@ -216,7 +216,7 @@ Biblioteka Ash została stworzona z~myślą o~testowaniu funkcyjnym.
 \chapter{Sposób użycia}
 \section{Pierwsze kroki}
 
-Aby dołączyć Ash-a do swojego projektu należy wydać następujące polecenie\footnote{Jeśli nie masz jeszcze zainstalowanego Cordova CLI spójrz tutaj https://github.com/apache/cordova-cli} w~folderze z~projektem:
+Aby dołączyć Ash-a do swojego projektu należy wydać następujące polecenie\footnote{Jeśli nie masz zainstalowanego Cordova CLI spójrz tutaj \url{https://github.com/apache/cordova-cli} } w~folderze z~projektem:
 \begin{quote}
    \texttt{cordova plugins add https://github.com/pjazdzewski1990/Ash}
 \end{quote}
@@ -266,7 +266,7 @@ Aplikacja AshHello oferuje bardzo prostą funkcjonalność. Jej zasadniczym cele
 Poniższa intrukcja krok~po~kroku wyjaśni, jak dodać testy Ash--a do projektu AshHello. Dla większej przejrzystości demonstracji testy będą korzystać z~popularnej biblioteki \textit{jQuery}\footnote{Dostępna pod \url{http://jquery.com/}}, chociaż jej dołączenie nie jest wymagane, gdy pracujemy z~Ash.  
 
 \begin{enumerate}
-  \item Dodajemy Ash-a do projektu korzystając z~\textit{Cordova CLI}.\footnote{Projekt dostępny pod adresem \url{https://github.com/apache/cordova-cli}}
+  \item Dodajemy Ash-a do projektu korzystając z~Cordova CLI.
 
 Wtyczkę instalujemy poleceniem 
 \begin{quote}
@@ -307,7 +307,7 @@ oraz
    \texttt{Ash.orientationVertical()}
 \end{quote}
 
-które pozwalają na odwrócenie ekranu. W~obrębie funkcji przekazanych jako argumenty do tych kontekstów, możemy być pewni, że ekran znajdzie się w~takim a~nie innym położeniu. Korzystamy z~nich w~następujący sposób
+które pozwalają na odwrócenie ekranu. W~obrębie funkcji przekazanych jako argumenty do tych kontekstów, możemy być pewni, że ekran znajdzie się w~takim, a~nie innym położeniu. Korzystamy z~nich w~następujący sposób
 
  \begin{lstlisting}
   //myTest.js
@@ -396,7 +396,7 @@ Teraz kiedy mamy już kod testów czas dodać go do aplikacji. W~przypadku AshHe
 
 \end{lstlisting}
 
-Metoda \texttt{runAshTests()} robi dwie rzeczy. Dodaje wywołanie zwrotne dla zdarzenia onerror oraz ładuje testy. W~tym uproszczonym scenariuszu chcemy, żeby wszystkie znalezione błędy objawiały się wyskującym okienkiem z~opisem problemu. Następnie korzystając z~dotarczonej przez Ash-a metody \texttt{loadTests()} ładujemy myTests.js, jeśli przypomnimy sobie jak skonstruowany jest ten plik jasne stanie się, że od razu po wczytaniu zostanie on uruchomiony. 
+Metoda \texttt{runAshTests()} robi dwie rzeczy. Dodaje wywołanie zwrotne dla zdarzenia onerror oraz ładuje testy. W~tym uproszczonym scenariuszu chcemy, żeby wszystkie znalezione błędy objawiały się wyskującym okienkiem z~opisem problemu. Następnie korzystając z~dotarczonej przez Ash-a metody \texttt{loadTests()} ładujemy\texttt{ myTests.js}, jeśli przypomnimy sobie jak skonstruowany jest ten plik jasne stanie się, że od razu po wczytaniu zostanie on uruchomiony. 
 
 \end{enumerate}
 
@@ -461,19 +461,19 @@ Scenariusze pozwalają nam na tworzenie bardziej realistycznych przypadków uży
 
 \section{Ograniczenia}
 
-Ash został stworzony w~sposób na tyle elastyczny, aby był~w stanie integrować się z~najróżniejszymi projektami. Niestety nie zawsze możliwe było uwzględnienie wszystkich możliwości, dlatego konieczne było przyjęcie pewnych założeń co do projektu który ma być testowany przez Ash. Zrozumienie tych założeń jest istotne dla sprawnego posługiwania się biblioteką, zrozumienia przyczyn trudności w~jej używaniu oraz podejmowania decyzji o~dołączeniu Ash-a do swojego projektu.
+Ash został stworzony w~sposób na tyle elastyczny, aby był~w stanie integrować się z~najróżniejszymi projektami. Niestety nie zawsze możliwe było uwzględnienie wszystkich możliwości, dlatego konieczne było przyjęcie pewnych założeń co do projektu który ma być testowany przez Ash-a. Zrozumienie tych założeń jest istotne dla sprawnego posługiwania się biblioteką, zrozumienia przyczyn trudności w~jej używaniu oraz podejmowania decyzji o~dołączeniu Ash-a do swojego projektu.
 
 Założnie Ash-a co do projektu testowanego:
 
 \begin{itemize}
-  \item wykonany w~technologii Adobe Phonegap/Apache Cordova -- istnieje możliwość aby w~przyszłości testować także aplikacje typu mobile web, ale na obecnym etapie nie jest to celem Ash
+  \item wykonany w~technologii Adobe Phonegap/Apache Cordova -- istnieje możliwość aby w~przyszłości testować także aplikacje typu mobile web, ale na obecnym etapie nie jest to celem Ash-a
   \item single page app -- Ash zakłada, że aplikacja testowana będzie pisana zgodnie z~najnowszymi trendami w~branży oraz zaleceniami twórców Phonegap
   \item Android 4.0+ -- obecnie Ash pozwala testować jedynie aplikacje działające na Androidzie, gdyż ta jest dominująca na rynku, ale w~niedalekiej przyszłości planowana jest także wersja na iOS oraz inne platformy
 \end{itemize}
 
 \chapter{Przegląd funkcjonalności}
 
-W~każdej chwili istnieje możliwość wygenerowania aktualnej dokumentacji wprost z~kodu aplikacji przy użyciu skryptu gen-doc.sh\footnote{Wymaga sh oraz zainstalowania programu jsdoc}
+W~każdej chwili istnieje możliwość wygenerowania aktualnej dokumentacji wprost z~kodu aplikacji przy użyciu skryptu \texttt{gen-doc.sh}\footnote{Wymaga sh oraz zainstalowania programu jsdoc}
 
 \section{Asercje}
 
@@ -506,7 +506,7 @@ Zestaw funkcji pomocniczych użytecznych podczas tworzenia testów.
 Funkcje \texttt{assert()} oraz \texttt{equal()} są podstawowymi składowymi testów w~Ash. Pozwalają one na 
 
 \begin{itemize}
-  \item Sprawdzenie czy obiekt istnieje -- Funkcja \texttt{assert(object)} pozwala na sprawdzenie czy przekazany obiekt istnieje. Asercja ta zakłada, że każdy przekazany obiekt, który nie jest fałszywy (,,falsy'', w~znaczeniu znanym z~JavaScript) jest poprawny. 
+  \item Sprawdzenie czy obiekt istnieje -- Funkcja \texttt{assert(object)} pozwala na sprawdzenie czy przekazany obiekt istnieje. Asercja ta zakłada, że każdy przekazany obiekt, który nie jest fałszywy (\textit{falsy}, w~znaczeniu znanym z~JavaScript) jest poprawny. 
   \item Porównanie dwóch wartości -- \texttt{equal(A, B)} sprawdza, czy oba podane argumenty są identyczne. Wykorzystując do tego porównanie dokładne, tzn. bierzemy po uwagę typ, wartość oraz nie wykonujemy konwersji obiektów celem porównania. Referencje wskazujące na różne obiekty są identyczne, jeśli te obiekty mają tą samą wartość.
 \end{itemize}
 Powyższe asercje w~przypadku, gdy argumenty nie spełniają założeń rzucają ustandardyzowane wyjątki Ash. 
@@ -523,7 +523,7 @@ Funkcja widzialności \texttt{invisible(A)} określa czy przekazany element DOM 
 
 Do asercji związanych z~widocznością można przekazywać pojedynczy obiekt DOM, ich tablicę lub obiekt jQuery. W~przypadku przekazania tablicy lub kilku elementów opakowanych w~obiekt jQuery asercja powodzi się, tylko gdy każdy z~elementów spełnia założenie. 
 
-Różnica pomiędzy funkcjami X oraz isX jest taka, że pierwsze rzucają wyjątki Ash, gdy założenie nie jest spełnione, natomiast drugie tylko zwracają wartość boolowską określającą czy argument spełnia założenia.  
+Różnica pomiędzy funkcjami X oraz isX jest taka, że pierwsze rzucają wyjątki biblioteki Ash, gdy założenie nie jest spełnione, natomiast drugie tylko zwracają wartość boolowską określającą czy argument spełnia założenia.  
 
 Ash udostępnia także metodę equals, która działa identycznie jak \texttt{equal}, ale została dodana dla uproszczenia składni testów.
 
@@ -604,7 +604,7 @@ Większość aplikacji mobilnych korzysta w~ten czy inny sposób z~zasobów zgro
   };
 \end{lstlisting}
 
-W kontekście noNetwork dostęp do sieci zostanie zablokowany i~nie możliwe będzie skomunikowanie się z~zewnętrznymi serwisami.
+W kontekście \texttt{noNetwork} dostęp do sieci zostanie zablokowany i~nie możliwe będzie skomunikowanie się z~zewnętrznymi serwisami.
 
 Testując brak dostępu do internetu warto zwrócić uwagę nie tylko na to co dzieje się w~przypadku, gdy żądanie nie powiedzie się, ale także jak szybko się to stanie. Może dojść do sytuacji, gdy aplikacja testowana, w~przypadku braku internetu, będzie wysyłać zapytania do serwera i~czekać na upływ limitu czasu lub powtarzać je do skutku. W~takiej sytuacji płynność działania aplikacji może ulec znacznemu pogorszeniu lub może ona zmusić użytkownika do czekania na odpowiedź serwera, która nigdy nie nadejdzie. Jeśli chcemy zabezpieczyć się przed utratą płynności w~przypadku ograniczenia dostępu do internetu, istnieje możliwość skorzystania z~pola \texttt{howLong} w~specyfikacji scenariusza testowego, tzn. możemy skonfigurować testy w~ten sposób, że jeśli czas ich trafania przekroczy wybraną przez nas wartość test się nie powiedzie. Za wspomnianą wartość możemy przyjąć taką ilość czasu, po której użytkownik może poczuć dyskomfort. 
 
@@ -612,9 +612,9 @@ Podobną funkcjonlaność jak \texttt{noNetwork()} oferuje kontekst \texttt{slow
 
 Należy zwrócić uwagę że, w~zależności od implementacji na danej platformie, po wyjściu z~kontekstów \texttt{noNetwork()} oraz \texttt{slowNetwork()} dostęp do sieci nie musi być przywrócony. Celem przywrócenia urządzenia do poprzedniego stanu należy skorzystać z~kontekstu \texttt{networkOn()}. 
 
-Kontekst \texttt{networkOn()} służy do przywrócenia domyślnego stanu sieci. W~żadnym wypadku nie powoduje podłączenia do sieci, a~jedynie powrót do stanu sieci sprzed manipulacji przez Ash. W obrębie tego kontekstu możemy być pewni, że dostęp do internetu nie jest utrudniony bardziej niż to wynika z~czynników zewnętrznych. Dlatego warto rozpoczynać testy z~urządzeniem podłączonym do sieci, tak żeby później w~testach możliwa była manipulacja dostępem.
+Kontekst \texttt{networkOn()} służy do przywrócenia domyślnego stanu sieci. W~żadnym wypadku nie powoduje podłączenia do sieci, a~jedynie powrót do stanu sieci sprzed manipulacji przez Ash-a. W obrębie tego kontekstu możemy być pewni, że dostęp do internetu nie jest utrudniony bardziej niż to wynika z~czynników zewnętrznych. Dlatego warto rozpoczynać testy z~urządzeniem podłączonym do sieci, tak żeby później w~testach możliwa była manipulacja dostępem.
 
-W~przypadku, gdy do testowanej aplikacji dodane jest wtyczka cordova-plugin-network-information,  to po wywołaniu kontekstu \texttt{slowNetwork()} oraz \texttt{networkOn()} zachodzi zdarzenie \texttt{online}. Analogicznie w~przypadku kontekstu noNetwork() wysyłane jest zdarzenie 'offline'. 
+W~przypadku, gdy do testowanej aplikacji dodane jest wtyczka cordova-plugin-network-information,  to po wywołaniu kontekstu \texttt{slowNetwork()} oraz \texttt{networkOn()} zachodzi zdarzenie \texttt{online}. Analogicznie w~przypadku kontekstu noNetwork() wysyłane jest zdarzenie \texttt{offline}. 
 
 \section{Dostęp do systemu plików}
 
@@ -687,7 +687,7 @@ Obiekt \texttt{startPosition} oraz \texttt{moveOptions} może zawierać następu
   var moveOptions = {
       "latitude": 0,  //%*szerokość geograficzna miejsca zakończenia*)
       "longitude": 0,  //%*dlugość geograficzna miejsca zakończenia*)
-      "steps": 1  //%*w ilu krokach należy dotrzeć do miejsca zakończenia*)
+      "steps": 1  //%*w ilu krokach dotrzeć do miejsca zakończenia*)
   };
 \end{lstlisting}
 
@@ -724,7 +724,7 @@ Ta funkcjonalność emuluje naciśnięcie przycisku powrotu na telefonie.
 
 Integralną cześcią sytemu Android jest przycisk powrotu do poprzedniego ekranu. Jego działanie zostało określone w~specyfikacji platformy.
 
-Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie przycisku zawsze jest takie samo -- pozwolić użytkownikom na łatwą nawigację w~aplikacji, która będzie spójna pomiędzy najróżniejszymi aplikacjami. Bardziej precyzyjnie nawigacja~w tym kontekście  oznacza możliwość powrot do poprzedniej aktywności lub ekranu prezentowanego użytkownikowi. W~przypadku aplikacji hybrydowych opartych na JavaScript oraz technologiach webowych powrót do poprzedniej aktywności oznacza wycofanie stanu WebView oraz powrót do poprzedniego adresu URL. Wszystkie adresy dotychczas odwiedzone przechowywane są na stosie, a~ich unikalność determinowana jest przez 3~części adresu: hosta, ścieżkę oraz tzw. hash, czyli część adresu po znaku \#. 
+Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie przycisku zawsze jest takie samo -- pozwolić użytkownikom na łatwą nawigację w~aplikacji, która będzie spójna pomiędzy najróżniejszymi aplikacjami. Bardziej precyzyjnie nawigacja~w tym kontekście  oznacza możliwość powrot do poprzedniej aktywności lub ekranu prezentowanego użytkownikowi. W~przypadku aplikacji hybrydowych opartych na JavaScript oraz technologiach webowych powrót do poprzedniej aktywności oznacza wycofanie stanu WebView oraz powrót do poprzedniego adresu URL. Wszystkie adresy dotychczas odwiedzone przechowywane są na stosie, a~ich unikalność determinowana jest przez 3~części adresu: hosta, ścieżkę oraz tzw. \textit{hash}, czyli część adresu po znaku \#. 
 
 \begin{lstlisting}
    //example.js
@@ -732,11 +732,13 @@ Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie
   var pressBackTest = function(){
     var pageOne = 1;
     var pageTwo = 2;
-    // %*function app.mySwipe.slide(A, x) nawiguje do podstrony A w~ciągu x milisekund,*)
+    // %*function app.mySwipe.slide(A, x) nawiguje do podstrony A *)
+    // %*w~ciągu x milisekund,*)
     // %*po zakończonej nawigacji hash adresu jest zmieniany*)
     app.mySwipe.slide(pageOne, 1); 
     app.mySwipe.slide(pageTwo, 1); 
-    app.mySwipe.slide(pageTwo + 1, 1); // %* wykonujemy 3 ruchy, żeby móc cofnąć się 2 razy i~wrócić do punktu wyjścia *)
+    app.mySwipe.slide(pageTwo + 1, 1); // %* wykonujemy 3 ruchy, *)
+       // %* żeby móc cofnąć się 2 razy i~wrócić do punktu wyjścia *)
     
     Ash.pressBack().then(function(msg){
       Ash.equal("#" + pageTwo, window.location.hash);
@@ -822,7 +824,7 @@ Całość kodu Wikipedia Mobile z~dodanym kodem testów jest dostępna pod adres
 
 \subsection{Przygotowanie Ash-a do działania z~Cordova 2.X}
   
-Stara wersja Cordovy nie korzysta jeszcze z~systemu modułów dlatego konieczne jest poprawienie plików Ash.js oraz promise.js tak, żeby były dodawane do aplikacji nawet bez modułów.  W~Ash.js należy usunąć następujący kod działający wyłącznie z~modułami
+Stara wersja Cordovy nie korzysta jeszcze z~systemu modułów dlatego konieczne jest poprawienie plików \texttt{Ash.js} oraz \texttt{promise.js} tak, żeby były dodawane do aplikacji nawet bez modułów.  W~\texttt{Ash.js} należy usunąć następujący kod działający wyłącznie z~modułami
 
 \begin{lstlisting}
    //Ash.js
@@ -850,7 +852,7 @@ oraz manualnie podpiąć Ash-a pod obiekt window
 
 \end{lstlisting}
 
-W pliku promise.js usuwamy kod odpowiadający za eksport modułu
+W pliku \texttt{promise.js} usuwamy kod odpowiadający za eksport modułu
 
 \begin{lstlisting}
    //promise.js
@@ -876,7 +878,7 @@ Więcej informacji o~tworzeniu wtyczek dla tej wersji można znaleźć w~literat
 
 Tak zmodyfikowany kod Ash-a może zostać użyty w~projekcie Wikipedia Mobile.
 
-Pliki promise.js oraz Ash.js należy przenieść w~takie miejsce, żeby możliwy był do nich dostęp z~pliku assets/www/index.html. Można je na przykład przenieść do assets/www/test/. Potem wystaczy już tylko wczytać je na głównym ekranie 
+Pliki \texttt{promise.js} oraz \texttt{Ash.js} należy przenieść w~takie miejsce, żeby możliwy był do nich dostęp z~pliku \texttt{assets/www/index.html}. Można je na przykład przenieść do \texttt{assets/www/test/}. Potem wystaczy już tylko wczytać je na głównym ekranie 
 
 \begin{lstlisting}
    //index.html
@@ -888,7 +890,7 @@ Pliki promise.js oraz Ash.js należy przenieść w~takie miejsce, żeby możliwy
 
 \end{lstlisting}
 
-Celem dodania cześci natywnej należy zapisać plik AsPlugin.java jako src/pl/ug/ash/AshPlugin.java oraz poinformować o~nowej wtyczce Cordove, przez dodanie nowej linijki do res/xml/plugins.xml
+Celem dodania cześci natywnej należy zapisać plik \texttt{AsPlugin.java} jako \texttt{src/pl/ug/ash/AshPlugin.java} oraz poinformować o~nowej wtyczce środowisko, przez dodanie nowej linijki do \texttt{res/xml/plugins.xml}
 
 \begin{lstlisting}
    //plugins.xml
@@ -899,7 +901,7 @@ Celem dodania cześci natywnej należy zapisać plik AsPlugin.java jako src/pl/u
 
 \end{lstlisting}
 
-Teraz zostaje nam już tylko dodanie testów do projektu np. w~postaci pliku  assets/www/test/ash/wikitest.js 
+Teraz zostaje nam już tylko dodanie testów do projektu np. w~postaci pliku  \texttt{assets/www/test/ash/wikitest.js} 
 
 \begin{lstlisting}
    //wikitest.js
@@ -909,7 +911,7 @@ Teraz zostaje nam już tylko dodanie testów do projektu np. w~postaci pliku  as
   })(window);
 \end{lstlisting}
 
-oraz załadowanie tego testu z~poziomu Ash-a po zajściu zdarzenia \texttt{deviceready}. Stosownym miejscem dla tego będzie funkcja \texttt{init()} w~assets/www/js/main.js
+oraz załadowanie tego testu z~poziomu Ash-a po zajściu zdarzenia \texttt{deviceready}. Stosownym miejscem dla tego będzie funkcja \texttt{init()} w~\texttt{assets/www/js/main.js}
 
 \begin{lstlisting}
    //wikitest.js
@@ -1122,7 +1124,8 @@ Ash definiuje funkcje pozwalajace na uruchamianie testów w~kontekście pewnego 
 \begin{lstlisting}
      //example.js
 
-   //zdefiniuj kontekst braku sieci oraz uruchom w~jego ramach przekazana funkcje
+   //zdefiniuj kontekst braku sieci oraz 
+   //uruchom w jego ramach przekazana funkcje
     Ash.noNetwork().then(function(){
 	// %* tu możemy umieścić kod testu *)
      	// %* zostanie on wykonany z~kontekście braku dostępu do sieci *)
@@ -1157,13 +1160,13 @@ możemy także wywołania funkcji Ash-a przeplatać innym kodem JavaScript np. w
     Ash.orientationHorizontal().then(function(msg){
 	// %* tu możemy umieścić kod JavaScript *)
       	
-	// ekran jest w~pozycji horyzontalnej
+	// ekran jest w pozycji horyzontalnej
       
 	// %* tu możemy umieścić kod JavaScript *)
       	Ash.orientationVertical().then(function(){
 		// %* tu możemy umieścić kod JavaScript *)
 
-        		// ekran jest w~pozycji wertykalnej 
+		// ekran jest w pozycji wertykalnej 
 
 		// %* tu możemy umieścić kod JavaScript *)
       	});
@@ -1178,21 +1181,18 @@ Dokładny opis mechanizmu, jego wymagania oraz zastosowania można znaleźć na 
 
 \url{http://promises-aplus.github.io/promises-spec/}
 
-Na chwilę obecną nawet w~samym JavaScript istnieje wiele implementacji specyfikacji Promises. W Ash-u pierwotnie zastosowano bibliotekę o~nazwie promises.js dostępną pod adresem
+Na chwilę obecną nawet w~samym JavaScript istnieje wiele implementacji specyfikacji Promises. W Ash-u pierwotnie zastosowano bibliotekę o~nazwie \texttt{promises.js} dostępną pod adresem
 
 \url{https://github.com/then/promise/}
 
 Za tym wyborem przemawiał jej niewielki rozmiar kodu (co ogranicza narzut związany z~dodawaniem dodatkowej biblioteki do projektu korzystajacego z~Ash) oraz bogactwo funkcjonalności (promises.js nie tylko wiernie implementuje specyfikację, ale także wzbogaca ją~o~kilka nowych możliwości). Niestety szybko okazało się, że funkcjonalności oferowane przez promises.js nie do końca odpowiadają wymaganiom projektu. Biblioteka nie została jednak porzucona, ale zamiast tego zaadaptowana do specyficznych potrzeb Ash.  
 
-\section{Wzorzec Object Pages w~Ash}
+\section{Wzorzec Object Pages w~bibliotece Ash}
 
 W~celu nadania testom struktury oraz zwiększenia elastyczności testów biblioteka Ash korzysta ze wzorca projektowego Object Pages znanego na przykład z~biblioteki Selenium. 
-
-\url{https://code.google.com/p/selenium/wiki/PageObjects}
-
+\footnote{ \url{https://code.google.com/p/selenium/wiki/PageObjects}
 lub
-
-\url{http://docs.seleniumhq.org/docs/06\_test\_design\_considerations.jsp\#page-object-design-pattern}
+\url{http://docs.seleniumhq.org/docs/06\_test\_design\_considerations.jsp\#page-object-design-pattern} }
 
 Page Object reprezentuje stan interfejsu użytkownika, pojedynczego komponentu lub zbioru komponentów. W~praktyce Ash jako Page Object traktuje każdy obiekt, który definiuje dwie bezparametrowe funkcje zwracające wartości logiczne:
 
@@ -1234,7 +1234,7 @@ Obie wspomniane metody korzystają z~wywołań zwrotnych raczej niż z~podejści
 Ten tryb oferuje proste API do szybkiego uruchamiania niezależnych od siebie testów. Sygnatura funkcji: 
 
 \begin{quote}
-function Ash.run(array[function] testsArray, function failureCallback[, function successCallback]) 
+\texttt{ function Ash.run(array[function] testsArray, function failureCallback[, function successCallback]) }
 \end{quote}
 
 Przykładowe zastosowanie: 
@@ -1255,7 +1255,7 @@ Przykładowe zastosowanie:
 
 Run pozwala na sekwencyjne uruchomienie przekazanych testów w~kolejności zgodnej z~indeksem tablicy. Ash nie czyni żadnych zabiegów, aby testy nie kolidowały i~nie ingerowały w~działanie innych testów, dlatego testy przekazywane winny być od siebie nawzajem niezależne. Dostarczane one są do Ash-a jako tablica bezparametrowych funkcji.
 
-Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia \texttt{run()}. Funkcje te znajdują się w~globalnym obiekcie \texttt{Ash.callbacks}, ale mogą być swobodnie nadpisywane przez użytkowników. Ich wywołanie następuje w~ściśle zdefiowanych momentach, dzięki czemu użytkownik Ash-a może lepiej kontrolować przebieg testów. Typowy przebieg wywołania Ash.run wygląda w~ten sposób:
+Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia \texttt{run()}. Funkcje te znajdują się w~globalnym obiekcie \texttt{Ash.callbacks}, ale mogą być swobodnie nadpisywane przez użytkowników. Ich wywołanie następuje w~ściśle zdefiowanych momentach, dzięki czemu użytkownik Ash-a może lepiej kontrolować przebieg testów. Typowy przebieg wywołania \texttt{Ash.run} wygląda w~ten sposób:
 
 \begin{itemize}
   \item \texttt{Ash.callbacks.beforeClass}
@@ -1340,24 +1340,24 @@ Kroki scenariusza przekazane do \texttt{play()} wykonywane są przy użyciu wcze
 Przykładowe wykonanie może wyglądać tak:
 
 \begin{itemize}
-  \item Ash.callbacks.beforeClass
-  \item scenario[0].where.goto
-  \item scenario[0].where.validate
-  \item Ash.run(scenario[0].what)
-  \item porównanie czasu scenario[0].howLong z~czasem wywołania scenario[0].what
+  \item \texttt{ Ash.callbacks.beforeClass }
+  \item \texttt{ scenario[0].where.goto }
+  \item \texttt{ scenario[0].where.validate }
+  \item \texttt{ Ash.run(scenario[0].what) }
+  \item porównanie czasu \texttt{ scenario[0].howLong } z~czasem wywołania \texttt{ scenario[0].what }
   \item ....
-  \item scenario[n].where.goto
-  \item scenario[n].where.validate
-  \item Ash.run(scenario[n].what)
-  \item porównanie czasu scenario[n].howLong z~czasem wywołania scenario[n].what
-  \item Ash.callbacks.afterClass
+  \item \texttt{ scenario[n].where.goto }
+  \item \texttt{ scenario[n].where.validate }
+  \item \texttt{ Ash.run(scenario[n].what) }
+  \item porównanie czasu \texttt{ scenario[n].howLong } z~czasem wywołania \texttt{ scenario[n].what }
+  \item \texttt{ Ash.callbacks.afterClass }
 \end{itemize}
 
-Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o~wykonaniu testu, identycznie jak w~przypadku metody run.
+Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o~wykonaniu testu, identycznie jak w~przypadku metody \texttt{run}.
 
 \section{Obsługa błędów}
 
-Ash do obsługi błędów wykorzystuje wydarzenie \texttt{window.onerror}, które zachodzi kiedy wyjątek (lub błąd) nie zostanie złapany na żadnym poziomie stosu wywołania. Podczas uruchomienia zestawu testów, korzystając z~metod \texttt{run()} lub \texttt{play()}, Ash podmienia zastaną funkcję \texttt{window.onerror} własną metodą obsługi. Zadaniem naszej implementacji jest przechwycenie błedu, jego obsłużenie, łącznie z~uruchomieniem odpowiedniego wywołania zwrotnego. Następnie procedura obsługi uruchamia kolejny test, jeśli jakiś jest dostępny. 
+Ash do obsługi błędów wykorzystuje wydarzenie \texttt{window.onerror}, które zachodzi kiedy wyjątek (lub błąd) nie zostanie złapany na żadnym poziomie stosu wywołania. Podczas uruchomienia zestawu testów, korzystając z~metod \texttt{run()} lub \texttt{play()}, Ash podmienia zastaną funkcję \texttt{window.onerror} własną metodą obsługi. Zadaniem naszej implementacji jest przechwycenie błędu, jego obsłużenie, łącznie z~uruchomieniem odpowiedniego wywołania zwrotnego. Następnie procedura obsługi uruchamia kolejny test, jeśli jakiś jest dostępny. 
 
 Każdy z~obiektów rzucanych jako wyjątek jest ustandaryzowany i~zawiera następujące pola: 
 
@@ -1369,7 +1369,7 @@ Każdy z~obiektów rzucanych jako wyjątek jest ustandaryzowany i~zawiera nastę
 	}
 \end{lstlisting}
 
-dodatkowo każdy wyjątek ma też funkcję toString(), która wyświetla informacje na temat wyjątku w~formie przystępnej dla użytkownika.
+dodatkowo każdy wyjątek ma też funkcję \texttt{toString()}, która wyświetla informacje na temat wyjątku w~formie przystępnej dla użytkownika.
 
 Wykaz wszystkich wyjątków Ash:
 
@@ -1506,7 +1506,7 @@ gdzie X oraz Y oznaczają (odpowiednio) szerokość i~długość w~aktualnym kro
 
 Ogólnie rzecz biorąc celem metody \texttt{pressBack()} jest powrót do poprzedniego ekranu w~historii aplikacji. W praktyce mowa tutaj o~adresach URL ładowanych przez WebView w~czasie działania aplikacji. Większość aplikacji Cordova tworzona jest na zadadzie Single Page Apps, więc poszczególne adresy będą różnić się jedynie wartością tzw. \textit{hashu}, a~przejścia pomiędzy nimi będą polegać na zmianie obecnego interfejsu, raczej niż na załadowaniu nowej podstrony. Dane na temat historii przeglądania zbierane są w~kontrolce \texttt{WebView} w~formie stosu.
 
-Na platformie Android, aby spowodować powrót do poprzedniego ekranu należy wywołać lub przeciążyć metodę \texttt{onBackPressed()} klasy Activity. W~tym przypdaku to podejście nie działa, gdyż Activity w~którym uruchomiona jest wtyczka jest inne niż to w~którym działa aplikacja. Cofnięcie się w~historii tego Activity prowadzi do zakończenia aplikacji. 
+Na platformie Android, aby spowodować powrót do poprzedniego ekranu należy wywołać lub przeciążyć metodę \texttt{onBackPressed()} klasy \texttt{Activity}. W~tym przypdaku to podejście nie działa, gdyż Activity w~którym uruchomiona jest wtyczka jest inne niż to w~którym działa aplikacja. Cofnięcie się w~historii tego \texttt{Activity} prowadzi do zakończenia aplikacji. 
 
 Aby uniknąć tego typu problemów należy cofnąć się obrębie WebView a~nie aktywności. Klasa \texttt{CordovaPlugin} daje dostęp do \texttt{CordovaWebView}. Ta klasa z~kolei udostępnia metodę 
 
@@ -1537,7 +1537,7 @@ Furnace jest to mały program napisany w~JavaScript i~Node.js\footnote{Dostępny
 Furnace obsługujemy w~następujący sposób
 
 \begin{quote}
-	node Furnace.js [pełna nazwa klasy uruchamialnej] [polecenie]
+	\texttt{ node Furnace.js [pełna nazwa klasy uruchamialnej] [polecenie] }
 \end{quote}
 
 gdzie
