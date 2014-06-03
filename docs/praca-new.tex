@@ -3,6 +3,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{tabularx}
+\usepackage[chapter]{minted}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -27,6 +28,26 @@
   escapeinside={\%*}{*)}
 }
 
+\newminted{javascript}{
+  fontfamily=tt,
+  linenos=true,
+  numberblanklines=true,
+  numbersep=12pt,
+  numbersep=5pt,
+  gobble=0,
+  frame=leftline,
+  framerule=0.4pt,
+  framesep=2mm,
+  funcnamehighlighting=true,
+  tabsize=4,
+  obeytabs=true,  
+  mathescape=false
+  samepage=true, 
+  showspaces=false,
+  showtabs =false,
+  texcl=true,
+}
+
 % tak można zmienić domyślną rodzinę fontów Latin Modern 
 %   na Minion + Myriad + Monaco:
 %\defaultfontfeatures{Scale=MatchLowercase}
@@ -49,6 +70,7 @@
 \begin{document}
 
 \begin{abstract}
+
   Poniższa praca zawiera opis biblioteki \textit{Ash} służącej do funkcjonalnego testowania
 hybrydowych aplikacji mobilnych stworzonych przy użyciu Adobe PhoneGap lub
 Apache Cordova. Ash pozwala na testowanie zachowania się aplikacji w~różnorodnych
@@ -286,12 +308,12 @@ a w~nim plik
 \end{quote} 
 W przed chwilą stworzonym pliku definiujemy samowywołującą się funkcję, która będzie zawierać nasze testy. Możemy  to zrobić na przykład w~następujący sposób:
 
- \begin{lstlisting}
+ \begin{javascriptcode}
   (function(){
 	console.log("MyTest started!");
 	// %* tu znajdzie się kod testujący *)
   })();
-\end{lstlisting}
+\end{javascriptcode}
 
 Powyższa funkcja zostanie wywołana zaraz po jej wczytaniu. Nasze testy nie będą zbyt skomplikowane, więc pozwolimy sobie na umieszczenia całej logiki bezpośrednio w~tej funkcji. Jednak w~przypadku bardziej rozbudowanych testów warto pokusić się o~zgromadzenie kodu w~obiektach.
 
@@ -309,7 +331,7 @@ oraz
 
 które pozwalają na odwrócenie ekranu. W~obrębie funkcji przekazanych jako argumenty do tych kontekstów, możemy być pewni, że ekran znajdzie się w~takim, a~nie innym położeniu. Korzystamy z~nich w~następujący sposób
 
- \begin{lstlisting}
+ \begin{javascriptcode}
   //myTest.js
 
   Ash.orientationHorizontal().then(function(msg){
@@ -321,12 +343,14 @@ które pozwalają na odwrócenie ekranu. W~obrębie funkcji przekazanych jako ar
       Ash.assert(worksquare);
       Ash.assert(sidebar);
 
-      Ash.equal(worksquare.getBoundingClientRect().top, sidebar.getBoundingClientRect().top);
-     Ash.assert(worksquare.getBoundingClientRect().left < sidebar.getBoundingClientRect().left);
+      Ash.equal(worksquare.getBoundingClientRect().top,
+           sidebar.getBoundingClientRect().top);
+     Ash.assert(worksquare.getBoundingClientRect().left <
+           sidebar.getBoundingClientRect().left);
 
       Ash.endTest();
     });  
-\end{lstlisting}
+\end{javascriptcode}
 
 Powyższy test sprawdza trzy rzeczy. Po pierwsze znajduje elementy interfejsu, które chcemy zbadać. Przy użyciu 
 
@@ -338,13 +362,14 @@ upewnia się, że istnieją. A następnie porównuje ich pozycje upewniając si�
 
 Póki co nasz test obejmuje tylko część funkcjonalności. Musimy też zadbać o~orientację pionową oraz~o~to, czy przejście nie ,,psuje'' interfejsu. Aby to zbadać możemy dodać dalszą część testu. Na przykład w~ten sposób
 
- \begin{lstlisting}
+ \begin{javascriptcode}
   //myTest.js
 
   Ash.orientationHorizontal().then(function(msg){
        //kod z~porzedniego punktu
 
-      //%*to jeszcze nie koniec testu, więc musimy ująć w~komentarz lub usunąć endTest()*)
+      //to jeszcze nie koniec testu, 
+      //  więc musimy ująć w~komentarz lub usunąć endTest()
       //Ash.endTest();
   }).then(
       Ash.orientationVertical //%*a teraz odwróć ekran pionowo*)
@@ -358,10 +383,11 @@ Póki co nasz test obejmuje tylko część funkcjonalności. Musimy też zadbać
       Ash.assert(worksquare.getBoundingClientRect().top < sidebar.getBoundingClientRect().top);
       Ash.equal(worksquare.getBoundingClientRect().left, sidebar.getBoundingClientRect().left);        
 
-      //%*jesli aplikacja dotarła tutaj, to zaliczmy ten przypadek testowy*)
+      //jesli aplikacja dotarła tutaj,
+      //   to zaliczmy ten przypadek testowy
       Ash.endTest();
     });
-\end{lstlisting}
+\end{javascriptcode}
 
 Powyższy kod nie jest bardziej skomplikowany od poprzedniego. Jedyną nowością jest zastosowanie wielu bloków 
 
@@ -375,7 +401,7 @@ które są wykonywane jeden po drugim w~kolejności podania i~pozwalają nam ł�
 
 Teraz kiedy mamy już kod testów czas dodać go do aplikacji. W~przypadku AshHello dobrym na to miejscem będzie \texttt{index.js} i~metoda \mbox{\texttt{onDeviceReady()}}. Metoda ta jest wywołana, gdy zajdzie już zdarzenie \texttt{deviceready} więc jesteśmy w~stanie skorzystać ze~wszystkich dobrodziejstw Apache Cordova.
 
- \begin{lstlisting}
+ \begin{javascriptcode}
   //index.js
   
   var app = {
@@ -394,7 +420,7 @@ Teraz kiedy mamy już kod testów czas dodać go do aplikacji. W~przypadku AshHe
 	...
   };
 
-\end{lstlisting}
+\end{javascriptcode}
 
 Metoda \texttt{runAshTests()} robi dwie rzeczy. Dodaje wywołanie zwrotne dla zdarzenia onerror oraz ładuje testy. W~tym uproszczonym scenariuszu chcemy, żeby wszystkie znalezione błędy objawiały się wyskującym okienkiem z~opisem problemu. Następnie korzystając z~dotarczonej przez Ash-a metody \texttt{loadTests()} ładujemy\texttt{ myTests.js}, jeśli przypomnimy sobie jak skonstruowany jest ten plik jasne stanie się, że od razu po wczytaniu zostanie on uruchomiony. 
 
@@ -410,7 +436,7 @@ Ash oferuje dużą swobodę jeśli chodzi o~tworzenie zestawów testów przez u�
 
 Konteksty wyzwalają określone zachowanie urządzenia, co pozwala na sprawdzenie jak zachowuja się nasza aplikacja np. w~przypadku braku połączenia z~internetem lub naciśnięcia przez użytkownika przycisku powrotu. Do kontekstu możemy przekazać dowolną funkcję, która zostanie wywołana dopiero gdy urządzenie znajdzie się w~określonym przez niego stanie. Konteksty stosujemy w~sposób pokazany poniżej:
 
-\begin{lstlisting}
+\begin{javascriptcode}
   Ash.makeDeviceDoABC().then(function(msg){
       //%*sprawdz jak aplikacja sprawuje się,*) 
       //  %*gdy zaszło zdarzenie ABC*)
@@ -418,15 +444,15 @@ Konteksty wyzwalają określone zachowanie urządzenia, co pozwala na sprawdzeni
       //%*zakończ kontekst*)
       Ash.endTest();
   });
-\end{lstlisting}
+\end{javascriptcode}
 
 Powyższy kod działa dokładnie tak jak się go czyta. Ash wymusza na urządzeniu przejście w~określony stan lub wykonanie pewnej czynności. Wtedy (\texttt{then}) następuje wywołanie funkcji, która działa już po przejściu i~może sprawdzić zachowanie aplikacji. Bloki \texttt{then} można ze sobą łączyć, komponując w~ten sposób konteksty. Jest to często nazywane \textit{metod call chaining} i~w~takim wypadku kolejne bloki są wykonywane jeden po drugim. Jeśli przywołamy pewniem kontekst, to do jego bloku \texttt{then} możemy przekazać funkcję testującą albo kolejny kontekst. Nic nie stoi też na przeszkodzie, żeby wywoływać konteksty i~testy jeden po drugim. 
 
 Istotną rzeczą na którą należy zwrócić uwagę jest 
 
-\begin{lstlisting}
+\begin{javascriptcode}
    Ash.endTest();
-\end{lstlisting}
+\end{javascriptcode}
 
 Funkcja testująca może działać w~sposób asynchroniczny lub być zagnieżdżona w~innej funkcji. W~takiej sytuacji trudne bywa ustalenie, kiedy zakończyła się przekazana funkcja. \texttt{Ash.endTest()} pełni tutaj rolę informacyjną -- wskazuje gdzie znajduje się punkt końcowy oraz pozwala na zakończenie obecnie wykonywanego testu i~uruchomienie kolejnego z~zestawu. Każdy test Ash-a powinien kończyć się wywołaniem tej funkcji. Jej brak może uniemożliwić wykonanie zaplanowanego scenariusza. W przypadku uruchomienia tej funkcji poza testami po cichu zakończy ona działanie. O~\texttt{endTest()} można myśleć jak o~poleceniu do którego wykonania dążą testy i~po którego wykonaniu są one traktowane jako pomyślnie zakończone. 
 
@@ -557,7 +583,7 @@ Należy pamiętać, że poza kontekstem orientationX status ekranu nie jest okre
 
 Praktycznym podejściem może być sprawdzanie jak na zmianę ekranu reagują pojedyncze części ekranu zamiast całość. Innym podejściem jest przetestowanie jak aplikacja reaguje na zmianę położenia ekranu a~następnie na jego powrót. Można to zrealizować w~ten sposób:
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //example.js
 
   Ash.orientationHorizontal().then(function(msg){
@@ -569,7 +595,7 @@ Praktycznym podejściem może być sprawdzanie jak na zmianę ekranu reagują po
       Ash.endTest();
     });
   };
-\end{lstlisting}
+\end{javascriptcode}
 
 \section{Dostęp do sieci}
 
@@ -593,16 +619,17 @@ Daje możliwość manipulowania dostępem do sieci -- pozwala blokować dostęp 
 
 Większość aplikacji mobilnych korzysta w~ten czy inny sposób z~zasobów zgromadzonych na zdalnych serwerach. W wielu przypadkach komunikacja z~serwerem jest najistotniejszym czynnikiem wpływającym na szybkość oraz poprawność działania aplikacji. Niestety ze względu na mobilny charakter urządzeń dostęp do sieci bardzo często bywa utrudniony lub wręcz niemożliwy. Co gorsza dzieje się tak w~nieregularnych odstępach czasu w~zależności od czynników zewnętrznych. Dlatego kluczowe znaczenie ma przetestowanie w~jaki sposób zachowa się aplikacja, gdy z~jakiegoś powodu nie możliwe będzie nazwiązanie połączenia z~internetem. Właśnie taką możliwość udostępnia Ash. 
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //example.js
 
    Ash.noNetwork().then(function(msg){
       ...
-      Ash.equal($('#connectionField').text(), 'No network connection');
+      Ash.equal($('#connectionField').text(), 
+           'No network connection');
       Ash.endTest();
     });
   };
-\end{lstlisting}
+\end{javascriptcode}
 
 W kontekście \texttt{noNetwork} dostęp do sieci zostanie zablokowany i~nie możliwe będzie skomunikowanie się z~zewnętrznymi serwisami.
 
@@ -640,15 +667,16 @@ Do kontekstu \texttt{withFile} przekazujemy obiekt zawierający informacje na ja
 
 \texttt{WithFile} zwraca obiekt \texttt{Promise}. W przypadku realizacji obietnicy do bloku przekazywana jest tablica plików, która może być wykorzystana w~testach. Każdy~plik w~jest identyczny i~spełnia założenia podane w~argumencie \texttt{options}. Przykładowy plik z~tablicy może wyglądać w~ten sposób:
 
-\begin{lstlisting}
+\begin{javascriptcode}
    {
        "name": "file1",
        "fullPath": "/path/to/file1",
        "type": "audio/amr",
-       "lastModifiedDate": "Thu Apr 24 2014 22:52:29 GMT+0200 (CEST)",
+       "lastModifiedDate": 
+            "Thu Apr 24 2014 22:52:29 GMT+0200 (CEST)",
        "size": 100
    };
-\end{lstlisting}
+\end{javascriptcode}
 
 Co odpowiada definicji pliku w~ujęciu Apache Cordova. 
 \footnote{Patrz \url{https://cordova.apache.org/docs/en/3.0.0/cordova_file_file.md.html\#File} }
@@ -678,7 +706,7 @@ Wiele aplikacji mobilnych w~ten czy w~inny sposób wykorzystuje informacje o~po�
 
 Obiekt \texttt{startPosition} oraz \texttt{moveOptions} może zawierać następujące klucze
 
-\begin{lstlisting}
+\begin{javascriptcode}
    var startPosition = {
        "latitude": 0,  //%*szerokość geograficzna*)
        "longitude": 0  //%*długość geograficzna*)
@@ -689,13 +717,13 @@ Obiekt \texttt{startPosition} oraz \texttt{moveOptions} może zawierać następu
       "longitude": 0,  //%*dlugość geograficzna miejsca zakończenia*)
       "steps": 1  //%*w ilu krokach dotrzeć do miejsca zakończenia*)
   };
-\end{lstlisting}
+\end{javascriptcode}
 
 w~przypadku, gdy klucze nie zostaną dostarczone przyjmą one domyślne wartości, takie jak pokazano wyżej. 
 
 Obiekt który jest przekazywany do funkcji w~kontekście ma następującą konstrukcję 
 
-\begin{lstlisting}
+\begin{javascriptcode}
 
 {
   "coords" :  {
@@ -708,7 +736,7 @@ Obiekt który jest przekazywany do funkcji w~kontekście ma następującą konst
    }
 }
 
-\end{lstlisting}
+\end{javascriptcode}
 Ash pozwala symulować zmianę położenia poprzez kontekst \texttt{onMove()}. Ta funkcjonalność działa inaczej niż pozostałe bloki, gdyż NIE zwraca obiektu promise, tylko przyjmuje funkcję -- wywołanie zwrotne jako jeden ze swoich argumentów. Podyktowane jest to tym, że \texttt{onMove()} potencjalnie może swój blok kodu wywoływać wielokrotnie, co jest sprzeczne z~ideą obietnic. Każdy obiekt \texttt{Promise} jest jest rozstrzygany tylko raz. Jest on albo zaakceptowany albo odrzucony i~nie można go wykorzystać wielokrotnie. 
 
 \section{Obsługa przycisku powrotu}
@@ -726,7 +754,7 @@ Integralną cześcią sytemu Android jest przycisk powrotu do poprzedniego ekran
 
 Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie przycisku zawsze jest takie samo -- pozwolić użytkownikom na łatwą nawigację w~aplikacji, która będzie spójna pomiędzy najróżniejszymi aplikacjami. Bardziej precyzyjnie nawigacja~w tym kontekście  oznacza możliwość powrot do poprzedniej aktywności lub ekranu prezentowanego użytkownikowi. W~przypadku aplikacji hybrydowych opartych na JavaScript oraz technologiach webowych powrót do poprzedniej aktywności oznacza wycofanie stanu WebView oraz powrót do poprzedniego adresu URL. Wszystkie adresy dotychczas odwiedzone przechowywane są na stosie, a~ich unikalność determinowana jest przez 3~części adresu: hosta, ścieżkę oraz tzw. \textit{hash}, czyli część adresu po znaku \#. 
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //example.js
 
   var pressBackTest = function(){
@@ -749,7 +777,7 @@ Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie
       Ash.endTest();
     });
   };
-\end{lstlisting}
+\end{javascriptcode}
 
 Ash pozwala na cofanie się aż do szczytu stosu historii aplikacji. W~szczególności od razu po uruchomieniu aplikacji nie jest możliwe wykonie funkcji \texttt{pressBack()}. W~takiej sytuacji \texttt{pressBack()} nie powiedzie się, ale nie dojdzie też do wyjścia z~aplikacji.
 
@@ -826,7 +854,7 @@ Całość kodu Wikipedia Mobile z~dodanym kodem testów jest dostępna pod adres
   
 Stara wersja Cordovy nie korzysta jeszcze z~systemu modułów dlatego konieczne jest poprawienie plików \texttt{Ash.js} oraz \texttt{promise.js} tak, żeby były dodawane do aplikacji nawet bez modułów.  W~\texttt{Ash.js} należy usunąć następujący kod działający wyłącznie z~modułami
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //Ash.js
   
   var argscheck = require('cordova/argscheck'), // linia 2
@@ -838,11 +866,11 @@ Stara wersja Cordovy nie korzysta jeszcze z~systemu modułów dlatego konieczne 
 
   module.exports = Ash;   // linia 691
 
-\end{lstlisting}
+\end{javascriptcode}
 
 oraz manualnie podpiąć Ash-a pod obiekt window
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //Ash.js
 
   ...
@@ -850,25 +878,25 @@ oraz manualnie podpiąć Ash-a pod obiekt window
   window.Log = Log;   // linia 693
   window.Ash = Ash;
 
-\end{lstlisting}
+\end{javascriptcode}
 
 W pliku \texttt{promise.js} usuwamy kod odpowiadający za eksport modułu
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //promise.js
  
   module.exports = Promise;   // linia 62 
 
-\end{lstlisting}
+\end{javascriptcode}
 
 zamiast tego eksportujemy go samodzielnie 
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //promise.js
   
   window.AshPromise = Promise;   // linia 154
 
-\end{lstlisting}
+\end{javascriptcode}
 
 Większe zmiany czekają nas po stronie natywnej. W wersji Cordovy 2.X możliwość pisania wtyczek była dużo skromniejsza, dlatego konieczne jest przerobienie głównej metody wtyczki oraz wyłączenie części funkcjonalności. Plik ze wszystkimi koniecznymi zmianami jest dostępny tutaj \url{https://github.com/pjazdzewski1990/WikipediaMobile/blob/master/src/pl/ug/ash/AshPlugin.java}
 
@@ -880,40 +908,42 @@ Tak zmodyfikowany kod Ash-a może zostać użyty w~projekcie Wikipedia Mobile.
 
 Pliki \texttt{promise.js} oraz \texttt{Ash.js} należy przenieść w~takie miejsce, żeby możliwy był do nich dostęp z~pliku \texttt{assets/www/index.html}. Można je na przykład przenieść do \texttt{assets/www/test/}. Potem wystaczy już tylko wczytać je na głównym ekranie 
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //index.html
   
   ...
-  <script type="text/javascript" charset="utf-8" src="test/ash/promise.js"></script>
-  <script type="text/javascript" charset="utf-8" src="test/ash/Ash.js"></script>
+  <script type="text/javascript" 
+        charset="utf-8" src="test/ash/promise.js"></script>
+  <script type="text/javascript" 
+        charset="utf-8" src="test/ash/Ash.js"></script>
   ...
 
-\end{lstlisting}
+\end{javascriptcode}
 
 Celem dodania cześci natywnej należy zapisać plik \texttt{AsPlugin.java} jako \texttt{src/pl/ug/ash/AshPlugin.java} oraz poinformować o~nowej wtyczce środowisko, przez dodanie nowej linijki do \texttt{res/xml/plugins.xml}
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //plugins.xml
   
   ...
   <plugin name="Ash" value="pl.ug.ash.AshPlugin"/>
   ...
 
-\end{lstlisting}
+\end{javascriptcode}
 
 Teraz zostaje nam już tylko dodanie testów do projektu np. w~postaci pliku  \texttt{assets/www/test/ash/wikitest.js} 
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //wikitest.js
 
   (function(win){  
     console.log("Wikitest wczytane");
   })(window);
-\end{lstlisting}
+\end{javascriptcode}
 
 oraz załadowanie tego testu z~poziomu Ash-a po zajściu zdarzenia \texttt{deviceready}. Stosownym miejscem dla tego będzie funkcja \texttt{init()} w~\texttt{assets/www/js/main.js}
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //wikitest.js
 
   function init() {   //linia 25
@@ -923,7 +953,7 @@ oraz załadowanie tego testu z~poziomu Ash-a po zajściu zdarzenia \texttt{devic
       Ash.loadTests(["test/ash/wikitest.js"]);
     }, true);
   }
-\end{lstlisting}
+\end{javascriptcode}
 
 Teraz jesteśmy już gotowi do testowanie aplikacji Wikipedia Mobile z~użyciem Ash.
 
@@ -941,7 +971,7 @@ Przygotowane testy są relatywnie proste i~mają charakter poglądowy.
 
 W przygotowanym kodzie testujacym intensywnie korzystamy z~możliwości komponowania testów z~mniejszych funkcji oraz z~Page Objects. O~ile w~przypadku mniejszych testów wydawać się może, że jest to niepotrzebny trud. Jednak na dłuższą metę pozwala nam to oszczędzić pracy, przez możliwość łatwego komponowanie testów z~już gotowych i~sprawdzonych funkcji oraz obiektów. W praktyce wygląda to następująco
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //wikitest.js
 
     var wikiPage = {
@@ -969,13 +999,13 @@ W przygotowanym kodzie testujacym intensywnie korzystamy z~możliwości komponow
     };
 
     .... // oraz inne
-\end{lstlisting}
+\end{javascriptcode}
 
 w~powyższym przykładzie definiujemy dwa obiekty - \texttt{wikiPage} oraz \texttt{mainPage}. Pierwszy reprezentuje generyczną podstronę w~Wikipedia Mobile. To co łączy wszystkie strony w~aplikacji, to górny pasek menu zawierający pasek szukania. Każdą podstronę możemy traktować jako \texttt{wikiPage}, gdy spełenia ona założenia metody \texttt{validate()}, czyli w~tym przypadku ma górny pasek wyszukiwania. \texttt{MainPage} z~kolei odpowiada za główny ekran aplikacji zawierający przykładowe, wybrane artykuły w~elemencie \texttt{content}. \texttt{MainPage} oczywiście jest podstoną wikipedii, więc w~swoich metodach korzysta \texttt{wikiPage}. W~ten sposób, dzięki kompozycji, ograniczliśmy duplikację kodu oraz uprościliśmy test. Utworzone obiekty wykorzystamy do definicji testów.
 
 Teraz możemy zdefiniować funkcje-testy. Na przykład tak
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //wikitest.js
 
    var randomWalkStep = {
@@ -990,13 +1020,13 @@ Teraz możemy zdefiniować funkcje-testy. Na przykład tak
        }],
        howLong: loadWaitTime + 5000
     };
-\end{lstlisting}
+\end{javascriptcode}
 
 Tak zdefiniowany obiekt randomWalkStep to pojedynczy krok testów Ash. Zawiera on cztery rzeczy. Klucz \texttt{name} pełni jedynie funkcję informacyjną. Opisuje jakie zachowanie testuje dany krok. Do \texttt{where} podajemy zdefiniowany wcześniej obiekt głównej strony. W~ten sposób określamy na jakim ekranie mają się odbyć testy. \texttt{What} zawiera właściwą funkcję. Jest ona bardzo prosta, ale później skorzystamy z~niej do zbudowania testu \texttt{Random Walk}. Jej zadaniem jest wybranie przykładowego odnośnika i~przejście po nim. Podajemy także klucz \texttt{howLong}, który określa limit czasu na przeprowadzenie tego kroku.
 
 Z~kilku tak zbudowanych plików możemy zbudować pełen scenariusz testowy.
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //wikitest.js
 
    var randomWalkScenario = [
@@ -1005,13 +1035,13 @@ Z~kilku tak zbudowanych plików możemy zbudować pełen scenariusz testowy.
         randomWalkStep,
         randomWalkCheckStep];
 
-\end{lstlisting}
+\end{javascriptcode}
 
 Ten scenariusz jest bardzo prosty. Wyraża on dwa przejścia po wybrancyh linkach, przeplatane krokami odpowiedzialnymi za sprawdzenie zawartości artykułu. Oczywiście nic nie stoi na przeszkodzi, żeby dodać jeszcze jedną rundę przejścia czy skorzystać z~kroków z~\texttt{randomWalkScenario} w~innym scenariuszu.
 
 Teraz pozostaje nam już tylko uruchomić scenariusz przy użyciu metody \texttt{Ash.play()}
 
-\begin{lstlisting}
+\begin{javascriptcode}
    //wikitest.js
 
    Ash.config(conf).play(randomWalkScenario, function(errorData){
@@ -1020,7 +1050,7 @@ Teraz pozostaje nam już tylko uruchomić scenariusz przy użyciu metody \texttt
         console.log("Test success " + JSON.stringify(successData));
     });
 
-\end{lstlisting}
+\end{javascriptcode}
 
 \chapter{Wtyczki}
 
@@ -1049,9 +1079,12 @@ CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. Poz
 
 Punktem wejściowym dla kodu każdej wtyczki jest jest metoda \texttt{exec()}, która jest wywoływana, gdy warstwa JavaScript wyśle żądanie wywołania określonego kodu natywnego. Sygnatura \texttt{exec} wygląda następująco:
 
-\begin{lstlisting}
-public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException
-\end{lstlisting}
+\begin{javascriptcode}
+public boolean execute(String action, 
+                       JSONArray args, 
+                       final CallbackContext callbackContext) 
+                       throws JSONException
+\end{javascriptcode}
 
 Kolejne argumenty to
 \begin{itemize}
@@ -1062,7 +1095,7 @@ Kolejne argumenty to
 
 Z JavaScript kod natywny możemy wywołać w~następujący sposób:
 
-\begin{lstlisting}
+\begin{javascriptcode}
 //Ash.js
 var cordova = require('cordova');
 
@@ -1075,7 +1108,7 @@ cordova.exec(
         "networkSlow", 
         []
 );
-\end{lstlisting}
+\end{javascriptcode}
 
 Kolejne argumenty to naj następuje
 \begin{itemize}
@@ -1092,14 +1125,16 @@ JavaScript ze swojej natury jest jednowątkowy. Tak samo wszystkie testy w~Ashs�
 
 Wtyczki działają asynchronicznie. Kod uruchamiany po stronie natywnej platformy przez wywołania \texttt{cordova.exec()} działa w~osobnym wątku. Realizuje on swoje cele, a następnie poprzez \texttt{CallbackContext} uruchamia odpowiednie wywołania zwrotne przekazane przez użytkownika wtyczki. Takie podejście pozwala maksymalnie wykorzystać wątki działające po stronie platformy bez komplikowania budowy aplikacji po stronie warstwy JavaScript. W takim przypadku kod natywny nie wpływa bezpośrednio na \texttt{WebView} czy sposób interfejs apliakcji użytkownikowi. Wszelkie tego typu mainpulacje odbywają się po stronie JavaScript za pośrednictwem funkcji zwrotnych. Niestety czasami istnieje konieczność bezpośredniej manipulacji \texttt{WebView}. W~tym celu istnieje możliwość skorzystania z~metody \texttt{runOnUiThread()}. Metoda ta przyjmuje klasę implementującą interfejs \texttt{Runnable}, w~której mozemy nadpisać metodę \texttt{run()} tak, aby realizowała nasze cele. Na przykład w~ten sposób:
 
-\begin{lstlisting}
+\begin{javascriptcode}
 //AshPlugin.java
 cordova.getActivity().runOnUiThread(new Runnable() {
       public void run() {
-           // .... %* tu można bezpiecznie operować na WebView oraz na interfejsie *)
+   	....        
+         // tu można bezpiecznie operować 
+         //    na WebView oraz na interfejsie użytkownika
       }
 });
-\end{lstlisting}
+\end{javascriptcode}
 
 Komunikacja pomiędzy warstwami wtyczki, natywną oraz JavaScript, odbywa się przez tak zwaną \textit{Native To Js Queue}. Jak sama nazwa wskazuje komunikacja pomiędzy warstwami odbywa się za pomocą kolejki. Oba poziomy aplikacji mogą umieszczać zakodowane wiadomości w~kolejce, ale tylko jedna wiadomość może być przetwarzana. Pozwala to uniknąć kłopotów z~wielowątkowością. Konsekwencją takiej implementacji protokołu komunikacji jest to, że kluczowe znaczenie w~przypadku kodu, który wywołuje się między warstwami,  ma kolejność w~jakiej wiadomości są umieszczane w~kolejce. W~szczególności kolejka nie jest priorytetowa i~nie ma w~niej pojęcia ,,ważności'' wiadomości, czyli nie możliwe jest przepuszczenie wiadomości przed innymi.
 
@@ -1121,7 +1156,7 @@ Warto podkreślić, że trzecia grupa nie wchodzi w~skład oficjalnego, publiczn
 
 Ash definiuje funkcje pozwalajace na uruchamianie testów w~kontekście pewnego zdarzenia sprzętowego, tj. możemy przygotować test, co do którego będziemy pewni, że w~czasie jego działania będą zachodzić określone okoliczności. Możemy na przykład stworzyć test, który zostanie wykonany w~sytuacji braku sieci np.~w ten sposób:
 
-\begin{lstlisting}
+\begin{javascriptcode}
      //example.js
 
    //zdefiniuj kontekst braku sieci oraz 
@@ -1132,29 +1167,29 @@ Ash definiuje funkcje pozwalajace na uruchamianie testów w~kontekście pewnego 
 
 	//%* tu powinien znaleźć się kod testujący zachowanie aplikacji *) 
     });
-\end{lstlisting}
+\end{javascriptcode}
 
 Blok then pozwala zdefiniować co nastąpi po tym, jak sieć zostanie wyłączona. Jest to bardzo ważny aspekt biblioteki. Mamy pewność, że przez cały czas działania funkcji zachodzić będzie określony warunek. Warto zwrócić uwagę na przykładzie, że o~ile w~ramach kontektu stan sieci jest precyzyjnie zdefiniowany, to poza tymi ramami już tak nie musi być. Stan poza kontekstem możmy traktować jako dynamiczny lub nieokreślony. Dodatkowo należy pamiętać, że zmiana ustawień urządzenia w~ramach kontekstu nie musi pociągać za sobą jego powrotu do poprzedniego stanu po wykonaniu testów. Ma to duże znaczenie z~perspektywy testowania aplikacji, gdyż niejako wymusza, żeby w~ramach jednego konteksu sprawdzać jedynie te rzeczy, które są z~nim związane, a~elementy interfesju które od nie zależą testować poza tym kontekstem.
 
 Warto zaznaczyć, że konteksty można ze sobą łączyć, aby tworzyć bardziej złożone scenariusze. Takie złączenie realizujemy poprzez wilelokrotne użycie funkcji \texttt{then()} wraz z~funkcjami, które chcemy wywyłać. Pozwala to na zdefiniowanie na przykład takiego kontekstu:
 
-\begin{lstlisting}
+\begin{javascriptcode}
      //example.js
 
     Ash.noNetwork().then(
-	Ash.orientationHorizontal
+	    Ash.orientationHorizontal
     ).then(function(arg){
       	// %* w~tym momencie możemy być pewni, ze zachodzą dwa warunki: *)
-	// %* 1) dostęp do sieci został odcięty *) 
-	// %* 2) ekran znajduje się w~pozycji horyzontalnej *)
+      	// %* 1) dostęp do sieci został odcięty *) 
+      	// %* 2) ekran znajduje się w~pozycji horyzontalnej *)
 
-	//%*tu powinien znaleźć się kod testujący zachowanie aplikacji *) 
+      	//%*tu powinien znaleźć się kod testujący zachowanie aplikacji *) 
     });
-\end{lstlisting}
+\end{javascriptcode}
 
 możemy także wywołania funkcji Ash-a przeplatać innym kodem JavaScript np. w~ten sposób:
 
-\begin{lstlisting}
+\begin{javascriptcode}
      //example.js
 
     Ash.orientationHorizontal().then(function(msg){
@@ -1171,7 +1206,7 @@ możemy także wywołania funkcji Ash-a przeplatać innym kodem JavaScript np. w
 		// %* tu możemy umieścić kod JavaScript *)
       	});
     });
-\end{lstlisting}
+\end{javascriptcode}
 
 \section{Promises}
 
@@ -1209,7 +1244,7 @@ Oczywiście Page Objects można w~sobie zagłębiać. Na przykład jeden Page Ob
 
 Prosty Page Object w~Ash-u może wyglądać w~ten sposób:
 
-\begin{lstlisting}
+\begin{javascriptcode}
      //example.js
     var somePageObject = {
     	validate: function(){
@@ -1221,7 +1256,7 @@ Prosty Page Object w~Ash-u może wyglądać w~ten sposób:
              return true;
          }
     };
-\end{lstlisting}
+\end{javascriptcode}
 
 \section{Organizacja testów. Run oraz Play}
 
@@ -1233,13 +1268,15 @@ Obie wspomniane metody korzystają z~wywołań zwrotnych raczej niż z~podejści
 
 Ten tryb oferuje proste API do szybkiego uruchamiania niezależnych od siebie testów. Sygnatura funkcji: 
 
-\begin{quote}
-\texttt{ function Ash.run(array[function] testsArray, function failureCallback[, function successCallback]) }
-\end{quote}
+\begin{javascriptcode}
+  function Ash.run(array[function] testsArray, 
+                                   function failureCallback, 
+                                   [function successCallback]) 
+\end{javascriptcode}
 
 Przykładowe zastosowanie: 
 
-\begin{lstlisting}
+\begin{javascriptcode}
      //example.js
 
     var exampleTests = [
@@ -1247,11 +1284,14 @@ Przykładowe zastosowanie:
     ];
 
     Ash.run(exampleTests, function(errorData){
-      // %* ta funkcja zostanie uruchomiona, za każdym razem gdy test się nie powiedzie *)
+      // ta funkcja zostanie uruchomiona, 
+      //   za każdym razem gdy test się nie powiedzie
     }, function(successData){
-      // %* ta funkcja też jest opcjonalna, jesli zostanie podana to Ash uruchomi ją za każdym razem, gdy test się powiedzie
+      // ta funkcja jest opcjonalna, 
+      //   jeśli zostanie podana to Ash uruchomi ją 
+      //   za każdym razem, gdy test się powiedzie
     });
-\end{lstlisting}
+\end{javascriptcode}
 
 Run pozwala na sekwencyjne uruchomienie przekazanych testów w~kolejności zgodnej z~indeksem tablicy. Ash nie czyni żadnych zabiegów, aby testy nie kolidowały i~nie ingerowały w~działanie innych testów, dlatego testy przekazywane winny być od siebie nawzajem niezależne. Dostarczane one są do Ash-a jako tablica bezparametrowych funkcji.
 
@@ -1273,24 +1313,30 @@ Każdy z~dostarczonych testów kończy się wywołaniem jednego z~dostarczonych 
 
 Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o~wykonaniu testu. Do \texttt{errorCallback}:
 
-\begin{lstlisting}
+\begin{javascriptcode}
 	{
-		"level": // %* string, wskazuje jak poważny jest problem, może być użyty jako tag np. do filtrowania wiadomości *)
-		"code": // %* int, kod błędu *)
-		"message": // %* string, komunikat błędu *) 
-		"url": // %* string, zawiera informacje w~którym pliku doszło do błędu *)
-		"lineNumber": // %* int, zawiera informacje gdzie w~pliku doszło do błędu *)
+    //string, wskazuje jak poważny jest problem, 
+    //  może być użyty jako tag np. do filtrowania wiadomości 
+		"level":  ...,
+    //  int, kod błędu
+		"code":   ...,
+    // string, komunikat błędu
+		"message":   ...,
+    // string, zawiera informacje w~którym pliku doszło do błędu  
+		"url":   ...,
+    // int, zawiera informacje gdzie w~pliku doszło do błędu
+		"lineNumber":  ...
 	}
-\end{lstlisting}
+\end{javascriptcode}
 
 Do \texttt{successCallback}: 
 
-\begin{lstlisting}
+\begin{javascriptcode}
 	{
-		"length": // %* int, ile testów znajduje się na tablicy przekazanej do run *) 
+		"length": // int, ile testów znajduje się w tablicy przekazanej do run 
 		"index": // int, indeks obecnego testu w~tablicy 
 	}
-\end{lstlisting}
+\end{javascriptcode}
 
 \subsubsection{Play} 
 
@@ -1304,22 +1350,22 @@ function Ash.play(array[function] scenarioArray, function failureCallback[, func
 
 Scenariusze przekazujemy jako tablicę obiektów na przykład:
 
-\begin{lstlisting}
+\begin{javascriptcode}
 [
       {
           name: "First Step",
           where: somePageObject,
           what: [somePageTest],
-          howLong: 1500	// w~milisekundach
+          howLong: 1500	// w milisekundach
       },
       {
           name: "Second Step",
           where: otherPageObject,
           what: [otherPageTest],
-          howLong: 1000	// w~milisekundach
+          howLong: 1000	// w milisekundach
       }
   ];
-\end{lstlisting}
+\end{javascriptcode}
 
 każdy z~obiektów musi definiować następujące klucze:
 
@@ -1361,13 +1407,13 @@ Ash do obsługi błędów wykorzystuje wydarzenie \texttt{window.onerror}, któr
 
 Każdy z~obiektów rzucanych jako wyjątek jest ustandaryzowany i~zawiera następujące pola: 
 
-\begin{lstlisting}
+\begin{javascriptcode}
 	{
-		"level": // %* string, wskazuje jak poważny jest problem, może być użyty jako tag np. do filtrowania *) 
-		"code": // %* int, kod błędu *)
-		"message": // %* string, komunikat błędu *) 
+		"level": // string, wskazuje jak poważny jest problem 
+		"code": // int, kod błędu 
+		"message": // string, komunikat błędu 
 	}
-\end{lstlisting}
+\end{javascriptcode}
 
 dodatkowo każdy wyjątek ma też funkcję \texttt{toString()}, która wyświetla informacje na temat wyjątku w~formie przystępnej dla użytkownika.
 
@@ -1392,18 +1438,18 @@ Ten rozdziała zawiera informacje na temat szczegółów implementacji bibliotek
 
 \section{Zmiana położenia ekranu}
 
-\begin{lstlisting}
-  \texttt{Ash.orientationHorizontal().then( ... )}   
-  \texttt{Ash.orientationVertical().then( ... )} 
-\end{lstlisting}
+\begin{javascriptcode}
+  Ash.orientationHorizontal().then( ... )   
+  Ash.orientationVertical().then( ... ) 
+\end{javascriptcode}
 
 Konteksty orientationX działają na zasadzie przełączania ekranu z~jednego położenia do innego. Na platformie Android jest to realizowane przez funkcję \texttt{setRequestedOrientation()} klasy \texttt{Activity} do której uzyskujemy dostęp przez interfejs cordova. 
 
-\begin{lstlisting}
+\begin{javascriptcode}
 this.cordova.getActivity().setRequestedOrientation(
   ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 );
-\end{lstlisting}
+\end{javascriptcode}
 
 Każdemu z~widoków odpowiada stała zdefiniowana przez platformę Android
 \begin{itemize}
@@ -1415,40 +1461,40 @@ Obecna implementacja po zakończeniu testów zawartych w~kontekście nie przywra
 
 \section{Dostęp do sieci}
 
-\begin{lstlisting}
+\begin{javascriptcode}
 Ash.noNetwork().then( ... ) 
 Ash.slowNetwork().then( ... ) 
 Ash.networkOn().then( ... ) 
-\end{lstlisting}
+\end{javascriptcode}
 
 Obsługa sieci w~Ash zrealizowana jest poprzez manipulowanie sposobem w~jaki \texttt{WebView}, z~którego korzysta Apache Cordova, przetwarza odpowiedzi przychodzące z~sieci. \texttt{CordovaWebView} udostępnia możliwość dodania instancji klasy \texttt{WebViewClient} jako filtra przez który będzie przechodzić cała komunikacja. Pozwala to wpływać na zachowanie się aplikacji. W~szczególności największe znaczenie dla nas ma metoda
 
-\begin{lstlisting}
+\begin{javascriptcode}
    @Override
    public void onLoadResource(WebView view, String url) {
        ...
    }
-\end{lstlisting}
+\end{javascriptcode}
 
 odpowiedzialna za ładowanie zdalnych zasobów.
 
 Gdy operujemy na wątku interfejsu użytkownika możliwa jest podmiana klienta na taki, które działa zgodnie z~naszymi zamiarami, czyli 
 
-\begin{lstlisting}
+\begin{javascriptcode}
    @Override
    public void onLoadResource(WebView view, String url) {
-       Thread.sleep(1000); // 1 sekundy opoznienia dla kazdego zasobu
+       Thread.sleep(1000); // 1 sekunda opóźnienia dla każdego zasobu
    }
-\end{lstlisting}
+\end{javascriptcode}
 
 aby spowolnić dostęp do sieci oraz
 
-\begin{lstlisting}
+\begin{javascriptcode}
    @Override
    public void onLoadResource(WebView view, String url) {
        view.stopLoading();
    }
-\end{lstlisting}
+\end{javascriptcode}
 
 celem anulowania pobierania zasobów. Jeśli chcemy przywrócić domyślne zachowanie \texttt{WebView} podpinamy naszą implementację nową instację domyślnej klasy \texttt{IceCreamCordovaWebViewClient}. \texttt{IceCreamCordovaWebViewClient} jest to implementacja \texttt{CordovaWebView} przeznaczona dla urządzeń działających z~systemem operacyjnym Android w~wersji 4.0 lub nowszej.
 
@@ -1481,7 +1527,7 @@ W~obecnej implementacji Ash pozwala jedynie na symulację ruchu. Urządzenie nie
 
 Ash symuluje ruch poprzez tworzenie obiektu JavaScript, który zawiera nową pozorowaną lokalizację i~przekazanie go wywołania zwrotnego. Funkcja zwrotna jest wywoływana przynajmniej raz, za każdym razem z~różnymi obiektami lokalizacji. Ta pozorowana lokalizacja zawiera następujące klucze
 
-\begin{lstlisting}
+\begin{javascriptcode}
 
 {
   "coords" :  {
@@ -1494,15 +1540,15 @@ Ash symuluje ruch poprzez tworzenie obiektu JavaScript, który zawiera nową poz
    }
 }
 
-\end{lstlisting}
+\end{javascriptcode}
 
 gdzie X oraz Y oznaczają (odpowiednio) szerokość i~długość w~aktualnym kroku, a~pozostałe mają wartości jak pokazane wyżej.   
 
 \section{Obsługa przycisku powrotu}
 
-\begin{lstlisting}
+\begin{javascriptcode}
    Ash.pressBack().then( ... ) 
-\end{lstlisting}
+\end{javascriptcode}
 
 Ogólnie rzecz biorąc celem metody \texttt{pressBack()} jest powrót do poprzedniego ekranu w~historii aplikacji. W praktyce mowa tutaj o~adresach URL ładowanych przez WebView w~czasie działania aplikacji. Większość aplikacji Cordova tworzona jest na zadadzie Single Page Apps, więc poszczególne adresy będą różnić się jedynie wartością tzw. \textit{hashu}, a~przejścia pomiędzy nimi będą polegać na zmianie obecnego interfejsu, raczej niż na załadowaniu nowej podstrony. Dane na temat historii przeglądania zbierane są w~kontrolce \texttt{WebView} w~formie stosu.
 
@@ -1510,7 +1556,7 @@ Na platformie Android, aby spowodować powrót do poprzedniego ekranu należy wy
 
 Aby uniknąć tego typu problemów należy cofnąć się obrębie WebView a~nie aktywności. Klasa \texttt{CordovaPlugin} daje dostęp do \texttt{CordovaWebView}. Ta klasa z~kolei udostępnia metodę 
 
-\begin{lstlisting}
+\begin{javascriptcode}
     // CordovaWebView.java
     /**
      * Go to previous page in history.  (We manage our own history)
@@ -1518,7 +1564,7 @@ Aby uniknąć tego typu problemów należy cofnąć się obrębie WebView a~nie 
      * @return true if we went back, false if we are already at top
      */
     public boolean backHistory()
-\end{lstlisting}
+\end{javascriptcode}
 
 pozwalającą na dostęp do historii i~powrotu do poprzedniego  adresu URL zapisanego na stosie odwiedzonych. Operowanie na zasobach związanych z~działaniem aplikacji PhoneGap nie jest dozwolone, gdyż oznaczałoby to modyfikację zasobów z~jednego wątku w~ramach innego wątku. Co z~oczywistych przyczyn prowadzi do awarii aplikacji. Dlatego też nasze operacje musimy wykonywać na wątku UI korzystając z~metody \texttt{runOnUiThread()}.
 
@@ -1549,9 +1595,9 @@ gdzie
 
 Poniższe polecenie uruchamia testy dla AshHello na wszystkich dostępnych maszynach 
 
-\begin{lstlisting}
+\begin{javascriptcode}
 	node Furnance.js pl.ug.ash.AshHello.AshHello test
-\end{lstlisting}
+\end{javascriptcode}
 
 gdzie
 
