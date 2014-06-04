@@ -30,6 +30,46 @@
   texcl=true,
 }
 
+\newminted{html}{
+  fontfamily=tt,
+  linenos=true,
+  numberblanklines=true,
+  numbersep=12pt,
+  numbersep=5pt,
+  gobble=0,
+  frame=leftline,
+  framerule=0.4pt,
+  framesep=2mm,
+  funcnamehighlighting=true,
+  tabsize=4,
+  obeytabs=true,  
+  mathescape=false
+  samepage=true, 
+  showspaces=false,
+  showtabs =false,
+  texcl=true,
+}
+
+\newminted{java}{
+  fontfamily=tt,
+  linenos=true,
+  numberblanklines=true,
+  numbersep=12pt,
+  numbersep=5pt,
+  gobble=0,
+  frame=leftline,
+  framerule=0.4pt,
+  framesep=2mm,
+  funcnamehighlighting=true,
+  tabsize=4,
+  obeytabs=true,  
+  mathescape=false
+  samepage=true, 
+  showspaces=false,
+  showtabs =false,
+  texcl=true,
+}
+
 % tak można zmienić domyślną rodzinę fontów Latin Modern 
 %   na Minion + Myriad + Monaco:
 %\defaultfontfeatures{Scale=MatchLowercase}
@@ -318,7 +358,7 @@ które pozwalają na odwrócenie ekranu. W~obrębie funkcji przekazanych jako ar
 
   Ash.orientationHorizontal().then(function(msg){
      //ten kod będzie wywołany, gdy ekran 
-     // znajdzie się w~orientacji poziomej
+     // znajdzie się w orientacji poziomej
       var worksquare = $('.worksquare');
       var sidebar = $('.sidebar');
 
@@ -351,7 +391,7 @@ Póki co nasz test obejmuje tylko część funkcjonalności. Musimy też zadbać
        //kod zporzedniego punktu
 
       //to jeszcze nie koniec testu, 
-      //  więc musimy ująć wkomentarz lub usunąć endTest()
+      //  więc musimy ująć w komentarz lub usunąć endTest()
       //Ash.endTest();
   }).then(
       Ash.orientationVertical //a teraz odwróć ekran pionowo
@@ -422,7 +462,7 @@ Konteksty wyzwalają określone zachowanie urządzenia, co pozwala na sprawdzeni
 
 \begin{javascriptcode}
   Ash.makeDeviceDoABC().then(function(msg){
-      //sprawdz jak aplikacja sprawuje się, 
+      //sprawdź jak aplikacja sprawuje się, 
       //  gdy zaszło zdarzenie ABC
       ....
       //zakończ kontekst
@@ -892,7 +932,7 @@ Tak zmodyfikowany kod Ash-a może zostać użyty w~projekcie Wikipedia Mobile.
 
 Pliki \texttt{promise.js} oraz \texttt{Ash.js} należy przenieść w~takie miejsce, żeby możliwy był do nich dostęp z~pliku \texttt{assets/www/index.html}. Można je na przykład przenieść do \texttt{assets/www/test/}. Potem wystaczy już tylko wczytać je na głównym ekranie 
 
-\begin{javascriptcode}
+\begin{htmlcode}
    //index.html
   
   ...
@@ -902,18 +942,18 @@ Pliki \texttt{promise.js} oraz \texttt{Ash.js} należy przenieść w~takie miejs
         charset="utf-8" src="test/ash/Ash.js"></script>
   ...
 
-\end{javascriptcode}
+\end{htmlcode}
 
 Celem dodania cześci natywnej należy zapisać plik \texttt{AsPlugin.java} jako \texttt{src/pl/ug/ash/AshPlugin.java} oraz poinformować o~nowej wtyczce środowisko, przez dodanie nowej linijki do \texttt{res/xml/plugins.xml}
 
-\begin{javascriptcode}
+\begin{htmlcode}
    //plugins.xml
   
   ...
   <plugin name="Ash" value="pl.ug.ash.AshPlugin"/>
   ...
 
-\end{javascriptcode}
+\end{htmlcode}
 
 Teraz zostaje nam już tylko dodanie testów do projektu np. w~postaci pliku  \texttt{assets/www/test/ash/wikitest.js} 
 
@@ -1063,12 +1103,12 @@ CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. Poz
 
 Punktem wejściowym dla kodu każdej wtyczki jest jest metoda \texttt{exec()}, która jest wywoływana, gdy warstwa JavaScript wyśle żądanie wywołania określonego kodu natywnego. Sygnatura \texttt{exec} wygląda następująco:
 
-\begin{javascriptcode}
+\begin{javacode}
 public boolean execute(String action, 
                        JSONArray args, 
                        final CallbackContext callbackContext) 
                        throws JSONException
-\end{javascriptcode}
+\end{javacode}
 
 Kolejne argumenty to
 \begin{itemize}
@@ -1457,32 +1497,33 @@ Ash.networkOn().then( ... )
 
 Obsługa sieci w~Ash zrealizowana jest poprzez manipulowanie sposobem w~jaki \texttt{WebView}, z~którego korzysta Apache Cordova, przetwarza odpowiedzi przychodzące z~sieci. \texttt{CordovaWebView} udostępnia możliwość dodania instancji klasy \texttt{WebViewClient} jako filtra przez który będzie przechodzić cała komunikacja. Pozwala to wpływać na zachowanie się aplikacji. W~szczególności największe znaczenie dla nas ma metoda
 
-\begin{javascriptcode}
+\begin{javacode}
    @Override
    public void onLoadResource(WebView view, String url) {
        ...
    }
-\end{javascriptcode}
+\end{javacode}
 
 odpowiedzialna za ładowanie zdalnych zasobów.
 
 Gdy operujemy na wątku interfejsu użytkownika możliwa jest podmiana klienta na taki, które działa zgodnie z~naszymi zamiarami, czyli 
 
-\begin{javascriptcode}
+\begin{javacode}
    @Override
    public void onLoadResource(WebView view, String url) {
-       Thread.sleep(1000); // 1 sekunda opóźnienia dla każdego zasobu
+       // 1 sekunda opóźnienia dla każdego zasobu
+       Thread.sleep(1000); 
    }
-\end{javascriptcode}
+\end{javacode}
 
 aby spowolnić dostęp do sieci oraz
 
-\begin{javascriptcode}
+\begin{javacode}
    @Override
    public void onLoadResource(WebView view, String url) {
        view.stopLoading();
    }
-\end{javascriptcode}
+\end{javacode}
 
 celem anulowania pobierania zasobów. Jeśli chcemy przywrócić domyślne zachowanie \texttt{WebView} podpinamy naszą implementację nową instację domyślnej klasy \texttt{IceCreamCordovaWebViewClient}. \texttt{IceCreamCordovaWebViewClient} jest to implementacja \texttt{CordovaWebView} przeznaczona dla urządzeń działających z~systemem operacyjnym Android w~wersji 4.0 lub nowszej.
 
@@ -1544,7 +1585,7 @@ Na platformie Android, aby spowodować powrót do poprzedniego ekranu należy wy
 
 Aby uniknąć tego typu problemów należy cofnąć się obrębie WebView a~nie aktywności. Klasa \texttt{CordovaPlugin} daje dostęp do \texttt{CordovaWebView}. Ta klasa z~kolei udostępnia metodę 
 
-\begin{javascriptcode}
+\begin{javacode}
     // CordovaWebView.java
     /**
      * Go to previous page in history.  (We manage our own history)
@@ -1552,7 +1593,7 @@ Aby uniknąć tego typu problemów należy cofnąć się obrębie WebView a~nie 
      * @return true if we went back, false if we are already at top
      */
     public boolean backHistory()
-\end{javascriptcode}
+\end{javacode}
 
 pozwalającą na dostęp do historii i~powrotu do poprzedniego  adresu URL zapisanego na stosie odwiedzonych. Operowanie na zasobach związanych z~działaniem aplikacji PhoneGap nie jest dozwolone, gdyż oznaczałoby to modyfikację zasobów z~jednego wątku w~ramach innego wątku. Co z~oczywistych przyczyn prowadzi do awarii aplikacji. Dlatego też nasze operacje musimy wykonywać na wątku UI korzystając z~metody \texttt{runOnUiThread()}.
 
