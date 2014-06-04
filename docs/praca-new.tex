@@ -10,24 +10,6 @@
 \definecolor{black}{rgb}{0.0,0.0,0.0}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
-\lstset{frame=tb,
-  language=Java,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\small\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{black},
-  stringstyle=\color{mauve},
-  breaklines=true,
-  breakatwhitespace=true
-  tabsize=3,
-  escapeinside={\%*}{*)}
-}
-
 \newminted{javascript}{
   fontfamily=tt,
   linenos=true,
@@ -186,11 +168,11 @@ Więcej informacji na temat historii projektu można znaleźć w~książce Johna
 
 \section{Test Driven Development}
 
-\textit{Test Driven Development} (w skrócie TDD) jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o~których często mówimy \textit{red--green--refactor}. Na taki cykl składają się fazy.
+\textit{Test Driven Development} (w skrócie TDD) jest to metodologia wytwarzania oprogramowania opierająca się na krótkich cyklach programistycznych, o~których często mówimy \textit{red--green--refactor}. Na taki cykl składają się następujące fazy.
 \begin{itemize}
-  \item Red -- Programista pisze testy automatyczne, pokrywające funkcjonalność, która została wyspecyfikowana, ale nie została jeszcze zaimplementowana. Na tym etapie testy oczywiście nie przechodzą.
-  \item Green -- Następnie programista implementuje brakujące funkcjonalności, aż wszystkie testy napisane w~poprzednim kroku staną się ,,zielone'', czyli uruchamiają się i~kończą bez błędów.
-  \item Refactor -- Na tym etapie testowana aplikacja jest udoskonalana. Dzięki testom nie ma obawy, że nowe funcjonalności czy poprawki doprowadzą do regresji, do błędów w~działaniu elementów, które wcześniej funkcjonowały poprawnie. Wszelkie takie przypadki powinny zostać wykryte przez testy automatyczne. Po zakończeniu implementacji tworzone są dodatkowe pokrywające poszerzony zakres funkcjonalności.
+  \item \textit{Red} -- Programista pisze testy automatyczne, pokrywające funkcjonalność, która została wyspecyfikowana, ale nie została jeszcze zaimplementowana. Na tym etapie testy oczywiście nie przechodzą.
+  \item \textit{Green} -- Następnie programista implementuje brakujące funkcjonalności, aż wszystkie testy napisane w~poprzednim kroku staną się ,,zielone'', czyli uruchamiają się i~kończą bez błędów.
+  \item \textit{Refactor} -- Na tym etapie testowana aplikacja jest udoskonalana. Dzięki testom nie ma obawy, że nowe funcjonalności czy poprawki doprowadzą do regresji, do błędów w~działaniu elementów, które wcześniej funkcjonowały poprawnie. Wszelkie takie przypadki powinny zostać wykryte przez testy automatyczne. Po zakończeniu implementacji tworzone są dodatkowe pokrywające poszerzony zakres funkcjonalności.
 \end{itemize}
 
 Dzięki zastosowaniu krótkich cykli oraz automatycznych testów, metodologia TDD pozwala na tworzenie oprogramowania, które ma przemyślaną architekturę oraz unika problemów związanych z~regresją. Tworząc kod  programu programista musi dopilnować, aby jego kod był testowalny, co prowadzi do poprawienia jakości tworzonego oprogramowania. Testy automatyczne, które powstają podczas cyklu zwiększają prawdopodobieństwo, że w~przypadku, gdy kod aplikacji zmieni się, potencjalne błędy zostaną od razu wychwycone. 
@@ -311,7 +293,7 @@ W przed chwilą stworzonym pliku definiujemy samowywołującą się funkcję, kt
  \begin{javascriptcode}
   (function(){
 	console.log("MyTest started!");
-	// %* tu znajdzie się kod testujący *)
+	//  tu znajdzie się kod testujący 
   })();
 \end{javascriptcode}
 
@@ -335,8 +317,8 @@ które pozwalają na odwrócenie ekranu. W~obrębie funkcji przekazanych jako ar
   //myTest.js
 
   Ash.orientationHorizontal().then(function(msg){
-     //%* ten kod będzie wywołany, gdy ekran *) 
-     // %*znajdzie się w~orientacji poziomej *)
+     //ten kod będzie wywołany, gdy ekran 
+     // znajdzie się w~orientacji poziomej
       var worksquare = $('.worksquare');
       var sidebar = $('.sidebar');
 
@@ -366,13 +348,13 @@ Póki co nasz test obejmuje tylko część funkcjonalności. Musimy też zadbać
   //myTest.js
 
   Ash.orientationHorizontal().then(function(msg){
-       //kod z~porzedniego punktu
+       //kod zporzedniego punktu
 
       //to jeszcze nie koniec testu, 
-      //  więc musimy ująć w~komentarz lub usunąć endTest()
+      //  więc musimy ująć wkomentarz lub usunąć endTest()
       //Ash.endTest();
   }).then(
-      Ash.orientationVertical //%*a teraz odwróć ekran pionowo*)
+      Ash.orientationVertical //a teraz odwróć ekran pionowo
     ).then(function(msg){
       var worksquare = $('.worksquare');
       Ash.assert(worksquare);
@@ -380,11 +362,13 @@ Póki co nasz test obejmuje tylko część funkcjonalności. Musimy też zadbać
       var sidebar = $('.sidebar');
       Ash.assert(sidebar);
 
-      Ash.assert(worksquare.getBoundingClientRect().top < sidebar.getBoundingClientRect().top);
-      Ash.equal(worksquare.getBoundingClientRect().left, sidebar.getBoundingClientRect().left);        
+      Ash.assert(worksquare.getBoundingClientRect().top <
+sidebar.getBoundingClientRect().top);
+      Ash.equal(worksquare.getBoundingClientRect().left,
+sidebar.getBoundingClientRect().left);        
 
       //jesli aplikacja dotarła tutaj,
-      //   to zaliczmy ten przypadek testowy
+      //  to zaliczmy ten przypadek testowy
       Ash.endTest();
     });
 \end{javascriptcode}
@@ -413,7 +397,7 @@ Teraz kiedy mamy już kod testów czas dodać go do aplikacji. W~przypadku AshHe
     },
     runAshTests: function() {
         window.onerror = function(errorMsg, url, lineNumber) {
-            alert("Error " + url + ":" + lineNumber + "\n" + errorMsg);
+            alert("Error "+url+":"+lineNumber+"\n" + errorMsg);
         };
         Ash.loadTests(["test/myTest.js"]);
     },
@@ -438,10 +422,10 @@ Konteksty wyzwalają określone zachowanie urządzenia, co pozwala na sprawdzeni
 
 \begin{javascriptcode}
   Ash.makeDeviceDoABC().then(function(msg){
-      //%*sprawdz jak aplikacja sprawuje się,*) 
-      //  %*gdy zaszło zdarzenie ABC*)
+      //sprawdz jak aplikacja sprawuje się, 
+      //  gdy zaszło zdarzenie ABC
       ....
-      //%*zakończ kontekst*)
+      //zakończ kontekst
       Ash.endTest();
   });
 \end{javascriptcode}
@@ -587,11 +571,11 @@ Praktycznym podejściem może być sprawdzanie jak na zmianę ekranu reagują po
    //example.js
 
   Ash.orientationHorizontal().then(function(msg){
-      //%*sprawdź czy interfejs jest ułożony dla pozycji poziomej*)
+      //sprawdź czy interfejs jest ułożony dla pozycji poziomej
     }).then(
       Ash.orientationVertical
     ).then(function(msg){
-      //%*sprawdź czy interfejs jest ułożony dla pozycji pionowej*)
+      //sprawdź czy interfejs jest ułożony dla pozycji pionowej
       Ash.endTest();
     });
   };
@@ -708,14 +692,14 @@ Obiekt \texttt{startPosition} oraz \texttt{moveOptions} może zawierać następu
 
 \begin{javascriptcode}
    var startPosition = {
-       "latitude": 0,  //%*szerokość geograficzna*)
-       "longitude": 0  //%*długość geograficzna*)
+       "latitude": 0,  //szerokość geograficzna
+       "longitude": 0  //długość geograficzna
    };
  
   var moveOptions = {
-      "latitude": 0,  //%*szerokość geograficzna miejsca zakończenia*)
-      "longitude": 0,  //%*dlugość geograficzna miejsca zakończenia*)
-      "steps": 1  //%*w ilu krokach dotrzeć do miejsca zakończenia*)
+      "latitude": 0,  //szerokość geograficzna miejsca zakończenia
+      "longitude": 0,  //dlugość geograficzna miejsca zakończenia
+      "steps": 1  //w ilu krokach dotrzeć do miejsca zakończenia
   };
 \end{javascriptcode}
 
@@ -760,13 +744,13 @@ Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie
   var pressBackTest = function(){
     var pageOne = 1;
     var pageTwo = 2;
-    // %*function app.mySwipe.slide(A, x) nawiguje do podstrony A *)
-    // %*w~ciągu x milisekund,*)
-    // %*po zakończonej nawigacji hash adresu jest zmieniany*)
+    // function app.mySwipe.slide(A, x) nawiguje do podstrony A 
+    // w ciągu x milisekund,
+    // po zakończonej nawigacji hash adresu jest zmieniany
     app.mySwipe.slide(pageOne, 1); 
     app.mySwipe.slide(pageTwo, 1); 
-    app.mySwipe.slide(pageTwo + 1, 1); // %* wykonujemy 3 ruchy, *)
-       // %* żeby móc cofnąć się 2 razy i~wrócić do punktu wyjścia *)
+    app.mySwipe.slide(pageTwo + 1, 1); //  wykonujemy 3 ruchy, 
+       //  żeby móc cofnąć się 2 razy i wrócić do punktu wyjścia 
     
     Ash.pressBack().then(function(msg){
       Ash.equal("#" + pageTwo, window.location.hash);
@@ -835,7 +819,7 @@ Zewnętrzne API Ash-a napisane jest w~jezyku JavaScript i~także w~tym języku p
 
 \section{Przykład zastosowania Ash - Wikipedia Mobile}
 
-Przydatność Ash-a najlepiej udowodnić pokazując jak można go wykorzystać do przetestowania prawdziwej aplikacji. W~tym celu zdecydowałem się pokryć testami Ash-a część aplikacji Wikipedia Mobile\footnote{Projekt jest dostępny pod adresem \url{https://github.com/wikimedia/WikipediaMobile} }. Wybrałem akurat ten projekt gdyż
+Przydatność Ash-a najlepiej udowodnić pokazując jak można go wykorzystać do przetestowania prawdziwej aplikacji. W~tym celu zdecydowałem się pokryć testami Ash-a część aplikacji Wikipedia Mobile\footnote{Kod źródłowy projektu jest dostępny pod adresem \url{https://github.com/wikimedia/WikipediaMobile} }. Wybrałem akurat ten projekt gdyż
 
 \begin{itemize}
   \item wykorzystuje Apache Cordova
@@ -1160,12 +1144,12 @@ Ash definiuje funkcje pozwalajace na uruchamianie testów w~kontekście pewnego 
      //example.js
 
    //zdefiniuj kontekst braku sieci oraz 
-   //uruchom w jego ramach przekazana funkcje
+   //  uruchom w jego ramach przekazaną funkcję
     Ash.noNetwork().then(function(){
-	// %* tu możemy umieścić kod testu *)
-     	// %* zostanie on wykonany z~kontekście braku dostępu do sieci *)
+	//  tu możemy umieścić kod testu, który zostanie 
+         //    wykonany w kontekście braku dostępu do sieci 
 
-	//%* tu powinien znaleźć się kod testujący zachowanie aplikacji *) 
+	// tu umieść kod testujący zachowanie aplikacji  
     });
 \end{javascriptcode}
 
@@ -1179,11 +1163,11 @@ Warto zaznaczyć, że konteksty można ze sobą łączyć, aby tworzyć bardziej
     Ash.noNetwork().then(
 	    Ash.orientationHorizontal
     ).then(function(arg){
-      	// %* w~tym momencie możemy być pewni, ze zachodzą dwa warunki: *)
-      	// %* 1) dostęp do sieci został odcięty *) 
-      	// %* 2) ekran znajduje się w~pozycji horyzontalnej *)
+      	//  w tym momencie na pewno, zachodzą dwa warunki: 
+      	//  1) dostęp do sieci został odcięty  
+      	//  2) ekran znajduje się w pozycji horyzontalnej 
 
-      	//%*tu powinien znaleźć się kod testujący zachowanie aplikacji *) 
+      	// tu umieść kod testujący zachowanie aplikacji  
     });
 \end{javascriptcode}
 
@@ -1193,17 +1177,17 @@ możemy także wywołania funkcji Ash-a przeplatać innym kodem JavaScript np. w
      //example.js
 
     Ash.orientationHorizontal().then(function(msg){
-	// %* tu możemy umieścić kod JavaScript *)
+	//  tu możemy umieścić kod JavaScript 
       	
 	// ekran jest w pozycji horyzontalnej
       
-	// %* tu możemy umieścić kod JavaScript *)
+	//  tu możemy umieścić kod JavaScript 
       	Ash.orientationVertical().then(function(){
-		// %* tu możemy umieścić kod JavaScript *)
+		//  tu możemy umieścić kod JavaScript 
 
 		// ekran jest w pozycji wertykalnej 
 
-		// %* tu możemy umieścić kod JavaScript *)
+		//  tu możemy umieścić kod JavaScript 
       	});
     });
 \end{javascriptcode}
@@ -1232,8 +1216,8 @@ lub
 Page Object reprezentuje stan interfejsu użytkownika, pojedynczego komponentu lub zbioru komponentów. W~praktyce Ash jako Page Object traktuje każdy obiekt, który definiuje dwie bezparametrowe funkcje zwracające wartości logiczne:
 
 \begin{itemize}
-  \item validate
-  \item goto
+  \item \texttt{validate}
+  \item \texttt{goto}
 \end{itemize}
 
 Metoda \texttt{validate()} wywoływana jest w~celu sprawdzenia, czy obecny UI spełnia wymagania danego Page Object. Innymi słowy, metoda ta pozwala nam ustalić, czy znajdujemy się na właściwej podstronie. 
@@ -1280,7 +1264,7 @@ Przykładowe zastosowanie:
      //example.js
 
     var exampleTests = [
-	// %* tu umieść funkcję z~kodem testów *)
+	//  tu umieść funkcję z kodem testów 
     ];
 
     Ash.run(exampleTests, function(errorData){
@@ -1300,7 +1284,7 @@ Ash definiuje zestaw funkcji wyzwalaczy wołanych podczas uruchomienia \texttt{r
 \begin{itemize}
   \item \texttt{Ash.callbacks.beforeClass}
   \item \texttt{Ash.callbacks.before}
-  \item {test dostarczony przez użytkownika}
+  \item Test dostarczony przez użytkownika jest wywoływany
   \item \texttt{Ash.callbacks.after}
   \item ....
   \item \texttt{Ash.callbacks.before}
@@ -1322,9 +1306,9 @@ Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o~wykona
 		"code":   ...,
     // string, komunikat błędu
 		"message":   ...,
-    // string, zawiera informacje w~którym pliku doszło do błędu  
+    // string, zawiera informacje w którym pliku doszło do błędu  
 		"url":   ...,
-    // int, zawiera informacje gdzie w~pliku doszło do błędu
+    // int, zawiera informacje gdzie w pliku doszło do błędu
 		"lineNumber":  ...
 	}
 \end{javascriptcode}
@@ -1333,8 +1317,10 @@ Do \texttt{successCallback}:
 
 \begin{javascriptcode}
 	{
-		"length": // int, ile testów znajduje się w tablicy przekazanej do run 
-		"index": // int, indeks obecnego testu w~tablicy 
+    // int, ile testów znajduje się w tablicy przekazanej do run 
+		"length":  ...,
+    // int, indeks obecnego testu w tablicy 
+		"index": ...
 	}
 \end{javascriptcode}
 
@@ -1344,9 +1330,11 @@ Do \texttt{successCallback}:
 
 Sygnatura funkcji \texttt{play()} jest podobna do \texttt{run()}:
 
-\begin{quote}
-function Ash.play(array[function] scenarioArray, function failureCallback[, function successCallback]) 
-\end{quote}
+\begin{javascriptcode}
+function Ash.play(array[function] scenarioArray, 
+                  function failureCallback, 
+                  [function successCallback]) 
+\end{javascriptcode}
 
 Scenariusze przekazujemy jako tablicę obiektów na przykład:
 
