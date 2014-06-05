@@ -120,7 +120,7 @@ Pierwsze rozdziały wprowadzają czytelnika w~temat testowania aplikacji mobilny
 
 \chapter{Podstawowe terminy oraz techniki}
 \section{Hybrydowe aplikacje mobilne}
-Mówiąc o~\textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z~myślą~o konkretnej platformie systemowej (Android, iOS, itp.) przy użyciu narzuconych przez jej twórcę narzędzi (Java, Objective-C, itd.).  \textit{Aplikacje mobile web} są to z~kolei aplikacje webowe zoptymalizowane po kątem urządzeń mobilnych.
+Mówiąc o~\textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z~myślą o~konkretnej platformie systemowej (Android, iOS, itp.) przy użyciu narzuconych przez jej twórcę narzędzi (Java, Objective-C, itd.).  \textit{Aplikacje mobile web} są to z~kolei aplikacje webowe zoptymalizowane po kątem urządzeń mobilnych.
 Adobe PhoneGap oraz jej odpowiednik o~otwartym źródle Apache Cordova, to
 dwie popularne biblioteki pozwalające na tworzenie \textit{hybrydowych aplikacji
 mobilnych}, tj. aplikacji które łączą w~sobie zalety aplikacji natywnych oraz aplikacji
@@ -297,7 +297,7 @@ Aplikacja AshHello oferuje bardzo prostą funkcjonalność. Jej zasadniczym cele
     \label{fig:AshHello1}
 \end{figure}
 
-  \item obok obszaru głównego -- gdy urządzenie jest w~orientacji poziomej, czyli szerokość dostępnego ekranu jest większa niż jego wysokość,
+  \item obok obszaru głównego -- gdy urządzenie jest w~orientacji poziomej, czyli szerokość dostępnego ekranu jest większa niż jego wysokość.
 
 \begin{figure}[h]
     \centering
@@ -553,29 +553,30 @@ Zestaw funkcji pomocniczych użytecznych podczas tworzenia testów.
 
 \subsubsection{Opis}
 
-Funkcje \texttt{assert()} oraz \texttt{equal()} są podstawowymi składowymi testów w~Ash. Pozwalają one na 
+Funkcje \texttt{assert()} oraz \texttt{equal()} są podstawowymi składowymi testów w~Ash.
 
-\begin{itemize}
-  \item Sprawdzenie czy obiekt istnieje -- Funkcja \texttt{assert(object)} pozwala na sprawdzenie czy przekazany obiekt istnieje. Asercja ta zakłada, że każdy przekazany obiekt, który nie jest fałszywy (\textit{falsy}, w~znaczeniu znanym z~JavaScript) jest poprawny. 
-  \item Porównanie dwóch wartości -- \texttt{equal(A, B)} sprawdza, czy oba podane argumenty są identyczne. Wykorzystując do tego porównanie dokładne, tzn. bierzemy po uwagę typ, wartość oraz nie wykonujemy konwersji obiektów celem porównania. Referencje wskazujące na różne obiekty są identyczne, jeśli te obiekty mają tą samą wartość.
-\end{itemize}
+Funkcja \texttt{assert(object)} pozwala na sprawdzenie czy przekazany obiekt istnieje. Asercja ta zakłada, że każdy przekazany obiekt, który nie jest fałszywy (\textit{falsy}, w~znaczeniu znanym z~JavaScript) jest poprawny. 
+
+\texttt{equal(A, B)} sprawdza, czy oba podane argumenty są identyczne w sensie porównania strukturalnego. Wykorzystując do tego porównanie dokładne, tzn. bierzemy po uwagę typ, wartość oraz nie wykonujemy konwersji obiektów celem porównania.
+
 Powyższe asercje w~przypadku, gdy argumenty nie spełniają założeń rzucają ustandardyzowane wyjątki Ash. 
 
-Funkcja widzialności \texttt{invisible(A)} określa czy przekazany element DOM nie jest widoczny na ekranie. Analogicznie obiekt spełnia \texttt{visible(A)}, gdy nie spełnia \texttt{invisible(A)}. Stwierdzenie, że element {\it nie jest widoczy na ekranie} oznacza, że któryś z~poniższych warunków jest spełniony
+Funkcja widoczności \texttt{invisible(A)} określa czy przekazany element DOM nie jest widoczny na ekranie. Analogicznie obiekt spełnia \texttt{visible(A)}, gdy nie spełnia \texttt{invisible(A)}. Stwierdzenie, że element {\it nie jest widoczy na ekranie} oznacza, że któryś z~poniższych warunków jest spełniony:
 
 \begin{itemize}
-  \item Wartość \texttt{display} określona na elemencie jest równa \texttt{none}
-  \item Wartość \texttt{visiblity} elementu jest równa \texttt{hidden}
-  \item Element jest położony poza zasięgiem ciała (w sensie \texttt{document.body)} dokumentu
-  \item Atrybut \texttt{hidden} elementu jest ustawiona na \texttt{true}
-  \item Szerokość i~wysokość elementu są większe niż~0
+  \item wartość \texttt{display} określona na elemencie jest równa \texttt{none}
+  \item wartość \texttt{visiblity} elementu jest równa \texttt{hidden}
+  \item element jest położony poza zasięgiem ciała (w sensie \texttt{document.body)} dokumentu
+  \item atrybut \texttt{hidden} elementu jest ustawiona na \texttt{true}
+  \item szerokość i~wysokość elementu są większe niż~0
 \end{itemize}
 
 Do asercji związanych z~widocznością można przekazywać pojedynczy obiekt DOM, ich tablicę lub obiekt jQuery. W~przypadku przekazania tablicy lub kilku elementów opakowanych w~obiekt jQuery asercja powodzi się, tylko gdy każdy z~elementów spełnia założenie. 
 
-Różnica pomiędzy funkcjami X oraz isX jest taka, że pierwsze rzucają wyjątki biblioteki Ash, gdy założenie nie jest spełnione, natomiast drugie tylko zwracają wartość boolowską określającą czy argument spełnia założenia.  
+Różnica pomiędzy asercjami a ich odpowiednikami z ,,is'' na początku jest taka, że pierwsze rzucają wyjątki biblioteki Ash, gdy założenie nie jest spełnione, natomiast drugie tylko zwracają wartość boolowską określającą czy argument spełnia założenia.  
 
-Ash udostępnia także metodę equals, która działa identycznie jak \texttt{equal}, ale została dodana dla uproszczenia składni testów.
+//TODO: przemyśleć
+Ash udostępnia także metodę \texttt{equals}, która działa identycznie jak \texttt{equal}, ale została dodana dla uproszczenia składni testów.
 
 \section{Zmiana położenia ekranu}
 
@@ -595,17 +596,17 @@ Pozwala ustawić ekran w~określonym położeniu
 Smartfony i~tablety ze względu na swój mobilny charakter oraz dotykowy ekran bardzo często używane są w~pozycjach i~w~sposób, który może być zaskakujący dla twórców aplikacji. Najczęściej rozróżniamy dwie pozycje definiujące położnie ekranu wzgledem użytkownika. 
 
 \begin{itemize}
-  \item Pionowe -- Gdy szerokość ekranu jest mniejsza niż jego wysokość
-  \item Poziome -- Gdy szerokość ekranu jest większa niż jego wysokość
+  \item Pionowe, gdy szerokość ekranu jest mniejsza niż jego wysokość
+  \item Poziome, gdy szerokość ekranu jest większa niż jego wysokość
 \end{itemize}
 
 Każda dobrze wykonana aplikacja powinna uwzględniać te dwie pozycje. W każdej z~nich przestrzeń, którą mamy do dyspozycji jest w~prawdzie taka sama, ale jej postrzeganie przez użytkownika jest inne, dlatego należy inaczej rozmieścić elementy interfejsu.  
 
 Funkcje \texttt{orientationHorizontal()} oraz \texttt{orientationVertical()} ustawiają ekran na pozycjach, odpowiednio, poziomej oraz pionowej względem domyślnej pozycji ,,zero'' urządzenia. Pozycja ta może, ale nie musi być tą pozycją w~której w~momencie wywołania znajduje się ekran.  
 
-Należy pamiętać, że poza kontekstem orientationX status ekranu nie jest określony. Może być on dowolny. W szczególności wykonanie testu z~kontekstami orientacji nie musi po fakcie przywracać poprzedniego ustawienia. Celem takiego podejścia jest wymuszenie na użytkowniku biblioteki zamykanie całego kodu związanego z~położeniem w~kontekście obrotu ekranu. 
+Należy pamiętać, że poza kontekstem \texttt{orientationX} status ekranu nie jest określony. Może być on dowolny. W szczególności wykonanie testu z~kontekstami orientacji nie musi po fakcie przywracać poprzedniego ustawienia. Celem takiego podejścia jest wymuszenie na użytkowniku biblioteki zamykanie całego kodu związanego z~położeniem w~kontekście obrotu ekranu. 
 
-Praktycznym podejściem może być sprawdzanie jak na zmianę ekranu reagują pojedyncze części ekranu zamiast całość. Innym podejściem jest przetestowanie jak aplikacja reaguje na zmianę położenia ekranu a~następnie na jego powrót. Można to zrealizować w~ten sposób:
+Praktycznym podejściem może być sprawdzanie jak na zmianę położenia ekranu reagują pojedyncze części interfejsu zamiast całość. Innym -- jest przetestowanie jak aplikacja reaguje na zmianę położenia ekranu a~następnie na jego powrót do pozycji wejściowej. Można to zrealizować w~następujący sposób:
 
 \begin{javascriptcode}
    //example.js
@@ -641,7 +642,7 @@ Daje możliwość manipulowania dostępem do sieci -- pozwala blokować dostęp 
 
 \subsubsection{Opis}
 
-Większość aplikacji mobilnych korzysta w~ten czy inny sposób z~zasobów zgromadzonych na zdalnych serwerach. W wielu przypadkach komunikacja z~serwerem jest najistotniejszym czynnikiem wpływającym na szybkość oraz poprawność działania aplikacji. Niestety ze względu na mobilny charakter urządzeń dostęp do sieci bardzo często bywa utrudniony lub wręcz niemożliwy. Co gorsza dzieje się tak w~nieregularnych odstępach czasu w~zależności od czynników zewnętrznych. Dlatego kluczowe znaczenie ma przetestowanie w~jaki sposób zachowa się aplikacja, gdy z~jakiegoś powodu nie możliwe będzie nazwiązanie połączenia z~internetem. Właśnie taką możliwość udostępnia Ash. 
+Większość aplikacji mobilnych korzysta w~ten czy inny sposób z~zasobów zgromadzonych na zdalnych serwerach. W wielu przypadkach komunikacja z~serwerem jest najistotniejszym czynnikiem wpływającym na szybkość oraz poprawność działania aplikacji. Niestety ze względu na mobilny charakter urządzeń dostęp do sieci bardzo często bywa utrudniony lub wręcz niemożliwy. Co gorsza, dzieje się tak w~nieregularnych odstępach czasu, w~zależności od czynników zewnętrznych. Dlatego kluczowe znaczenie ma przetestowanie w~jaki sposób zachowa się aplikacja, gdy z~jakiegoś powodu niemożliwe będzie nazwiązanie połączenia z~internetem. Właśnie taką możliwość udostępnia Ash. 
 
 \begin{javascriptcode}
    //example.js
@@ -655,17 +656,17 @@ Większość aplikacji mobilnych korzysta w~ten czy inny sposób z~zasobów zgro
   };
 \end{javascriptcode}
 
-W kontekście \texttt{noNetwork} dostęp do sieci zostanie zablokowany i~nie możliwe będzie skomunikowanie się z~zewnętrznymi serwisami.
+W kontekście \texttt{noNetwork} dostęp do sieci zostanie zablokowany i~niemożliwe będzie skomunikowanie się z~zewnętrznymi serwisami.
 
-Testując brak dostępu do internetu warto zwrócić uwagę nie tylko na to co dzieje się w~przypadku, gdy żądanie nie powiedzie się, ale także jak szybko się to stanie. Może dojść do sytuacji, gdy aplikacja testowana, w~przypadku braku internetu, będzie wysyłać zapytania do serwera i~czekać na upływ limitu czasu lub powtarzać je do skutku. W~takiej sytuacji płynność działania aplikacji może ulec znacznemu pogorszeniu lub może ona zmusić użytkownika do czekania na odpowiedź serwera, która nigdy nie nadejdzie. Jeśli chcemy zabezpieczyć się przed utratą płynności w~przypadku ograniczenia dostępu do internetu, istnieje możliwość skorzystania z~pola \texttt{howLong} w~specyfikacji scenariusza testowego, tzn. możemy skonfigurować testy w~ten sposób, że jeśli czas ich trafania przekroczy wybraną przez nas wartość test się nie powiedzie. Za wspomnianą wartość możemy przyjąć taką ilość czasu, po której użytkownik może poczuć dyskomfort. 
+Testując brak dostępu do internetu warto zwrócić uwagę nie tylko na to co dzieje się w~przypadku, gdy żądanie nie powiedzie się, ale także jak szybko się to stanie. Może dojść do sytuacji, gdy aplikacja testowana, w~przypadku braku dostępu do sieci, będzie wysyłać zapytania do serwera i~czekać na upływ limitu czasu lub powtarzać je do skutku. W~takiej sytuacji płynność działania aplikacji może ulec znacznemu pogorszeniu lub w skrajnym przypadku, użytkownik może zostać zmuszony do czekania na odpowiedź serwera, która nigdy nie nadejdzie. Jeśli chcemy zabezpieczyć się przed utratą płynności w~przypadku ograniczenia dostępu do Internetu, istnieje możliwość skorzystania z~pola \texttt{howLong} w~specyfikacji scenariusza testowego, tzn. możemy skonfigurować testy w~ten sposób, że jeśli czas ich trafania przekroczy wybraną przez nas wartość test się nie powiedzie. Za wspomnianą wartość możemy przyjąć taką ilość czasu, po której użytkownik może poczuć dyskomfort. 
 
-Podobną funkcjonlaność jak \texttt{noNetwork()} oferuje kontekst \texttt{slowNetwork()}. Jedyną różnicą jest to, że w~przypadku tego kontekstu sieć jest dostępna, z~tym że wszystkie żadania są opóźnione, tak jak przy słabych połączeniach. Sztucznie dodane kilku sekundowe spowolnienie sprawia, że jesteśmy w~stanie symulować utrudnienia przy korzystaniu z~sieci, które nie powodują całkowitej utraty połączenia. 
+Podobną funkcjonlaność jak \texttt{noNetwork()} oferuje kontekst \texttt{slowNetwork()}. Jedyną różnicą jest to, że w~przypadku tego kontekstu sieć jest dostępna, z~tym że wszystkie żadania są opóźnione, tak jak przy słabych połączeniach. Sztucznie dodane kilkusekundowe spowolnienie sprawia, że jesteśmy w~stanie symulować utrudnienia przy korzystaniu z~sieci, które nie powodują całkowitej utraty połączenia. 
 
 Należy zwrócić uwagę że, w~zależności od implementacji na danej platformie, po wyjściu z~kontekstów \texttt{noNetwork()} oraz \texttt{slowNetwork()} dostęp do sieci nie musi być przywrócony. Celem przywrócenia urządzenia do poprzedniego stanu należy skorzystać z~kontekstu \texttt{networkOn()}. 
 
-Kontekst \texttt{networkOn()} służy do przywrócenia domyślnego stanu sieci. W~żadnym wypadku nie powoduje podłączenia do sieci, a~jedynie powrót do stanu sieci sprzed manipulacji przez Ash-a. W obrębie tego kontekstu możemy być pewni, że dostęp do internetu nie jest utrudniony bardziej niż to wynika z~czynników zewnętrznych. Dlatego warto rozpoczynać testy z~urządzeniem podłączonym do sieci, tak żeby później w~testach możliwa była manipulacja dostępem.
+Kontekst \texttt{networkOn()} służy do przywrócenia domyślnego stanu sieci. W~żadnym wypadku nie powoduje podłączenia do sieci, a~jedynie powrót do stanu sieci sprzed manipulacji przez Ash-a. W obrębie tego kontekstu możemy być pewni, że dostęp do Internetu nie jest utrudniony bardziej niż to wynika z~czynników zewnętrznych. Dlatego warto rozpoczynać testy z~urządzeniem podłączonym do sieci, tak żeby później w~testach możliwa była manipulacja dostępem.
 
-W~przypadku, gdy do testowanej aplikacji dodane jest wtyczka cordova-plugin-network-information,  to po wywołaniu kontekstu \texttt{slowNetwork()} oraz \texttt{networkOn()} zachodzi zdarzenie \texttt{online}. Analogicznie w~przypadku kontekstu noNetwork() wysyłane jest zdarzenie \texttt{offline}. 
+W~przypadku, gdy do testowanej aplikacji dodana jest wtyczka \texttt{cordova-plugin-network-information},  to po wywołaniu kontekstu \texttt{slowNetwork()} oraz \texttt{networkOn()} zachodzi zdarzenie \texttt{online}. Analogicznie w~przypadku kontekstu noNetwork() wysyłane jest zdarzenie \texttt{offline}. 
 
 \section{Dostęp do systemu plików}
 
@@ -680,16 +681,16 @@ Pozwala realizować scenariusze testowe zakładające operowanie na plikach.
 
 \subsubsection{Opis}
 
-Bardzo częstym scenariuszem w~przypadku wielu aplikacji jest konieczność operowania na lokalnym systemie plików. Może to być np. upload pliku z~karty SD, wykonanie zdjęcia i~przesłanie na serwer lub inne. Ash daje możliwość przetestowania jak aplikacja zachowuje się przy operowaniu na plikach.  
+Bardzo częstym scenariuszem w~przypadku wielu aplikacji jest konieczność operowania na lokalnym systemie plików lub plikach ogólnie. Może to być np. załadowanie pliku z~karty SD, wykonanie zdjęcia i~przesłanie na serwer lub inne. Ash daje możliwość przetestowania jak aplikacja zachowuje się przy operowaniu na plikach.  
 
-Do kontekstu \texttt{withFile} przekazujemy obiekt zawierający informacje na jakich plikach chcemy przeprowadzić testy. Obiekt może posiadać następujące klucze:
+Do kontekstu \texttt{withFile} przekazujemy obiekt zawierający informacje na jakich plikach chcemy przeprowadzić testy, a w odpowiedzi kontekst przygotuje i zwróci tablicę plików spełniającą zadane warunki. Obiekt przekazywany do kontekstu może posiadać następujące klucze:
 
 \begin{itemize}
-  \item \texttt{type} -- Jest to ciąg znaków, który określa jakiego typu mają być zwrócone pliki. Domyślnie jest to 'audio/amr' czyli plik dźwiękowy. 
-  \item \texttt{limit} -- Limit jest to wielkość plików w~zwracanej tablicy wyrażony liczbą całkowitą. W przypadku, gdy limit nie został podany tablica zawiera 1~element. 
+  \item \texttt{type} -- ciąg znaków, który określa jakiego typu mają być zwrócone pliki. Domyślnie jest to 'audio/amr' czyli plik dźwiękowy. 
+  \item \texttt{limit} -- wielkość plików w~zwracanej tablicy wyrażony liczbą całkowitą. W przypadku, gdy limit nie został podany tablica zawiera 1~element. 
 \end{itemize}
 
-\texttt{WithFile} zwraca obiekt \texttt{Promise}. W przypadku realizacji obietnicy do bloku przekazywana jest tablica plików, która może być wykorzystana w~testach. Każdy~plik w~jest identyczny i~spełnia założenia podane w~argumencie \texttt{options}. Przykładowy plik z~tablicy może wyglądać w~ten sposób:
+Funkcja \texttt{withFile} zwraca obiekt \texttt{Promise}. Mówiąc krótko, \texttt{Promise} zwany też obietnicą, jest to obiekt, który może albo zostać zrealizowany, gdy zadany mu kod zostanie wykonany poprawnie albo odrzuconyn gdy w czasie zadancyh mu obliczeń dojdzie do błędu.  W przypadku realizacji obietnicy zwróconej przez \texttt{withFile} do bloku przekazywana jest tablica plików, która może być wykorzystana w~testach. Każdy~plik w~tablicy jest identyczny i~spełnia założenia podane w~argumencie \texttt{options}. Przykładowy plik z~tablicy może wyglądać w~ten sposób:
 
 \begin{javascriptcode}
    {
@@ -702,8 +703,8 @@ Do kontekstu \texttt{withFile} przekazujemy obiekt zawierający informacje na ja
    };
 \end{javascriptcode}
 
-Co odpowiada definicji pliku w~ujęciu Apache Cordova. 
-\footnote{Patrz \url{https://cordova.apache.org/docs/en/3.0.0/cordova_file_file.md.html\#File} }
+Odpowiada definicji pliku w~ujęciu Apache Cordova. 
+\footnote{Jak Apache Cordova definiuje pojęcie pliku można przeczytać na stronie \url{https://cordova.apache.org/docs/en/3.0.0/cordova_file_file.md.html\#File} }
 
 \section{Symulacja ruchu}
 
@@ -722,13 +723,13 @@ Ash dostarcza API umożliwiające symulowanie położenia lub ruchu między dwom
   \texttt{   \});  }
 \end{quote}
 
-Gdzie \texttt{startPos} to pozycja startowa z~której zaczynamy symulować ruch, \texttt{moveOptions} zawiera informacje o~docelowym położeniu oraz w~ilu "krokach" (klucz \texttt{steps}) chcemy dotrzeć do tego miejsca. Do \texttt{onMove} przekazujemy także wywołanie zwrotne, które jest uruchamiane z~położeniem w~danym momencie. Tyle razy ile podaliśmy w~\texttt{moveOptions.steps}. 
+Gdzie \texttt{startPos} to pozycja startowa z~której zaczynamy symulować ruch, \texttt{moveOptions} zawiera informacje o~docelowym położeniu oraz w~ilu ,,krokach" (klucz \texttt{steps}) chcemy dotrzeć do tego miejsca. Do \texttt{onMove} przekazujemy także wywołanie zwrotne, które jest uruchamiane z~położeniem w~danym momencie. Tyle razy ile podaliśmy w~\texttt{moveOptions.steps}. 
 
 \subsubsection{Sposób użycia}
 
-Wiele aplikacji mobilnych w~ten czy w~inny sposób wykorzystuje informacje o~położeniu geograficznym. Najczęściej te informacje są wykorzystywane do śledzenia położenia użytkownika oraz jego odległości od określonych punktów lub do tego, żeby dostarczać użytkownikowi aplikacji spersonalizowane informacje uzależnione od miejsca w~jakim aktualnie się znajduje. 
+Wiele aplikacji mobilnych w~ten czy w~inny sposób wykorzystuje informacje o~położeniu geograficznym. Najczęściej te informacje są wykorzystywane do śledzenia użytkownika, określania jego odległości od określonych punktów lub dostarczania mu spersonalizowanych informacji uzależnionych od miejsca w~jakim aktualnie się znajduje. 
 
-Obiekt \texttt{startPosition} oraz \texttt{moveOptions} może zawierać następujące klucze
+Obiekty \texttt{startPosition} oraz \texttt{moveOptions} mogą zawierać następujące klucze
 
 \begin{javascriptcode}
    var startPosition = {
@@ -743,7 +744,7 @@ Obiekt \texttt{startPosition} oraz \texttt{moveOptions} może zawierać następu
   };
 \end{javascriptcode}
 
-w~przypadku, gdy klucze nie zostaną dostarczone przyjmą one domyślne wartości, takie jak pokazano wyżej. 
+W~przypadku, gdy wartość któregoś z kluczy nie zostanie zdefiniowana, przyjęta zostanie jego wartość domyślna -- taka jak pokazano wyżej. 
 
 Obiekt który jest przekazywany do funkcji w~kontekście ma następującą konstrukcję 
 
@@ -774,9 +775,9 @@ Ta funkcjonalność emuluje naciśnięcie przycisku powrotu na telefonie.
 
 \subsubsection{Opis}
 
-Integralną cześcią sytemu Android jest przycisk powrotu do poprzedniego ekranu. Jego działanie zostało określone w~specyfikacji platformy.
+Istotnym czynnikiem dla każdej platformie mobilnej jest sposób nawigacji po aplikacjach.  W przypadku systemu Android nawigacja działa w oparciu o przycisk powrotu do poprzedniego ekranu. Jego działanie zostało określone w~specyfikacji platformy.
 
-Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie przycisku zawsze jest takie samo -- pozwolić użytkownikom na łatwą nawigację w~aplikacji, która będzie spójna pomiędzy najróżniejszymi aplikacjami. Bardziej precyzyjnie nawigacja~w tym kontekście  oznacza możliwość powrot do poprzedniej aktywności lub ekranu prezentowanego użytkownikowi. W~przypadku aplikacji hybrydowych opartych na JavaScript oraz technologiach webowych powrót do poprzedniej aktywności oznacza wycofanie stanu WebView oraz powrót do poprzedniego adresu URL. Wszystkie adresy dotychczas odwiedzone przechowywane są na stosie, a~ich unikalność determinowana jest przez 3~części adresu: hosta, ścieżkę oraz tzw. \textit{hash}, czyli część adresu po znaku \#. 
+Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie przycisku zawsze jest takie samo -- pozwolić użytkownikom na łatwą nawigację w~aplikacji. Bardziej precyzyjnie nawigacja~w tym kontekście  oznacza możliwość powrot do poprzedniej aktywności lub ekranu prezentowanego użytkownikowi. W~przypadku aplikacji hybrydowych opartych na JavaScript oraz technologiach webowych powrót do poprzedniej aktywności oznacza wycofanie stanu WebView oraz powrót do poprzedniego adresu URL. Wszystkie adresy dotychczas odwiedzone przechowywane są na stosie, a~ich unikalność determinowana jest przez 3~części adresu: hosta, ścieżkę oraz tzw. \textit{hash}, czyli część adresu po znaku \#. 
 
 \begin{javascriptcode}
    //example.js
@@ -803,24 +804,24 @@ Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie
   };
 \end{javascriptcode}
 
-Ash pozwala na cofanie się aż do szczytu stosu historii aplikacji. W~szczególności od razu po uruchomieniu aplikacji nie jest możliwe wykonie funkcji \texttt{pressBack()}. W~takiej sytuacji \texttt{pressBack()} nie powiedzie się, ale nie dojdzie też do wyjścia z~aplikacji.
+Ash pozwala na cofanie się aż do dna stosu historii aplikacji. W~szczególności od razu po uruchomieniu aplikacji nie jest możliwe wykonie funkcji \texttt{pressBack()}. W~takiej sytuacji \texttt{pressBack()} nie powiedzie się, ale nie dojdzie też do wyjścia z~aplikacji.
 
-Testowanie obsługi przycisku powrotu na olbrzymie znaczenie w~przypadku aplikacji mobilnych oraz tzw. \textit{Single Page Applications}. Tworząc aplikacje bardzo wiele uwagi jest poświęcane sytuacjom kiedy użytkownik porusza się niejako "wgłąb" aplikacji, tj. otwiera kolejne ekrany na zaplanowanej ścieżce zmieniając tym samym jej stan.  Właśnie globalny stan bywa w~takich sytuacjach problemem. Bardzo często prowdzi on do sytuacji, że użytkownik przechodzi przez ekrany A~i~B, w~czasie swojego pobytu na B zmienia stan, ale zamiast przechodzić dalej cofa się do A, które od czasu zmiany stanu zachowuje się inaczej niż zakładano. Tworząc aplikację należy zabezpieczyć się przed takimi sytuacjami. \texttt{Ash.pressBack()} pozwala na przetestowanie czy takie sytuacje mają miejsce. 
+Testowanie obsługi przycisku powrotu na olbrzymie znaczenie w~przypadku aplikacji mobilnych oraz tzw. \textit{Single Page Applications}. Tworząc aplikacje bardzo wiele uwagi poświęca się sytuacjom, kiedy użytkownik porusza się niejako ,,wgłąb" aplikacji, tj. otwiera kolejne ekrany na zaplanowanej ścieżce zmieniając tym samym jej stan.  Właśnie globalny stan bywa w~takich sytuacjach problemem. Bardzo często prowdzi on do sytuacji, że użytkownik przechodzi przez ekrany A~i~B, w~czasie swojego pobytu na B zmienia stan, ale zamiast przechodzić dalej cofa się do A, który od czasu zmiany stanu zachowuje się inaczej niż zakładano. Tworząc aplikację należy zabezpieczyć się przed takimi sytuacjami. \texttt{Ash.pressBack()} pozwala na przetestowanie czy mają one miejsce. 
 
-\section{Zdrzenia w~czasie wywoływania testów}
+\section{Zdarzenia w~czasie wywoływania testów}
 
 Ash daje możliwości kontrolowania procesu wykonywania testów poprzez zestaw dodatkowych bezparametrowych wywołań zwrotnych uruchamianych w~momencie startu oraz zakończenia każdego pojedynczego testu lub ich grupy. Są one dostępne w~obiekcie \texttt{Ash.callbacks} i~mogą być swobodnie nadpisywane przez użytkowników biblioteki. Dotyczy to tylko testów uruchamianych przez \texttt{run()} oraz \texttt{play()}.
 
-Ash.callbacks składa~się~z:
+\texttt{Ash.callbacks} składa~się~z:
 
 \begin{itemize}
-  \item \texttt{beforeTest} -- Jest wołane przed pierwszym testem z~grupy lub scenariuszem, jeszcze przed \texttt{before}
-  \item \texttt{before} -- Uruchamiane przed pojedynczym testem
-  \item \texttt{after} -- Działa po zakończeniu test, niezależnie od tego czy się powiódł czy nie
-  \item \texttt{afterTest} -- Jest wywoływane po zakończeniu się całego zbioru testów, ale przed wywołaniem zwrotnym z~\texttt{run()} (lub \texttt{play()}) 
+  \item \texttt{beforeTest} -- wywoływana przed pierwszym testem z~grupy lub scenariuszem, jeszcze przed \texttt{before}
+  \item \texttt{before} -- uruchamiana przed pojedynczym testem
+  \item \texttt{after} -- wywoływana po zakończeniu test, niezależnie od tego czy się powiódł czy nie
+  \item \texttt{afterTest} -- wywoływana po zakończeniu się całego zbioru testów, ale przed wywołaniem zwrotnym z~\texttt{run()} (lub \texttt{play()}) 
 \end{itemize}
 
-Nadrzędnym testem \texttt{Ash.callbacks} jest pozwolenie użytkownikowi na przygotowanie interfejsu pod działanie testu oraz jego posprzątanie po wykonaniu. Nic nie stoi jednak na przeszkodzie, żeby skorzystać z~tych metod np. do raportowania postępów.
+Nadrzędnym testem \texttt{Ash.callbacks} jest pozwolenie użytkownikowi na przygotowanie interfejsu do działania testu oraz jego posprzątanie po wykonaniu. Nic nie stoi jednak na przeszkodzie, żeby skorzystać z~tych metod np. do raportowania postępów.
 
 \chapter{Zastosowania}
 Ash został pomyślany jako biblioteka, która oprócz dostarczania ,,tradycyjnej'' infrastruktury testowej, tzn.:
@@ -843,27 +844,28 @@ jest także w~stanie ułatwić tesotwanie aplikacji w~sytuacjach, które są alb
   \item symulowanie ruchu
 \end{itemize}
 
-Ash może z~powodzeniem być stosowany zarówno jako osobny i~samodzielny framework testujący, jak i~w~roli uzupełnienia innych rozwiązań. W~ogólnym ujęciu Ash jest przeznaczony do fukcyjnego testowania aplikacji, tzn. aplikacja jest testowana od strony interfejsu użytkownika, co ma swoje zalety (najbardziej wiarygodnie symuluje użytkownika) jak i~wady (interfejs często podlega zmianom). Jak zostało wcześniej wspomniane testy funkcyjne dają najlepsze efekty, gdy są uzupełniane przez testy jednostkowe.  
+Ash może z~powodzeniem być stosowany zarówno jako osobny i~samodzielne środowisko testujące, jak i~w~roli uzupełnienia innych rozwiązań. W~ogólnym ujęciu Ash jest przeznaczony do fukcyjnego testowania aplikacji, tzn. aplikacja jest testowana od strony interfejsu użytkownika, co ma swoje zalety (najbardziej wiarygodnie symuluje użytkownika) jak i~wady (interfejs często podlega zmianom). Jak już wcześniej wspomnieliśmy testy funkcyjne dają najlepsze efekty, gdy są uzupełniane przez testy jednostkowe.  
 
 \section{Problemy związane z~obecnymi rozwiązaniami}
 
-Obecnie istniejące rozwiązania pozwalające na funkcyjne testowanie hybrydowych aplikacji mobilnych nie~są wystarczające. Większość z~nich wywodzi się z~technologii webowych, co ogranicza ich zastosowanie tylko do tej części aplikacji, która odpowiada aplikacji typu mobile web. Rozwiązania te nie są w~stanie wykorzystać przewagi jaką daje hybrydowe podejście Apache Cordova. Nie potrafią przetestować czy skorzystać z~natywnych podwalin aplikacji hybrydowej. W~naturalny sposób ogranicza to ich możliwości oraz zastosowanie w~kontekście rozważanych aplikacji. Naturalną wadą wielu bibliotek do funkcyjnego testowania aplikacji jest ich wrażliwość na zmiany interfejsu użytkownika. W~przypadku większości aplikacji warstwa interfejsu jest tą częścią, która zmienia się najczęściej. W~konsekwencji pożądaną własnością dobrej biblioteki do testowania funkcyjnego jest abstrakcja pozwalajaca na oderwanie się od detali interfejsu użytkownika oraz prostota pozwalająca na łatwą zmianę testów, gdyby zaszła taka potrzeba. 
+Obecnie istniejące rozwiązania pozwalające na funkcyjne testowanie hybrydowych aplikacji mobilnych nie~są wystarczające. Większość z~nich wywodzi się z~technologii webowych, co ogranicza ich zastosowanie tylko do tej części aplikacji, która odpowiada aplikacji typu mobile web. Rozwiązania te nie są w~stanie wykorzystać przewagi jaką daje hybrydowe podejście Apache Cordova. Nie potrafią przetestować czy skorzystać z~natywnych mechanizmów aplikacji hybrydowej. W~naturalny sposób ogranicza to ich możliwości oraz zastosowanie w~kontekście rozważanych aplikacji. Naturalną wadą wielu bibliotek do funkcyjnego testowania aplikacji jest ich wrażliwość na zmiany interfejsu użytkownika. W~przypadku większości aplikacji warstwa interfejsu jest tą częścią, która zmienia się najczęściej. W~konsekwencji pożądaną własnością dobrej biblioteki do testowania funkcyjnego jest abstrakcja pozwalajaca na oderwanie się od detali interfejsu użytkownika oraz prostota pozwalająca na łatwą zmianę testów, gdyby zaszła taka potrzeba. 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 \section{Ash jako rozwiązanie}
 
 Ash jest biblioteką służącą do funkcyjnego testowania hybrydowych aplikacji mobilnych, która stara się minimalizować niedostatki tego podejścia poprzez pełne wykorzystanie możliwości dawanych przez hybrydowy charakter testowanych aplikacji. 
 
-Ash działa na zasadzie wtyczki do Apache Cordova jest więc w~stanie komunikować się z~platformą sprzętową poprzez \textit{Native Bridge}. Daje to możliwość manipulowania ustawieniami czy zasobami urządzenia, np. uzyskania dostępu do systemu plików czy ustawień połączenia. System operacyjny na którym uruchomiona jest aplikacja hybrydowa ma spory wpływ na to jak zachowa się aplikacja, niestety tradycyjne podejścia nie pozwalają na przetestowanie ich wpływu na aplikację. Co innego Ash, który udostępnia funkcjonalności pozwalające na wywoływanie określonych zachowań urządzenia. 
+Ash działa na zasadzie wtyczki do Apache Cordova jest więc w~stanie komunikować się z~platformą sprzętową poprzez \textit{Native Bridge}. Daje to możliwość manipulowania ustawieniami czy zasobami urządzenia, np. uzyskania dostępu do systemu plików czy ustawień połączenia. System operacyjny na którym uruchomiona jest aplikacja hybrydowa ma spory wpływ na to jak będzie się ona zachowywać, niestety tradycyjne podejścia nie pozwalają na przetestowanie tego wpływu. Co innego Ash, który udostępnia funkcjonalności pozwalające na wywoływanie określonych zachowań urządzenia. 
 
-Zewnętrzne API Ash-a napisane jest w~jezyku JavaScript i~także w~tym języku pisane są testy. Jestem zdania, że JavaScript ze względu na swój charakter pozwali w~prosty i~przejrzysty sposób wyrazić testy oraz czyni je na tyle elastycznymi, że wymagane zmiany będą mogły być wprowadzane niewielkimi nakładami sił. API Ash-a kładzie nacisk na powtórne wykorzystywanie kodu oraz wykorzystanie wzorca Page Object, co pozwala na zapanowanie nad testami nawet w~najszybciej zmieniającej się aplikacji. 
+Zewnętrzne API Ash-a napisane jest w~jezyku JavaScript i~także w~tym języku pisane są testy. Jestem zdania, że JavaScript ze względu na swój charakter pozwali w~prosty i~przejrzysty sposób wyrazić testy oraz czyni je na tyle elastycznymi, że wymagane zmiany będą mogły być wprowadzane niewielkimi nakładem sił. API Ash-a kładzie nacisk na powtórne wykorzystywanie kodu oraz wykorzystanie wzorca Page Object, co pozwala na zapanowanie nad testami nawet w~najszybciej zmieniającej się aplikacji. 
 
 \section{Przykład zastosowania Ash - Wikipedia Mobile}
 
+//TODO: przenieść tą sekcję do Implementacji. Zrobić oddzielny branch dla wersji 2.x
 Przydatność Ash-a najlepiej udowodnić pokazując jak można go wykorzystać do przetestowania prawdziwej aplikacji. W~tym celu zdecydowałem się pokryć testami Ash-a część aplikacji Wikipedia Mobile\footnote{Kod źródłowy projektu jest dostępny pod adresem \url{https://github.com/wikimedia/WikipediaMobile} }. Wybrałem akurat ten projekt gdyż
 
 \begin{itemize}
   \item wykorzystuje Apache Cordova
-  \item cały źródłowy kod jest dostępny w~internecie
+  \item cały źródłowy kod jest dostępny w~Internecie
   \item licencja jest bardzo liberalna
   \item projekt jest prowadzony pod egidą szanowanej organizacji
   \item aplikacja jest rozbudowana
@@ -1078,13 +1080,13 @@ Teraz pozostaje nam już tylko uruchomić scenariusz przy użyciu metody \texttt
 
 \chapter{Wtyczki}
 
-Apache Cordova udostępnia swoje API na zasadzie wtyczek. Każda wtyczka może być indywidualnie instalowana oraz udostępnia określone API i~związane z~nim funkcjonalności. Takie podejście pozwala na rozbicie monolitycznego API na mniejsze części oraz zapewnia możliwość rozszerzenia platformy poprzez własne wtyczki.
+Apache Cordova udostępnia swoje API na zasadzie wtyczek. Każda wtyczka może być indywidualnie instalowana oraz udostępnia określone API i~związane z~nim funkcjonalności. Takie podejście pozwala na rozbicie monolitycznego API na mniejsze części oraz zapewnia możliwość rozszerzenia platformy.
 
-Każda wtyczka składa się z~dwóch części - API programisty napisanego w~języku JavaScript i~udostępionego użytkownikom oraz warstwy kodu natywnego, która realizuje zadania niewykonywalne z~poziomu WebView. Część natywna implementowana jest w~technologiach zależnych od platformy, dlatego przenośna wtyczka posiada kilka implementacji, w~różnych językach, które sa podmieniane w~czasie budowania aplikacji. Kod natywny jest opcjonalny dla wtyczek, ale korzystając z~platformy istnieje możliwość wzbogacenia aplikacji.
+Każda wtyczka składa się z~dwóch części - API programisty napisanego w~języku JavaScript i~udostępionego użytkownikom oraz warstwy kodu natywnego, która realizuje zadania niewykonywalne z~poziomu WebView. Część natywna implementowana jest w~technologiach zależnych od platformy, dlatego przenośna wtyczka posiada kilka implementacji, w~różnych językach, które sa podmieniane w~czasie budowania aplikacji. Nie każda wtyczka musi zawierać kod natywny, ale skorzystanie z możliwości platformy daje możliwość wzbogacenia aplikacji.
 
-Ash, został zaimplementowany jako wtyczka dla Apache Cordova. Obecnie warstwa natywna jest przygotowana tylko dla platformy Android, ale dalszym etapie rozwóju biblioteki planowane jest dodanie wsparcia dla innych platform. Kod działający po stronie systemu Android został napisany w~języku Java.
+Ash, został zaimplementowany jako wtyczka dla Apache Cordova. Obecnie warstwa natywna jest przygotowana tylko dla platformy Android, ale dalszym etapie rozwoju biblioteki planowane jest dodanie wsparcia dla innych platform. Kod działający po stronie systemu Android został napisany w~języku Java.
 
-Więcej informacji można znaleźć w~oficjalnej instrukcji dla twórców wtyczek
+Więcej informacji można znaleźć w~oficjalnej instrukcji
 \footnote{
   \url{http://cordova.apache.org/docs/en/edge/guide\_hybrid\_plugins\_index.md.html\#Plugin\%20Development\%20Guide}  
   oraz 
@@ -1092,7 +1094,7 @@ Więcej informacji można znaleźć w~oficjalnej instrukcji dla twórców wtycze
 }
 Nastepne podrozdziały koncentrują się na implementacji na platformę Android, ale w~przypadku innych systemów zasada działania jest zbliżona.
 
-\section{Klasa CordovaPlugin}
+\section{Klasa \texttt{CordovaPlugin} }
 
 CordovaPlugin jest to klasa, która jest rozszerzana przez każdą wtyczkę. Pozwala ona na dostęp do najważniejszych składowych aplikacji oraz komunikację z~warstwą JavaScript: 
 
@@ -1145,9 +1147,9 @@ Kolejne argumenty to naj następuje
 
 \section{Wielowątkowość. Komunikacja między warstwami}
 
-JavaScript ze swojej natury jest jednowątkowy. Tak samo wszystkie testy w~Ashsą wykonywane jeden po drugim. Poza trudnościami technicznymi powodem takiego podejścia jest to, że wiele gdyby wątków rywalizowało o~współdzielony zasób, jakim jest \textit{Document Object Model}, konieczne byłoby zadbanie o~ich synchronizację, co jest skomplikowane oraz mało wydajne. Z~prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
+Język JavaScript ze swojej natury jest jednowątkowy. Jest wiele powodów takiego stanu rzeczy. Pętla zdarzeń w której wykonywany jest kod JavaScript jest tylko jedna. Skrypty w tym języku najczęściej działają w środowisku webowym, gdzie operują na \textit{Document Object Model}, który w przypadku wielowątkowości stałby się zasobem o który rywalizują wątki. Tak samo wszystkie testy w~Ash-a są wykonywane jeden po drugim.  Z~prawdziwą wielowątkowością mamy do czynienia dopiero na poziomie natywnej platformy.
 
-Wtyczki działają asynchronicznie. Kod uruchamiany po stronie natywnej platformy przez wywołania \texttt{cordova.exec()} działa w~osobnym wątku. Realizuje on swoje cele, a następnie poprzez \texttt{CallbackContext} uruchamia odpowiednie wywołania zwrotne przekazane przez użytkownika wtyczki. Takie podejście pozwala maksymalnie wykorzystać wątki działające po stronie platformy bez komplikowania budowy aplikacji po stronie warstwy JavaScript. W takim przypadku kod natywny nie wpływa bezpośrednio na \texttt{WebView} czy sposób interfejs apliakcji użytkownikowi. Wszelkie tego typu mainpulacje odbywają się po stronie JavaScript za pośrednictwem funkcji zwrotnych. Niestety czasami istnieje konieczność bezpośredniej manipulacji \texttt{WebView}. W~tym celu istnieje możliwość skorzystania z~metody \texttt{runOnUiThread()}. Metoda ta przyjmuje klasę implementującą interfejs \texttt{Runnable}, w~której mozemy nadpisać metodę \texttt{run()} tak, aby realizowała nasze cele. Na przykład w~ten sposób:
+Wtyczki działają asynchronicznie. Kod uruchamiany po stronie natywnej platformy przez wywołania \texttt{cordova.exec()} działa w~osobnym wątku. Realizuje on swoje cele, a następnie poprzez \texttt{CallbackContext} uruchamia odpowiednie wywołania zwrotne przekazane przez użytkownika wtyczki. Takie podejście pozwala maksymalnie wykorzystać wątki działające po stronie platformy bez komplikowania struktury aplikacji po stronie warstwy JavaScript. W takim przypadku kod natywny nie wpływa bezpośrednio na \texttt{WebView} czy sposób interfejs aplikacji jest prezentowany użytkownikowi. Wszelkie tego typu mainpulacje odbywają się po stronie JavaScript za pośrednictwem funkcji zwrotnych. Niestety czasami istnieje konieczność bezpośredniej manipulacji \texttt{WebView}. W~tym celu istnieje możliwość skorzystania z~metody \texttt{runOnUiThread()}. Metoda ta przyjmuje klasę implementującą interfejs \texttt{Runnable}, w~której mozemy nadpisać metodę \texttt{run()} tak, aby realizowała nasze cele. Na przykład w~ten sposób:
 
 \begin{javascriptcode}
 //AshPlugin.java
@@ -1160,7 +1162,7 @@ cordova.getActivity().runOnUiThread(new Runnable() {
 });
 \end{javascriptcode}
 
-Komunikacja pomiędzy warstwami wtyczki, natywną oraz JavaScript, odbywa się przez tak zwaną \textit{Native To Js Queue}. Jak sama nazwa wskazuje komunikacja pomiędzy warstwami odbywa się za pomocą kolejki. Oba poziomy aplikacji mogą umieszczać zakodowane wiadomości w~kolejce, ale tylko jedna wiadomość może być przetwarzana. Pozwala to uniknąć kłopotów z~wielowątkowością. Konsekwencją takiej implementacji protokołu komunikacji jest to, że kluczowe znaczenie w~przypadku kodu, który wywołuje się między warstwami,  ma kolejność w~jakiej wiadomości są umieszczane w~kolejce. W~szczególności kolejka nie jest priorytetowa i~nie ma w~niej pojęcia ,,ważności'' wiadomości, czyli nie możliwe jest przepuszczenie wiadomości przed innymi.
+Komunikacja pomiędzy warstwami wtyczki, natywną oraz JavaScript, odbywa się przez tak zwaną \textit{Native To JS Queue}. Jak sama nazwa wskazuje komunikacja pomiędzy warstwami odbywa się za pomocą kolejki. Oba poziomy aplikacji mogą umieszczać zakodowane wiadomości w~kolejce, ale w~danym momencie tylko jedna z~nich może być przetwarzana. Pozwala to uniknąć kłopotów z~wielowątkowością. Konsekwencją takiej implementacji protokołu komunikacji jest to, że kluczowe znaczenie w~przypadku kodu, który wywołuje się między warstwami,  ma kolejność w~jakiej wiadomości są umieszczane w~kolejce. W~szczególności kolejka nie jest priorytetowa i~nie ma w~niej pojęcia ,,ważności'' wiadomości.
 
 Więcej informacji na temat wielowątkowości w~systemie Android można znaleźć w~literaturze \cite{AndroidInPractice} lub w~dokumentacji \cite{AndroidDoc}. 
 
