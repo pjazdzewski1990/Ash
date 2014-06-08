@@ -1136,13 +1136,13 @@ cordova.exec(
 );
 \end{javascriptcode}
 
-Kolejne argumenty to naj następuje
+Kolejne argumenty to jak następuje:
 \begin{itemize}
   \item \texttt{successCallback} -- Wywołanie zwrotne uruchamiane, gdy odwołanie do natywnej części wtyczki się powiedzie
   \item \texttt{failureCallback} -- Wywołanie zwrotne uruchamiane, gdy odwołanie do natywnej części wtyczki zakończy się błędem
   \item \texttt{pluginName} -- Nazwa pluginu, będąca jego unikalnym identyfikatorem w~obrębie aplikacji
   \item \texttt{actionName} -- Identyfikator akcji, która ma być wywołana. Ten argument jest później przekazywany do \texttt{exec()} jako parametr \texttt{name} 
-\item arguments - Tablica argumentów wywołania przekazywana do \texttt{exec()} jako zmienna \texttt{args} 
+\item \texttt{arguments} - Tablica argumentów wywołania przekazywana do \texttt{exec()} jako zmienna \texttt{args} 
 \end{itemize}
 
 \section{Wielowątkowość. Komunikacja między warstwami}
@@ -1168,15 +1168,13 @@ Więcej informacji na temat wielowątkowości w~systemie Android można znaleź�
 
 \chapter{Architektura}
 
-Ash dystrybuowany jest jako wtyczka do Apache Cordova, a~więc korzysta on także ze wszystkich mechanizmów typowych dla tego typu rozwiązań. Po dołączniu wtyczki do projektu np. za pomocą Cordova Command Line Interface, w~projekcie dostępny staje się globalny obiekt \texttt{Ash}, udostępniający wszystkie funkcjonalności biblioteki. 
+Ash dystrybuowany jest jako wtyczka do Apache Cordova, a~więc korzysta ze wszystkich mechanizmów typowych dla tego typu rozwiązań. Po dołączniu wtyczki do projektu np. za pomocą Cordova CLI, w~projekcie dostępny staje się globalny obiekt \texttt{Ash}, udostępniający wszystkie funkcjonalności biblioteki. 
 
-Pola globalnego obiektu można podzielić na 3 grupy:  
+Pola tego obiektu można podzielić na 3 grupy:  
 \begin{itemize}
   \item proste funkcjonalności działające w~sposób synchroniczny
-  \item fukcje działające asynchronicznie i~udostępniające złożoną funkcjonalność 
-  \item prywatne, wewnętrzne pola oraz funkcje biblioteki
+  \item funkcje działające asynchronicznie i~udostępniające złożoną funkcjonalność
 \end{itemize}
-Warto podkreślić, że trzecia grupa nie wchodzi w~skład oficjalnego, publicznego API Ash. Oznacza to, że o~ile wiele z~tych funkcjonalności może być przydatna dla twórców testów, to nierozsądnym jest korzystanie z~nich bezposrednio, gdyż w~przyszłych wersjach aplikacji kod ten może zostać zmieniony lub wręcz usunięty.
 
 \section{Spojrzenie z~lotu ptaka}
 
@@ -1234,9 +1232,9 @@ możemy także wywołania funkcji Ash-a przeplatać innym kodem JavaScript np. w
     });
 \end{javascriptcode}
 
-\section{Promises}
+\section{Obietnice}
 
-Wewnętrznie Ash korzysta z~mechanizmu obietnic tzw. \textit{Promise}. Promises jest to mechanizm pozwalający programistom w~prostszy i~bardziej przejrzysty sposób panować nad asynchronicznością. Dotychczasowe podejście do kodu wykonującego się w~sposób asynchroniczny wymagało oprócz parametrów wywołania przekazania także dwóch wywołań zwrotnych. Jednego wołanego w~przypadku sukcesu oraz drugiego w~przypadku wystąpienia błędu. Promise działają inaczej. Wywołanie promise zwraca obiekt o~którym możemy myśleć jak o~obietnicy, że kiedyś będzie on zawierał wynik działania jakiejś funkcji. Z~jednej strony ułatwia to myślenie o~asynchronicznych wywołaniach, z~drugiej pozwala nam na traktowanie przyszłych zdarzeń jak obiektów. To znaczy, że możemy przypiąć do nich jedną lub wiele funkcji, które będą wołane dopiero gdy obliczenia zostaną zakończone. Możliwe jest też łatwe szeregowanie obetnic, co w~przypadku tradycyjnego podejścia prowadziło do tzw. \textit{callback hell}, czyli zagłębiania funkcji w~funkcjach do tego stopnia że stają się one absolutnie nieczytelne. 
+Wewnętrznie Ash korzysta z~mechanizmu obietnic tzw. \textit{Promise}. Jest to mechanizm pozwalający programistom w~prostszy i~bardziej przejrzysty sposób panować nad asynchronicznością. Dotychczasowe podejście do kodu wykonującego się w~sposób asynchroniczny wymagało oprócz parametrów wywołania przekazania także dwóch wywołań zwrotnych. Jednego wołanego w~przypadku sukcesu oraz drugiego w~przypadku wystąpienia błędu. Promise działają inaczej. Wywołanie promise zwraca obiekt o~którym możemy myśleć jak o~obietnicy, że kiedyś będzie on zawierał wynik działania jakiejś funkcji. Z~jednej strony ułatwia to myślenie o~asynchronicznych wywołaniach, z~drugiej pozwala nam na traktowanie przyszłych zdarzeń jak obiektów. To znaczy, że możemy przypiąć do nich jedną lub wiele funkcji, które będą wołane dopiero gdy obliczenia zostaną zakończone. Możliwe jest też łatwe szeregowanie obetnic, co w~przypadku tradycyjnego podejścia prowadziło do tzw. \textit{callback hell}, czyli zagłębiania funkcji w~funkcjach do tego stopnia że stają się one absolutnie nieczytelne. 
 
 Dokładny opis mechanizmu, jego wymagania oraz zastosowania można znaleźć na  stronie specyfikacji
 
