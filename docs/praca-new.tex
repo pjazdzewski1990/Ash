@@ -131,19 +131,17 @@ W momencie startu aplikacja hybrydowa tworzy WebView oraz ładuje do niego zasob
 
 % tabelki w~LaTeX-u też da się robić, chociaż najczytelniej to może nie wygląda
 % więcej na temt tabelek można poczytac np. na http://en.wikibooks.org/wiki/LaTeX/Tables
-//TODO: tabelka do poprawy
+
 \begin{center}
     \begin{tabularx}{\textwidth}{ | X | X | X | X |}
-    \hline
-   			& Aplikacje natywne        & Aplikacje hybrydowe 	& Aplikacje mobile web 			\\ \hline
-    Narzędzia	& Zależne od platformy	&   Narzędzia webowe	& 	Narzędzia webowe			\\ \hline
-    Instalacja	&        Wymagana               &	 Wymagana         	& 		Nie wymagana		\\ \hline
-    Wydajność	& 	Bardzo dobra		&Ograniczona przez komponent WebView&Ograniczona przez przeglądarkę\\ \hline
-    Możliwość monetyzacji
-    			&  Pobranie, reklamy, subskrybcje  & Pobranie, reklamy, subskrybcje & Reklamy, subskrybcje \\ \hline
-    Dostęp do urządzenia
-    			& 	Tak, pełen  	         &Najważniejsze funkcjonalności& Ograniczony        \\ \hline
-    \end{tabularx}
+    \hline & Aplikacje naty\-wne&Aplikacje hybrydowe&Aplikacje mobile web\\ 
+    \hline Narzędzia&Zależne od platformy	&Narzędzia webowe&Narzędzia webowe\\
+    \hline Instalacja&Wymagana&Wymagana&Nie wymagana\\ 
+    \hline Wydajność&Bardzo dobra&Ograniczona przez WebView&Ograniczona przez używaną przeglądarkę\\ 
+   \hline Możliwość monetyzacji&Pobranie, reklamy, subskrybcje&Pobranie, reklamy, subskrybcje&Subskrybcje, reklamy\\ 
+  \hline Dostęp do urządzenia&Tak, pełen&Najważniejsze funkcjonalności& Ograniczony\\ 
+  \hline
+  \end{tabularx}
 \end{center}
 
 Takie podejście ma wiele zalet. Dzięki temu, że do tworzenia aplikacji hybrydowych wykorzystywane są powszechnie znane technologie internetowe, koszt ich tworzenia i~czas dostarczenia
@@ -666,7 +664,7 @@ Należy zwrócić uwagę że, w~zależności od implementacji na danej platformi
 
 Kontekst \texttt{networkOn()} służy do przywrócenia domyślnego stanu sieci. W~żadnym wypadku nie powoduje podłączenia do sieci, a~jedynie powrót do stanu sieci sprzed manipulacji przez Ash-a. W obrębie tego kontekstu możemy być pewni, że dostęp do Internetu nie jest utrudniony bardziej niż to wynika z~czynników zewnętrznych. Dlatego warto rozpoczynać testy z~urządzeniem podłączonym do sieci, tak żeby później w~testach możliwa była manipulacja dostępem.
 
-W~przypadku, gdy do testowanej aplikacji dodana jest wtyczka \texttt{cordova-plugin-network-information},  to po wywołaniu kontekstu \texttt{slowNetwork()} oraz \texttt{networkOn()} zachodzi zdarzenie \texttt{online}. Analogicznie w~przypadku kontekstu noNetwork() wysyłane jest zdarzenie \texttt{offline}. 
+W~przypadku, gdy do testowanej aplikacji dodana jest wtyczka \texttt{cordova\--plugin-network-information},  to po wywołaniu kontekstu \texttt{slowNetwork()} oraz \texttt{networkOn()} zachodzi zdarzenie \texttt{online}. Analogicznie w~przypadku kontekstu noNetwork() wysyłane jest zdarzenie \texttt{offline}. 
 
 \section{Dostęp do systemu plików}
 
@@ -1294,8 +1292,8 @@ Ten tryb oferuje proste API do szybkiego uruchamiania niezależnych od siebie te
 
 \begin{javascriptcode}
   function Ash.run(array[function] testsArray, 
-                                   function failureCallback, 
-                                   [function successCallback]) 
+                   function failureCallback, 
+                   [function successCallback]) 
 \end{javascriptcode}
 
 Przykładowe zastosowanie: 
@@ -1451,7 +1449,7 @@ Wykaz wszystkich wyjątków Ash:
     \begin{tabularx}{\textwidth}{ | p{1cm} | p{2cm} | X | X |}
     \hline
     Code & Level & Message & Komentarz \\ \hline
-    2 & Error & Element not found! & Element nie istnieje, jest pusty lub w~inny sposób 'falsy' (w sensie JavaScript)  \\ \hline
+    2 & Error & Element not found! & Element nie istnieje, jest pusty lub w~inny sposób ,,falsy'' (w sensie JavaScript)  \\ \hline
     3 & Error & Element X is not visible & Wbrew założeniu, podany element nie jest widoczny  \\ \hline
     4 & Error & Element X is visible & Wbrew założeniu, podany element jest widoczny  \\ \hline
     5 & Error & Elements X and Y aren't equal & Przekazane elementy nie są sobie równe w~sensie dokładnego porównania, tj.  nie prawdą jest, że X===Y  \\ \hline
