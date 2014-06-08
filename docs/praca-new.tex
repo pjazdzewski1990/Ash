@@ -1538,6 +1538,14 @@ W~przypadku \texttt{noNetwork()} i~\texttt{slowNetwork()} dokładny status sieci
 
 \section{Dostęp do systemu plików}
 
+\begin{javascriptcode}
+Ash.withFile({ 
+    type: 'audio/amr', 
+    limit: 3, 
+    duration: 10
+ }).then( ... )
+\end{javascriptcode}
+
 Obecna implementacja dostępu do plików w~Ash jest tylko symulacją i~nie przewiduje operowania na realnych danych zgromadzonych na urządzeniu. Jest to podyktowane kilkoma czynnikami
 
 \begin{itemize}
@@ -1551,6 +1559,17 @@ Obecnie w~momencie wywołania Ash konstruuje obiekty, który spełniają założ
 Taka minimalna implementacja pozwala ząjednej strony  nakorzystanie z~tej funkcjonalności bez kompromisów, które utrudniłyby korzystanie z~biblioteki, jednocześnie pozwala na podmianę implementacji w~przyszłości, np. tak żeby korzystała z~plików dostarczonych przez użytkownika.
 
 \section{Symulacja ruchu}
+
+\begin{javascriptcode}
+Ash.onMove({
+    latitude: 0, 
+    longitude: 0
+}, {
+    latitude: 100, 
+    longitude: 50, 
+    steps: 10
+}, function(currentPosition){ ... })
+\end{javascriptcode}
 
 W~obecnej implementacji Ash pozwala jedynie na symulację ruchu. Urządzenie nie jest manipulowane w~ten sposób, aby zaszyte w~nim informacje na temat położenia uległy zmianie. Powodem takiego podejścia jest to, że celem podmiany danych lokalizacji należy uzyskać prawa administratora (\textit{roota}) na danym urządzeniu. Jako, że wiąże się to z~potencjalnym naruszeniem bezpieczeństwa i~stabilności platformy na większości urządzeń jest to domyślnie wyłączone. Jednym z~podstawowych założeń jest to, żeby możliwe było uruchomienie testów na dowolnym urządzeniu bez konieczności jego wcześniejszego przygotowania, dlatego trzeba było ograniczyć sposób działania Ash-a jeśli chodzi o~obsługę zmiany położenia urządzenia. 
 
