@@ -870,65 +870,13 @@ Przydatność Ash-a najlepiej udowodnić pokazując jak można go wykorzystać d
   \item jest publicznie dostępna np. pod adresem \url{https://play.google.com/store/apps/details?id=org.wikipedia}
 \end{itemize}
 
-Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z~której korzysta Wikipedia, a~3.X z~myślą o~której pisany był Ash zaszły poważne zmiany. Także w~sposobie budowania aplikacji oraz działania wtyczek, dlatego konieczne będą pewne zmiany w~kodzie samej biblioteki. Na szczęście elastyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją.
+Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z~której korzysta Wikipedia, a~3.X z~myślą o~której pisany był Ash zaszły poważne zmiany. Także w~sposobie budowania aplikacji oraz działania wtyczek, dlatego konieczne będą pewne zmiany w~kodzie samej biblioteki. Na szczęście elastyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją. Aby wyjść na przeciw użytkownikom korzystającym jeszcze ze starszej wersji stworzona została ododzielna wersja Ash-a przystosowana do działania z Apache Cordova w wersji 2.x. Zmodyfikowany kod można znaleźć w repozytorium w gałęzi ,,cordova\_2x''\footnote{Jest ona dostępna pod adresem \url{https://github.com/pjazdzewski1990/Ash/tree/cordova\_2x} }.
 
 Całość kodu Wikipedia Mobile z~dodanym kodem testów jest dostępna pod adresem \url{https://github.com/pjazdzewski1990/WikipediaMobile} 
 
-\subsection{Przygotowanie Ash-a do działania z~Cordova 2.X}
-  
-Stara wersja Cordovy nie korzysta jeszcze z~systemu modułów dlatego konieczne jest poprawienie plików \texttt{Ash.js} oraz \texttt{promise.js} tak, żeby były dodawane do aplikacji nawet bez modułów.  W~\texttt{Ash.js} należy usunąć następujący kod działający wyłącznie z~modułami
-
-\begin{javascriptcode}
-   //Ash.js
-  
-  var argscheck = require('cordova/argscheck'), // linia 2
-    utils = require('cordova/utils'),
-    exec = require('cordova/exec'),
-    cordova = require('cordova');
-
-  ...
-
-  module.exports = Ash;   // linia 691
-
-\end{javascriptcode}
-
-oraz manualnie podpiąć Ash-a pod obiekt window
-
-\begin{javascriptcode}
-   //Ash.js
-
-  ...
-
-  window.Log = Log;   // linia 693
-  window.Ash = Ash;
-
-\end{javascriptcode}
-
-W pliku \texttt{promise.js} usuwamy kod odpowiadający za eksport modułu
-
-\begin{javascriptcode}
-   //promise.js
- 
-  module.exports = Promise;   // linia 62 
-
-\end{javascriptcode}
-
-zamiast tego eksportujemy go samodzielnie 
-
-\begin{javascriptcode}
-   //promise.js
-  
-  window.AshPromise = Promise;   // linia 154
-
-\end{javascriptcode}
-
-Większe zmiany czekają nas po stronie natywnej. W wersji Cordovy 2.X możliwość pisania wtyczek była dużo skromniejsza, dlatego konieczne jest przerobienie głównej metody wtyczki oraz wyłączenie części funkcjonalności. Plik ze wszystkimi koniecznymi zmianami jest dostępny tutaj \url{https://github.com/pjazdzewski1990/WikipediaMobile/blob/master/src/pl/ug/ash/AshPlugin.java}
-
-Więcej informacji o~tworzeniu wtyczek dla tej wersji można znaleźć w~literaturze\cite{Ghatol-Patel}.
-
 \subsection{Dodanie Ash-a do projektu}
 
-Tak zmodyfikowany kod Ash-a może zostać użyty w~projekcie Wikipedia Mobile.
+Zmodyfikowany w myślą o Apche Cordova 2.x kod Ash-a może zostać użyty w~projekcie Wikipedia Mobile. 
 
 Pliki \texttt{promise.js} oraz \texttt{Ash.js} należy przenieść w~takie miejsce, żeby możliwy był do nich dostęp z~pliku \texttt{assets/www/index.html}. Można je na przykład przenieść do \texttt{assets/www/test/}. Potem wystaczy już tylko wczytać je na głównym ekranie 
 
@@ -1615,6 +1563,60 @@ Aby uniknąć tego typu problemów należy cofnąć się obrębie WebView a~nie 
 pozwalającą na dostęp do historii i~powrotu do poprzedniego  adresu URL zapisanego na stosie odwiedzonych. Operowanie na zasobach związanych z~działaniem aplikacji PhoneGap nie jest dozwolone, gdyż oznaczałoby to modyfikację zasobów z~jednego wątku w~ramach innego wątku. Co z~oczywistych przyczyn prowadzi do awarii aplikacji. Dlatego też nasze operacje musimy wykonywać na wątku UI korzystając z~metody \texttt{runOnUiThread()}.
 
 Na poziomie API wtyczka zwraca \texttt{Promise}, które jest rozwiązane gdy uda się wrócić do poprzedniego adresu ze stosu i~odrzucony w~systuacji, gdy stos jest pusty lub dojdzie do błędu w~czasie wykonywania kodu wtyczki.
+
+\section{Przygotowanie Ash-a do działania z~Cordova 2.X}
+
+Jako, że na rynku funkcjonuje jeszcze wiele aplikacji korzystających ze starszej wersji Apche Cordova podjęta została decyzja, aby dostosować Ash-a do wymogów starszej wersji środowiska. Wsparcie dla wersji drugiej wiąże się z pewnymi ograniczeniami, dlatego kod dla niej wyodrębniono poza główną gałęź kodu. Ten podrozdział opsiuje w jaki sposób uzyskano możliwość pracy ze starszą wersją. 
+
+Starsza wersja Cordovy nie korzysta jeszcze z~systemu modułów dlatego konieczne jest poprawienie plików \texttt{Ash.js} oraz \texttt{promise.js} tak, żeby były dodawane do aplikacji nawet bez modułów.  W~\texttt{Ash.js} należy usunąć następujący kod działający wyłącznie z~modułami
+
+\begin{javascriptcode}
+   //Ash.js
+  
+  var argscheck = require('cordova/argscheck'), // linia 2
+    utils = require('cordova/utils'),
+    exec = require('cordova/exec'),
+    cordova = require('cordova');
+
+  ...
+
+  module.exports = Ash;   // linia 691
+
+\end{javascriptcode}
+
+oraz manualnie podpiąć Ash-a pod obiekt window
+
+\begin{javascriptcode}
+   //Ash.js
+
+  ...
+
+  window.Log = Log;   // linia 693
+  window.Ash = Ash;
+
+\end{javascriptcode}
+
+W pliku \texttt{promise.js} usuwamy kod odpowiadający za eksport modułu
+
+\begin{javascriptcode}
+   //promise.js
+ 
+  module.exports = Promise;   // linia 62 
+
+\end{javascriptcode}
+
+zamiast tego eksportujemy go samodzielnie 
+
+\begin{javascriptcode}
+   //promise.js
+  
+  window.AshPromise = Promise;   // linia 154
+
+\end{javascriptcode}
+
+Większe zmiany czekają nas po stronie natywnej. W wersji Cordovy 2.X możliwość pisania wtyczek była dużo skromniejsza, dlatego konieczne jest przerobienie głównej metody wtyczki oraz wyłączenie części funkcjonalności. Plik ze wszystkimi koniecznymi zmianami jest dostępny tutaj \url{https://github.com/pjazdzewski1990/WikipediaMobile/blob/master/src/pl/ug/ash/AshPlugin.java}
+
+Więcej informacji o~tworzeniu wtyczek dla tej wersji można znaleźć w~literaturze\cite{Ghatol-Patel}.
 
 \chapter{Narzędzia oraz środowisko programisty}
 
