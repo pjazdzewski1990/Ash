@@ -1,9 +1,9 @@
-
+/* ASH
 var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
     exec = require('cordova/exec'),
     cordova = require('cordova');
-
+*/
 /**
  * Tool for making logging easier
  */
@@ -687,4 +687,8 @@ var Ash = {
   }
 };
 
+/* ASh
 module.exports = Ash;
+*/
+window.Log = Log;
+window.Ash = Ash;

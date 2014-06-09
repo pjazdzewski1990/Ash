@@ -58,7 +58,9 @@ process.chdir = function (dir) {
 
 var nextTick = require('./lib/next-tick')
 
+/** ASH
 module.exports = Promise
+*/
 function Promise(fn) {
   if (!(this instanceof Promise)) return new Promise(fn)
   if (typeof fn !== 'function') throw new TypeError('not a function')
@@ -147,6 +149,8 @@ function Promise(fn) {
   catch(e) { reject(e) }
 }
 
+/** ASH */
+window.AshPromise = Promise;
 
 function Handler(onFulfilled, onRejected, resolve, reject){
   this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null
