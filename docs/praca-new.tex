@@ -688,7 +688,9 @@ Do kontekstu \texttt{withFile} przekazujemy obiekt zawierający informacje na ja
   \item \texttt{limit} -- wielkość plików w~zwracanej tablicy wyrażony liczbą całkowitą. W przypadku, gdy limit nie został podany tablica zawiera 1~element. 
 \end{itemize}
 
-Funkcja \texttt{withFile} zwraca obiekt \texttt{Promise}. Mówiąc krótko, \texttt{Promise} zwany też obietnicą, jest to obiekt, który może albo zostać zrealizowany, gdy zadany mu kod zostanie wykonany poprawnie albo odrzuconyn gdy w czasie zadancyh mu obliczeń dojdzie do błędu.  W przypadku realizacji obietnicy zwróconej przez \texttt{withFile} do bloku przekazywana jest tablica plików, która może być wykorzystana w~testach. Każdy~plik w~tablicy jest identyczny i~spełnia założenia podane w~argumencie \texttt{options}. Przykładowy plik z~tablicy może wyglądać w~ten sposób:
+Funkcja \texttt{withFile} zwraca obiekt \texttt{Promise}. Mówiąc krótko, \texttt{Promise} zwany też obietnicą, jest to obiekt, który może albo zostać zrealizowany, gdy zadany mu kod zostanie wykonany poprawnie albo odrzuconyn gdy w czasie zadancyh mu obliczeń dojdzie do błędu. Więccej informacji na temat tego wzorca projektowego można znaleźć w dalszych rozdziałach \ref{promise}.
+
+W przypadku realizacji obietnicy zwróconej przez \texttt{withFile} do bloku przekazywana jest tablica plików, która może być wykorzystana w~testach. Każdy~plik w~tablicy jest identyczny i~spełnia założenia podane w~argumencie \texttt{options}. Przykładowy plik z~tablicy może wyglądać w~ten sposób:
 
 \begin{javascriptcode}
    {
@@ -858,7 +860,6 @@ Zewnętrzne API Ash-a napisane jest w~jezyku JavaScript i~także w~tym języku p
 
 \section{Przykład zastosowania Ash - Wikipedia Mobile}
 
-//TODO: przenieść tą sekcję do Implementacji. Zrobić oddzielny branch dla wersji 2.x
 Przydatność Ash-a najlepiej udowodnić pokazując jak można go wykorzystać do przetestowania prawdziwej aplikacji. W~tym celu zdecydowałem się pokryć testami Ash-a część aplikacji Wikipedia Mobile\footnote{Kod źródłowy projektu jest dostępny pod adresem \url{https://github.com/wikimedia/WikipediaMobile} }. Wybrałem akurat ten projekt gdyż
 
 \begin{itemize}
@@ -870,7 +871,7 @@ Przydatność Ash-a najlepiej udowodnić pokazując jak można go wykorzystać d
   \item jest publicznie dostępna np. pod adresem \url{https://play.google.com/store/apps/details?id=org.wikipedia}
 \end{itemize}
 
-Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z~której korzysta Wikipedia, a~3.X z~myślą o~której pisany był Ash zaszły poważne zmiany. Także w~sposobie budowania aplikacji oraz działania wtyczek, dlatego konieczne będą pewne zmiany w~kodzie samej biblioteki. Na szczęście elastyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją. Aby wyjść na przeciw użytkownikom korzystającym jeszcze ze starszej wersji stworzona została ododzielna wersja Ash-a przystosowana do działania z Apache Cordova w wersji 2.x. Zmodyfikowany kod można znaleźć w repozytorium w gałęzi ,,cordova\_2x''\footnote{Jest ona dostępna pod adresem \url{https://github.com/pjazdzewski1990/Ash/tree/cordova\_2x} }.
+Niestety Wikipedia Mobile korzysta ze starszej wersji Cordovy. Między wersjami 2.X, z~której korzysta Wikipedia, a~3.X z~myślą o~której pisany był Ash zaszły poważne zmiany. Także w~sposobie budowania aplikacji oraz działania wtyczek, dlatego konieczne będą pewne zmiany w~kodzie samej biblioteki. Na szczęście elastyczność Ash pozwala na jego modyfikację tak, aby działał także ze starszą wersją. Aby wyjść na przeciw użytkownikom korzystającym jeszcze ze starszej wersji stworzona została ododzielna wersja Ash-a przystosowana do działania z Apache Cordova w wersji 2.x. Zmodyfikowany kod można znaleźć w repozytorium w gałęzi ,,cordova\_2x''\footnote{Jest ona dostępna pod adresem \url{https://github.com/pjazdzewski1990/Ash/tree/cordova\_2x} }. Więcej informacji na temat zmian które zostały wprowadzone znajduje się w rozdziale ,,Implementacja'' \ref{cordova_2.x}. 
 
 Całość kodu Wikipedia Mobile z~dodanym kodem testów jest dostępna pod adresem \url{https://github.com/pjazdzewski1990/WikipediaMobile} 
 
@@ -1178,9 +1179,9 @@ możemy także wywołania funkcji Ash-a przeplatać innym kodem JavaScript np. w
     });
 \end{javascriptcode}
 
-\section{Obietnice}
+\section{Obietnice}\label{promise}
 
-Wewnętrznie Ash korzysta z~mechanizmu obietnic tzw. \textit{Promise}. Jest to mechanizm pozwalający programistom w~prostszy i~bardziej przejrzysty sposób panować nad asynchronicznością. Dotychczasowe podejście do kodu wykonującego się w~sposób asynchroniczny wymagało oprócz parametrów wywołania przekazania także dwóch wywołań zwrotnych. Jednego wołanego w~przypadku sukcesu oraz drugiego w~przypadku wystąpienia błędu. Promise działają inaczej. Wywołanie promise zwraca obiekt o~którym możemy myśleć jak o~obietnicy, że kiedyś będzie on zawierał wynik działania jakiejś funkcji. Z~jednej strony ułatwia to myślenie o~asynchronicznych wywołaniach, z~drugiej pozwala nam na traktowanie przyszłych zdarzeń jak obiektów. To znaczy, że możemy przypiąć do nich jedną lub wiele funkcji, które będą wołane dopiero gdy obliczenia zostaną zakończone. Możliwe jest też łatwe szeregowanie obetnic, co w~przypadku tradycyjnego podejścia prowadziło do tzw. \textit{callback hell}, czyli zagłębiania funkcji w~funkcjach do tego stopnia że stają się one absolutnie nieczytelne. 
+Wewnętrznie Ash korzysta z~mechanizmu obietnic tzw. \textit{Promise}. Jest to mechanizm pozwalający programistom w~prostszy i~bardziej przejrzysty sposób panować nad asynchronicznością. Dotychczasowe podejście do kodu wykonującego się w~sposób asynchroniczny wymagało oprócz parametrów wywołania przekazania także dwóch wywołań zwrotnych. Jednego wołanego w~przypadku sukcesu oraz drugiego w~przypadku wystąpienia błędu. Promise działają inaczej. Wywołanie \textit{Promise} zwraca obiekt o~którym możemy myśleć jak o~obietnicy, że kiedyś będzie on zawierał wynik działania jakiejś funkcji. Z~jednej strony ułatwia to myślenie o~asynchronicznych wywołaniach, z~drugiej pozwala nam na traktowanie przyszłych zdarzeń jak obiektów. To znaczy, że możemy przypiąć do nich jedną lub wiele funkcji, które będą wołane dopiero gdy obliczenia zostaną zakończone. Możliwe jest też łatwe szeregowanie obetnic, co w~przypadku tradycyjnego podejścia prowadziło do tzw. \textit{callback hell}, czyli zagłębiania funkcji w~funkcjach do tego stopnia że stają się one absolutnie nieczytelne. 
 
 Dokładny opis mechanizmu, jego wymagania oraz zastosowania można znaleźć na  stronie specyfikacji
 
@@ -1190,7 +1191,7 @@ Na chwilę obecną nawet w~samym JavaScript istnieje wiele implementacji specyfi
 
 \url{https://github.com/then/promise/}
 
-Za tym wyborem przemawiał jej niewielki rozmiar kodu (co ogranicza narzut związany z~dodawaniem dodatkowej biblioteki do projektu korzystajacego z~Ash) oraz bogactwo funkcjonalności (promises.js nie tylko wiernie implementuje specyfikację, ale także wzbogaca ją~o~kilka nowych możliwości). Niestety szybko okazało się, że funkcjonalności oferowane przez promises.js nie do końca odpowiadają wymaganiom projektu. Biblioteka nie została jednak porzucona, ale zamiast tego zaadaptowana do specyficznych potrzeb Ash.  
+Za tym wyborem przemawiał jej niewielki rozmiar kodu (co ogranicza narzut związany z~dodawaniem dodatkowej biblioteki do projektu korzystajacego z~Ash) oraz bogactwo funkcjonalności (\textit{promises.js} nie tylko wiernie implementuje specyfikację, ale także wzbogaca ją~o~kilka nowych możliwości). Niestety szybko okazało się, że funkcjonalności oferowane przez promises.js nie do końca odpowiadają wymaganiom projektu. Biblioteka nie została jednak porzucona, ale zamiast tego zaadaptowana do specyficznych potrzeb Ash.  
 
 \section{Wzorzec Object Pages w~bibliotece Ash}
 
@@ -1380,7 +1381,6 @@ Do wywołań zwrotnych przekazywane są obiekty zawierające informacje o~wykona
 Ash do obsługi błędów wykorzystuje wydarzenie \texttt{window.onerror}, które zachodzi kiedy wyjątek (lub błąd) nie zostanie złapany na żadnym poziomie stosu wywołania. Podczas uruchomienia zestawu testów, korzystając z~metod \texttt{run()} lub \texttt{play()}, Ash podmienia zastaną funkcję \texttt{window.onerror} własną metodą obsługi. Zadaniem naszej implementacji jest przechwycenie błędu, jego obsłużenie, łącznie z~uruchomieniem odpowiedniego wywołania zwrotnego. Następnie procedura obsługi uruchamia kolejny test, jeśli jakiś jest dostępny. 
 
 Każdy z~obiektów rzucanych jako wyjątek jest ustandaryzowany i~zawiera następujące pola: 
-
 \begin{javascriptcode}
 	{
 		"level": // string, wskazuje jak poważny jest problem 
@@ -1388,11 +1388,9 @@ Każdy z~obiektów rzucanych jako wyjątek jest ustandaryzowany i~zawiera nastę
 		"message": // string, komunikat błędu 
 	}
 \end{javascriptcode}
-
 dodatkowo każdy wyjątek ma też funkcję \texttt{toString()}, która wyświetla informacje na temat wyjątku w~formie przystępnej dla użytkownika.
 
 Wykaz wszystkich wyjątków Ash:
-
 \begin{center}
     \begin{tabularx}{\textwidth}{ | p{1cm} | p{2cm} | X | X |}
     \hline
@@ -1564,7 +1562,7 @@ pozwalającą na dostęp do historii i~powrotu do poprzedniego  adresu URL zapis
 
 Na poziomie API wtyczka zwraca \texttt{Promise}, które jest rozwiązane gdy uda się wrócić do poprzedniego adresu ze stosu i~odrzucony w~systuacji, gdy stos jest pusty lub dojdzie do błędu w~czasie wykonywania kodu wtyczki.
 
-\section{Przygotowanie Ash-a do działania z~Cordova 2.X}
+\section{Przygotowanie Ash-a do działania z~Cordova 2.X}\label{cordova_2.x}
 
 Jako, że na rynku funkcjonuje jeszcze wiele aplikacji korzystających ze starszej wersji Apche Cordova podjęta została decyzja, aby dostosować Ash-a do wymogów starszej wersji środowiska. Wsparcie dla wersji drugiej wiąże się z pewnymi ograniczeniami, dlatego kod dla niej wyodrębniono poza główną gałęź kodu. Ten podrozdział opsiuje w jaki sposób uzyskano możliwość pracy ze starszą wersją. 
 
