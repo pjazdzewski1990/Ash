@@ -118,6 +118,13 @@ Tematem pracy jest przedstawienie biblioteki Ash, problemów które stara się r
 
 Pierwsze rozdziały wprowadzają czytelnika w~temat testowania aplikacji mobilnych oraz demonstrują jak skorzystać z~biblioteki do stworzenia prostych testów. Dalej następuje przegląd funkcjonalności oraz dyskusja na temat potencjalnych zastosowań. Kolejne rodziały opisują implementację najważniejszych części biblioteki oraz dają wgląd w~to,~jak można zintegrować Ash-a z~narzędziami do automatycznego budowania aplikacji.
 
+W pracy stosowane będą następujące konwencje. Wprowadzane nowe pojęcia będą \textit{pisane kursywą}. Nazwy plików, funkcji oraz krótkie wyrywki tekstu nadające się do przeklejenia z pracy do kodu źródłowego będą \texttt{zapisywane inną czcionką}. Większe bloki kodu będą 
+\begin{javascriptcode}
+    odpowiednio odznaczone, 
+    ponumerowane oraz 
+    stosownie pokolorowane
+\end{javascriptcode}
+
 \chapter{Podstawowe terminy oraz techniki}
 \section{Hybrydowe aplikacje mobilne}
 Mówiąc o~\textit{natywnej aplikacji mobilnej} mamy na myśli aplikację tworzoną z~myślą o~konkretnej platformie systemowej (Android, iOS, itp.) przy użyciu narzuconych przez jej twórcę narzędzi (Java, Objective-C, itd.).  \textit{Aplikacje mobile web} są to z~kolei aplikacje webowe zoptymalizowane po kątem urządzeń mobilnych.
@@ -1228,6 +1235,8 @@ Prosty Page Object w~Ash-u może wyglądać w~ten sposób:
          }
     };
 \end{javascriptcode}
+
+Więcej informacji na temat wzorca oraz przykłady jego zastosowania można znaleźć w literaturze \cite{Selenium}.
 
 \section{Organizacja testów. Run oraz Play}
 
