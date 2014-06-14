@@ -4,72 +4,13 @@ var argscheck = require('cordova/argscheck'),
     exec = require('cordova/exec'),
     cordova = require('cordova');
 
-/**
- * Tool for making logging easier
- */
-var Log = {
-  data: [],
-  getStackTrace: function() {
-    var obj = {};
-    Error.captureStackTrace(obj, this.getStackTrace);
-    return obj.stack;
-  },
-  d: function(message, tag){
-    if(!tag){
-      tag = "ASH";  
-    }
-    var logMessage = tag + " : " + message + " at " + this.getStackTrace();
-    console.log(logMessage);
-    this._appendToLog(logMessage);
-  },
-  e: function(message, tag){
-    if(!tag){
-      tag = "ASH";  
-    }
-    var logMessage = tag + " : " + message + " at " + this.getStackTrace();
-    console.log(logMessage);
-    alert(logMessage);
-    this._appendToLog(logMessage);
-  },
-  _appendToLog: function(logMessage){
-    var sizeTreshhold = 100;
-    if(this.data.length >= sizeTreshhold){
-      this.data.shift();
-    }
-    this.data.push(logMessage);
-  },
-  dumpLog: function(){
-    var fileName = new Date().toString().replace(/ /g, "_");
-    console.log("Dumping log data to " + fileName);
-    //TODO: implement
-    alert("No implemented!");
-  }
-};
-
-/** @namespace */
-var Ash = {
+//Ash internal (private, hidden) fields and methods
+var internals = {
   /**
    * stored default onerror hanlder
    */
   _storedErrorCallback: window.onerror,
-
-  /**
-   * Make sure the element is present
-   * @param {DOMElement} What to inspect
-   * @throws {AshElementNotFound} If element is "falsy" 
-   */
-  assert: function(element) {
-    if(!element){
-      //TODO: rethink exception internals, so they allow easy processing 
-      throw {
-        level:  "Error",
-        code: 2,
-        message: "Element not found!",
-        toString: function(){return JSON.stringify(this);}
-      }
-    }
-  },
-  
+    
   _argToArray: function(arg){
       if(arg instanceof Array) {
           return arg;
@@ -82,7 +23,7 @@ var Ash = {
     
   _hidden: function(args) {
       //array of html DOM elements can be considered hidden if all elements ...
-      var elements = this._argToArray(args);
+      var elements = internals._argToArray(args);
       Log.d("Check if hidden " + elements);
       
       // ... style is set to none or hidden
@@ -146,14 +87,105 @@ var Ash = {
       Log.d("Element is visible");
       return false;
   },
+    
+  _processException: function(errorMsg, url, lineNumber){
+    //TODO: handle JSON parse failure
+    var testFailure = JSON.parse(errorMsg.replace("Uncaught ", ""));
+    testFailure.level = testFailure.level || "Exception";
+    testFailure.code = testFailure.code || 1;
+    testFailure.message = testFailure.message || "Runtime error";
+    testFailure.url = url;
+    testFailure.lineNumber = lineNumber;
+    return testFailure;
+  },
+  
+  _extractTests: function(testObj){
+    var testSuite = [];
+    var searchPhrase = "Test";
+    var searchPhraseLen = searchPhrase.length;
+  
+    for(var prop in testObj){
+      var isFunction = typeof(testObj[prop]) === "function";
+      var hasName = prop.indexOf(searchPhrase, this.length - searchPhraseLen) !== -1;
+      if(isFunction && hasName){
+        testSuite.push(testObj[prop]);
+      }
+    }
+    return testSuite;
+  },
 
+  _testSuccess: null  //setup in run()
+};
+
+/**
+ * Tool for making logging easier
+ */
+var Log = {
+  data: [],
+  getStackTrace: function() {
+    var obj = {};
+    Error.captureStackTrace(obj, this.getStackTrace);
+    return obj.stack;
+  },
+  d: function(message, tag){
+    if(!tag){
+      tag = "ASH";  
+    }
+    var logMessage = tag + " : " + message + " at " + this.getStackTrace();
+    console.log(logMessage);
+    this._appendToLog(logMessage);
+  },
+  e: function(message, tag){
+    if(!tag){
+      tag = "ASH";  
+    }
+    var logMessage = tag + " : " + message + " at " + this.getStackTrace();
+    console.log(logMessage);
+    alert(logMessage);
+    this._appendToLog(logMessage);
+  },
+  _appendToLog: function(logMessage){
+    var sizeTreshhold = 100;
+    if(this.data.length >= sizeTreshhold){
+      this.data.shift();
+    }
+    this.data.push(logMessage);
+  },
+  dumpLog: function(){
+    var fileName = new Date().toString().replace(/ /g, "_");
+    console.log("Dumping log data to " + fileName);
+    //TODO: implement
+    alert("No implemented!");
+  }
+};
+
+/** @namespace */
+var Ash = {
+
+  /**
+   * Make sure the element is present
+   * @param {DOMElement} What to inspect
+   * @throws {AshElementNotFound} If element is "falsy" 
+   */
+  assert: function(element) {
+    if(!element){
+      //TODO: rethink exception internals, so they allow easy processing 
+      throw {
+        level:  "Error",
+        code: 2,
+        message: "Element not found!",
+        toString: function(){return JSON.stringify(this);}
+      }
+    }
+  },
+  
   /**
    * Make sure the element is visible, if not throw error
    * @param {DOMElement} DOM element needing inspection
    * @throws {AshElementInvisible} Thrown if the element is visible to the user 
    */
   visible: function(element){
-    if(this._hidden(element)){
+    if(internals._hidden(element)){
       throw {
         level:  "Error",
         code: 3,
@@ -169,7 +201,7 @@ var Ash = {
    * @return {Boolean} False if the element is hidden, True otherwise
    */
   isVisible: function(element){
-    return !this._hidden(element);
+    return !internals._hidden(element);
   },
   
   /**
@@ -178,7 +210,7 @@ var Ash = {
    * @throws {AshElementVisible} If element is is invisible to the user 
    */
   invisible: function(element){
-    if(!this._hidden(element)){
+    if(!internals._hidden(element)){
       throw {
         level:  "Error",
         code: 4,
@@ -194,7 +226,7 @@ var Ash = {
    * @returns {Boolean} If element is is invisible to the user 
    */
   isInvisible: function(element){
-    return this._hidden(element);
+    return internals._hidden(element);
   },
   
   equal: function(valA, valB) {
@@ -256,12 +288,10 @@ var Ash = {
    */
   endTest: function(){
     Log.d("endTest called");
-    if(this._testSuccess){ // call only if part of test runner
-      this._testSuccess();
+    if(internals._testSuccess){ // call only if part of test runner
+      internals._testSuccess();
     }
-  }, 
-
-  _testSuccess: null,  //setup in run()
+  },
 
   //TODO: rework and make DRY
   /**
@@ -334,14 +364,14 @@ var Ash = {
   * @param {Callback} successCallback Callback that is called when test succeeds
   */
   run: function(tests, failureCallback, successCallback){
-    var testsSuite = (Object.prototype.toString.call(tests) === "[object Array]") ? tests : this._extractTests(tests);
+    var testsSuite = (Object.prototype.toString.call(tests) === "[object Array]") ? tests : internals._extractTests(tests);
     var testSuiteLen = testsSuite.length;
     var currentTest = 0; 
 
     var resetGlobals = function(){
       Log.d("Reseting Globals");
-      Ash._testSuccess = null;
-      window.onerror = Ash._storedErrorCallback;
+      internals._testSuccess = null;
+      window.onerror = internals._storedErrorCallback;
     };
       
     //before class event
@@ -352,8 +382,8 @@ var Ash = {
     
     
     //setup testSuccess handler 
-    if(!this._testSuccess){ 
-      this._testSuccess = function(){
+    if(!internals._testSuccess){ 
+      internals._testSuccess = function(){
         if(this.callbacks.after) {
           Log.d("After event is called for success");
           this.callbacks.after();
@@ -393,7 +423,7 @@ var Ash = {
       }
 
       Log.e("ON ERR:" + errorMsg);
-      failureCallback(Ash._processException(errorMsg, url, lineNumber));
+      failureCallback(internals._processException(errorMsg, url, lineNumber));
 
       if(currentTest++ < testSuiteLen) {
         if(Ash.callbacks.before) {
@@ -416,32 +446,6 @@ var Ash = {
     }
     
     testsSuite[currentTest]();
-  },
-  
-  _processException: function(errorMsg, url, lineNumber){
-    //TODO: handle JSON parse failure
-    var testFailure = JSON.parse(errorMsg.replace("Uncaught ", ""));
-    testFailure.level = testFailure.level || "Exception";
-    testFailure.code = testFailure.code || 1;
-    testFailure.message = testFailure.message || "Runtime error";
-    testFailure.url = url;
-    testFailure.lineNumber = lineNumber;
-    return testFailure;
-  },
-  
-  _extractTests: function(testObj){
-    var testSuite = [];
-    var searchPhrase = "Test";
-    var searchPhraseLen = searchPhrase.length;
-  
-    for(var prop in testObj){
-      var isFunction = typeof(testObj[prop]) === "function";
-      var hasName = prop.indexOf(searchPhrase, this.length - searchPhraseLen) !== -1;
-      if(isFunction && hasName){
-        testSuite.push(testObj[prop]);
-      }
-    }
-    return testSuite;
   },
   
   eventTimeout: 1000,  //most browsers won't react under 25, sadly we need even more time
