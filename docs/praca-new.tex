@@ -120,7 +120,7 @@ Pierwsze rozdziały wprowadzają czytelnika w~temat testowania aplikacji mobilny
 
 W pracy stosowane będą następujące konwencje. Wprowadzane nowe pojęcia będą \textit{pisane kursywą}. Nazwy plików, funkcji oraz krótkie wyrywki tekstu nadające się do przeklejenia z pracy do kodu źródłowego będą \texttt{zapisywane inną czcionką}. Większe bloki kodu będą 
 \begin{javascriptcode}
-    odpowiednio odznaczone, 
+    odpowiednio oznaczone, 
     ponumerowane oraz 
     stosownie pokolorowane
 \end{javascriptcode}
@@ -369,7 +369,7 @@ które pozwalają na odwrócenie ekranu. W~obrębie funkcji przekazanych jako ar
       Ash.assert(worksquare);
       Ash.assert(sidebar);
 
-      Ash.equal(worksquare.getBoundingClientRect().top,
+      Ash.equals(worksquare.getBoundingClientRect().top,
            sidebar.getBoundingClientRect().top);
      Ash.assert(worksquare.getBoundingClientRect().left <
            sidebar.getBoundingClientRect().left);
@@ -392,7 +392,7 @@ Póki co nasz test obejmuje tylko część funkcjonalności. Musimy też zadbać
   //myTest.js
 
   Ash.orientationHorizontal().then(function(msg){
-       //kod zporzedniego punktu
+       //kod z porzedniego punktu
 
       //to jeszcze nie koniec testu, 
       //  więc musimy ująć w komentarz lub usunąć endTest()
@@ -408,7 +408,7 @@ Póki co nasz test obejmuje tylko część funkcjonalności. Musimy też zadbać
 
       Ash.assert(worksquare.getBoundingClientRect().top <
 sidebar.getBoundingClientRect().top);
-      Ash.equal(worksquare.getBoundingClientRect().left,
+      Ash.equals(worksquare.getBoundingClientRect().left,
 sidebar.getBoundingClientRect().left);        
 
       //jesli aplikacja dotarła tutaj,
@@ -647,7 +647,7 @@ Większość aplikacji mobilnych korzysta w~ten czy inny sposób z~zasobów zgro
 
   Ash.noNetwork().then(function(msg){
     ...
-    Ash.equal($('#connectionField').text(), 
+    Ash.equals($('#connectionField').text(), 
            'No network connection');
     Ash.endTest();
   });
@@ -791,11 +791,11 @@ Niezależnie od dostawcy sprzętu, implementacji czy wersji systemu zastosowanie
        //  żeby móc cofnąć się 2 razy i wrócić do punktu wyjścia 
     
     Ash.pressBack().then(function(msg){
-      Ash.equal("#" + pageTwo, window.location.hash);
+      Ash.equals("#" + pageTwo, window.location.hash);
     }).then(
       Ash.pressBack
     ).then(function(){
-      Ash.equal("#" + pageOne, window.location.hash);
+      Ash.equals("#" + pageOne, window.location.hash);
       Ash.endTest();
     });
   };
@@ -809,7 +809,7 @@ Testowanie obsługi przycisku powrotu na olbrzymie znaczenie w~przypadku aplikac
 
 Ash daje możliwości kontrolowania procesu wykonywania testów poprzez zestaw dodatkowych bezparametrowych wywołań zwrotnych uruchamianych w~momencie startu oraz zakończenia każdego pojedynczego testu lub ich grupy. Są one dostępne w~obiekcie \texttt{Ash.callbacks} i~mogą być swobodnie nadpisywane przez użytkowników biblioteki. Dotyczy to tylko testów uruchamianych przez \texttt{run()} oraz \texttt{play()}.
 
-\texttt{Ash.callbacks} składa~się~z:
+Obiekt \texttt{Ash.callbacks} składa~się~z:
 
 \begin{itemize}
   \item \texttt{beforeTest} -- wywoływana przed pierwszym testem z~grupy lub scenariuszem, jeszcze przed \texttt{before}
@@ -1186,7 +1186,7 @@ W środowisku języka JavaScript istnieje wiele bibliotek implementujących spec
 
 \url{https://github.com/then/promise/}
 
-Za tym wyborem przemawiał niewielki rozmiar biblioteki (co ogranicza narzut związany z~dodawaniem dodatkowego kodu do projektu korzystajacego z~Ash) oraz bogactwo funkcjonalności (\textit{promises.js} nie tylko wiernie implementuje specyfikację, ale także wzbogaca ją~o~kilka nowych możliwości). Niestety szybko okazało się, że możliwości oferowane przez \textit{promises.js} nie do końca odpowiadają wymaganiom projektu. Biblioteka nie została jednak porzucona, ale zamiast tego zaadaptowana do specyficznych potrzeb Ash.  
+Za tym wyborem przemawiał niewielki rozmiar biblioteki (co ogranicza narzut związany z~dodawaniem dodatkowego kodu do projektu korzystajacego z~Ash) oraz bogactwo funkcjonalności (\textit{promises.js} nie tylko w pełni implementuje specyfikację, ale także wzbogaca ją~o~kilka nowych możliwości). Niestety szybko okazało się, że możliwości oferowane przez \textit{promises.js} nie do końca odpowiadają wymaganiom projektu. Biblioteka nie została jednak porzucona, ale zamiast tego zaadaptowana do specyficznych potrzeb Ash.  
 
 \section{Wzorzec Page Objects w~bibliotece Ash}
 
